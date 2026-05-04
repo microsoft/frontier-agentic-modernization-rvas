@@ -1,0 +1,179 @@
+version=1
+
+# This file caches language service data to improve the performance of C# Dev Kit.
+# It is not intended for manual editing. It can safely be deleted and will be
+# regenerated automatically. For more information, see https://aka.ms/lscache
+#
+# To control where cache files are stored, use the following VS Code setting:
+#   "dotnet.projectsystem.cacheInProjectFolder": true
+
+[project]
+language=C#
+primary
+lastDtbSucceeded
+
+[properties]
+AssemblyName=ContosoUniversity
+CommandLineArgsForDesignTimeEvaluation=-langversion:12.0 -define:TRACE
+CompilerGeneratedFilesOutputPath=
+MaxSupportedLangVersion=12.0
+ProjectAssetsFile=<PATH>obj/project.assets.json
+RootNamespace=ContosoUniversity
+RunAnalyzers=
+RunAnalyzersDuringLiveAnalysis=
+SolutionPath=*Undefined*
+TargetFrameworkIdentifier=.NETCoreApp
+TargetPath=<PATH>bin/Debug/net8.0/ContosoUniversity.dll
+TargetRefPath=<PATH>obj/Debug/net8.0/ref/ContosoUniversity.dll
+TemporaryDependencyNodeTargetIdentifier=net8.0
+
+[commandLineArguments]
+/noconfig
+/unsafe-
+/checked-
+/nowarn:1701,1702,1701,1702
+/fullpaths
+/nostdlib+
+/errorreport:prompt
+/warn:8
+/define:TRACE;DEBUG;NET;NET8_0;NETCOREAPP;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP1_0_OR_GREATER;NETCOREAPP1_1_OR_GREATER;NETCOREAPP2_0_OR_GREATER;NETCOREAPP2_1_OR_GREATER;NETCOREAPP2_2_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER
+/highentropyva+
+/nullable:disable
+/debug+
+/debug:portable
+/filealign:512
+/optimize-
+/out:obj/Debug/net8.0/ContosoUniversity.dll
+/refout:obj/Debug/net8.0/refint/ContosoUniversity.dll
+/target:exe
+/warnaserror-
+/utf8output
+/deterministic+
+/langversion:12.0
+/warnaserror+:NU1605,SYSLIB0011
+
+[sourceFiles]
+Controllers/
+ BaseController.cs
+ CoursesController.cs
+ DepartmentsController.cs
+ HomeController.cs
+ InstructorsController.cs
+ NotificationsController.cs
+ StudentsController.cs
+Data/
+ DbInitializer.cs
+ SchoolContext.cs
+ SchoolContextFactory.cs
+Models/
+ Course.cs
+ CourseAssignment.cs
+ Department.cs
+ Enrollment.cs
+ ErrorViewModel.cs
+ Instructor.cs
+ Notification.cs
+ OfficeAssignment.cs
+ Person.cs
+ SchoolViewModels/
+  AssignedCourseData.cs
+  EnrollmentDateGroup.cs
+  InstructorIndexData.cs
+ Student.cs
+obj/Debug/net8.0/
+ .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+ ContosoUniversity.RazorAssemblyInfo.cs
+PaginatedList.cs
+Program.cs
+Properties/AssemblyInfo.cs
+Services/NotificationService.cs
+
+[analyzerReferences]
+<DOTNET>/sdk/10.0.102/Sdks/Microsoft.NET.Sdk.Razor/source-generators/
+ Microsoft.AspNetCore.Razor.Utilities.Shared.dll
+ Microsoft.CodeAnalysis.Razor.Compiler.dll
+ Microsoft.Extensions.ObjectPool.dll
+<DOTNET>/sdk/10.0.102/Sdks/Microsoft.NET.Sdk.Web/analyzers/cs/
+ Microsoft.AspNetCore.Analyzers.dll
+ Microsoft.AspNetCore.Mvc.Analyzers.dll
+<DOTNET>/sdk/10.0.102/Sdks/Microsoft.NET.Sdk/analyzers/
+ Microsoft.CodeAnalysis.CSharp.NetAnalyzers.dll
+ Microsoft.CodeAnalysis.NetAnalyzers.dll
+
+[analyzerConfigFiles]
+<DOTNET>/sdk/10.0.102/Sdks/Microsoft.NET.Sdk/analyzers/build/config/analysislevel_8_default.globalconfig
+obj/Debug/net8.0/ContosoUniversity.GeneratedMSBuildEditorConfig.editorconfig
+
+[additionalFiles]
+Views/Courses/
+ Create.cshtml
+ Delete.cshtml
+ Details.cshtml
+ Edit.cshtml
+ Index.cshtml
+Views/Departments/
+ Create.cshtml
+ Delete.cshtml
+ Details.cshtml
+ Edit.cshtml
+ Index.cshtml
+Views/Home/
+ About.cshtml
+ Contact.cshtml
+ Index.cshtml
+Views/Instructors/
+ Create.cshtml
+ Delete.cshtml
+ Details.cshtml
+ Edit.cshtml
+ Index.cshtml
+Views/
+ Notifications/Index.cshtml
+ Shared/
+  Error.cshtml
+  _Layout.cshtml
+ Students/
+  Create.cshtml
+  Delete.cshtml
+  Details.cshtml
+  Edit.cshtml
+  Index.cshtml
+ _ViewImports.cshtml
+ _ViewStart.cshtml
+
+[dynamicFiles]
+Views/Courses/
+ Create.cshtml
+ Delete.cshtml
+ Details.cshtml
+ Edit.cshtml
+ Index.cshtml
+Views/Departments/
+ Create.cshtml
+ Delete.cshtml
+ Details.cshtml
+ Edit.cshtml
+ Index.cshtml
+Views/Home/
+ About.cshtml
+ Contact.cshtml
+ Index.cshtml
+Views/Instructors/
+ Create.cshtml
+ Delete.cshtml
+ Details.cshtml
+ Edit.cshtml
+ Index.cshtml
+Views/
+ Notifications/Index.cshtml
+ Shared/
+  Error.cshtml
+  _Layout.cshtml
+ Students/
+  Create.cshtml
+  Delete.cshtml
+  Details.cshtml
+  Edit.cshtml
+  Index.cshtml
+ _ViewImports.cshtml
+ _ViewStart.cshtml

@@ -1,0 +1,2588 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Copilot App Modernization — Hackathon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Karla:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        /* ─── Reset & Tokens ────────────────────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #03070f;
+            --surface: #0a1525;
+            --surface-2: #0f1e35;
+            --border: #1a2e4a;
+            --border-2: #243d5c;
+
+            --cyan: #00d9f5;
+            --cyan-dim: rgba(0, 217, 245, .15);
+            --cyan-glow: 0 0 24px rgba(0, 217, 245, .35);
+
+            --amber: #f5a623;
+            --amber-dim: rgba(245, 166, 35, .12);
+
+            --java-color: #00d9f5;
+            --dotnet-color: #8b5cf6;
+            --deploy-color: #22c55e;
+            --stretch-color: #f43f5e;
+            --assess-color: #f5a623;
+            --prereq-color: #6b7280;
+
+            --text: #dce8f5;
+            --text-2: #7a9ab8;
+            --text-3: #3a5872;
+
+            --radius: 6px;
+            --radius-lg: 12px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Karla', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* ─── Typography ────────────────────────────────────────────────── */
+        .display {
+            font-family: 'Teko', sans-serif;
+            line-height: .9;
+        }
+
+        .mono {
+            font-family: 'Fira Code', monospace;
+        }
+
+
+
+        /* ─── Nav ───────────────────────────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 clamp(1rem, 5vw, 3rem);
+            height: 60px;
+            background: rgba(3, 7, 15, .85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            text-decoration: none;
+        }
+
+        .nav-logo-icon {
+            width: 30px;
+            height: 30px;
+            background: var(--cyan);
+            border-radius: 4px;
+            display: grid;
+            place-items: center;
+        }
+
+        .nav-logo-icon svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--bg);
+        }
+
+        .nav-logo-text {
+            font-family: 'Teko', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: .06em;
+            color: var(--text);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: .75rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--text-2);
+            text-decoration: none;
+            transition: color .2s;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .nav-links a:hover {
+            color: var(--cyan);
+        }
+
+        .nav-cta {
+            font-size: .72rem;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            padding: .45rem 1.1rem;
+            border: 1px solid var(--cyan);
+            color: var(--cyan);
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-family: 'Fira Code', monospace;
+            transition: background .2s, box-shadow .2s;
+        }
+
+        .nav-cta:hover {
+            background: var(--cyan-dim);
+            box-shadow: var(--cyan-glow);
+        }
+
+        /* ─── Hero ──────────────────────────────────────────────────────── */
+        #hero {
+            position: relative;
+            min-height: 100svh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px clamp(1.5rem, 8vw, 6rem) 0;
+            overflow: hidden;
+        }
+
+        #hero-canvas {
+            position: absolute;
+            inset: 0;
+            opacity: .35;
+        }
+
+        .hero-scanlines {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(to bottom,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 0, 0, .06) 2px,
+                    rgba(0, 0, 0, .06) 4px);
+            pointer-events: none;
+        }
+
+        .hero-vignette {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(3, 7, 15, .8) 100%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .hero-label {
+            font-family: 'Fira Code', monospace;
+            font-size: .7rem;
+            letter-spacing: .25em;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+        }
+
+        .hero-label::before {
+            content: '';
+            display: inline-block;
+            width: 30px;
+            height: 1px;
+            background: var(--cyan);
+        }
+
+        .hero-title {
+            font-family: 'Teko', sans-serif;
+            font-size: clamp(5rem, 16vw, 13rem);
+            font-weight: 700;
+            line-height: .85;
+            letter-spacing: -.02em;
+            color: #fff;
+        }
+
+        .hero-title .accent {
+            color: var(--cyan);
+            display: block;
+        }
+
+        .hero-subtitle {
+            margin-top: 2rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            line-height: 1.6;
+            color: var(--text-2);
+            max-width: 560px;
+            font-weight: 300;
+        }
+
+        .hero-transforms {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .75rem;
+            margin-top: 2rem;
+        }
+
+        .transform-pill {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            font-family: 'Fira Code', monospace;
+            font-size: .7rem;
+            padding: .35rem .8rem;
+            border-radius: 99px;
+            border: 1px solid var(--border-2);
+            background: var(--surface);
+            color: var(--text-2);
+        }
+
+        .transform-pill .from {
+            color: var(--amber);
+        }
+
+        .transform-pill .to {
+            color: var(--cyan);
+        }
+
+        .transform-pill .arrow {
+            color: var(--text-3);
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .75rem 1.75rem;
+            background: var(--cyan);
+            color: var(--bg);
+            font-family: 'Fira Code', monospace;
+            font-size: .75rem;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: var(--radius);
+            font-weight: 500;
+            transition: box-shadow .25s, transform .2s;
+        }
+
+        .btn-primary:hover {
+            box-shadow: var(--cyan-glow);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .75rem 1.75rem;
+            background: transparent;
+            color: var(--text);
+            font-family: 'Fira Code', monospace;
+            font-size: .75rem;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-2);
+            transition: border-color .2s, background .2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-2);
+            background: var(--surface);
+        }
+
+        .hero-scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: .4rem;
+            color: var(--text-3);
+            font-family: 'Fira Code', monospace;
+            font-size: .6rem;
+            letter-spacing: .15em;
+            animation: float 2.5s ease-in-out infinite;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--text-3), transparent);
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(6px);
+            }
+        }
+
+        /* ─── Stats Bar ─────────────────────────────────────────────────── */
+        #stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stat-item {
+            padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 4vw, 3rem);
+            display: flex;
+            flex-direction: column;
+            gap: .35rem;
+            border-right: 1px solid var(--border);
+        }
+
+        .stat-item:last-child {
+            border-right: none;
+        }
+
+        .stat-value {
+            font-family: 'Teko', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            line-height: 1;
+            color: #fff;
+        }
+
+        .stat-value span {
+            color: var(--cyan);
+        }
+
+        .stat-label {
+            font-size: .7rem;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--text-2);
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* ─── Section Scaffolding ───────────────────────────────────────── */
+        section {
+            padding: clamp(4rem, 10vw, 7rem) clamp(1.5rem, 8vw, 6rem);
+        }
+
+        .section-label {
+            font-family: 'Fira Code', monospace;
+            font-size: .65rem;
+            letter-spacing: .25em;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+        }
+
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+            max-width: 120px;
+        }
+
+        .section-title {
+            font-family: 'Teko', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 600;
+            letter-spacing: -.01em;
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .section-desc {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: var(--text-2);
+            max-width: 580px;
+            font-weight: 300;
+        }
+
+        /* ─── About ─────────────────────────────────────────────────────── */
+        #about {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .about-objectives {
+            display: flex;
+            flex-direction: column;
+            gap: .6rem;
+            margin-top: 1.5rem;
+        }
+
+        .objective-item {
+            display: flex;
+            align-items: flex-start;
+            gap: .75rem;
+            padding: .75rem 0;
+            border-bottom: 1px solid var(--border);
+            font-size: .9rem;
+            color: var(--text-2);
+            line-height: 1.5;
+        }
+
+        .objective-item:last-child {
+            border-bottom: none;
+        }
+
+        .obj-num {
+            font-family: 'Fira Code', monospace;
+            font-size: .65rem;
+            color: var(--cyan);
+            padding-top: .15rem;
+            min-width: 24px;
+            letter-spacing: .05em;
+        }
+
+        .about-visual {
+            position: relative;
+        }
+
+        .terminal-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .terminal-bar {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .7rem 1rem;
+            background: var(--surface-2);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .t-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .t-dot.r {
+            background: #ff5f57;
+        }
+
+        .t-dot.y {
+            background: #ffbd2e;
+        }
+
+        .t-dot.g {
+            background: #28ca41;
+        }
+
+        .terminal-title {
+            margin-left: .5rem;
+            font-size: .65rem;
+            letter-spacing: .12em;
+            color: var(--text-3);
+        }
+
+        .terminal-body {
+            padding: 1.25rem 1.5rem;
+            font-size: .72rem;
+            line-height: 2;
+            color: var(--text-2);
+        }
+
+        .t-prompt {
+            color: var(--cyan);
+            user-select: none;
+        }
+
+        .t-cmd {
+            color: var(--text);
+        }
+
+        .t-out {
+            color: var(--text-2);
+            padding-left: 1.25rem;
+        }
+
+        .t-ok {
+            color: var(--deploy-color);
+        }
+
+        .t-warn {
+            color: var(--amber);
+        }
+
+        .t-comment {
+            color: var(--text-3);
+        }
+
+        .t-blink {
+            display: inline-block;
+            width: 8px;
+            height: 14px;
+            background: var(--cyan);
+            margin-left: 2px;
+            vertical-align: middle;
+            animation: blink .9s step-end infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0
+            }
+        }
+
+        /* ─── Challenges ────────────────────────────────────────────────── */
+        #challenges {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .challenges-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 3.5rem;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        /* Full-width card for challenge 00 */
+        .challenge-card.full {
+            grid-column: span 3;
+        }
+
+        /* 2-col card for 04 and 05 */
+        .challenge-card.half {
+            grid-column: span 1;
+        }
+
+        .challenge-card {
+            position: relative;
+            background: var(--surface);
+            padding: 2rem;
+            overflow: hidden;
+            cursor: pointer;
+            transition: background .25s;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .challenge-card:hover {
+            background: var(--surface-2);
+        }
+
+        .challenge-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity .25s;
+            pointer-events: none;
+        }
+
+        .challenge-card:hover::after {
+            opacity: 1;
+        }
+
+        /* Color top border per challenge */
+        .challenge-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--c-color);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .35s ease;
+        }
+
+        .challenge-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .challenge-card[data-phase="00"] {
+            --c-color: var(--prereq-color);
+        }
+
+        .challenge-card[data-phase="01"] {
+            --c-color: var(--assess-color);
+        }
+
+        .challenge-card[data-phase="02"] {
+            --c-color: var(--java-color);
+        }
+
+        .challenge-card[data-phase="03"] {
+            --c-color: var(--dotnet-color);
+        }
+
+        .challenge-card[data-phase="04"] {
+            --c-color: var(--deploy-color);
+        }
+
+        .challenge-card[data-phase="05"] {
+            --c-color: var(--stretch-color);
+        }
+
+        .card-bg-number {
+            position: absolute;
+            right: -.1em;
+            top: -.15em;
+            font-family: 'Teko', sans-serif;
+            font-size: clamp(5rem, 10vw, 8rem);
+            font-weight: 700;
+            color: rgba(255, 255, 255, .025);
+            line-height: 1;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+        }
+
+        .card-phase-badge {
+            font-family: 'Fira Code', monospace;
+            font-size: .6rem;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            padding: .25rem .65rem;
+            border-radius: 3px;
+            border: 1px solid;
+            color: var(--c-color);
+            border-color: var(--c-color);
+            background: transparent;
+        }
+
+        .card-num {
+            font-family: 'Fira Code', monospace;
+            font-size: .65rem;
+            color: var(--text-3);
+            letter-spacing: .1em;
+        }
+
+        .card-title {
+            font-family: 'Teko', sans-serif;
+            font-size: clamp(1.4rem, 3vw, 2rem);
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.05;
+            margin-bottom: .75rem;
+        }
+
+        .card-desc {
+            font-size: .85rem;
+            line-height: 1.65;
+            color: var(--text-2);
+            font-weight: 300;
+            flex: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .4rem;
+        }
+
+        .card-tag {
+            font-family: 'Fira Code', monospace;
+            font-size: .6rem;
+            color: var(--text-3);
+            letter-spacing: .08em;
+            background: rgba(255, 255, 255, .04);
+            padding: .2rem .55rem;
+            border-radius: 3px;
+        }
+
+        .card-arrow {
+            display: flex;
+            align-items: center;
+            gap: .35rem;
+            font-family: 'Fira Code', monospace;
+            font-size: .65rem;
+            color: var(--c-color);
+            opacity: 0;
+            transition: opacity .25s, transform .25s;
+            transform: translateX(-8px);
+        }
+
+        .challenge-card:hover .card-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Full-width card layout override */
+        .challenge-card.full .card-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .challenge-card.full .card-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+        }
+
+        .challenge-card.full .card-desc {
+            max-width: 420px;
+        }
+
+        /* ─── Prerequisites ─────────────────────────────────────────────── */
+        #prerequisites {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .prereq-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 4rem;
+            align-items: start;
+            margin-top: 3rem;
+        }
+
+        .prereq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .prereq-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .prereq-item:last-child {
+            border-bottom: none;
+        }
+
+        .prereq-icon {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            border-radius: var(--radius);
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            display: grid;
+            place-items: center;
+            margin-top: .15rem;
+        }
+
+        .prereq-icon svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .prereq-name {
+            font-weight: 600;
+            font-size: .9rem;
+            color: var(--text);
+            margin-bottom: .2rem;
+        }
+
+        .prereq-note {
+            font-size: .8rem;
+            color: var(--text-2);
+            font-weight: 300;
+        }
+
+        .code-block {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .code-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: .6rem 1.25rem;
+            background: var(--surface-2);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .code-block-title {
+            font-family: 'Fira Code', monospace;
+            font-size: .65rem;
+            letter-spacing: .1em;
+            color: var(--text-3);
+        }
+
+        .code-block-lang {
+            font-family: 'Fira Code', monospace;
+            font-size: .6rem;
+            color: var(--cyan);
+            letter-spacing: .1em;
+        }
+
+        .code-block-body {
+            padding: 1.25rem 1.5rem;
+            font-family: 'Fira Code', monospace;
+            font-size: .72rem;
+            line-height: 1.9;
+            color: var(--text-2);
+            overflow-x: auto;
+        }
+
+        .code-block-body .comment {
+            color: var(--text-3);
+        }
+
+        .code-block-body .cmd {
+            color: var(--text);
+        }
+
+        .code-block-body .str {
+            color: var(--deploy-color);
+        }
+
+        .code-block-body .flag {
+            color: var(--amber);
+        }
+
+        .code-block-body .ok {
+            color: var(--deploy-color);
+        }
+
+        /* ─── Azure Stack ───────────────────────────────────────────────── */
+        #stack {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-top: 3rem;
+        }
+
+        .stack-item {
+            background: var(--surface);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+        }
+
+        .stack-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius);
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            display: grid;
+            place-items: center;
+            font-size: 1.1rem;
+        }
+
+        .stack-name {
+            font-size: .85rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .stack-desc {
+            font-size: .75rem;
+            color: var(--text-2);
+            font-weight: 300;
+            line-height: 1.5;
+        }
+
+        .stack-phase {
+            font-family: 'Fira Code', monospace;
+            font-size: .58rem;
+            letter-spacing: .1em;
+            color: var(--text-3);
+            margin-top: auto;
+        }
+
+        /* ─── Footer ────────────────────────────────────────────────────── */
+        footer {
+            padding: 2.5rem clamp(1.5rem, 8vw, 6rem);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copy {
+            font-size: .75rem;
+            color: var(--text-3);
+            font-family: 'Fira Code', monospace;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .footer-links a {
+            font-size: .72rem;
+            color: var(--text-3);
+            text-decoration: none;
+            font-family: 'Fira Code', monospace;
+            transition: color .2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--cyan);
+        }
+
+        /* ─── Reveal animation ──────────────────────────────────────────── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity .6s ease, transform .6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ─── Drawer ───────────────────────────────────────────────────── */
+        #drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 7, 15, .7);
+            backdrop-filter: blur(4px);
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s ease;
+        }
+
+        #drawer-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        #drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: min(760px, 100vw);
+            background: var(--bg);
+            border-left: 1px solid var(--border);
+            z-index: 201;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform .35s cubic-bezier(.4, 0, .2, 1);
+            overflow: hidden;
+        }
+
+        #drawer.open {
+            transform: translateX(0);
+        }
+
+        .drawer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+            gap: 1rem;
+            flex-shrink: 0;
+        }
+
+        .drawer-nav {
+            display: flex;
+            gap: .5rem;
+        }
+
+        .drawer-nav-btn {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            color: var(--text-2);
+            font-family: 'Fira Code', monospace;
+            font-size: .7rem;
+            padding: .35rem .75rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: background .2s, color .2s, border-color .2s;
+        }
+
+        .drawer-nav-btn:hover {
+            background: var(--cyan-dim);
+            color: var(--cyan);
+            border-color: var(--cyan);
+        }
+
+        .drawer-nav-btn:disabled {
+            opacity: .3;
+            cursor: not-allowed;
+        }
+
+        .drawer-close {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-2);
+            font-size: 1.2rem;
+            line-height: 1;
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            transition: background .2s, color .2s, border-color .2s;
+            flex-shrink: 0;
+        }
+
+        .drawer-close:hover {
+            background: rgba(244, 63, 94, .12);
+            color: #f43f5e;
+            border-color: #f43f5e;
+        }
+
+        .drawer-breadcrumb {
+            font-family: 'Fira Code', monospace;
+            font-size: .65rem;
+            color: var(--text-3);
+            letter-spacing: .1em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .drawer-breadcrumb span {
+            color: var(--cyan);
+        }
+
+        .drawer-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem 2.5rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+
+        .drawer-body::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .drawer-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .drawer-body::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 2px;
+        }
+
+        /* Rendered markdown styles */
+        .md-content h1 {
+            font-family: 'Teko', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .md-content h2 {
+            font-family: 'Teko', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: var(--cyan);
+            margin-top: 2.5rem;
+            margin-bottom: .75rem;
+            letter-spacing: .02em;
+        }
+
+        .md-content h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-top: 1.5rem;
+            margin-bottom: .5rem;
+        }
+
+        .md-content p {
+            font-size: .9rem;
+            line-height: 1.8;
+            color: var(--text-2);
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .md-content ul,
+        .md-content ol {
+            padding-left: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .md-content li {
+            font-size: .9rem;
+            line-height: 1.8;
+            color: var(--text-2);
+            margin-bottom: .25rem;
+            font-weight: 300;
+        }
+
+        .md-content li::marker {
+            color: var(--cyan);
+        }
+
+        .md-content code {
+            font-family: 'Fira Code', monospace;
+            font-size: .78em;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            padding: .1em .4em;
+            border-radius: 3px;
+            color: var(--cyan);
+        }
+
+        .md-content pre {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem 1.5rem;
+            overflow-x: auto;
+            margin-bottom: 1.25rem;
+        }
+
+        .md-content pre code {
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: .78rem;
+            color: var(--text-2);
+            line-height: 1.8;
+        }
+
+        .md-content blockquote {
+            border-left: 3px solid var(--amber);
+            padding: .75rem 1rem;
+            margin: 1rem 0;
+            background: var(--amber-dim);
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .md-content blockquote p {
+            color: var(--text);
+            margin-bottom: 0;
+            font-size: .85rem;
+        }
+
+        .md-content a {
+            color: var(--cyan);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(0, 217, 245, .3);
+            transition: border-color .2s;
+        }
+
+        .md-content a:hover {
+            border-color: var(--cyan);
+        }
+
+        .md-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.25rem;
+            font-size: .85rem;
+        }
+
+        .md-content th {
+            text-align: left;
+            padding: .6rem .75rem;
+            border-bottom: 2px solid var(--border-2);
+            color: var(--text);
+            font-weight: 600;
+            font-family: 'Fira Code', monospace;
+            font-size: .72rem;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .md-content td {
+            padding: .6rem .75rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-2);
+            vertical-align: top;
+            line-height: 1.6;
+        }
+
+        .md-content hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 2rem 0;
+        }
+
+        /* Hide the navigation breadcrumb links at top of each challenge .md */
+        .md-content>p:first-child a[href*="Challenge"],
+        .md-content>p:first-child a[href*="README"] {
+            display: inline-flex;
+            align-items: center;
+            gap: .3rem;
+            font-family: 'Fira Code', monospace;
+            font-size: .7rem;
+            color: var(--text-3);
+            border-bottom: none;
+            padding: .2rem .5rem;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+        }
+
+        .drawer-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            gap: 1rem;
+            color: var(--text-3);
+            font-family: 'Fira Code', monospace;
+            font-size: .75rem;
+            letter-spacing: .1em;
+        }
+
+        .drawer-loading::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-top-color: var(--cyan);
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ─── Responsive ────────────────────────────────────────────────── */
+        @media (max-width: 900px) {
+            .nav-links {
+                display: none;
+            }
+
+            #about {
+                grid-template-columns: 1fr;
+            }
+
+            .challenges-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .challenge-card.full {
+                grid-column: span 2;
+            }
+
+            .challenge-card.full .card-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .prereq-layout {
+                grid-template-columns: 1fr;
+            }
+
+            #stats {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-item {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .stat-item:last-child {
+                border-bottom: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .challenges-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .challenge-card.full {
+                grid-column: span 1;
+            }
+
+            .stack-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* ─── Coach Mode ────────────────────────────────────────────────── */
+        .coach-hidden {
+            display: none;
+        }
+
+        #coach {
+            border-top: 2px solid var(--amber);
+            border-bottom: 1px solid var(--border);
+        }
+
+        #coach-toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--surface-2);
+            border: 1px solid var(--amber);
+            color: var(--amber);
+            font-family: 'Fira Code', monospace;
+            font-size: .72rem;
+            letter-spacing: .12em;
+            padding: .6rem 1.25rem;
+            border-radius: 99px;
+            z-index: 300;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s ease, transform .3s ease;
+        }
+
+        #coach-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <a class="nav-logo" href="#hero">
+            <div class="nav-logo-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-6h2v2h-2zm0-8h2v6h-2z" />
+                </svg>
+            </div>
+            <span class="nav-logo-text">GITHUB COPILOT MODERNIZATION</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#prerequisites">Setup</a></li>
+            <li><a href="#stack">Stack</a></li>
+            <li><a href="#challenges">Challenges</a></li>
+        </ul>
+        <a class="nav-cta" href="#challenges">View Challenges →</a>
+    </nav>
+
+    <!-- Hero -->
+    <section id="hero">
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-scanlines"></div>
+        <div class="hero-vignette"></div>
+
+        <div class="hero-content">
+            <div class="hero-label">Migrate and Modernize at Scale · 2026</div>
+            <h1 class="hero-title display">
+                LEGACY<br>
+                <span class="accent">→ AZURE</span>
+            </h1>
+            <p class="hero-subtitle">
+                Transform two legacy applications into production-grade cloud-native systems using GitHub
+                Copilot — in a single hackathon.
+            </p>
+            <div class="hero-transforms">
+                <div class="transform-pill">
+                    <span class="from">.NET Framework 4.8</span>
+                    <span class="arrow">→</span>
+                    <span class="to">.NET 9 ASP.NET Core</span>
+                </div>
+                <div class="transform-pill">
+                    <span class="from">Spring Boot 2.7 / Java 8</span>
+                    <span class="arrow">→</span>
+                    <span class="to">Spring Boot 3.x / Java 21</span>
+                </div>
+                <div class="transform-pill">
+                    <span class="from">Oracle DB</span>
+                    <span class="arrow">→</span>
+                    <span class="to">Azure PostgreSQL</span>
+                </div>
+                <div class="transform-pill">
+                    <span class="from">MSMQ</span>
+                    <span class="arrow">→</span>
+                    <span class="to">Azure Service Bus</span>
+                </div>
+            </div>
+            <div class="hero-actions">
+                <a class="btn-primary" href="#challenges">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                    Start the Hack
+                </a>
+                <a class="btn-secondary" href="README.md">
+                    Read the Briefing →
+                </a>
+            </div>
+        </div>
+
+        <div class="hero-scroll-hint">
+            <div class="scroll-line"></div>
+            <span>SCROLL</span>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <div id="stats">
+        <div class="stat-item reveal">
+            <div class="stat-value display">1<span>0</span></div>
+            <div class="stat-label">Challenges</div>
+        </div>
+        <div class="stat-item reveal" style="transition-delay:.1s">
+            <div class="stat-value display">0<span>2</span></div>
+            <div class="stat-label">Legacy Applications</div>
+        </div>
+        <div class="stat-item reveal" style="transition-delay:.2s">
+            <div class="stat-value display">0<span>1</span></div>
+            <div class="stat-label">Mission: Cloud-Native</div>
+        </div>
+    </div>
+
+    <!-- About -->
+    <section id="about">
+        <div>
+            <div class="section-label">Mission Brief</div>
+            <h2 class="section-title display reveal">WHAT YOU'LL<br>ACCOMPLISH</h2>
+            <p class="section-desc reveal">
+                Use GitHub Copilot Modernization tools to assess, plan, and execute migrations on real legacy codebases
+                — from first assessment to a running container in Azure.
+            </p>
+            <div class="about-objectives reveal">
+                <div class="objective-item">
+                    <span class="obj-num mono">01</span>
+                    <span>Run <code class="mono" style="color:var(--cyan);font-size:.8em">modernize assess</code> to
+                        evaluate migration complexity and cloud-readiness gaps</span>
+                </div>
+                <div class="objective-item">
+                    <span class="obj-num mono">02</span>
+                    <span>Create AI-driven plans with <code class="mono"
+                            style="color:var(--cyan);font-size:.8em">modernize plan create</code> and execute them
+                        automatically</span>
+                </div>
+                <div class="objective-item">
+                    <span class="obj-num mono">03</span>
+                    <span>Migrate a .NET Framework 4.8 app to .NET 9 ASP.NET Core with Azure Service Bus and Blob
+                        Storage</span>
+                </div>
+                <div class="objective-item">
+                    <span class="obj-num mono">04</span>
+                    <span>Migrate Spring Boot 2.x / Java 8 to Spring Boot 3.x / Java 21 with PostgreSQL and Blob
+                        Storage</span>
+                </div>
+                <div class="objective-item">
+                    <span class="obj-num mono">05</span>
+                    <span>Containerize both apps and deploy to Azure Container Apps using Terraform</span>
+                </div>
+                <div class="objective-item">
+                    <span class="obj-num mono">06</span>
+                    <span>Harden with Application Insights, Key Vault, Managed Identity, and GitHub Actions CI/CD</span>
+                </div>
+            </div>
+        </div>
+        <div class="about-visual reveal">
+            <div class="terminal-card">
+                <div class="terminal-bar">
+                    <div class="t-dot r"></div>
+                    <div class="t-dot y"></div>
+                    <div class="t-dot g"></div>
+                    <span class="terminal-title mono">modernize — PhotoAlbum-Java</span>
+                </div>
+                <div class="terminal-body mono">
+                    <div><span class="t-prompt">$ </span><span class="t-cmd">modernize assess .</span></div>
+                    <div class="t-out t-comment">→ Scanning codebase...</div>
+                    <div class="t-out t-warn">⚠ Java 8 → Java 21 migration required</div>
+                    <div class="t-out t-warn">⚠ Spring Boot 2.7 EOL — upgrade to 3.x</div>
+                    <div class="t-out t-warn">⚠ Oracle JDBC detected — replace with PostgreSQL</div>
+                    <div class="t-out t-warn">⚠ BLOB columns in DB — migrate to Blob Storage</div>
+                    <div class="t-out t-comment">→ 14 critical issues · 6 automated fixes</div>
+                    <div>&nbsp;</div>
+                    <div><span class="t-prompt">$ </span><span class="t-cmd">modernize plan create \</span></div>
+                    <div class="t-out t-cmd"> --goal "Migrate to Java 21, Spring Boot 3,</div>
+                    <div class="t-out t-cmd"> PostgreSQL and Azure Blob Storage"</div>
+                    <div class="t-out t-ok">✓ Plan created: 23 steps · ~2h estimated</div>
+                    <div>&nbsp;</div>
+                    <div><span class="t-prompt">$ </span><span class="t-cmd">modernize plan execute</span></div>
+                    <div class="t-out t-ok">✓ javax.* → jakarta.* namespace migrated</div>
+                    <div class="t-out t-ok">✓ pom.xml updated to Spring Boot 3.3.0</div>
+                    <div class="t-out t-ok">✓ Oracle JDBC replaced with PostgreSQL driver</div>
+                    <div class="t-out t-ok">✓ BlobService created using Azure SDK</div>
+                    <div class="t-out">Step 23/23 — <span class="t-ok">BUILD SUCCESS</span></div>
+                    <div><span class="t-prompt">$ </span><span class="t-blink"></span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prerequisites -->
+    <section id="prerequisites">
+        <div class="section-label">Before You Begin</div>
+        <h2 class="section-title display reveal">PREREQUISITES</h2>
+        <div class="prereq-layout">
+            <div class="prereq-list reveal">
+                <div class="prereq-item">
+                    <div class="prereq-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="16 18 22 12 16 6" />
+                            <polyline points="8 6 2 12 8 18" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="prereq-name">VS Code</div>
+                        <div class="prereq-note">Required for the GitHub Copilot Modernization extension workflow</div>
+                    </div>
+                </div>
+                <div class="prereq-item">
+                    <div class="prereq-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" />
+                            <path d="M3 9h18M9 21V9" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="prereq-name">Docker Desktop</div>
+                        <div class="prereq-note">Required by Dev Containers and for building container images</div>
+                    </div>
+                </div>
+                <div class="prereq-item">
+                    <div class="prereq-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="4" />
+                            <path
+                                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="prereq-name">GitHub Copilot Modernization</div>
+                        <div class="prereq-note">VS Code extension + <code class="mono"
+                                style="color:var(--cyan);font-size:.85em">modernize</code> CLI — install from the VS
+                            Code Marketplace</div>
+                    </div>
+                </div>
+                <div class="prereq-item">
+                    <div class="prereq-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="prereq-name">GitHub CLI (gh) v2.45.0+</div>
+                        <div class="prereq-note">Required by the modernization CLI — authenticate with <code
+                                class="mono" style="color:var(--cyan);font-size:.85em">gh auth login</code></div>
+                    </div>
+                </div>
+                <div class="prereq-item">
+                    <div class="prereq-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="prereq-name">Azure CLI + Terraform</div>
+                        <div class="prereq-note">Active Azure subscription with permissions for Container Apps, SQL,
+                            Service Bus, and Blob Storage</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reveal" style="display:flex;flex-direction:column;gap:1rem;">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-title mono">Install Modernization CLI</span>
+                        <span class="code-block-lang mono">bash</span>
+                    </div>
+                    <div class="code-block-body">
+                        <div><span class="comment"># Linux / macOS</span></div>
+                        <div><span class="cmd">curl -fsSL https://raw.githubusercontent.com/</span></div>
+                        <div><span class="cmd"> microsoft/modernize-cli/main/scripts/install.sh | sh</span></div>
+                        <div><span class="cmd">source ~/.bashrc</span></div>
+                        <div>&nbsp;</div>
+                        <div><span class="comment"># Windows</span></div>
+                        <div><span class="cmd">winget install <span
+                                    class="str">GitHub.Copilot.modernization.agent</span></span></div>
+                        <div>&nbsp;</div>
+                        <div><span class="comment"># Authenticate and launch</span></div>
+                        <div><span class="cmd">gh auth login</span></div>
+                        <div><span class="cmd">modernize</span></div>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-title mono">Clone with Submodules</span>
+                        <span class="code-block-lang mono">bash</span>
+                    </div>
+                    <div class="code-block-body">
+                        <div><span class="cmd">git clone --recurse-submodules \</span></div>
+                        <div><span class="cmd"> https://github.com/&lt;org&gt;/&lt;repo&gt;.git</span></div>
+                        <div>&nbsp;</div>
+                        <div><span class="comment"># Verify submodules are populated</span></div>
+                        <div><span class="cmd">git submodule status</span></div>
+                        <div><span class="ok">✓ a3f8c... Student/Resources/java/PhotoAlbum-Java</span></div>
+                        <div><span class="ok">✓ 9d2e1... Student/Resources/dotnet/dotnet-migration...</span></div>
+                        <div>&nbsp;</div>
+                        <div><span class="comment"># Verify CLI is ready</span></div>
+                        <div><span class="cmd">modernize --version</span></div>
+                        <div><span class="ok">modernize v1.x.x</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section id="stack">
+        <div class="section-label">Technology</div>
+        <h2 class="section-title display reveal">AZURE STACK</h2>
+        <p class="section-desc reveal">Services you'll provision and integrate during the hackathon.</p>
+        <div class="stack-grid">
+            <div class="stack-item reveal">
+                <div class="stack-icon">☁</div>
+                <div class="stack-name">Azure Container Apps</div>
+                <div class="stack-desc">Serverless container hosting with automatic scaling and built-in networking
+                </div>
+                <div class="stack-phase mono">CH 03 · 04</div>
+            </div>
+            <div class="stack-item reveal" style="transition-delay:.05s">
+                <div class="stack-icon">🐘</div>
+                <div class="stack-name">Azure DB for PostgreSQL</div>
+                <div class="stack-desc">Managed PostgreSQL Flexible Server — Oracle replacement for PhotoAlbum</div>
+                <div class="stack-phase mono">Java CH 02 · 03</div>
+            </div>
+            <div class="stack-item reveal" style="transition-delay:.1s">
+                <div class="stack-icon">💾</div>
+                <div class="stack-name">Azure SQL Database</div>
+                <div class="stack-desc">Fully managed relational database for ContosoUniversity with EF Core</div>
+                <div class="stack-phase mono">.NET CH 02 · 03</div>
+            </div>
+            <div class="stack-item reveal" style="transition-delay:.15s">
+                <div class="stack-icon">📦</div>
+                <div class="stack-name">Azure Blob Storage</div>
+                <div class="stack-desc">Object storage for photos and teaching materials — replaces file system and DB
+                    BLOBs</div>
+                <div class="stack-phase mono">CH 02 · 03</div>
+            </div>
+            <div class="stack-item reveal" style="transition-delay:.2s">
+                <div class="stack-icon">📨</div>
+                <div class="stack-name">Azure Service Bus</div>
+                <div class="stack-desc">Cloud-native messaging — replaces MSMQ for the .NET notification service</div>
+                <div class="stack-phase mono">.NET CH 02 · 03</div>
+            </div>
+            <div class="stack-item reveal" style="transition-delay:.25s">
+                <div class="stack-icon">🔍</div>
+                <div class="stack-name">Application Insights</div>
+                <div class="stack-desc">Distributed tracing, live metrics, and structured logging for both apps</div>
+                <div class="stack-phase mono">CH 04</div>
+            </div>
+            <div class="stack-item reveal" style="transition-delay:.3s">
+                <div class="stack-icon">🔑</div>
+                <div class="stack-name">Azure Key Vault</div>
+                <div class="stack-desc">Centralised secret management — no connection strings in code or config files
+                </div>
+                <div class="stack-phase mono">CH 04</div>
+            </div>
+            <div class="stack-item reveal" style="transition-delay:.35s">
+                <div class="stack-icon">📋</div>
+                <div class="stack-name">Container Registry</div>
+                <div class="stack-desc">Store and manage container images; integrated with Container Apps via Managed
+                    Identity</div>
+                <div class="stack-phase mono">CH 03</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Challenges -->
+    <section id="challenges">
+        <div class="challenges-header">
+            <div>
+                <div class="section-label">The Path</div>
+                <h2 class="section-title display reveal">CHALLENGES</h2>
+            </div>
+            <p class="section-desc reveal" style="max-width:340px;">
+                Six challenges, two parallel tracks. Your squad can split — one team on Java, one on .NET.
+            </p>
+        </div>
+
+        <!-- Java Track -->
+        <div style="margin-bottom:2rem;">
+            <h3 class="display" style="font-size:1.1rem;letter-spacing:.12em;color:var(--cyan);margin-bottom:1.25rem;">☕
+                JAVA TRACK</h3>
+            <div class="challenges-grid">
+
+                <!-- Java CH-00 -->
+                <a class="challenge-card full" data-phase="00" href="Student/java/Challenge-00.md">
+                    <div class="card-bg-number display">00</div>
+                    <div class="card-inner">
+                        <div>
+                            <div class="card-top">
+                                <span class="card-phase-badge">Setup</span>
+                                <span class="card-num mono">CH — 00</span>
+                            </div>
+                            <h3 class="card-title display">Prerequisites<br>(Java)</h3>
+                        </div>
+                        <div style="display:flex;flex-direction:column;justify-content:space-between;">
+                            <p class="card-desc">
+                                Configure your workstation for the Java track: GitHub Copilot Modernization CLI, Docker,
+                                Azure CLI, Terraform, GitHub CLI. Initialise the PhotoAlbum submodule and optionally
+                                deploy to an Azure VM to see the legacy state.
+                            </p>
+                            <div class="card-footer">
+                                <div class="card-tags">
+                                    <span class="card-tag">modernize CLI</span>
+                                    <span class="card-tag">Docker</span>
+                                    <span class="card-tag">Azure CLI</span>
+                                    <span class="card-tag">Terraform</span>
+                                </div>
+                                <div class="card-arrow mono">Open challenge <span>→</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Java CH-01 -->
+                <a class="challenge-card" data-phase="01" href="Student/java/Challenge-01.md">
+                    <div class="card-bg-number display">01</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Assess</span>
+                        <span class="card-num mono">CH — 01</span>
+                    </div>
+                    <h3 class="card-title display">Assess the Java App</h3>
+                    <p class="card-desc">
+                        Run <code class="mono" style="font-size:.85em">modernize assess</code> on PhotoAlbum.
+                        Identify Spring Boot 2→3 blockers, Oracle JDBC issues, and cloud-readiness gaps.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">modernize assess</span>
+                            <span class="card-tag">Spring Boot</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- Java CH-02 -->
+                <a class="challenge-card" data-phase="02" href="Student/java/Challenge-02.md">
+                    <div class="card-bg-number display">02</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Modernize</span>
+                        <span class="card-num mono">CH — 02</span>
+                    </div>
+                    <h3 class="card-title display">Modernize the Java App</h3>
+                    <p class="card-desc">
+                        Migrate PhotoAlbum from Spring Boot 2.7 / Java 8 / Oracle to Spring Boot 3.x / Java 21 /
+                        PostgreSQL + Azure Blob Storage. Tackle javax→jakarta and SQL dialect migration.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">Java 21</span>
+                            <span class="card-tag">Spring Boot 3</span>
+                            <span class="card-tag">PostgreSQL</span>
+                            <span class="card-tag">Blob Storage</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- Java CH-03 -->
+                <a class="challenge-card half" data-phase="03" href="Student/java/Challenge-03.md">
+                    <div class="card-bg-number display">03</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Deploy</span>
+                        <span class="card-num mono">CH — 03</span>
+                    </div>
+                    <h3 class="card-title display">Containerize &amp; Deploy (Java)</h3>
+                    <p class="card-desc">
+                        Package PhotoAlbum as a container image, push to Azure Container Registry, and deploy to Azure
+                        Container Apps via Terraform. Provision PostgreSQL Flexible Server and Blob Storage.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">Docker</span>
+                            <span class="card-tag">ACA</span>
+                            <span class="card-tag">Terraform</span>
+                            <span class="card-tag">ACR</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- Java CH-04 -->
+                <a class="challenge-card half" data-phase="04" href="Student/java/Challenge-04.md">
+                    <div class="card-bg-number display">04</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Stretch</span>
+                        <span class="card-num mono">CH — 04</span>
+                    </div>
+                    <h3 class="card-title display">Observe, Validate &amp; Secure</h3>
+                    <p class="card-desc">
+                        Production hardening: Application Insights (Java agent), Azure Key Vault + Managed Identity,
+                        and a GitHub Actions CI/CD pipeline with <code class="mono"
+                            style="font-size:.85em">modernize assess</code> as a quality gate.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">App Insights</span>
+                            <span class="card-tag">Key Vault</span>
+                            <span class="card-tag">Managed Identity</span>
+                            <span class="card-tag">GitHub Actions</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+        <!-- .NET Track -->
+        <div>
+            <h3 class="display"
+                style="font-size:1.1rem;letter-spacing:.12em;color:var(--purple);margin-bottom:1.25rem;">🔷 .NET TRACK
+            </h3>
+            <div class="challenges-grid">
+
+                <!-- .NET CH-00 -->
+                <a class="challenge-card full" data-phase="00" href="Student/dotnet/Challenge-00.md">
+                    <div class="card-bg-number display">00</div>
+                    <div class="card-inner">
+                        <div>
+                            <div class="card-top">
+                                <span class="card-phase-badge">Setup</span>
+                                <span class="card-num mono">CH — 00</span>
+                            </div>
+                            <h3 class="card-title display">Prerequisites<br>(.NET)</h3>
+                        </div>
+                        <div style="display:flex;flex-direction:column;justify-content:space-between;">
+                            <p class="card-desc">
+                                Configure your workstation for the .NET track: GitHub Copilot Modernization CLI, Docker,
+                                Azure CLI, Terraform, GitHub CLI. Initialise the ContosoUniversity submodule and
+                                optionally deploy to a Windows VM to see the legacy state.
+                            </p>
+                            <div class="card-footer">
+                                <div class="card-tags">
+                                    <span class="card-tag">modernize CLI</span>
+                                    <span class="card-tag">Docker</span>
+                                    <span class="card-tag">Azure CLI</span>
+                                    <span class="card-tag">Terraform</span>
+                                </div>
+                                <div class="card-arrow mono">Open challenge <span>→</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- .NET CH-01 -->
+                <a class="challenge-card" data-phase="01" href="Student/dotnet/Challenge-01.md">
+                    <div class="card-bg-number display">01</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Assess</span>
+                        <span class="card-num mono">CH — 01</span>
+                    </div>
+                    <h3 class="card-title display">Assess the .NET App</h3>
+                    <p class="card-desc">
+                        Run <code class="mono" style="font-size:.85em">modernize assess</code> on ContosoUniversity.
+                        Identify MSMQ, System.Web, and cloud-readiness blockers before touching any code.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">modernize assess</span>
+                            <span class="card-tag">dotnet-appcat</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- .NET CH-02 -->
+                <a class="challenge-card" data-phase="02" href="Student/dotnet/Challenge-02.md">
+                    <div class="card-bg-number display">02</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Modernize</span>
+                        <span class="card-num mono">CH — 02</span>
+                    </div>
+                    <h3 class="card-title display">Modernize the .NET App</h3>
+                    <p class="card-desc">
+                        Migrate ContosoUniversity from .NET Framework 4.8 / ASP.NET MVC 5 / MSMQ to .NET 9 / ASP.NET
+                        Core / Azure Service Bus + Blob Storage. Remove System.Web and convert to SDK-style csproj.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">.NET 9</span>
+                            <span class="card-tag">ASP.NET Core</span>
+                            <span class="card-tag">Service Bus</span>
+                            <span class="card-tag">Blob Storage</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- .NET CH-03 -->
+                <a class="challenge-card half" data-phase="03" href="Student/dotnet/Challenge-03.md">
+                    <div class="card-bg-number display">03</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Deploy</span>
+                        <span class="card-num mono">CH — 03</span>
+                    </div>
+                    <h3 class="card-title display">Containerize &amp; Deploy (.NET)</h3>
+                    <p class="card-desc">
+                        Package ContosoUniversity as a container image, push to Azure Container Registry, and deploy
+                        to Azure Container Apps via Terraform. Provision Azure SQL, Service Bus, and Blob Storage.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">Docker</span>
+                            <span class="card-tag">ACA</span>
+                            <span class="card-tag">Terraform</span>
+                            <span class="card-tag">ACR</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- .NET CH-04 -->
+                <a class="challenge-card half" data-phase="04" href="Student/dotnet/Challenge-04.md">
+                    <div class="card-bg-number display">04</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Stretch</span>
+                        <span class="card-num mono">CH — 04</span>
+                    </div>
+                    <h3 class="card-title display">Observe, Validate &amp; Secure</h3>
+                    <p class="card-desc">
+                        Production hardening: Application Insights SDK, Azure Key Vault + Managed Identity,
+                        and a GitHub Actions CI/CD pipeline with <code class="mono"
+                            style="font-size:.85em">modernize assess</code> as a quality gate.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">App Insights</span>
+                            <span class="card-tag">Key Vault</span>
+                            <span class="card-tag">Managed Identity</span>
+                            <span class="card-tag">GitHub Actions</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Coach Section (hidden by default — press Shift+C to toggle) -->
+    <section id="coach" class="coach-hidden">
+        <div class="challenges-header">
+            <div>
+                <div class="section-label" style="color:var(--amber);">Coach Access</div>
+                <h2 class="section-title display">COACH GUIDE</h2>
+            </div>
+            <p class="section-desc" style="max-width:380px;">
+                Facilitation notes, expected outputs, and pitfall tips for each challenge.
+                Toggle with <kbd
+                    style="font-family:'Fira Code',monospace;font-size:.7em;padding:.15em .5em;border:1px solid var(--border-2);border-radius:3px;background:var(--surface-2);">Shift+C</kbd>.
+            </p>
+        </div>
+
+        <!-- Coach Java Track -->
+        <div style="margin-bottom:2rem;">
+            <h3 class="display" style="font-size:1.1rem;letter-spacing:.12em;color:var(--cyan);margin-bottom:1.25rem;">☕
+                JAVA TRACK — COACH NOTES</h3>
+            <div class="challenges-grid">
+
+                <!-- Coach Java CH-00 -->
+                <a class="challenge-card full" data-phase="00" href="Coach/java/Challenge-00.md">
+                    <div class="card-bg-number display">00</div>
+                    <div class="card-inner">
+                        <div>
+                            <div class="card-top">
+                                <span class="card-phase-badge">Setup</span>
+                                <span class="card-num mono">COACH — 00</span>
+                            </div>
+                            <h3 class="card-title display">Prerequisites<br>Coach Notes</h3>
+                        </div>
+                        <div style="display:flex;flex-direction:column;justify-content:space-between;">
+                            <p class="card-desc">
+                                Expected environment state, Oracle Docker RAM requirements (4 GB), submodule pitfalls,
+                                and how to verify the modernize CLI is correctly installed.
+                            </p>
+                            <div class="card-footer">
+                                <div class="card-tags">
+                                    <span class="card-tag">facilitation</span>
+                                    <span class="card-tag">setup tips</span>
+                                </div>
+                                <div class="card-arrow mono">Open guide <span>→</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Coach Java CH-01 -->
+                <a class="challenge-card" data-phase="01" href="Coach/java/Challenge-01.md">
+                    <div class="card-bg-number display">01</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Assess</span>
+                        <span class="card-num mono">COACH — 01</span>
+                    </div>
+                    <h3 class="card-title display">Assess — Coach Notes</h3>
+                    <p class="card-desc">
+                        Expected assessment findings: Spring Boot 2→3 blockers, Oracle JDBC, BLOB columns.
+                        Debrief discussion questions and key talking points.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">expected output</span>
+                            <span class="card-tag">debrief</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- Coach Java CH-02 -->
+                <a class="challenge-card" data-phase="02" href="Coach/java/Challenge-02.md">
+                    <div class="card-bg-number display">02</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Modernize</span>
+                        <span class="card-num mono">COACH — 02</span>
+                    </div>
+                    <h3 class="card-title display">Modernize — Coach Notes</h3>
+                    <p class="card-desc">
+                        Key pom.xml changes, javax→jakarta migration, PostgreSQL dialect, Azure Blob SDK.
+                        Pitfalls table and common student errors.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">pitfalls</span>
+                            <span class="card-tag">solutions</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- Coach Java CH-03 -->
+                <a class="challenge-card half" data-phase="03" href="Coach/java/Challenge-03.md">
+                    <div class="card-bg-number display">03</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Deploy</span>
+                        <span class="card-num mono">COACH — 03</span>
+                    </div>
+                    <h3 class="card-title display">Deploy — Coach Notes</h3>
+                    <p class="card-desc">
+                        Terraform checklist for PostgreSQL Flexible Server, Blob Storage, and Container Apps.
+                        Naming conventions and common Terraform pitfalls.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">terraform</span>
+                            <span class="card-tag">checklist</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- Coach Java CH-04 -->
+                <a class="challenge-card half" data-phase="04" href="Coach/java/Challenge-04.md">
+                    <div class="card-bg-number display">04</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Stretch</span>
+                        <span class="card-num mono">COACH — 04</span>
+                    </div>
+                    <h3 class="card-title display">Stretch — Coach Notes</h3>
+                    <p class="card-desc">
+                        App Insights Java agent Dockerfile snippet, Key Vault + Managed Identity steps,
+                        and GitHub Actions CI/CD coaching notes.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">observability</span>
+                            <span class="card-tag">security</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+        <!-- Coach .NET Track -->
+        <div>
+            <h3 class="display"
+                style="font-size:1.1rem;letter-spacing:.12em;color:var(--purple);margin-bottom:1.25rem;">🔷 .NET TRACK —
+                COACH NOTES
+            </h3>
+            <div class="challenges-grid">
+
+                <!-- Coach .NET CH-00 -->
+                <a class="challenge-card full" data-phase="00" href="Coach/dotnet/Challenge-00.md">
+                    <div class="card-bg-number display">00</div>
+                    <div class="card-inner">
+                        <div>
+                            <div class="card-top">
+                                <span class="card-phase-badge">Setup</span>
+                                <span class="card-num mono">COACH — 00</span>
+                            </div>
+                            <h3 class="card-title display">Prerequisites<br>Coach Notes</h3>
+                        </div>
+                        <div style="display:flex;flex-direction:column;justify-content:space-between;">
+                            <p class="card-desc">
+                                Expected environment state, expected build failure on Linux/macOS for .NET Framework
+                                4.8, and how to verify the modernize CLI is on PATH.
+                            </p>
+                            <div class="card-footer">
+                                <div class="card-tags">
+                                    <span class="card-tag">facilitation</span>
+                                    <span class="card-tag">setup tips</span>
+                                </div>
+                                <div class="card-arrow mono">Open guide <span>→</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Coach .NET CH-01 -->
+                <a class="challenge-card" data-phase="01" href="Coach/dotnet/Challenge-01.md">
+                    <div class="card-bg-number display">01</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Assess</span>
+                        <span class="card-num mono">COACH — 01</span>
+                    </div>
+                    <h3 class="card-title display">Assess — Coach Notes</h3>
+                    <p class="card-desc">
+                        Expected findings: MSMQ, System.Web, packages.config, Global.asax, Web.config, local FS
+                        blockers. Debrief discussion questions.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">expected output</span>
+                            <span class="card-tag">debrief</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- Coach .NET CH-02 -->
+                <a class="challenge-card" data-phase="02" href="Coach/dotnet/Challenge-02.md">
+                    <div class="card-bg-number display">02</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Modernize</span>
+                        <span class="card-num mono">COACH — 02</span>
+                    </div>
+                    <h3 class="card-title display">Modernize — Coach Notes</h3>
+                    <p class="card-desc">
+                        SDK-style csproj conversion, System.Web removal, Global.asax→Program.cs,
+                        MSMQ→Service Bus, local FS→Blob, EF Core. Pitfalls table.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">pitfalls</span>
+                            <span class="card-tag">solutions</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- Coach .NET CH-03 -->
+                <a class="challenge-card half" data-phase="03" href="Coach/dotnet/Challenge-03.md">
+                    <div class="card-bg-number display">03</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Deploy</span>
+                        <span class="card-num mono">COACH — 03</span>
+                    </div>
+                    <h3 class="card-title display">Deploy — Coach Notes</h3>
+                    <p class="card-desc">
+                        Terraform checklist for Azure SQL, Service Bus, Blob Storage, and Container Apps.
+                        Naming conventions and common Terraform pitfalls.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">terraform</span>
+                            <span class="card-tag">checklist</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- Coach .NET CH-04 -->
+                <a class="challenge-card half" data-phase="04" href="Coach/dotnet/Challenge-04.md">
+                    <div class="card-bg-number display">04</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Stretch</span>
+                        <span class="card-num mono">COACH — 04</span>
+                    </div>
+                    <h3 class="card-title display">Stretch — Coach Notes</h3>
+                    <p class="card-desc">
+                        App Insights SDK setup, Key Vault + Managed Identity, and GitHub Actions CI/CD coaching
+                        notes for the .NET track.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">observability</span>
+                            <span class="card-tag">security</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-copy mono">// GitHub Copilot App Modernization · 2026</div>
+        <ul class="footer-links">
+            <li><a href="README.md">README</a></li>
+            <li><a href="Student/java/Challenge-00.md">Java CH-00</a></li>
+            <li><a href="Student/java/Challenge-01.md">Java CH-01</a></li>
+            <li><a href="Student/java/Challenge-02.md">Java CH-02</a></li>
+            <li><a href="Student/java/Challenge-03.md">Java CH-03</a></li>
+            <li><a href="Student/java/Challenge-04.md">Java CH-04</a></li>
+            <li><a href="Student/dotnet/Challenge-00.md">.NET CH-00</a></li>
+            <li><a href="Student/dotnet/Challenge-01.md">.NET CH-01</a></li>
+            <li><a href="Student/dotnet/Challenge-02.md">.NET CH-02</a></li>
+            <li><a href="Student/dotnet/Challenge-03.md">.NET CH-03</a></li>
+            <li><a href="Student/dotnet/Challenge-04.md">.NET CH-04</a></li>
+        </ul>
+    </footer>
+
+    <!-- Drawer overlay -->
+    <div id="drawer-overlay"></div>
+    <div id="drawer" role="dialog" aria-modal="true" aria-label="Challenge content">
+        <div class="drawer-header">
+            <div class="drawer-breadcrumb">CHALLENGE / <span id="drawer-title">–</span></div>
+            <div style="display:flex;align-items:center;gap:.75rem;">
+                <div class="drawer-nav">
+                    <button class="drawer-nav-btn" id="drawer-prev" title="Previous challenge">← prev</button>
+                    <button class="drawer-nav-btn" id="drawer-next" title="Next challenge">next →</button>
+                </div>
+                <button class="drawer-close" id="drawer-close" aria-label="Close">✕</button>
+            </div>
+        </div>
+        <div class="drawer-body">
+            <div id="drawer-content" class="md-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // ── Hero canvas — code rain ───────────────────────────────────────
+        const canvas = document.getElementById('hero-canvas');
+        const ctx = canvas.getContext('2d');
+        const chars = '{}[]()<>=;./\\@#$%^&*|~?!_+-01'.split('')
+            .concat(['class', 'void', 'async', 'await', 'import', 'azure',
+                'if', 'for', 'new', 'return', 'using', 'struct',
+                'public', 'const', 'let', 'fn']);
+        let cols = [], drops = [], speeds = [];
+        const FONT_SIZE = 13;
+
+        function initCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            const numCols = Math.floor(canvas.width / FONT_SIZE);
+            cols = new Array(numCols).fill(0);
+            drops = cols.map(() => Math.random() * -canvas.height / FONT_SIZE);
+            speeds = cols.map(() => 0.3 + Math.random() * 0.7);
+        }
+
+        function drawRain() {
+            ctx.fillStyle = 'rgba(3,7,15,0.06)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            cols.forEach((_, i) => {
+                const char = chars[Math.floor(Math.random() * chars.length)];
+                const y = drops[i] * FONT_SIZE;
+                const t = drops[i] / (canvas.height / FONT_SIZE);
+
+                // Gradient: amber at top → cyan at bottom
+                const r1 = 245, g1 = 166, b1 = 35;   // amber
+                const r2 = 0, g2 = 217, b2 = 245;  // cyan
+                const r = Math.round(r1 + (r2 - r1) * t);
+                const g = Math.round(g1 + (g2 - g1) * t);
+                const b = Math.round(b1 + (b2 - b1) * t);
+                ctx.fillStyle = `rgba(${r},${g},${b},0.55)`;
+                ctx.font = `${FONT_SIZE}px 'Fira Code', monospace`;
+                ctx.fillText(char, i * FONT_SIZE, y);
+
+                // Head character brighter
+                ctx.fillStyle = `rgba(${r},${g},${b},1)`;
+                ctx.fillText(char, i * FONT_SIZE, y);
+
+                if (y > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i] += speeds[i];
+            });
+        }
+
+        initCanvas();
+        window.addEventListener('resize', initCanvas);
+        setInterval(drawRain, 40);
+
+        // ── Scroll reveal ─────────────────────────────────────────────────
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // ── Challenge card staggered entrance ────────────────────────────
+        const cardObserver = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    const cards = document.querySelectorAll('.challenge-card');
+                    cards.forEach((card, i) => {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        card.style.transition = `opacity .5s ease ${i * 0.07}s, transform .5s ease ${i * 0.07}s`;
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 50);
+                    });
+                    cardObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.05 });
+
+        const grid = document.querySelector('.challenges-grid');
+        if (grid) cardObserver.observe(grid);
+
+        // ── Active nav highlight ──────────────────────────────────────────
+        const sections = document.querySelectorAll('section[id], div[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(s => {
+                if (window.scrollY >= s.offsetTop - 100) current = s.id;
+            });
+            navLinks.forEach(a => {
+                a.style.color = a.getAttribute('href') === `#${current}`
+                    ? 'var(--cyan)'
+                    : 'var(--text-2)';
+            });
+        }, { passive: true });
+
+        // ── Drawer: markdown rendering ────────────────────────────────────
+        const drawer = document.getElementById('drawer');
+        const drawerOverlay = document.getElementById('drawer-overlay');
+        const drawerContent = document.getElementById('drawer-content');
+        const drawerTitle = document.getElementById('drawer-title');
+        const drawerPrev = document.getElementById('drawer-prev');
+        const drawerNext = document.getElementById('drawer-next');
+        const drawerClose = document.getElementById('drawer-close');
+
+        const MD_FILES = [
+            { label: 'README', file: 'README.md', title: 'README' },
+            { label: 'JAVA-00', file: 'Student/java/Challenge-00.md', title: 'Java – Prerequisites' },
+            { label: 'JAVA-01', file: 'Student/java/Challenge-01.md', title: 'Java – Assess' },
+            { label: 'JAVA-02', file: 'Student/java/Challenge-02.md', title: 'Java – Modernize' },
+            { label: 'JAVA-03', file: 'Student/java/Challenge-03.md', title: 'Java – Deploy' },
+            { label: 'JAVA-04', file: 'Student/java/Challenge-04.md', title: 'Java – Observe & Secure' },
+            { label: 'NET-00', file: 'Student/dotnet/Challenge-00.md', title: '.NET – Prerequisites' },
+            { label: 'NET-01', file: 'Student/dotnet/Challenge-01.md', title: '.NET – Assess' },
+            { label: 'NET-02', file: 'Student/dotnet/Challenge-02.md', title: '.NET – Modernize' },
+            { label: 'NET-03', file: 'Student/dotnet/Challenge-03.md', title: '.NET – Deploy' },
+            { label: 'NET-04', file: 'Student/dotnet/Challenge-04.md', title: '.NET – Observe & Secure' },
+            { label: 'COACH-JAVA-00', file: 'Coach/java/Challenge-00.md', title: 'Coach · Java – Prerequisites' },
+            { label: 'COACH-JAVA-01', file: 'Coach/java/Challenge-01.md', title: 'Coach · Java – Assess' },
+            { label: 'COACH-JAVA-02', file: 'Coach/java/Challenge-02.md', title: 'Coach · Java – Modernize' },
+            { label: 'COACH-JAVA-03', file: 'Coach/java/Challenge-03.md', title: 'Coach · Java – Deploy' },
+            { label: 'COACH-JAVA-04', file: 'Coach/java/Challenge-04.md', title: 'Coach · Java – Observe & Secure' },
+            { label: 'COACH-NET-00', file: 'Coach/dotnet/Challenge-00.md', title: 'Coach · .NET – Prerequisites' },
+            { label: 'COACH-NET-01', file: 'Coach/dotnet/Challenge-01.md', title: 'Coach · .NET – Assess' },
+            { label: 'COACH-NET-02', file: 'Coach/dotnet/Challenge-02.md', title: 'Coach · .NET – Modernize' },
+            { label: 'COACH-NET-03', file: 'Coach/dotnet/Challenge-03.md', title: 'Coach · .NET – Deploy' },
+            { label: 'COACH-NET-04', file: 'Coach/dotnet/Challenge-04.md', title: 'Coach · .NET – Observe & Secure' },
+        ];
+
+        let currentIdx = -1;
+
+        function openDrawer(mdFile) {
+            const idx = MD_FILES.findIndex(f => f.file === mdFile);
+            currentIdx = idx === -1 ? 0 : idx;
+            loadAndRender(currentIdx);
+            drawer.classList.add('open');
+            drawerOverlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDrawer() {
+            drawer.classList.remove('open');
+            drawerOverlay.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        async function loadAndRender(idx) {
+            const entry = MD_FILES[idx];
+            drawerTitle.textContent = entry.title;
+            drawerPrev.disabled = idx <= 0;
+            drawerNext.disabled = idx >= MD_FILES.length - 1;
+            drawerContent.innerHTML = '<div class="drawer-loading">LOADING</div>';
+            drawer.querySelector('.drawer-body').scrollTop = 0;
+
+            try {
+                const res = await fetch(entry.file);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const text = await res.text();
+                drawerContent.innerHTML = marked.parse(text);
+                // Make all links inside rendered md open in new tab (external)
+                drawerContent.querySelectorAll('a[href]').forEach(a => {
+                    const href = a.getAttribute('href');
+                    if (href.endsWith('.md')) {
+                        // Internal .md links — intercept them
+                        a.addEventListener('click', e => {
+                            e.preventDefault();
+                            const match = MD_FILES.findIndex(f => f.file.endsWith(href.replace(/^.*\//, '')));
+                            if (match !== -1) { currentIdx = match; loadAndRender(match); }
+                        });
+                    } else if (href.startsWith('http') || href.startsWith('//')) {
+                        a.setAttribute('target', '_blank');
+                        a.setAttribute('rel', 'noopener noreferrer');
+                    }
+                });
+            } catch (err) {
+                drawerContent.innerHTML = `<p style="color:var(--stretch-color);font-family:'Fira Code',monospace;font-size:.8rem;">Failed to load ${entry.file}: ${err.message}</p>`;
+            }
+        }
+
+        drawerClose.addEventListener('click', closeDrawer);
+        drawerOverlay.addEventListener('click', closeDrawer);
+        drawerPrev.addEventListener('click', () => { if (currentIdx > 0) { currentIdx--; loadAndRender(currentIdx); } });
+        drawerNext.addEventListener('click', () => { if (currentIdx < MD_FILES.length - 1) { currentIdx++; loadAndRender(currentIdx); } });
+
+        // ── Coach toast ───────────────────────────────────────────────────
+        const coachToast = document.getElementById('coach-toast');
+        let toastTimer = null;
+        function showCoachToast(msg) {
+            coachToast.textContent = msg;
+            coachToast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => coachToast.classList.remove('show'), 2500);
+        }
+
+        // Restore coach mode from sessionStorage
+        if (sessionStorage.getItem('coachMode') === 'on') {
+            document.getElementById('coach').classList.remove('coach-hidden');
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeDrawer();
+            // Shift+C toggles coach mode
+            if (e.key === 'C' && e.shiftKey && !drawer.classList.contains('open')) {
+                const coachEl = document.getElementById('coach');
+                const nowHidden = coachEl.classList.toggle('coach-hidden');
+                sessionStorage.setItem('coachMode', nowHidden ? 'off' : 'on');
+                showCoachToast(nowHidden ? 'Coach mode disabled' : 'Coach mode enabled');
+                return;
+            }
+            if (!drawer.classList.contains('open')) return;
+            if (e.key === 'ArrowLeft' && currentIdx > 0) { currentIdx--; loadAndRender(currentIdx); }
+            if (e.key === 'ArrowRight' && currentIdx < MD_FILES.length - 1) { currentIdx++; loadAndRender(currentIdx); }
+        });
+
+        // Intercept ALL .md links on the page
+        document.addEventListener('click', e => {
+            const link = e.target.closest('a[href]');
+            if (!link) return;
+            const href = link.getAttribute('href');
+            if (!href || !href.endsWith('.md')) return;
+            e.preventDefault();
+            openDrawer(href);
+        });
+    </script>
+    <div id="coach-toast"></div>
+</body>
+
+</html>

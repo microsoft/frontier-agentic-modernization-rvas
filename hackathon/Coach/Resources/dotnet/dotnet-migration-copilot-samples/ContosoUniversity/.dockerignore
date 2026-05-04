@@ -1,0 +1,10 @@
+**/.git
+**/.gitignore
+**/bin
+**/obj
+**/*.user
+**/*.suo
+.github
+README.md
+Dockerfile
+.dockerignore

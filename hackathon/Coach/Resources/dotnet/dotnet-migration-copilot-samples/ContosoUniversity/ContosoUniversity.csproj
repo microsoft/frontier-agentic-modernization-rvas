@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <RootNamespace>ContosoUniversity</RootNamespace>
+    <AssemblyName>ContosoUniversity</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Identity" Version="1.14.0" />
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.19.0" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.24.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="App_Start\**" />
+    <Content Remove="App_Start\**" />
+    <None Remove="App_Start\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Content\**" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="Scripts\**" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

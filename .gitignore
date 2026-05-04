@@ -178,3 +178,9 @@ desktop.ini
 *.pem
 *.key
 *.p12
+
+# APM dependencies
+apm_modules/
+
+# Local cache files
+.lscache

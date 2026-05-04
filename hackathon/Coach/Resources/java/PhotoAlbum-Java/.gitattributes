@@ -1,0 +1,140 @@
+# Auto detect text files and perform LF normalization
+* text=auto eol=lf
+
+# Source code
+*.java text diff=java
+*.kt text diff=kotlin
+*.groovy text diff=java
+*.scala text diff=java
+
+# XML files
+*.xml text
+*.xsd text
+*.xsl text
+*.xslt text
+
+# Property files
+*.properties text
+*.yaml text
+*.yml text
+*.toml text
+
+# Build files
+*.gradle text
+*.gradle.kts text
+*.maven text
+pom.xml text
+build.xml text
+settings.xml text
+
+# Shell scripts
+*.sh text eol=lf
+*.bash text eol=lf
+
+# Windows scripts
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Docker files
+Dockerfile text
+docker-compose.yml text
+*.dockerfile text
+
+# Documentation
+*.md text diff=markdown
+*.txt text
+*.adoc text
+*.tex text
+
+# Web files
+*.html text diff=html
+*.css text diff=css
+*.js text
+*.jsx text
+*.ts text
+*.tsx text
+*.json text
+*.svg text
+*.xml text
+
+# SQL files
+*.sql text
+
+# Config files
+.editorconfig text
+.gitattributes text
+.gitignore text
+.gitconfig text
+
+# Binary files
+## Images
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.bmp binary
+*.tiff binary
+*.tif binary
+
+## Archives
+*.jar binary
+*.war binary
+*.ear binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.tgz binary
+*.rar binary
+*.7z binary
+
+## Fonts
+*.ttf binary
+*.eot binary
+*.woff binary
+*.woff2 binary
+
+## Documents
+*.pdf binary
+*.doc binary
+*.docx binary
+*.xls binary
+*.xlsx binary
+*.ppt binary
+*.pptx binary
+
+## Native libraries
+*.dll binary
+*.exe binary
+*.so binary
+*.dylib binary
+
+## Other
+*.class binary
+*.ser binary
+
+# Line ending normalization for specific files
+*.java text eol=lf
+*.xml text eol=lf
+*.properties text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sh text eol=lf
+*.md text eol=lf
+
+# Git LFS (Large File Storage) - uncomment if using LFS
+# *.jar filter=lfs diff=lfs merge=lfs -text
+# *.war filter=lfs diff=lfs merge=lfs -text
+# *.ear filter=lfs diff=lfs merge=lfs -text
+
+# Export ignore (files not included in export/archive)
+.gitattributes export-ignore
+.gitignore export-ignore
+.github export-ignore
+# Squad: union merge for append-only team state files
+.squad/decisions.md merge=union
+.squad/agents/*/history.md merge=union
+.squad/log/** merge=union
+.squad/orchestration-log/** merge=union

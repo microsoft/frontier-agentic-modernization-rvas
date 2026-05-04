@@ -1,0 +1,8 @@
+# Copy this file to terraform.tfvars and fill in your values.
+# Do NOT commit terraform.tfvars to source control — it contains secrets.
+
+prefix                = "wth"
+location              = "swedencentral"
+app_image             = "ghcr.io/cmendible/github-copilot-modernization/contoso-university:latest"
+github_username       = "your-github-username"
+github_token          = "ghp_XXXXXXXXXXXXXXXXXXXX"  # PAT with read:packages scope

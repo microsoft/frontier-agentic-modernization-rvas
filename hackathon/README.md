@@ -59,6 +59,21 @@ By completing this hack you will be able to:
 | **GitHub Copilot Modernization CLI** (`modernize`) | Terminal-based alternative — see below |
 | [Azure CLI (`az`)](https://learn.microsoft.com/cli/azure/install-azure-cli) | For Azure deployments |
 | [Terraform](https://developer.hashicorp.com/terraform/install) | For infrastructure as code |
+| [VS Build Tools 2022](https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2022) | Required for .NET app modernization on Windows — see below |
+
+### Installing Visual Studio Build Tools 2022 (Windows — .NET modernization only)
+
+1. Install via winget:
+   ```powershell
+   winget install Microsoft.VisualStudio.2022.BuildTools
+   ```
+2. Add the **Web Build Tools** workload (run as Administrator):
+   ```powershell
+   & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\setup.exe" modify `
+     --installPath "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools" `
+     --add Microsoft.VisualStudio.Workload.WebBuildTools `
+     --passive
+   ```
 
 ### Installing the Modernization CLI
 
