@@ -237,6 +237,7 @@ resource "azurerm_cognitive_account" "openai" {
   kind                  = "OpenAI"
   sku_name              = "S0"
   custom_subdomain_name = "${var.prefix}-aoai-${local.suffix}"
+  local_auth_enabled    = false
 
   identity {
     type = "SystemAssigned"
@@ -247,6 +248,7 @@ resource "azurerm_cognitive_account" "openai" {
 resource "azurerm_cognitive_deployment" "gpt41_mini" {
   name                 = var.openai_deployment_name
   cognitive_account_id = azurerm_cognitive_account.openai.id
+  rai_policy_name      = "Microsoft.DefaultV2"
 
   model {
     format  = "OpenAI"

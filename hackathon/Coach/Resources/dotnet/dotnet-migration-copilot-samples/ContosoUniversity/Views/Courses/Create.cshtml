@@ -50,8 +50,29 @@
             @Html.LabelFor(model => model.TeachingMaterialImagePath, "Teaching Material Image", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <input type="file" name="teachingMaterialImage" accept="image/*" class="form-control" />
-                <small class="text-muted">Supported formats: JPG, JPEG, PNG, GIF, BMP. Max size: 5MB.</small>
+                <small class="text-muted">Supported formats: JPG, JPEG, PNG, GIF, BMP. Max size: 5MB. Azure OpenAI will auto-fill the fields below from the uploaded image.</small>
                 @Html.ValidationMessage("teachingMaterialImage", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = 3, placeholder = "Leave blank — Azure OpenAI will suggest one after the image is uploaded." })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LearningObjectives, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.LearningObjectives, new { @class = "form-control", rows = 5, placeholder = "One objective per line. Leave blank to let Azure OpenAI generate them." })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AltText, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AltText, new { htmlAttributes = new { @class = "form-control", placeholder = "Accessibility text. Leave blank to let Azure OpenAI generate it." } })
             </div>
         </div>
 

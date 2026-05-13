@@ -1,3 +1,4 @@
+using Azure.AI.OpenAI;
 using Azure.Identity;
 using Azure.Storage.Blobs;
 using ContosoUniversity.Data;
@@ -36,6 +37,16 @@ builder.Services.AddSingleton(sp =>
     // Fallback for local development - return a placeholder client
     var connectionString = builder.Configuration["AzureStorageBlob:ConnectionString"] ?? "UseDevelopmentStorage=true";
     return new BlobServiceClient(connectionString);
+});
+
+// Add Azure OpenAI client + course-content AI service (Managed Identity).
+// Service is null-safe: if AzureOpenAI:Endpoint is not set, AI suggestions are simply skipped.
+builder.Services.AddSingleton<ICourseContentAiService>(sp =>
+{
+    var endpoint = builder.Configuration["AzureOpenAI:Endpoint"];
+    var deployment = builder.Configuration["AzureOpenAI:Deployment"] ?? "gpt-4.1-mini";
+    var logger = sp.GetRequiredService<Microsoft.Extensions.Logging.ILogger<CourseContentAiService>>();
+    return new CourseContentAiService(endpoint, deployment, logger);
 });
 
 var app = builder.Build();

@@ -40,12 +40,50 @@
         <dd>
             @if (!string.IsNullOrEmpty(Model.TeachingMaterialImagePath))
             {
-                <img src="@Url.Content(Model.TeachingMaterialImagePath)" alt="Teaching Material" style="max-width: 300px; max-height: 300px; border: 1px solid #ddd; padding: 5px;" />
+                var alt = string.IsNullOrEmpty(Model.AltText) ? "Teaching Material" : Model.AltText;
+                <img src="@Url.Action("Image", "Courses", new { name = Model.TeachingMaterialImagePath })" alt="@alt" style="max-width: 300px; max-height: 300px; border: 1px solid #ddd; padding: 5px;" />
             }
             else
             {
                 <em>No image uploaded</em>
             }
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @if (!string.IsNullOrEmpty(Model.Description))
+            {
+                @Model.Description
+            }
+            else
+            {
+                <em>No description</em>
+            }
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LearningObjectives)
+        </dt>
+        <dd>
+            @if (!string.IsNullOrEmpty(Model.LearningObjectives))
+            {
+                <ul>
+                    @foreach (var line in Model.LearningObjectives.Split(new[] { '\n', '\r' }, System.StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        <li>@line.Trim('-', ' ', '\t')</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <em>No learning objectives</em>
+            }
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AltText)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AltText)
         </dd>
     </dl>
 </div>

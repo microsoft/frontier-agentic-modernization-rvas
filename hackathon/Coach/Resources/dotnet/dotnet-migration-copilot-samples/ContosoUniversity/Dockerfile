@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
 COPY ContosoUniversity.csproj ./
@@ -9,11 +9,11 @@ COPY . .
 RUN dotnet publish -c Release -o /app/publish --no-restore
 
 # Stage 2: Runtime
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 WORKDIR /app
 
-# Create non-root user
-RUN adduser --disabled-password --gecos "" appuser && chown -R appuser /app
+# Create non-root user (Azure Linux base image uses useradd, not adduser)
+RUN useradd -m -s /bin/bash appuser && chown -R appuser /app
 USER appuser
 
 COPY --from=build /app/publish .

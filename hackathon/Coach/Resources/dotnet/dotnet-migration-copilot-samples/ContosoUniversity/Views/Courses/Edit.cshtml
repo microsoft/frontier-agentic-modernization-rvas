@@ -55,13 +55,34 @@
                 {
                     <div class="current-image" style="margin-bottom: 10px;">
                         <p><strong>Current Image:</strong></p>
-                        <img src="@Url.Content(Model.TeachingMaterialImagePath)" alt="Teaching Material" style="max-width: 200px; max-height: 200px; border: 1px solid #ddd; padding: 5px;" />
+                        <img src="@Url.Action("Image", "Courses", new { name = Model.TeachingMaterialImagePath })" alt="@(string.IsNullOrEmpty(Model.AltText) ? "Teaching Material" : Model.AltText)" style="max-width: 200px; max-height: 200px; border: 1px solid #ddd; padding: 5px;" />
                     </div>
                 }
                 <input type="file" name="teachingMaterialImage" accept="image/*" class="form-control" />
-                <small class="text-muted">Supported formats: JPG, JPEG, PNG, GIF, BMP. Max size: 5MB.</small>
+                <small class="text-muted">Supported formats: JPG, JPEG, PNG, GIF, BMP. Max size: 5MB. Replacing the image will trigger Azure OpenAI to suggest new content for any blank field below.</small>
                 @Html.ValidationMessage("teachingMaterialImage", "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.TeachingMaterialImagePath)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = 3 })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LearningObjectives, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.LearningObjectives, new { @class = "form-control", rows = 5 })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AltText, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AltText, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
 

@@ -1,8 +1,10 @@
 package com.photoalbum.service.impl;
 
+import com.photoalbum.dto.PhotoAiSuggestion;
 import com.photoalbum.model.Photo;
 import com.photoalbum.model.UploadResult;
 import com.photoalbum.repository.PhotoRepository;
+import com.photoalbum.service.PhotoAiService;
 import com.photoalbum.service.PhotoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,14 +32,17 @@ public class PhotoServiceImpl implements PhotoService {
     private static final Logger logger = LoggerFactory.getLogger(PhotoServiceImpl.class);
 
     private final PhotoRepository photoRepository;
+    private final PhotoAiService photoAiService;
     private final long maxFileSizeBytes;
     private final List<String> allowedMimeTypes;
 
     public PhotoServiceImpl(
             PhotoRepository photoRepository,
+            PhotoAiService photoAiService,
             @Value("${app.file-upload.max-file-size-bytes}") long maxFileSizeBytes,
             @Value("${app.file-upload.allowed-mime-types}") String[] allowedMimeTypes) {
         this.photoRepository = photoRepository;
+        this.photoAiService = photoAiService;
         this.maxFileSizeBytes = maxFileSizeBytes;
         this.allowedMimeTypes = Arrays.asList(allowedMimeTypes);
     }
@@ -147,6 +152,22 @@ public class PhotoServiceImpl implements PhotoService {
             );
             photo.setWidth(width);
             photo.setHeight(height);
+
+            // Best-effort AI enrichment — never blocks the upload.
+            try {
+                Optional<PhotoAiSuggestion> aiResult = photoAiService.analyze(photoData, file.getContentType());
+                final Photo photoRef = photo;
+                aiResult.ifPresent(s -> {
+                    photoRef.setCaption(s.caption());
+                    photoRef.setAltText(s.altText());
+                    if (s.tags() != null && !s.tags().isEmpty()) {
+                        photoRef.setTags(String.join(",", s.tags()));
+                    }
+                });
+            } catch (Exception ex) {
+                logger.warn("AI enrichment failed for {} — continuing without it: {}",
+                    file.getOriginalFilename(), ex.getMessage());
+            }
 
             // Save to database (with BLOB photo data)
             try {

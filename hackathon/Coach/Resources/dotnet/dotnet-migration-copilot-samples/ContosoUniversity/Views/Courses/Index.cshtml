@@ -47,7 +47,7 @@
         <td>
             @if (!string.IsNullOrEmpty(item.TeachingMaterialImagePath))
             {
-                <img src="@Url.Content(item.TeachingMaterialImagePath)" alt="Teaching Material" style="max-width: 50px; max-height: 50px; border: 1px solid #ddd;" />
+                <img src="@Url.Action("Image", "Courses", new { name = item.TeachingMaterialImagePath })" alt="Teaching Material" style="max-width: 50px; max-height: 50px; border: 1px solid #ddd;" />
             }
             else
             {

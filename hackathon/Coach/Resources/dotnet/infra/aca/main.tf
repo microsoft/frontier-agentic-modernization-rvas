@@ -109,6 +109,7 @@ resource "azurerm_servicebus_namespace" "sb" {
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   sku                 = "Standard"
+  local_auth_enabled  = false
 }
 
 # ── Service Bus Queue ─────────────────────────────────────────────────────────
@@ -125,6 +126,8 @@ resource "azurerm_storage_account" "sa" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
   min_tls_version          = "TLS1_2"
+
+  allow_nested_items_to_be_public = false
 
   blob_properties {
     delete_retention_policy {
@@ -168,6 +171,15 @@ resource "azurerm_container_app_environment" "env" {
   log_analytics_workspace_id = azurerm_log_analytics_workspace.law.id
 }
 
+# ── User-Assigned Managed Identity ───────────────────────────────────────────
+# Created before the Container App so it can be registered in SQL first,
+# breaking the chicken-and-egg issue with system-assigned identity + null_resource.
+resource "azurerm_user_assigned_identity" "app" {
+  name                = "${local.container_app_name}-id"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+}
+
 # ── Container App ─────────────────────────────────────────────────────────────
 resource "azurerm_container_app" "contoso" {
   name                         = local.container_app_name
@@ -175,9 +187,10 @@ resource "azurerm_container_app" "contoso" {
   resource_group_name          = azurerm_resource_group.rg.name
   revision_mode                = "Single"
 
-  # System-assigned identity for passwordless access to Service Bus and Storage
+  # User-assigned identity — pre-provisioned so SQL access can be granted first
   identity {
-    type = "SystemAssigned"
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.app.id]
   }
 
   # ghcr.io credentials — PAT stored as a secret
@@ -199,10 +212,11 @@ resource "azurerm_container_app" "contoso" {
       cpu    = 0.5
       memory = "1Gi"
 
-      # EF Core SQL Server connection string — passwordless via managed identity
+      # EF Core SQL Server connection string — passwordless via user-assigned managed identity
+      # User Id must specify the UAMI client ID when multiple identities are present
       env {
         name  = "ConnectionStrings__DefaultConnection"
-        value = "Server=tcp:${azurerm_mssql_server.sql.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_mssql_database.contoso.name};Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;Authentication=Active Directory Managed Identity;"
+        value = "Server=tcp:${azurerm_mssql_server.sql.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_mssql_database.contoso.name};Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;Authentication=Active Directory Managed Identity;User Id=${azurerm_user_assigned_identity.app.client_id};"
       }
 
       # Service Bus — passwordless via managed identity
@@ -242,6 +256,12 @@ resource "azurerm_container_app" "contoso" {
         name  = "ASPNETCORE_ENVIRONMENT"
         value = "Production"
       }
+
+      # Tell DefaultAzureCredential which UAMI to use for all Azure SDK calls
+      env {
+        name  = "AZURE_CLIENT_ID"
+        value = azurerm_user_assigned_identity.app.client_id
+      }
     }
 
     min_replicas = 1
@@ -260,7 +280,7 @@ resource "azurerm_container_app" "contoso" {
     }
   }
 
-  # Wait for SQL, RBAC and DB user setup before creating the app
+  # Wait for SQL and DB user setup before creating the app
   depends_on = [
     azurerm_mssql_server.sql,
     azurerm_mssql_database.contoso,
@@ -273,14 +293,14 @@ resource "azurerm_container_app" "contoso" {
 resource "azurerm_role_assignment" "sb_data_owner" {
   scope                = azurerm_servicebus_namespace.sb.id
   role_definition_name = "Azure Service Bus Data Owner"
-  principal_id         = azurerm_container_app.contoso.identity[0].principal_id
+  principal_id         = azurerm_user_assigned_identity.app.principal_id
 }
 
 # ── RBAC: Storage Blob Data Contributor → managed identity ───────────────────
 resource "azurerm_role_assignment" "storage_blob_contributor" {
   scope                = azurerm_storage_account.sa.id
   role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = azurerm_container_app.contoso.identity[0].principal_id
+  principal_id         = azurerm_user_assigned_identity.app.principal_id
 }
 
 # ── Azure OpenAI account ──────────────────────────────────────────────────
@@ -291,6 +311,7 @@ resource "azurerm_cognitive_account" "openai" {
   kind                  = "OpenAI"
   sku_name              = "S0"
   custom_subdomain_name = "${var.prefix}-aoai-${local.suffix}"
+  local_auth_enabled    = false
 
   identity {
     type = "SystemAssigned"
@@ -318,14 +339,14 @@ resource "azurerm_cognitive_deployment" "gpt41_mini" {
 resource "azurerm_role_assignment" "aoai_user" {
   scope                = azurerm_cognitive_account.openai.id
   role_definition_name = "Cognitive Services OpenAI User"
-  principal_id         = azurerm_container_app.contoso.identity[0].principal_id
+  principal_id         = azurerm_user_assigned_identity.app.principal_id
 }
 
 # ── Key Vault: grant managed identity read access to secrets ─────────────────
 resource "azurerm_key_vault_access_policy" "app" {
   key_vault_id = azurerm_key_vault.kv.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = azurerm_container_app.contoso.identity[0].principal_id
+  object_id    = azurerm_user_assigned_identity.app.principal_id
 
   secret_permissions = ["Get", "List"]
 }
@@ -335,8 +356,8 @@ resource "azurerm_key_vault_access_policy" "app" {
 # Authentication reuses the same identity that authenticated for terraform apply.
 resource "null_resource" "sql_mi_user" {
   triggers = {
-    container_app_name = local.container_app_name
-    database_id        = azurerm_mssql_database.contoso.id
+    uami_principal_id = azurerm_user_assigned_identity.app.principal_id
+    database_id       = azurerm_mssql_database.contoso.id
   }
 
   provisioner "local-exec" {
@@ -355,27 +376,43 @@ resource "null_resource" "sql_mi_user" {
         SQLCMD=sqlcmd
       fi
 
-      # ── Write and run the SQL script ──────────────────────────────────────
+      # ── Write the SQL script ──────────────────────────────────────────────
       SQL_FILE=$(mktemp /tmp/setup_mi_XXXXXX.sql)
       cat > "$SQL_FILE" << 'SQLEOF'
-IF NOT EXISTS (SELECT 1 FROM sys.database_principals WHERE name = N'${local.container_app_name}')
-    CREATE USER [${local.container_app_name}] FROM EXTERNAL PROVIDER;
-ALTER ROLE db_datareader ADD MEMBER [${local.container_app_name}];
-ALTER ROLE db_datawriter ADD MEMBER [${local.container_app_name}];
-ALTER ROLE db_ddladmin  ADD MEMBER [${local.container_app_name}];
+IF NOT EXISTS (SELECT 1 FROM sys.database_principals WHERE name = N'${azurerm_user_assigned_identity.app.name}')
+    CREATE USER [${azurerm_user_assigned_identity.app.name}] FROM EXTERNAL PROVIDER;
+ALTER ROLE db_datareader ADD MEMBER [${azurerm_user_assigned_identity.app.name}];
+ALTER ROLE db_datawriter ADD MEMBER [${azurerm_user_assigned_identity.app.name}];
+ALTER ROLE db_ddladmin  ADD MEMBER [${azurerm_user_assigned_identity.app.name}];
 SQLEOF
-      "$SQLCMD" \
-        -S "tcp:${azurerm_mssql_server.sql.fully_qualified_domain_name},1433" \
-        -d "${azurerm_mssql_database.contoso.name}" \
-        --authentication-method=ActiveDirectoryDefault \
-        -i "$SQL_FILE"
-      EXIT_CODE=$?
+
+      # ── Retry loop: Entra ID replication can lag after UAMI creation ─────
+      # -b causes sqlcmd to exit non-zero on SQL errors so failures are visible
+      MAX_ATTEMPTS=10
+      ATTEMPT=0
+      EXIT_CODE=1
+      until [ $EXIT_CODE -eq 0 ] || [ $ATTEMPT -ge $MAX_ATTEMPTS ]; do
+        ATTEMPT=$((ATTEMPT + 1))
+        echo "Attempt $ATTEMPT/$MAX_ATTEMPTS: creating SQL user..."
+        "$SQLCMD" \
+          -S "tcp:${azurerm_mssql_server.sql.fully_qualified_domain_name},1433" \
+          -d "${azurerm_mssql_database.contoso.name}" \
+          --authentication-method=ActiveDirectoryDefault \
+          -b \
+          -i "$SQL_FILE"
+        EXIT_CODE=$?
+        if [ $EXIT_CODE -ne 0 ] && [ $ATTEMPT -lt $MAX_ATTEMPTS ]; then
+          echo "Failed (exit $EXIT_CODE) — waiting 30s for Entra ID propagation..."
+          sleep 30
+        fi
+      done
       rm -f "$SQL_FILE"
       exit $EXIT_CODE
     EOT
   }
 
   depends_on = [
+    azurerm_user_assigned_identity.app,
     azurerm_mssql_database.contoso,
     azurerm_mssql_firewall_rule.allow_azure_services,
     azurerm_mssql_firewall_rule.allow_deployer_ip,

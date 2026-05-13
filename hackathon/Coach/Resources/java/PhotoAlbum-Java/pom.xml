@@ -72,6 +72,19 @@
             <artifactId>spring-cloud-azure-starter-keyvault-secrets</artifactId>
         </dependency>
 
+        <!-- Azure OpenAI — vision-enabled chat completions for photo enrichment -->
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-ai-openai</artifactId>
+            <version>1.0.0-beta.16</version>
+        </dependency>
+
+        <!-- Azure Identity — DefaultAzureCredential (managed identity in Azure, dev creds locally) -->
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-identity</artifactId>
+        </dependency>
+
         <!-- Spring Boot Validation -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

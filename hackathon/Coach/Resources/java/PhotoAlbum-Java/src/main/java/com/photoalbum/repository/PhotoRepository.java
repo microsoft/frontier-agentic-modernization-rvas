@@ -20,7 +20,7 @@ public interface PhotoRepository extends JpaRepository<Photo, String> {
      * @return List of photos ordered by upload date descending
      */
     @Query(value = "SELECT id, original_file_name, photo_data, stored_file_name, file_path, file_size, " +
-                   "mime_type, uploaded_at, width, height " +
+                   "mime_type, uploaded_at, width, height, caption, alt_text, tags " +
                    "FROM photos " +
                    "ORDER BY uploaded_at DESC", 
            nativeQuery = true)
@@ -32,7 +32,7 @@ public interface PhotoRepository extends JpaRepository<Photo, String> {
      * @return List of photos uploaded before the given timestamp
      */
     @Query(value = "SELECT id, original_file_name, photo_data, stored_file_name, file_path, file_size, " +
-                   "mime_type, uploaded_at, width, height " +
+                   "mime_type, uploaded_at, width, height, caption, alt_text, tags " +
                    "FROM photos " +
                    "WHERE uploaded_at < :uploadedAt " +
                    "ORDER BY uploaded_at DESC " +
@@ -47,7 +47,7 @@ public interface PhotoRepository extends JpaRepository<Photo, String> {
      */
     @Query(value = "SELECT id, original_file_name, photo_data, stored_file_name, " +
                    "COALESCE(file_path, 'default_path') AS file_path, file_size, " +
-                   "mime_type, uploaded_at, width, height " +
+                   "mime_type, uploaded_at, width, height, caption, alt_text, tags " +
                    "FROM photos " +
                    "WHERE uploaded_at > :uploadedAt " +
                    "ORDER BY uploaded_at ASC", 
@@ -61,7 +61,7 @@ public interface PhotoRepository extends JpaRepository<Photo, String> {
      * @return List of photos uploaded in the specified month
      */
     @Query(value = "SELECT id, original_file_name, photo_data, stored_file_name, file_path, file_size, " +
-                   "mime_type, uploaded_at, width, height " +
+                   "mime_type, uploaded_at, width, height, caption, alt_text, tags " +
                    "FROM photos " +
                    "WHERE TO_CHAR(uploaded_at, 'YYYY') = :year " +
                    "AND TO_CHAR(uploaded_at, 'MM') = :month " +
@@ -76,7 +76,7 @@ public interface PhotoRepository extends JpaRepository<Photo, String> {
      * @return List of photos within the specified row range
      */
     @Query(value = "SELECT id, original_file_name, photo_data, stored_file_name, file_path, file_size, " +
-                   "mime_type, uploaded_at, width, height " +
+                   "mime_type, uploaded_at, width, height, caption, alt_text, tags " +
                    "FROM photos " +
                    "ORDER BY uploaded_at DESC " +
                    "LIMIT (:endRow - :startRow + 1) OFFSET (:startRow - 1)", 

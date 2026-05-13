@@ -22,6 +22,18 @@ namespace ContosoUniversity.Models
         [StringLength(255)]
         public string TeachingMaterialImagePath { get; set; }
 
+        [Display(Name = "Description")]
+        [StringLength(2000)]
+        public string Description { get; set; }
+
+        [Display(Name = "Learning Objectives")]
+        [StringLength(2000)]
+        public string LearningObjectives { get; set; }
+
+        [Display(Name = "Alt Text")]
+        [StringLength(500)]
+        public string AltText { get; set; }
+
         public virtual Department Department { get; set; }
         public virtual ICollection<Enrollment> Enrollments { get; set; }
         public virtual ICollection<CourseAssignment> CourseAssignments { get; set; }

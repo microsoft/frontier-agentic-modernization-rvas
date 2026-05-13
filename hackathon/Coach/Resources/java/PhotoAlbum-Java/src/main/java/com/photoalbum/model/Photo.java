@@ -90,6 +90,27 @@ public class Photo {
     @Column(name = "height")
     private Integer height;
 
+    /**
+     * AI-generated short caption for the photo (populated by PhotoAiService).
+     */
+    @Size(max = 500)
+    @Column(name = "caption", length = 500)
+    private String caption;
+
+    /**
+     * AI-generated accessibility alt text for the photo.
+     */
+    @Size(max = 1000)
+    @Column(name = "alt_text", length = 1000)
+    private String altText;
+
+    /**
+     * AI-generated comma-separated tag list.
+     */
+    @Size(max = 500)
+    @Column(name = "tags", length = 500)
+    private String tags;
+
     // Default constructor
     public Photo() {
         this.id = UUID.randomUUID().toString();
@@ -196,6 +217,30 @@ public class Photo {
 
     public void setHeight(Integer height) {
         this.height = height;
+    }
+
+    public String getCaption() {
+        return caption;
+    }
+
+    public void setCaption(String caption) {
+        this.caption = caption;
+    }
+
+    public String getAltText() {
+        return altText;
+    }
+
+    public void setAltText(String altText) {
+        this.altText = altText;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 
     @Override
