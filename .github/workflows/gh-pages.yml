@@ -8,8 +8,8 @@ on:
       - './README.md'
       - './Student/java/Challenge-*.md'
       - './Student/dotnet/Challenge-*.md'
-      - './Coach/java/Challenge-*.md'
-      - './Coach/dotnet/Challenge-*.md'
+      - './Coach/java/Solution-*.md'
+      - './Coach/dotnet/Solution-*.md'
 
   workflow_dispatch:
 
@@ -43,8 +43,8 @@ jobs:
           cp ./README.md  _site/README.md
           cp ./Student/java/Challenge-*.md   _site/Student/java/
           cp ./Student/dotnet/Challenge-*.md _site/Student/dotnet/
-          cp ./Coach/java/Challenge-*.md     _site/Coach/java/
-          cp ./Coach/dotnet/Challenge-*.md   _site/Coach/dotnet/
+          cp ./Coach/java/Solution-*.md     _site/Coach/java/
+          cp ./Coach/dotnet/Solution-*.md   _site/Coach/dotnet/
 
       - name: Setup Pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
