@@ -1,0 +1,2 @@
+If being asked to set up Azure infrastructure for this app, use the tool `run_command_in_terminal` to run script `azure-setup.sh` in the project root in WSL environment.
+If being asked to deploy this app to Azure, use the tool `run_command_in_terminal` to run script `deploy-to-azure.sh` in the project root in WSL environment.

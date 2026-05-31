@@ -1,0 +1,49 @@
+services:
+  # Oracle Database service (Oracle Database Free 23ai - supports ARM64 and x86_64)
+  oracle-db:
+    image: gvenzl/oracle-free:latest
+    container_name: photoalbum-oracle
+    environment:
+      - ORACLE_PASSWORD=photoalbum
+      - APP_USER=photoalbum
+      - APP_USER_PASSWORD=photoalbum
+    ports:
+      - "1521:1521"
+    volumes:
+      - oracle_data:/opt/oracle/oradata
+      - ./oracle-init:/container-entrypoint-initdb.d
+    networks:
+      - photoalbum-network
+    healthcheck:
+      test: ["CMD-SHELL", "healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 15
+      start_period: 180s
+
+  # Photo Album Java Application  
+  photoalbum-java-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: photoalbum-java-app
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@oracle-db:1521/FREEPDB1
+      - SPRING_DATASOURCE_USERNAME=photoalbum
+      - SPRING_DATASOURCE_PASSWORD=photoalbum
+    ports:
+      - "8080:8080"
+    depends_on:
+      oracle-db:
+        condition: service_healthy
+    networks:
+      - photoalbum-network
+    restart: on-failure
+
+volumes:
+  oracle_data:
+
+networks:
+  photoalbum-network:
+    driver: bridge

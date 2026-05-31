@@ -23,11 +23,11 @@ jobs:
       matrix:
         include:
           - name: photo-album
-            context: hackathon/Coach/Resources/java/PhotoAlbum-Java
-            dockerfile: hackathon/Coach/Resources/java/PhotoAlbum-Java/Dockerfile
+            context: Coach/Resources/java/PhotoAlbum-Java
+            dockerfile: Coach/Resources/java/PhotoAlbum-Java/Dockerfile
           - name: contoso-university
-            context: hackathon/Coach/Resources/dotnet/dotnet-migration-copilot-samples/ContosoUniversity
-            dockerfile: hackathon/Coach/Resources/dotnet/dotnet-migration-copilot-samples/ContosoUniversity/Dockerfile
+            context: Coach/Resources/dotnet/dotnet-migration-copilot-samples/ContosoUniversity
+            dockerfile: Coach/Resources/dotnet/dotnet-migration-copilot-samples/ContosoUniversity/Dockerfile
     steps:
       - name: Lower case REPO
         run: |

@@ -4,12 +4,12 @@ on:
   push:
     branches: [main]
     paths:
-      - 'hackathon/index.html'
-      - 'hackathon/README.md'
-      - 'hackathon/Student/java/Challenge-*.md'
-      - 'hackathon/Student/dotnet/Challenge-*.md'
-      - 'hackathon/Coach/java/Challenge-*.md'
-      - 'hackathon/Coach/dotnet/Challenge-*.md'
+      - './index.html'
+      - './README.md'
+      - './Student/java/Challenge-*.md'
+      - './Student/dotnet/Challenge-*.md'
+      - './Coach/java/Challenge-*.md'
+      - './Coach/dotnet/Challenge-*.md'
 
   workflow_dispatch:
 
@@ -39,12 +39,12 @@ jobs:
         run: |
           mkdir -p _site/Student/java _site/Student/dotnet \
                    _site/Coach/java  _site/Coach/dotnet
-          cp hackathon/index.html _site/index.html
-          cp hackathon/README.md  _site/README.md
-          cp hackathon/Student/java/Challenge-*.md   _site/Student/java/
-          cp hackathon/Student/dotnet/Challenge-*.md _site/Student/dotnet/
-          cp hackathon/Coach/java/Challenge-*.md     _site/Coach/java/
-          cp hackathon/Coach/dotnet/Challenge-*.md   _site/Coach/dotnet/
+          cp ./index.html _site/index.html
+          cp ./README.md  _site/README.md
+          cp ./Student/java/Challenge-*.md   _site/Student/java/
+          cp ./Student/dotnet/Challenge-*.md _site/Student/dotnet/
+          cp ./Coach/java/Challenge-*.md     _site/Coach/java/
+          cp ./Coach/dotnet/Challenge-*.md   _site/Coach/dotnet/
 
       - name: Setup Pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0

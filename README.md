@@ -1,137 +1,133 @@
-# GitHub Copilot App Modernization
+# What The Hack – GitHub Copilot App Modernization
 
-> **Bring your legacy applications into the modern era — using AI.**
+## Introduction
 
-Millions of lines of production code still run on .NET Framework 4.8, Java 8, and Oracle Database. Migrating them by hand is slow, risky, and expensive. This repository shows a better way: using **GitHub Copilot Modernization** to assess, plan, and execute migrations automatically — with AI doing the heavy lifting.
+Legacy applications are everywhere — applications built on .NET Framework 4.8, Spring Boot 2.x with Java 8, proprietary databases, and on-premises infrastructure. Modernizing them is one of the most common — and most complex — challenges software teams face today.
 
-You will find two real legacy applications here, each with a hands-on modernization path to Azure Container Apps. And if you want to run a team learning event, there is a full **What The Hack** style hackathon included.
+In this hackathon you will use the **GitHub Copilot Modernization** tools to assess, plan, and execute the migration of two real legacy applications:
 
----
+- **ContosoUniversity** — an ASP.NET MVC 5 application running on .NET Framework 4.8, with MSMQ messaging and local file system storage
+- **PhotoAlbum** — a Spring Boot 2.7 application running on Java 8, backed by Oracle Database with photo BLOBs
 
-## The Applications
+By the end of the event you will have migrated both applications to modern runtimes (.NET 10 and Java 21), cloud-native Azure services, and containerized deployments on Azure Container Apps.
 
-| Application | Legacy Stack | Target Stack |
-|---|---|---|
-| [ContosoUniversity](hackathon/Student/Resources/dotnet/dotnet-migration-copilot-samples/) | ASP.NET MVC 5 · .NET Framework 4.8 · MSMQ · Local file storage | ASP.NET Core · .NET 9 · Azure Service Bus · Azure Blob Storage |
-| [PhotoAlbum](hackathon/Student/Resources/java/PhotoAlbum-Java/) | Spring Boot 2.7 · Java 8 · Oracle Database · In-DB BLOBs | Spring Boot 3.x · Java 21 · Azure Database for PostgreSQL · Azure Blob Storage |
+## Learning Objectives
 
-Both applications deploy to **Azure Container Apps** using Terraform infrastructure-as-code.
+By completing this hack you will be able to:
 
----
+1. Use `modernize assess` to evaluate a legacy codebase and understand its migration complexity
+2. Create AI-driven modernization plans with `modernize plan create` and execute them with `modernize plan execute`
+3. Migrate a .NET Framework 4.8 ASP.NET MVC 5 app to .NET 10 ASP.NET Core
+4. Replace MSMQ with Azure Service Bus and local file storage with Azure Blob Storage
+5. Migrate a Spring Boot 2.x / Java 8 application to Spring Boot 3.x / Java 21
+6. Replace an Oracle Database with Azure Database for PostgreSQL and Azure Blob Storage
+7. Containerize both modernized applications and deploy them to Azure Container Apps using Terraform
 
-## How It Works
+## Challenges
 
-GitHub Copilot Modernization analyses your codebase and drives the migration through three steps:
+Each challenge has a dedicated per-track guide. Pick **`dotnet/`** or **`java/`** depending on which app you are modernizing.
 
-```
-modernize assess                              # scan the codebase, identify blockers
-modernize plan create "<migration goal>"      # AI generates a structured migration plan
-modernize plan execute                        # apply the plan — Copilot writes the changes
-```
+- Challenge 00: **Prerequisites — Ready, Set, GO!** — [.NET](Student/dotnet/Challenge-00.md) · [Java](Student/java/Challenge-00.md)
+  - Prepare your workstation and verify access to all required tools and services.
+- Challenge 01: **Assess the Legacy Application** — [.NET](Student/dotnet/Challenge-01.md) · [Java](Student/java/Challenge-01.md)
+  - Run the GitHub Copilot Modernization assessment and interpret the results.
+- Challenge 02: **Modernize the Application** — [.NET](Student/dotnet/Challenge-02.md) · [Java](Student/java/Challenge-02.md)
+  - .NET: migrate ContosoUniversity from .NET Framework 4.8 to .NET 10 ASP.NET Core with Azure Service Bus and Azure Blob Storage.
+  - Java: migrate PhotoAlbum from Spring Boot 2.7 / Java 8 / Oracle to Spring Boot 3.x / Java 21 / PostgreSQL + Azure Blob Storage.
+- Challenge 03: **Containerize & Deploy to Azure Container Apps** — [.NET](Student/dotnet/Challenge-03.md) · [Java](Student/java/Challenge-03.md)
+  - Package the modernized app as a container and deploy it to Azure using Terraform.
+- Challenge 04: **Migrate the Database to Azure** — [.NET](Student/dotnet/Challenge-04.md) · [Java](Student/java/Challenge-04.md)
+  - Migrate legacy production data to the managed Azure target database and validate row parity + app behavior.
+- Challenge 05: **Observe & Secure** — [.NET](Student/dotnet/Challenge-05.md) · [Java](Student/java/Challenge-05.md)
+  - Integrate Application Insights, secure secrets with Azure Key Vault and Managed Identity.
+- Challenge 06: **Infuse AI into the Application (Stretch)** — [.NET](Student/dotnet/Challenge-06.md) · [Java](Student/java/Challenge-06.md)
+  - Add Azure OpenAI (vision, `gpt-4.1-mini`) with Managed Identity so the app generates course/photo metadata on upload.
 
-The tool handles the mechanical work — dependency upgrades, namespace renames, API replacements — while Copilot Chat helps you resolve the parts that require judgment.
+## Prerequisites
 
----
+### Assumed Knowledge
 
-## Getting Started
+- Basic understanding of software development and version control (Git)
+- Familiarity with either Java/Maven or .NET/C# (you don't need to know both — teams can split)
+- Conceptual knowledge of containers (Docker) is helpful but not required
 
-### 1. Clone with submodules
+### Tools to Install Before the Event
 
-The sample applications are included as Git submodules:
-
-```bash
-git clone --recurse-submodules https://github.com/microsoft/github-copilot-modernization.git
-```
-
-Already cloned? Initialise the submodules now:
-
-```bash
-git submodule update --init --recursive
-```
-
-### 2. Install the tools
-
-| Tool | Install |
+| Tool | Notes |
 |---|---|
-| [VS Code](https://code.visualstudio.com/) | Download from code.visualstudio.com |
-| [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) | VS Code extension marketplace |
+| [VS Code](https://code.visualstudio.com/) | Required for the VS Code extension workflow |
+| [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) | Runs each sample in an isolated container |
 | [Docker Desktop](https://www.docker.com/products/docker-desktop/) | Required by Dev Containers |
-| [GitHub CLI (`gh`)](https://cli.github.com/) v2.45.0+ | `winget install GitHub.cli` / `brew install gh` |
-| **GitHub Copilot Modernization** extension | VS Code Marketplace — search "Copilot Modernization" |
-| [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) | For provisioning Azure resources |
-| [Terraform](https://developer.hashicorp.com/terraform/install) | For infrastructure-as-code deployments |
+| [Git](https://git-scm.com/downloads) | To clone this repository |
+| [GitHub CLI (`gh`)](https://cli.github.com/) v2.45.0+ | Required by the modernization CLI |
+| **GitHub Copilot Modernization** VS Code extension | Install from the VS Code Marketplace |
+| **GitHub Copilot Modernization CLI** (`modernize`) | Terminal-based alternative — see below |
+| [Azure CLI (`az`)](https://learn.microsoft.com/cli/azure/install-azure-cli) | For Azure deployments |
+| [Terraform](https://developer.hashicorp.com/terraform/install) | For infrastructure as code |
+| [VS Build Tools 2022](https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2022) | Required for .NET app modernization on Windows — see below |
 
-**Prefer the terminal?** Install the `modernize` CLI instead of the VS Code extension:
+### Installing Visual Studio Build Tools 2022 (Windows — .NET modernization only)
 
+1. Install via winget:
+   ```powershell
+   winget install Microsoft.VisualStudio.2022.BuildTools
+   ```
+2. Add the **Web Build Tools** workload (run as Administrator):
+   ```powershell
+   & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\setup.exe" modify `
+     --installPath "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools" `
+     --add Microsoft.VisualStudio.Workload.WebBuildTools `
+     --passive
+   ```
+
+### Installing the Modernization CLI
+
+**Linux / macOS:**
 ```bash
-# Linux / macOS
 curl -fsSL https://raw.githubusercontent.com/microsoft/modernize-cli/main/scripts/install.sh | sh
-source ~/.bashrc   # or ~/.zshrc
+source ~/.bashrc   # or source ~/.zshrc
+```
 
-# macOS (Homebrew)
-brew tap microsoft/modernize https://github.com/microsoft/modernize-cli
-brew install modernize
-
-# Windows
+**Windows:**
+```powershell
 winget install GitHub.Copilot.modernization.agent
 ```
 
-Then authenticate and launch:
-
+Then authenticate:
 ```bash
 gh auth login
-modernize   # opens the interactive TUI
+modernize   # launch interactive TUI
 ```
 
-> Full CLI reference: <https://learn.microsoft.com/azure/developer/github-copilot-app-modernization/modernization-agent/cli-commands>
+### Azure Requirements
 
-### 3. Open a sample
+- An active Azure subscription
+- Permission to create resource groups, Container Apps, Azure SQL, PostgreSQL, Service Bus, and Blob Storage
 
-Each application has its own `README.md` with full instructions and a **Dev Container** definition — no local runtime or build tools required.
-
-- **Java** → [`hackathon/Student/Resources/java/PhotoAlbum-Java/README.md`](hackathon/Student/Resources/java/PhotoAlbum-Java/README.md)
-- **.NET** → [`hackathon/Student/Resources/dotnet/dotnet-migration-copilot-samples/README.md`](hackathon/Student/Resources/dotnet/dotnet-migration-copilot-samples/README.md)
-
----
-
-## Run It as a Hackathon
-
-This repository includes a **[What The Hack](https://aka.ms/wth)**-format hackathon designed for teams of 3–5 people. Squads work through a series of challenges — no step-by-step instructions, just goals and success criteria — with a coach guiding the way.
-
-👉 **[Start the hackathon →](hackathon/README.md)**
-
-| Challenge | What you'll do |
-|---|---|
-| [00 – Prerequisites](hackathon/Student/Challenge-00.md) | Set up your environment and verify all tools are working |
-| [01 – Assess](hackathon/Student/Challenge-01.md) | Run `modernize assess` on both apps; identify the migration blockers |
-| [02 – Modernize Java](hackathon/Student/Challenge-02.md) | Spring Boot 2 / Java 8 / Oracle → Spring Boot 3 / Java 21 / PostgreSQL |
-| [03 – Modernize .NET](hackathon/Student/Challenge-03.md) | .NET Framework 4.8 / MSMQ → .NET 9 / Azure Service Bus |
-| [04 – Deploy to Azure](hackathon/Student/Challenge-04.md) | Containerize both apps and ship them to Azure Container Apps with Terraform |
-| [05 – Secure & Observe *(stretch)*](hackathon/Student/Challenge-05.md) | Application Insights · Key Vault · Managed Identity · CI/CD |
-
-> **Coaches:** The [Coach Guide](hackathon/Coach/README.md) contains solutions, event logistics, timing estimates, and hints for each challenge. Keep it away from attendees until after the event.
-
----
-
-## Repository Structure
+## Repository Contents
 
 ```
-.
-├── hackathon/
-│   ├── README.md                          # Hackathon one-pager
-│   ├── Student/
-│   │   ├── Challenge-00.md … 05.md        # Attendee challenge guides
-│   │   └── Resources/
-│   │       ├── dotnet/                    # ContosoUniversity (.NET app + infra)
-│   │       └── java/                      # PhotoAlbum (Java app + infra)
-│   └── Coach/
-│       ├── README.md                      # Event logistics & schedule
-│       └── Challenge-00.md … 05.md        # Coach solutions & hints
-└── .devcontainer/                         # Dev Container for this repo
+hackathon/
+├── README.md                ← This file (hack one-pager)
+├── index.html               ← Card-based navigation for the hack
+├── Student/
+│   ├── dotnet/              ← Challenge-00..06 for the .NET track
+│   ├── java/                ← Challenge-00..06 for the Java track
+│   └── Resources/           ← Sample apps + helper scripts per track
+└── Coach/
+    ├── README.md            ← Coach guide and event logistics
+    ├── dotnet/              ← Coach notes for the .NET track
+    ├── java/                ← Coach notes for the Java track
+    └── Resources/           ← Reference implementations the coaches run
 ```
 
----
+The sample applications live under each track:
 
-## Contributing
+```
+hackathon/Student/Resources/dotnet/dotnet-migration-copilot-samples/ContosoUniversity/   ← .NET app
+hackathon/Student/Resources/java/PhotoAlbum-Java/                                        ← Java app
+```
 
-Contributions are welcome — whether that's improving the sample applications, adding new modernization scenarios, or extending the hackathon challenges. Please open an issue or pull request.
+## Contributors
+
+- Carlos Mendible ([@cmendible](https://github.com/cmendible))

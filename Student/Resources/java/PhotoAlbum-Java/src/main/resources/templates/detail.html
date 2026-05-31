@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${photo != null} ? ${photo.originalFileName} + ' - Photo Album' : 'Photo Detail - Photo Album'">Photo Detail - Photo Album</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" th:href="@{/css/site.css}" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" th:href="@{/}">&#128248; Photo Album</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-light" th:href="@{/}">Gallery</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            <div th:if="${photo == null}">
+                <div class="alert alert-warning">
+                    <h4>Photo not found</h4>
+                    <p>The photo you're looking for doesn't exist or has been deleted.</p>
+                    <a th:href="@{/}" class="btn btn-primary">Back to Gallery</a>
+                </div>
+            </div>
+            
+            <div th:if="${photo != null}" class="photo-detail-container">
+                <!-- Header with back button -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <a th:href="@{/}" class="btn btn-outline-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                        </svg>
+                        Back to Gallery
+                    </a>
+
+                    <form method="post" th:action="@{/detail/{id}/delete(id=${photo.id})}"
+                          onsubmit="return confirm('Are you sure you want to delete this photo?');">
+                        <button type="submit" class="btn btn-danger">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                            </svg>
+                            Delete
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Main photo display -->
+                <div class="row">
+                    <div class="col-lg-8 mb-4">
+                        <div class="card">
+                            <div class="card-body p-0">
+                                <img th:src="@{/photo/{id}(id=${photo.id})}"
+                                     th:alt="${photo.originalFileName}"
+                                     class="img-fluid w-100 photo-detail-image"
+                                     style="max-height: 80vh; object-fit: contain; background-color: #f8f9fa;">
+                            </div>
+                        </div>
+
+                        <!-- Navigation buttons -->
+                        <div class="d-flex justify-content-between mt-3">
+                            <div th:if="${previousPhotoId != null}">
+                                <a th:href="@{/detail/{id}(id=${previousPhotoId})}" class="btn btn-outline-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                                    </svg>
+                                    Previous Photo
+                                </a>
+                            </div>
+                            <div th:unless="${previousPhotoId != null}"></div>
+
+                            <div th:if="${nextPhotoId != null}">
+                                <a th:href="@{/detail/{id}(id=${nextPhotoId})}" class="btn btn-outline-primary">
+                                    Next Photo
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Photo information sidebar -->
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Photo Information</h5>
+                            </div>
+                            <div class="card-body">
+                                <dl class="row mb-0">
+                                    <dt class="col-sm-5">Filename:</dt>
+                                    <dd class="col-sm-7 text-break" th:text="${photo.originalFileName}"></dd>
+
+                                    <dt class="col-sm-5">Uploaded:</dt>
+                                    <dd class="col-sm-7">
+                                        <span th:text="${#temporals.format(photo.uploadedAt, 'MMM dd, yyyy')}"></span><br/>
+                                        <small class="text-muted" th:text="${#temporals.format(photo.uploadedAt, 'h:mm:ss a')}"></small>
+                                    </dd>
+
+                                    <dt class="col-sm-5">File Size:</dt>
+                                    <dd class="col-sm-7">
+                                        <span th:if="${photo.fileSize < 1024}" th:text="${photo.fileSize} + ' bytes'"></span>
+                                        <span th:if="${photo.fileSize >= 1024 && photo.fileSize < 1024 * 1024}" 
+                                              th:text="${#numbers.formatDecimal(photo.fileSize / 1024.0, 1, 2)} + ' KB'"></span>
+                                        <span th:if="${photo.fileSize >= 1024 * 1024}" 
+                                              th:text="${#numbers.formatDecimal(photo.fileSize / (1024.0 * 1024.0), 1, 2)} + ' MB'"></span>
+                                    </dd>
+
+                                    <div th:if="${photo.width != null && photo.height != null}">
+                                        <dt class="col-sm-5">Dimensions:</dt>
+                                        <dd class="col-sm-7" th:text="${photo.width} + ' x ' + ${photo.height} + ' px'"></dd>
+                                    </div>
+
+                                    <dt class="col-sm-5">Type:</dt>
+                                    <dd class="col-sm-7">
+                                        <span class="badge bg-secondary" th:text="${photo.mimeType}"></span>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - Photo Album - A simple photo storage application
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
