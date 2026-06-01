@@ -15,7 +15,7 @@ This repo also provides a **Dev Container** definition (`.devcontainer/`) that p
 Set up your local development environment so you are ready to work with the Java sample application:
 
 - Install and verify all required tools listed in the [Prerequisites](../../README.md#prerequisites) section of the hack README
-- Clone the repository **with submodules** so that `hackathon/Student/Resources/java/PhotoAlbum-Java/` is populated
+- Clone the repository **with submodules** so that `Student/Resources/java/PhotoAlbum-Java/` is populated
 - Authenticate the GitHub CLI (`gh auth login`) and verify that the Modernization CLI or extension is active
 - Verify your Azure subscription is accessible and you have permissions to create resources
 
@@ -47,7 +47,7 @@ az account show --query "{name:name,id:id,state:state}" -o table
 git submodule status
 
 # 5. Java submodule source code is present
-ls hackathon/Student/Resources/java/PhotoAlbum-Java/
+ls Student/Resources/java/PhotoAlbum-Java/
 
 # 6. Java version (Java 21 required for local builds — 8 is fine for running the legacy app)
 java -version 2>&1 | head -1

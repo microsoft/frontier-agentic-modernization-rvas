@@ -14,7 +14,7 @@ In this challenge you will run an assessment on the Java PhotoAlbum application 
 
 Run the GitHub Copilot Modernization assessment on the Java sample application:
 
-- Assess the Java application: `hackathon/Student/Resources/java/PhotoAlbum-Java`
+- Assess the Java application: `Student/Resources/java/PhotoAlbum-Java`
 
 Review the generated assessment report and discuss as a team:
 

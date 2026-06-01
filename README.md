@@ -107,7 +107,7 @@ modernize   # launch interactive TUI
 ## Repository Contents
 
 ```
-hackathon/
+.
 ├── README.md                ← This file (hack one-pager)
 ├── index.html               ← Card-based navigation for the hack
 ├── Student/
@@ -124,8 +124,8 @@ hackathon/
 The sample applications live under each track:
 
 ```
-hackathon/Student/Resources/dotnet/dotnet-migration-copilot-samples/ContosoUniversity/   ← .NET app
-hackathon/Student/Resources/java/PhotoAlbum-Java/                                        ← Java app
+Student/Resources/dotnet/dotnet-migration-copilot-samples/ContosoUniversity/   ← .NET app
+Student/Resources/java/PhotoAlbum-Java/                                        ← Java app
 ```
 
 ## Contributors

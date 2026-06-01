@@ -15,7 +15,7 @@ This repo also provides a **Dev Container** definition (`.devcontainer/`) that p
 Set up your local development environment so you are ready to work with the .NET sample application:
 
 - Install and verify all required tools listed in the [Prerequisites](../../README.md#prerequisites) section of the hack README
-- Clone the repository **with submodules** so that `hackathon/Student/Resources/dotnet/dotnet-migration-copilot-samples/` is populated
+- Clone the repository **with submodules** so that `Student/Resources/dotnet/dotnet-migration-copilot-samples/` is populated
 - Authenticate the GitHub CLI (`gh auth login`) and verify that the Modernization CLI or extension is active
 - Verify your Azure subscription is accessible and you have permissions to create resources
 
@@ -47,7 +47,7 @@ az account show --query "{name:name,id:id,state:state}" -o table
 git submodule status
 
 # 5. .NET submodule source code is present
-ls hackathon/Student/Resources/dotnet/dotnet-migration-copilot-samples/ContosoUniversity/
+ls Student/Resources/dotnet/dotnet-migration-copilot-samples/ContosoUniversity/
 
 # 6. Docker daemon is running (required for Dev Container and image builds)
 docker info --format "Docker version: {{.ServerVersion}}" 2>/dev/null \

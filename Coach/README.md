@@ -171,16 +171,16 @@ fails or is taking too long, coaches can provide the apps directly:
 git submodule update --init --recursive --force
 
 # Verify submodule content is present
-ls hackathon/Student/Resources/dotnet/dotnet-migration-copilot-samples/ContosoUniversity/
-ls hackathon/Student/Resources/java/PhotoAlbum-Java/
+ls Student/Resources/dotnet/dotnet-migration-copilot-samples/ContosoUniversity/
+ls Student/Resources/java/PhotoAlbum-Java/
 ```
 
 If the Dev Container is not working, attendees can install tools directly on their host
 machine following the Prerequisites section of the [hack README](../README.md).
 
 For the optional VM deployment in Challenge 00, the Terraform scripts are in:
-- `.NET:` `hackathon/Student/Resources/dotnet/infra/vm/`
-- `Java:` `hackathon/Student/Resources/java/infra/vm/`
+- `.NET:` `Student/Resources/dotnet/infra/vm/`
+- `Java:` `Student/Resources/java/infra/vm/`
 
 ---
 

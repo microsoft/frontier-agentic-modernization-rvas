@@ -14,7 +14,7 @@ In this challenge you will run an assessment on the .NET ContosoUniversity appli
 
 Run the GitHub Copilot Modernization assessment on the .NET sample application:
 
-- Assess the .NET application: `hackathon/Student/Resources/dotnet/dotnet-migration-copilot-samples/ContosoUniversity`
+- Assess the .NET application: `Student/Resources/dotnet/dotnet-migration-copilot-samples/ContosoUniversity`
 
 Review the generated assessment report and discuss as a team:
 

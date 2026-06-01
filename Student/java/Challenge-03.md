@@ -6,7 +6,7 @@
 
 With the Java application modernized, the next step is to package it as a container image and deploy it to **Azure Container Apps** — a serverless container hosting platform that provides automatic scaling, built-in networking, and deep integration with Azure services.
 
-The `hackathon/Student/Resources/java/` directory contains an `infra/` directory with a skeleton Terraform configuration. Your task is to complete this configuration to provision all required Azure resources and deploy the container.
+The `Student/Resources/java/` directory contains an `infra/` directory with a skeleton Terraform configuration. Your task is to complete this configuration to provision all required Azure resources and deploy the container.
 
 ## Description
 
