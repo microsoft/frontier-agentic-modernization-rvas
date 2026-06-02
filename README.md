@@ -1,4 +1,4 @@
-# What The Hack – GitHub Copilot App Modernization
+# Frontier Agentic Modernization
 
 ## Introduction
 
