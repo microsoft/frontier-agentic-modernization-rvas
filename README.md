@@ -95,7 +95,7 @@ Before starting, verify the following readiness checklist:
 |---|---|
 | [VS Code](https://code.visualstudio.com/) | Required for the VS Code extension workflow |
 | [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) | Runs each sample in an isolated container |
-| [Docker Desktop](https://www.docker.com/products/docker-desktop/) | Required by Dev Containers |
+| [Docker Desktop](https://www.docker.com/products/docker-desktop/) | Optional — image builds can use `az acr build` instead; required only for Dev Containers or running Oracle locally (Java track) |
 | [Git](https://git-scm.com/downloads) | To clone this repository |
 | [GitHub CLI (`gh`)](https://cli.github.com/) v2.45.0+ | Required by the modernization CLI |
 | **GitHub Copilot Modernization** VS Code extension | Install from the VS Code Marketplace |
