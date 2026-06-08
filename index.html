@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Copilot App Modernization — Hackathon</title>
+    <title>Agentic Modernization — Hackathon</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -1458,13 +1458,7 @@
     <!-- Navigation -->
     <nav>
         <a class="nav-logo" href="#hero">
-            <div class="nav-logo-icon">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-6h2v2h-2zm0-8h2v6h-2z" />
-                </svg>
-            </div>
-            <span class="nav-logo-text">GITHUB COPILOT MODERNIZATION</span>
+            <span class="nav-logo-text">AGENTIC MODERNIZATION HACKATHON</span>
         </a>
         <ul class="nav-links">
             <li><a href="#about">Mission</a></li>
@@ -1472,6 +1466,7 @@
             <li><a href="#stack">Services</a></li>
             <li><a href="#java-challenges">Java Challenge</a></li>
             <li><a href="#dotnet-challenges">.NET Challenge</a></li>
+            <li><a href="#customer-challenges">Your App</a></li>
         </ul>
         <a class="nav-cta" href="https://github.com/microsoft/frontier-agentic-modernization-hackathon" target="_blank"
             rel="noopener noreferrer" aria-label="Open GitHub repository" title="Open GitHub repository">
@@ -1489,14 +1484,18 @@
         <div class="hero-vignette"></div>
 
         <div class="hero-content">
-            <div class="hero-label">Migrate and Modernize at Scale · 2026</div>
+            <div class="hero-label">Migrate and Modernize at Scale</div>
             <h1 class="hero-title display">
                 LEGACY<br>
                 <span class="accent">→ AZURE</span>
             </h1>
             <p class="hero-subtitle">
-                Transform two legacy applications into production-grade cloud-native systems using GitHub
-                Copilot — in a single hackathon.
+                Learn by transforming two legacy applications into production-grade cloud-native systems using GitHub
+                Copilot.
+            </p>
+            <p class="hero-subtitle">
+                Win by modernizing one of your own applications with the help of AI-driven tools and expert guidance
+                from Microsoft engineers.
             </p>
             <div class="hero-transforms">
                 <div class="transform-pill">
@@ -1518,6 +1517,11 @@
                     <span class="from">MSMQ</span>
                     <span class="arrow">→</span>
                     <span class="to">Azure Service Bus</span>
+                </div>
+                <div class="transform-pill">
+                    <span class="from">Your own Application</span>
+                    <span class="arrow">→</span>
+                    <span class="to">to Azure</span>
                 </div>
             </div>
             <div class="hero-actions">
@@ -1541,21 +1545,25 @@
 
     <!-- Stats -->
     <div id="stats">
+        <div class="stat-item reveal" style="transition-delay:.3s">
+            <div class="stat-value display">0<span>4</span></div>
+            <div class="stat-label">Day Estimated</div>
+        </div>
         <div class="stat-item reveal">
-            <div class="stat-value display">0<span>6</span></div>
+            <div class="stat-value display">1<span>5</span></div>
             <div class="stat-label">Challenges</div>
+        </div>
+        <div class="stat-item reveal" style="transition-delay:.2s">
+            <div class="stat-value display">0<span>3</span></div>
+            <div class="stat-label">Parallel Tracks</div>
         </div>
         <div class="stat-item reveal" style="transition-delay:.1s">
             <div class="stat-value display">0<span>2</span></div>
-            <div class="stat-label">Legacy Applications</div>
+            <div class="stat-label">Demo Applications</div>
         </div>
-        <div class="stat-item reveal" style="transition-delay:.2s">
-            <div class="stat-value display">0<span>2</span></div>
-            <div class="stat-label">Parallel Tracks</div>
-        </div>
-        <div class="stat-item reveal" style="transition-delay:.3s">
+        <div class="stat-item reveal" style="transition-delay:.1s">
             <div class="stat-value display">0<span>1</span></div>
-            <div class="stat-label">Day Estimated</div>
+            <div class="stat-label">Legacy Application</div>
         </div>
     </div>
 
@@ -1603,6 +1611,14 @@
                     <span>Infuse Azure OpenAI vision (<code class="mono"
                             style="color:var(--cyan);font-size:.8em">gpt-4.1-mini</code>) with Managed Identity to
                         auto-generate metadata on upload <em style="opacity:.7">(stretch)</em></span>
+                </div>
+                <div class="objective-item">
+                    <span class="obj-num mono">08</span>
+                    <span>Modernize <code class="mono"
+                            style="color:var(--cyan);font-size:.8em">your own application</code> with the help of
+                        AI-driven tools and expert guidance from
+                        Microsoft
+                        engineers</span>
                 </div>
             </div>
         </div>
@@ -1917,7 +1933,8 @@
                 <h2 class="section-title display reveal">CHALLENGES</h2>
             </div>
             <p class="section-desc reveal" style="max-width:340px;">
-                Seven challenges, two parallel tracks. Your squad can split — one team on Java, one on .NET.
+                Seven challenges, three parallel tracks. Your squad can split — one team on Java, one on .NET, and one
+                on your own customer application.
             </p>
         </div>
 
@@ -2266,6 +2283,47 @@
 
             </div>
         </div>
+
+        <!-- Customer Track -->
+        <div id="customer-challenges" style="margin-top:2rem;">
+            <div class="track-label" style="color:var(--amber);">🏢 Your App Track</div>
+            <div class="challenges-grid">
+
+                <!-- Customer CH-00 -->
+                <a class="challenge-card full" data-phase="00" href="Student/customer/Challenge-00.md">
+                    <div class="card-bg-number display">00</div>
+                    <div class="card-inner">
+                        <div>
+                            <div class="card-top">
+                                <span class="card-phase-badge"
+                                    style="color:var(--amber);border-color:var(--amber);background:var(--amber-dim);">Your
+                                    App</span>
+                                <span class="card-num mono">CH — 00</span>
+                            </div>
+                            <h3 class="card-title display">Modernize <br>Your Application</h3>
+                        </div>
+                        <div style="display:flex;flex-direction:column;justify-content:space-between;">
+                            <p class="card-desc">
+                                Apply everything you've learned to a real codebase. Select a
+                                medium-complexity application that is representative of your legacy estate,
+                                not the most critical or most complex one. Assess, modernize, containerize, and deploy
+                                it to Azure using the same workflow from the .NET and Java tracks.
+                            </p>
+                            <div class="card-footer">
+                                <div class="card-tags">
+                                    <span class="card-tag">real codebase</span>
+                                    <span class="card-tag">modernize assess</span>
+                                    <span class="card-tag">containerize</span>
+                                    <span class="card-tag">deploy</span>
+                                </div>
+                                <div class="card-arrow mono">Open challenge <span>→</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
     </section>
 
     <!-- Coach Section (hidden by default — press Shift+C to toggle) -->
@@ -2609,6 +2667,46 @@
 
             </div>
         </div>
+
+        <!-- Coach Customer Track -->
+        <div style="margin-top:2rem;">
+            <div class="track-label" style="color:var(--amber);">🏢 Customer Track — Coach Notes</div>
+            <div class="challenges-grid">
+
+                <!-- Coach Customer CH-00 -->
+                <a class="challenge-card full" data-phase="00" href="Coach/customer/Solution-00.md">
+                    <div class="card-bg-number display">00</div>
+                    <div class="card-inner">
+                        <div>
+                            <div class="card-top">
+                                <span class="card-phase-badge"
+                                    style="color:var(--amber);border-color:var(--amber);background:var(--amber-dim);">Your
+                                    App</span>
+                                <span class="card-num mono">COACH — 00</span>
+                            </div>
+                            <h3 class="card-title display">Customer App<br>Coach Notes</h3>
+                        </div>
+                        <div style="display:flex;flex-direction:column;justify-content:space-between;">
+                            <p class="card-desc">
+                                Application selection criteria, readiness gate checklist, facilitation notes for the
+                                two-step workflow, and a table of common blockers with recommended responses.
+                                A real customer codebase is mandatory — no samples or public repos.
+                            </p>
+                            <div class="card-footer">
+                                <div class="card-tags">
+                                    <span class="card-tag">facilitation</span>
+                                    <span class="card-tag">selection criteria</span>
+                                    <span class="card-tag">readiness gate</span>
+                                </div>
+                                <div class="card-arrow mono">Open guide <span>→</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
     </section>
 
     <!-- Footer -->
@@ -2745,7 +2843,7 @@
         const drawerNext = document.getElementById('drawer-next');
         const drawerClose = document.getElementById('drawer-close');
 
-        const MD_FILES = [
+        const STUDENT_FILES = [
             { label: 'README', file: 'README.md', title: 'README' },
             { label: 'JAVA-00', file: 'Student/java/Challenge-00.md', title: 'Java – Prerequisites' },
             { label: 'JAVA-01', file: 'Student/java/Challenge-01.md', title: 'Java – Assess' },
@@ -2761,6 +2859,10 @@
             { label: 'NET-04', file: 'Student/dotnet/Challenge-04.md', title: '.NET – Migrate Data' },
             { label: 'NET-05', file: 'Student/dotnet/Challenge-05.md', title: '.NET – Observe & Secure' },
             { label: 'NET-06', file: 'Student/dotnet/Challenge-06.md', title: '.NET – AI Assist' },
+            { label: 'CUSTOMER-00', file: 'Student/customer/Challenge-00.md', title: 'Customer – Modernize Your App' },
+        ];
+
+        const COACH_FILES = [
             { label: 'COACH-JAVA-00', file: 'Coach/java/Solution-00.md', title: 'Coach · Java – Prerequisites' },
             { label: 'COACH-JAVA-01', file: 'Coach/java/Solution-01.md', title: 'Coach · Java – Assess' },
             { label: 'COACH-JAVA-02', file: 'Coach/java/Solution-02.md', title: 'Coach · Java – Modernize' },
@@ -2775,13 +2877,19 @@
             { label: 'COACH-NET-04', file: 'Coach/dotnet/Solution-04.md', title: 'Coach · .NET – Migrate Data' },
             { label: 'COACH-NET-05', file: 'Coach/dotnet/Solution-05.md', title: 'Coach · .NET – Observe & Secure' },
             { label: 'COACH-NET-06', file: 'Coach/dotnet/Solution-06.md', title: 'Coach · .NET – AI Assist' },
+            { label: 'COACH-CUSTOMER-00', file: 'Coach/customer/Solution-00.md', title: 'Coach · Customer – Modernize Your App' },
         ];
 
         let currentIdx = -1;
+        let activeFiles = STUDENT_FILES;
 
         function openDrawer(mdFile) {
-            const idx = MD_FILES.findIndex(f => f.file === mdFile);
-            currentIdx = idx === -1 ? 0 : idx;
+            // Determine which array owns this file
+            const sIdx = STUDENT_FILES.findIndex(f => f.file === mdFile);
+            const cIdx = COACH_FILES.findIndex(f => f.file === mdFile);
+            if (sIdx !== -1) { activeFiles = STUDENT_FILES; currentIdx = sIdx; }
+            else if (cIdx !== -1) { activeFiles = COACH_FILES; currentIdx = cIdx; }
+            else { activeFiles = STUDENT_FILES; currentIdx = 0; }
             loadAndRender(currentIdx);
             drawer.classList.add('open');
             drawerOverlay.classList.add('open');
@@ -2795,10 +2903,10 @@
         }
 
         async function loadAndRender(idx) {
-            const entry = MD_FILES[idx];
+            const entry = activeFiles[idx];
             drawerTitle.textContent = entry.title;
             drawerPrev.disabled = idx <= 0;
-            drawerNext.disabled = idx >= MD_FILES.length - 1;
+            drawerNext.disabled = idx >= activeFiles.length - 1;
             drawerContent.innerHTML = '<div class="drawer-loading">LOADING</div>';
             drawer.querySelector('.drawer-body').scrollTop = 0;
 
@@ -2807,17 +2915,17 @@
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 const text = await res.text();
                 drawerContent.innerHTML = marked.parse(text);
-                // Make all links inside rendered md open in new tab (external)
                 drawerContent.querySelectorAll('a[href]').forEach(a => {
                     const href = a.getAttribute('href');
-                    if (href.endsWith('.md')) {
-                        // Internal .md links — intercept them
+                    if (href && href.endsWith('.md')) {
                         a.addEventListener('click', e => {
                             e.preventDefault();
-                            const match = MD_FILES.findIndex(f => f.file.endsWith(href.replace(/^.*\//, '')));
+                            const base = entry.file.replace(/\/[^\/]+$/, '/');
+                            const resolved = new URL(href, 'http://x/' + base).pathname.replace(/^\//, '');
+                            const match = activeFiles.findIndex(f => f.file === resolved);
                             if (match !== -1) { currentIdx = match; loadAndRender(match); }
                         });
-                    } else if (href.startsWith('http') || href.startsWith('//')) {
+                    } else if (href && (href.startsWith('http') || href.startsWith('//'))) {
                         a.setAttribute('target', '_blank');
                         a.setAttribute('rel', 'noopener noreferrer');
                     }
@@ -2830,7 +2938,7 @@
         drawerClose.addEventListener('click', closeDrawer);
         drawerOverlay.addEventListener('click', closeDrawer);
         drawerPrev.addEventListener('click', () => { if (currentIdx > 0) { currentIdx--; loadAndRender(currentIdx); } });
-        drawerNext.addEventListener('click', () => { if (currentIdx < MD_FILES.length - 1) { currentIdx++; loadAndRender(currentIdx); } });
+        drawerNext.addEventListener('click', () => { if (currentIdx < activeFiles.length - 1) { currentIdx++; loadAndRender(currentIdx); } });
 
         // ── Coach toast ───────────────────────────────────────────────────
         const coachToast = document.getElementById('coach-toast');
@@ -2849,7 +2957,6 @@
 
         document.addEventListener('keydown', e => {
             if (e.key === 'Escape') closeDrawer();
-            // Shift+C toggles coach mode
             if (e.key === 'C' && e.shiftKey && !drawer.classList.contains('open')) {
                 const coachEl = document.getElementById('coach');
                 const nowHidden = coachEl.classList.toggle('coach-hidden');
@@ -2859,7 +2966,7 @@
             }
             if (!drawer.classList.contains('open')) return;
             if (e.key === 'ArrowLeft' && currentIdx > 0) { currentIdx--; loadAndRender(currentIdx); }
-            if (e.key === 'ArrowRight' && currentIdx < MD_FILES.length - 1) { currentIdx++; loadAndRender(currentIdx); }
+            if (e.key === 'ArrowRight' && currentIdx < activeFiles.length - 1) { currentIdx++; loadAndRender(currentIdx); }
         });
 
         // Intercept ALL .md links on the page
