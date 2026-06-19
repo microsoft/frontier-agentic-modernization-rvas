@@ -57,22 +57,66 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";
             [System.Environment]::GetEnvironmentVariable("Path", "User")
 Write-Log "Git and NuGet installed."
 
-# -- 3. Install SQL Server Express 2019 ---------------------------------------
-Write-Log "Installing SQL Server Express 2019..."
-choco install sql-server-express -y --no-progress -version='2019.20190106' `
-    --params="'/InstanceName:SQLEXPRESS /AddCurrentUserAsSqlAdmin'" `
-    2>&1 | Tee-Object -Append -FilePath $LogFile
+# -- 3. Install SQL Server Express -------------------------------------------
+# Download directly from Microsoft to avoid stale/expired Chocolatey packages.
+Write-Log "Downloading SQL Server 2019 Express from Microsoft..."
+$ssei    = "$env:TEMP\SQL2019-SSEI-Expr.exe"
+$mediaDir = "C:\sql2019express"
+New-Item -ItemType Directory -Force -Path $mediaDir | Out-Null
+Invoke-WebRequest -Uri "https://go.microsoft.com/fwlink/?linkid=866658" `
+    -OutFile $ssei -UseBasicParsing
+Write-Log "Bootstrap downloaded. Fetching Express Core package..."
+Start-Process -FilePath $ssei `
+    -ArgumentList "/ACTION=Download /MEDIATYPE=Core /MEDIAPATH=$mediaDir /QUIET" `
+    -Wait
+$sqlExe = Get-ChildItem -Path $mediaDir -Filter "*.exe" -ErrorAction SilentlyContinue |
+          Select-Object -First 1
+if (-not $sqlExe) { throw "SQL Server 2019 Express installer not found in $mediaDir." }
 
-# Wait for SQL Server service to start
+# The downloaded file is a self-extracting archive. Silently extract it first so
+# that no "Choose Directory For Extracted Files" GUI dialog appears during unattended runs.
+$extractDir = "$mediaDir\extracted"
+New-Item -ItemType Directory -Force -Path $extractDir | Out-Null
+Write-Log "Silently extracting SQL Server installer to $extractDir..."
+Start-Process -FilePath $sqlExe.FullName -ArgumentList "/x:`"$extractDir`" /q" -Wait
+
+$setupExe = Get-ChildItem -Path $extractDir -Filter "setup.exe" -Recurse -ErrorAction SilentlyContinue |
+            Select-Object -First 1
+if (-not $setupExe) { throw "setup.exe not found under $extractDir after extraction." }
+
+Write-Log "Installing SQL Server 2019 Express from $($setupExe.FullName)..."
+$p = Start-Process -FilePath $setupExe.FullName -ArgumentList (
+    "/ACTION=Install",
+    "/FEATURES=SQLENGINE",
+    "/INSTANCENAME=SQLEXPRESS",
+    "/ADDCURRENTUSERASSQLADMIN=TRUE",
+    "/IACCEPTSQLSERVERLICENSETERMS",
+    "/TCPENABLED=1",
+    "/Q"
+) -Wait -PassThru
+if ($p.ExitCode -ne 0 -and $p.ExitCode -ne 3010) {
+    throw "SQL Server 2019 Express installation failed (exit code $($p.ExitCode))."
+}
+
+# Wait for service to start (up to 3 minutes)
 $retries = 0
-while ($retries -lt 10) {
+while ($retries -lt 18) {
     $svc = Get-Service -Name "MSSQL`$SQLEXPRESS" -ErrorAction SilentlyContinue
     if ($svc -and $svc.Status -eq "Running") { break }
-    Write-Log "Waiting for SQL Server service... ($retries)"
+    Write-Log "Waiting for SQL Server service... ($retries/18)"
     Start-Sleep -Seconds 10
     $retries++
 }
-Write-Log "SQL Server Express ready."
+if (-not (Get-Service -Name "MSSQL`$SQLEXPRESS" -ErrorAction SilentlyContinue |
+          Where-Object { $_.Status -eq "Running" })) {
+    throw "SQL Server Express service did not start after installation."
+}
+Write-Log "SQL Server Express 2019 ready."
+
+# Start SQL Server Browser so named instance (\SQLEXPRESS) can be resolved by clients.
+Set-Service -Name "SQLBrowser" -StartupType Automatic -ErrorAction SilentlyContinue
+Start-Service -Name "SQLBrowser" -ErrorAction SilentlyContinue
+Write-Log "SQL Server Browser started."
 
 # -- 4. Enable IIS with ASP.NET 4.x -------------------------------------------
 Write-Log "Enabling IIS features..."
@@ -127,7 +171,10 @@ $repoUrl  = "https://github.com/Azure-Samples/dotnet-migration-copilot-samples.g
 $repoRoot = "C:\ContosoUniversity"
 Write-Log "Cloning repository to $repoRoot..."
 if (Test-Path $repoRoot) { Remove-Item -Recurse -Force $repoRoot }
-& "C:\Program Files\Git\bin\git.exe" clone $repoUrl $repoRoot 2>&1 |
+# Use --quiet so git writes nothing to stderr; PowerShell promotes any stderr
+# output from native commands piped through Tee-Object to NativeCommandError,
+# making a successful clone appear to fail in the console output.
+& "C:\Program Files\Git\bin\git.exe" clone --quiet $repoUrl $repoRoot 2>&1 |
     Tee-Object -Append -FilePath $LogFile
 if ($LASTEXITCODE -ne 0) {
     Write-Log "ERROR: git clone failed with exit code $LASTEXITCODE"
@@ -206,7 +253,7 @@ $connNode = $xml.configuration.connectionStrings.add |
 
 if ($connNode) {
     $connNode.connectionString = `
-        "Data Source=tcp:localhost,1433;Initial Catalog=ContosoUniversity;Integrated Security=True;MultipleActiveResultSets=True"
+        "Data Source=.\SQLEXPRESS;Initial Catalog=ContosoUniversity;Integrated Security=True;MultipleActiveResultSets=True"
     $xml.Save($webConfig)
     Write-Log "Web.config patched."
 } else {
@@ -378,15 +425,31 @@ Set-ItemProperty "IIS:\AppPools\ContosoUniversity" managedPipelineMode "Integrat
 Start-WebAppPool -Name "ContosoUniversity" -ErrorAction SilentlyContinue
 
 # Grant the app pool identity SQL Server login + dbcreator role so EnsureCreated() works
+# Use System.Data.SqlClient directly -- sqlcmd is NOT installed when SQL Server Express is
+# deployed with /FEATURES=SQLENGINE only (client tools are a separate optional component).
 Write-Log "Granting SQL Server permissions to IIS APPPOOL\ContosoUniversity..."
-$sqlGrant = @"
-IF NOT EXISTS (SELECT 1 FROM sys.server_principals WHERE name = 'IIS APPPOOL\ContosoUniversity')
-    CREATE LOGIN [IIS APPPOOL\ContosoUniversity] FROM WINDOWS WITH DEFAULT_DATABASE=[master];
-ALTER SERVER ROLE [dbcreator] ADD MEMBER [IIS APPPOOL\ContosoUniversity];
-ALTER SERVER ROLE [sysadmin]  ADD MEMBER [IIS APPPOOL\ContosoUniversity];
-"@
-& sqlcmd -S "tcp:localhost,1433" -E -Q $sqlGrant 2>&1 | Tee-Object -Append -FilePath $LogFile
-Write-Log "SQL Server permissions granted."
+try {
+    # Use named instance -- SQL Server Express uses a dynamic TCP port, not 1433.
+    # .\ connects via shared memory / named pipes locally without needing SQL Browser.
+    $conn = New-Object System.Data.SqlClient.SqlConnection(
+        "Data Source=.\SQLEXPRESS;Initial Catalog=master;Integrated Security=True")
+    $conn.Open()
+    $statements = @(
+        "IF NOT EXISTS (SELECT 1 FROM sys.server_principals WHERE name = 'IIS APPPOOL\ContosoUniversity') " +
+            "CREATE LOGIN [IIS APPPOOL\ContosoUniversity] FROM WINDOWS WITH DEFAULT_DATABASE=[master]",
+        "ALTER SERVER ROLE [dbcreator] ADD MEMBER [IIS APPPOOL\ContosoUniversity]",
+        "ALTER SERVER ROLE [sysadmin]  ADD MEMBER [IIS APPPOOL\ContosoUniversity]"
+    )
+    foreach ($stmt in $statements) {
+        $cmd = $conn.CreateCommand()
+        $cmd.CommandText = $stmt
+        $cmd.ExecuteNonQuery() | Out-Null
+    }
+    $conn.Close()
+    Write-Log "SQL Server permissions granted."
+} catch {
+    Write-Log "WARNING: SQL permission grant failed: $_"
+}
 
 # Create Website
 if (-not (Get-Website -Name "ContosoUniversity" -ErrorAction SilentlyContinue)) {

@@ -128,7 +128,7 @@ resource "azurerm_database_migration_project" "sql_to_sqldb" {
 # Azure DMS uses to connect to the source database.
 # Runs after the main setup command so SQL Server Express is already installed.
 resource "azurerm_virtual_machine_run_command" "setup_sql_dms" {
-  name               = "setup-sql-for-dms"
+  name               = "setup-sql-dms"
   virtual_machine_id = azurerm_windows_virtual_machine.vm.id
   location           = azurerm_resource_group.rg.location
 

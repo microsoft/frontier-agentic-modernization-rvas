@@ -185,6 +185,11 @@ resource "azurerm_virtual_machine_run_command" "setup" {
     script = file("${path.module}/scripts/setup.ps1")
   }
 
+  # setup.ps1 takes 35-50 min (SQL Server 2019 + VS Build Tools downloads)
+  timeouts {
+    create = "90m"
+  }
+
   tags = {
     environment = "legacy-demo"
   }
