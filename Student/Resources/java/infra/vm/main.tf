@@ -48,10 +48,13 @@ resource "azurerm_virtual_network" "vnet" {
 }
 
 resource "azurerm_subnet" "subnet" {
-  name                 = "default"
-  resource_group_name  = azurerm_resource_group.rg.name
-  virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = ["10.0.1.0/24"]
+  name                            = "default"
+  resource_group_name             = azurerm_resource_group.rg.name
+  virtual_network_name            = azurerm_virtual_network.vnet.name
+  address_prefixes                = ["10.0.1.0/24"]
+  default_outbound_access_enabled = true
+  service_endpoint_policy_ids     = []
+  service_endpoints               = []
 }
 
 resource "azurerm_public_ip" "pip" {
@@ -60,6 +63,10 @@ resource "azurerm_public_ip" "pip" {
   resource_group_name = azurerm_resource_group.rg.name
   allocation_method   = "Static"
   sku                 = "Standard"
+
+  lifecycle {
+    ignore_changes = [ip_tags]
+  }
 }
 
 resource "azurerm_network_security_group" "nsg" {

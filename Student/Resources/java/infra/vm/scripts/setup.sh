@@ -74,6 +74,40 @@ echo "--- Repository cloned."
 echo "--- Starting PhotoAlbum stack with docker compose..."
 cd "$APP_DIR"
 
+# Fix: gvenzl/oracle-free uses service FREEPDB1, not XE (which is Oracle XE).
+# The upstream create-user.sh connects to XE, causing the container to exit(1).
+cat > "$APP_DIR/oracle-init/create-user.sh" << 'CREATEUSER'
+#!/bin/bash
+echo "Waiting for Oracle to be ready..."
+sleep 30
+
+sqlplus -s system/photoalbum@//localhost:1521/FREEPDB1 <<EOF
+DECLARE
+    user_exists NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO user_exists FROM dba_users WHERE username = 'PHOTOALBUM';
+    IF user_exists = 0 THEN
+        EXECUTE IMMEDIATE 'CREATE USER photoalbum IDENTIFIED BY photoalbum';
+        EXECUTE IMMEDIATE 'GRANT CONNECT, RESOURCE TO photoalbum';
+        EXECUTE IMMEDIATE 'GRANT CREATE SESSION TO photoalbum';
+        EXECUTE IMMEDIATE 'GRANT CREATE TABLE TO photoalbum';
+        EXECUTE IMMEDIATE 'GRANT CREATE SEQUENCE TO photoalbum';
+        EXECUTE IMMEDIATE 'GRANT UNLIMITED TABLESPACE TO photoalbum';
+        EXECUTE IMMEDIATE 'ALTER USER photoalbum DEFAULT TABLESPACE USERS';
+        DBMS_OUTPUT.PUT_LINE('User photoalbum created successfully');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('User photoalbum already exists');
+    END IF;
+END;
+/
+exit;
+EOF
+
+echo "User creation script completed."
+CREATEUSER
+chmod +x "$APP_DIR/oracle-init/create-user.sh"
+echo "--- Patched oracle-init/create-user.sh to use FREEPDB1 service."
+
 # Oracle Free requires at least 1 GB of shared memory to initialise correctly.
 # Docker's default /dev/shm is only 64 MB, which causes Oracle to exit(1).
 cat > "$APP_DIR/docker-compose.override.yml" << 'OVERRIDE'
