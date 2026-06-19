@@ -26,7 +26,7 @@ To see the application running in its **original, unmodified state** before star
 This is recommended — it gives your squad a concrete "before" picture and validates that the original app works end-to-end.
 
 **.NET app (ContosoUniversity — Windows Server + IIS + SQL Express + MSMQ):**
-- Follow the steps in [`../Resources/dotnet/infra/vm/README.md`](../Resources/dotnet/infra/vm/README.md)
+- Follow the steps in [`../Resources/dotnet/infra/README.md`](../Resources/dotnet/infra/README.md)
 - Runs at `http://<vm-ip>` after ~20 minutes
 
 ## Pre-flight Validation Checklist

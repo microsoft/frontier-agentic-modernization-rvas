@@ -26,7 +26,7 @@ To see the application running in its **original, unmodified state** before star
 This is recommended — it gives your squad a concrete "before" picture and validates that the original app works end-to-end.
 
 **Java app (PhotoAlbum — Ubuntu + Docker + Oracle):**
-- Follow the steps in [`../Resources/java/infra/vm/README.md`](../Resources/java/infra/vm/README.md)
+- Follow the steps in [`../Resources/java/infra/README.md`](../Resources/java/infra/README.md)
 - Runs at `http://<vm-ip>:8080` after ~10 minutes
 
 ## Pre-flight Validation Checklist

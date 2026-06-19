@@ -179,8 +179,8 @@ If the Dev Container is not working, attendees can install tools directly on the
 machine following the Prerequisites section of the [hack README](../README.md).
 
 For the optional VM deployment in Challenge 00, the Terraform scripts are in:
-- `.NET:` `Student/Resources/dotnet/infra/vm/`
-- `Java:` `Student/Resources/java/infra/vm/`
+- `.NET:` `Student/Resources/dotnet/infra/`
+- `Java:` `Student/Resources/java/infra/`
 
 ---
 
