@@ -16,7 +16,7 @@ The application calls **Azure OpenAI `gpt-4.1-mini` (vision)** using **Managed I
 
 Extend the PhotoAlbum Java application end-to-end with vision-assisted metadata.
 
-**Infrastructure (Terraform under `Resources/java/infra/aca/`)**
+**Infrastructure (Terraform under `Resources/java/infra/`)**
 
 - Add an `azurerm_cognitive_account` resource of kind `OpenAI`.
 - Add an `azurerm_cognitive_deployment` for the **`gpt-4.1-mini`** model.

@@ -61,7 +61,7 @@ To complete this challenge, demonstrate:
 
 ## Tips
 
-- Run `terraform output` inside `Resources/dotnet/infra/aca/` to retrieve the Azure SQL Server FQDN and database name provisioned in Challenge 03.
+- Run `terraform output` inside `Resources/dotnet/infra/` to retrieve the Azure SQL Server FQDN and database name provisioned in Challenge 03.
 - LocalDB uses a named pipe transport rather than TCP/IP, which can prevent the DMS Integration Runtime from connecting directly. If the DMS migration agent cannot reach LocalDB, use the `sqlpackage` CLI as a fallback: export a `.bacpac` from LocalDB, then import it into Azure SQL Database.
 - If the target database already contains tables or rows (from a previous `Database.Migrate()` run), truncate the target tables before starting the DMS migration, or enable the "overwrite existing data" option in the wizard to avoid duplicate-key errors.
 - The `dbo.__EFMigrationsHistory` table tracks which EF Core migrations have been applied. Include it in the DMS table selection so the application does not try to re-run migrations on the already-populated database.

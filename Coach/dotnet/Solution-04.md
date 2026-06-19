@@ -6,7 +6,7 @@
 
 This challenge takes the squad through a **production-grade data migration** from an on-premises SQL Server (LocalDB / SQL Express) to the Azure SQL Database that was provisioned in Challenge 03. Students use **Azure Database Migration Service (DMS)** — operated directly from the Azure Portal — to assess compatibility, migrate the schema, copy data, and perform cutover validation. This is a critical cutover step: the modernized application data moves into a managed, geo-redundant cloud database before post-cutover hardening.
 
-A working reference for the Azure infrastructure already lives in `Coach/Solutions/dotnet/infra/aca/`. The Azure SQL Database resource (`azurerm_mssql_database.contoso`) provisioned there is the migration target.
+A working reference for the Azure infrastructure already lives in `Coach/Solutions/dotnet/infra/`. The Azure SQL Database resource (`azurerm_mssql_database.contoso`) provisioned there is the migration target.
 
 ---
 
@@ -78,7 +78,7 @@ If students see warnings about `datetime` columns: the model already uses `datet
 Continue in the DMS migration wizard in the Azure Portal:
 
 1. **Target type:** Azure SQL Database.
-2. **Azure subscription / Resource Group / Azure SQL Server / Database:** select the resources created by Terraform in Challenge 03. (Run `terraform output` in `Resources/dotnet/infra/aca/` to recall the SQL server FQDN and database name.)
+2. **Azure subscription / Resource Group / Azure SQL Server / Database:** select the resources created by Terraform in Challenge 03. (Run `terraform output` in `Resources/dotnet/infra/` to recall the SQL server FQDN and database name.)
 3. **Authentication note:** for this DMS flow, the target connection uses **SQL Authentication** in the portal wizard. If the Azure SQL Server is configured as Microsoft Entra-only (`azuread_authentication_only = true`), the target step fails because the wizard doesn't expose Entra auth for the target connection.
 4. If the subscription is governed by the MCAPS deny initiative, temporarily exempt the resource group from the specific policy reference that blocks non-Entra-only Azure SQL servers:
 

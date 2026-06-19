@@ -18,7 +18,7 @@ Authentication to Azure OpenAI uses **Managed Identity** — no API keys anywher
 
 ## Description
 
-### Infrastructure (Terraform — `Resources/net8/infra/aca/`)
+### Infrastructure (Terraform — `Resources/net8/infra/`)
 
 - Add an `azurerm_cognitive_account` resource of kind `OpenAI`
 - Add an `azurerm_cognitive_deployment` for `gpt-4.1-mini` (vision-capable)

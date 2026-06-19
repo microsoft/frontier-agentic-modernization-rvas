@@ -6,7 +6,7 @@
 
 This is the **stretch AI-infusion challenge** for the Java track (optional, attempt only if the squad finishes Challenge 05 with time to spare). The squad extends the modernized PhotoAlbum so every photo upload triggers a vision call to Azure OpenAI and is auto-tagged. End-to-end: Terraform (Azure OpenAI account + model deployment + RBAC), Java service code (`azure-ai-openai`, `DefaultAzureCredentialBuilder`, structured JSON), Thymeleaf template updates, and verification in Azure.
 
-A working reference implementation lives under `Coach/Solutions/java/PhotoAlbum-Java/` and `Coach/Solutions/java/infra/aca/`. Use it to diff against student work, not as a hand-out.
+A working reference implementation lives under `Coach/Solutions/java/PhotoAlbum-Java/` and `Coach/Solutions/java/infra/`. Use it to diff against student work, not as a hand-out.
 
 ## Mini-Lecture (10 min before challenge)
 
@@ -29,7 +29,7 @@ Cover:
 
 ## Reference Terraform additions
 
-In [`Coach/Solutions/java/infra/aca/main.tf`](../Solutions/java/infra/aca/main.tf):
+In [`Coach/Solutions/java/infra/main.tf`](../Solutions/java/infra/main.tf):
 
 ```hcl
 resource "azurerm_cognitive_account" "openai" {

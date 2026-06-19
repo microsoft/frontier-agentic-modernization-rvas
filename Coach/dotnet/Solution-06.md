@@ -6,7 +6,7 @@
 
 This is the **stretch AI-infusion challenge** for the .NET track (optional, attempt only if the squad finishes Challenge 05 with time to spare). The squad takes the modernized application and adds an Azure OpenAI vision call into the course-authoring flow. End-to-end: Terraform (Azure OpenAI account + model deployment + RBAC), .NET service code (`Azure.AI.OpenAI`, `DefaultAzureCredential`, structured JSON), Razor view updates, and verification in Azure.
 
-A working reference implementation lives under `Coach/Solutions/dotnet/dotnet-migration-copilot-samples/ContosoUniversity/` and `Coach/Solutions/dotnet/infra/aca/`. Use it to diff against student work, not as a hand-out.
+A working reference implementation lives under `Coach/Solutions/dotnet/dotnet-migration-copilot-samples/ContosoUniversity/` and `Coach/Solutions/dotnet/infra/`. Use it to diff against student work, not as a hand-out.
 
 ## Mini-Lecture (10 min before challenge)
 
@@ -29,7 +29,7 @@ Cover:
 
 ## Reference Terraform additions
 
-In [`Coach/Solutions/dotnet/infra/aca/main.tf`](../Solutions/dotnet/infra/aca/main.tf):
+In [`Coach/Solutions/dotnet/infra/main.tf`](../Solutions/dotnet/infra/main.tf):
 
 ```hcl
 # ── Azure OpenAI account ──────────────────────────────────────────────────────

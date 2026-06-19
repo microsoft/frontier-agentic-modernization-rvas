@@ -18,7 +18,7 @@ Authentication to Azure OpenAI uses **Managed Identity** — no API keys anywher
 
 Extend the ContosoUniversity .NET application end-to-end with an AI-assisted course content workflow.
 
-**Infrastructure (Terraform under `Resources/dotnet/infra/aca/`)**
+**Infrastructure (Terraform under `Resources/dotnet/infra/`)**
 
 - Add an `azurerm_cognitive_account` resource of kind `OpenAI`.
 - Add an `azurerm_cognitive_deployment` for the **`gpt-4.1-mini`** model (vision-capable).

@@ -11,7 +11,7 @@ Two cloud-modernization gaps need to be filled before deployment:
 1. **Product images**: currently embedded in the project. These need to move to **Azure Blob Storage** so the stateless container can serve them via SAS URLs.
 2. **Order events**: checkout currently creates orders synchronously with no downstream notification. Add an **Azure Service Bus** message published on every successful order so downstream services can subscribe asynchronously.
 
-The `Student/Resources/net8/infra/aca/` directory contains a skeleton Terraform configuration. Your task is to complete it and deploy.
+The `Student/Resources/net8/infra/` directory contains a skeleton Terraform configuration. Your task is to complete it and deploy.
 
 ## Description
 
@@ -51,7 +51,7 @@ docker build -f src/PublicApi/Dockerfile -t eshoponweb-api:local .
 
 ### Part C — Deploy with Terraform
 
-Complete the Terraform skeleton in `Student/Resources/net8/infra/aca/` to provision:
+Complete the Terraform skeleton in `Student/Resources/net8/infra/` to provision:
 
 - Azure Container Registry
 - Azure Container Apps environment + two apps (`web`, `publicapi`)
@@ -67,7 +67,7 @@ az acr build --registry <acr-name> --image eshoponweb/publicapi:latest \
   --file src/PublicApi/Dockerfile .
 
 # Deploy
-cd Student/Resources/net8/infra/aca
+cd Student/Resources/net8/infra/
 terraform init && terraform apply
 ```
 

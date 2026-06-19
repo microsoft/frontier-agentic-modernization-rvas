@@ -65,7 +65,7 @@ This creates a PostgreSQL-compatible SQL script containing:
 
 1. Get the Azure PostgreSQL Flexible Server connection details:
    ```bash
-   cd Resources/java/infra/aca/
+   cd Resources/java/infra/
    terraform output db_fqdn  # e.g., wth-photoalbum-db.postgres.database.azure.com
    terraform output db_admin_username  # e.g., azureadmin@wth-photoalbum-db
    ```
@@ -144,7 +144,7 @@ To complete this challenge, demonstrate:
 
 ## Tips
 
-- Run `terraform output db_fqdn` inside `Resources/java/infra/aca/` to retrieve the PostgreSQL Flexible Server hostname provisioned in Challenge 03.
+- Run `terraform output db_fqdn` inside `Resources/java/infra/` to retrieve the PostgreSQL Flexible Server hostname provisioned in Challenge 03.
 - If you encounter `psql: error: FATAL: SSL connection error`, or similar SSL issues, add `-sslmode=disable` to your `psql` command: `psql -h <db-fqdn> ... -sslmode=disable < photoalbum.sql` or disable SSL in Azure Portal (Connection Security).
 - If Ora2Pg cannot connect to Oracle, ensure the Oracle container is running (`docker ps | grep oracle-db`), Oracle is listening on port 1521, the TNS connection string is correct (`ORACLE_DSN=dbi:Oracle:host=localhost;sid=FREEPDB1`), and the `photoalbum` user credentials are correct.
 - Set `spring.jpa.hibernate.ddl-auto=validate` (or env var `SPRING_JPA_HIBERNATE_DDL_AUTO=validate`) **before** pointing the application at the populated PostgreSQL database. With `create`, Hibernate will silently destroy all migrated data on the first application start.
