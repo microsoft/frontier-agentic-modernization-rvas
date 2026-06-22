@@ -53,10 +53,79 @@ usermod -aG docker azureuser || true
 
 echo "--- Docker $(docker --version) installed."
 
-# ── 2.5 Install Ora2Pg and PostgreSQL client for offline Oracle→PostgreSQL migration ─
+# ── 2.5 Install Ora2Pg + PostgreSQL client for Oracle→PostgreSQL migration ────
+# This whole script runs as root (cloud-init), so no `sudo` is used here.
+# Notes on the previous failures this section avoids:
+#   * `DBI` was being COMPILED from CPAN and failed on a bare VM with no toolchain;
+#     we install Perl DBI from apt (libdbi-perl) instead, and add build-essential
+#     so DBD::Oracle can compile against the Oracle Instant Client.
+#   * DBD::Oracle needs the proprietary Oracle client, which is not in apt; we
+#     download the Oracle Instant Client (Basic + SDK) from Oracle's public CDN.
 echo "--- Installing Ora2Pg, PostgreSQL client, and dependencies..."
-apt-get install -y perl cpanminus postgresql-client
-sudo cpanm DBD::Oracle Ora2Pg 2>/dev/null || echo "Warning: Ora2Pg install via cpan may require Oracle client libs. Manual install documented in Challenge 06."
+apt-get install -y --no-install-recommends \
+    perl \
+    cpanminus \
+    libdbi-perl \
+    libdbd-pg-perl \
+    postgresql-client \
+    build-essential \
+    wget \
+    unzip \
+    libaio1
+
+# Oracle Instant Client (Basic runtime + SDK headers). Needed only for connecting
+# to a live Oracle DB; offline file-based conversion works without it. Download
+# failures are non-fatal so provisioning continues.
+ORACLE_IC_DIR=/opt/oracle/instantclient_21_13
+ORACLE_IC_ZIPVER=21.13.0.0.0dbru
+ORACLE_IC_URLDIR=2113000
+ORACLE_BASE_URL="https://download.oracle.com/otn_software/linux/instantclient/${ORACLE_IC_URLDIR}"
+if mkdir -p /opt/oracle && cd /opt/oracle \
+    && wget -q "${ORACLE_BASE_URL}/instantclient-basic-linux.x64-${ORACLE_IC_ZIPVER}.zip" \
+    && wget -q "${ORACLE_BASE_URL}/instantclient-sdk-linux.x64-${ORACLE_IC_ZIPVER}.zip" \
+    && unzip -oq "instantclient-basic-linux.x64-${ORACLE_IC_ZIPVER}.zip" \
+    && unzip -oq "instantclient-sdk-linux.x64-${ORACLE_IC_ZIPVER}.zip"; then
+    rm -f /opt/oracle/*.zip
+    echo "${ORACLE_IC_DIR}" > /etc/ld.so.conf.d/oracle-instantclient.conf
+    ldconfig
+    # Make the client discoverable for this script and for interactive shells.
+    export ORACLE_HOME="${ORACLE_IC_DIR}"
+    export LD_LIBRARY_PATH="${ORACLE_IC_DIR}:${LD_LIBRARY_PATH:-}"
+    export PATH="${ORACLE_IC_DIR}:${PATH}"
+    cat > /etc/profile.d/oracle-instantclient.sh <<EOF
+export ORACLE_HOME=${ORACLE_IC_DIR}
+export LD_LIBRARY_PATH=${ORACLE_IC_DIR}:\${LD_LIBRARY_PATH:-}
+export PATH=${ORACLE_IC_DIR}:\${PATH}
+EOF
+    echo "--- Oracle Instant Client installed at ${ORACLE_IC_DIR}."
+else
+    echo "Warning: Oracle Instant Client download failed; Ora2Pg will only support offline file conversion."
+fi
+
+# Build DBD::Oracle only when the Oracle client is present (live Oracle connect).
+if [ -n "${ORACLE_HOME:-}" ] && [ -d "${ORACLE_HOME:-/nonexistent}" ]; then
+    cpanm --notest DBD::Oracle || echo "Warning: DBD::Oracle build failed; live Oracle connections unavailable."
+fi
+
+# Ora2Pg is NOT on CPAN — `cpanm Ora2Pg` fails with "Couldn't find module".
+# It is released only as a GitHub tarball, built with Makefile.PL/make install.
+# Makefile.PL prompts for the config dir; redirecting stdin from /dev/null makes
+# it accept defaults non-interactively (required under cloud-init).
+ORA2PG_VERSION=25.0
+if wget -q "https://github.com/darold/ora2pg/archive/refs/tags/v${ORA2PG_VERSION}.tar.gz" -O /tmp/ora2pg.tar.gz \
+    && tar -xzf /tmp/ora2pg.tar.gz -C /tmp; then
+    if ( cd "/tmp/ora2pg-${ORA2PG_VERSION}" \
+            && perl Makefile.PL </dev/null \
+            && make \
+            && make install ); then
+        echo "--- Ora2Pg ${ORA2PG_VERSION} installed."
+    else
+        echo "Warning: Ora2Pg build failed (offline conversion may still be documented in Challenge 06)."
+    fi
+    rm -rf /tmp/ora2pg.tar.gz "/tmp/ora2pg-${ORA2PG_VERSION}"
+else
+    echo "Warning: Ora2Pg download failed; see Challenge 06 for manual install."
+fi
 echo "--- Ora2Pg $(ora2pg --version 2>/dev/null || echo 'installed (version check may require Oracle libs)') and psql $(psql --version) available."
 
 # ── 3. Clone the PhotoAlbum-Java repository ───────────────────────────────────

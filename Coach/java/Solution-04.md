@@ -76,7 +76,10 @@ Expected: `photos` has at least 2 rows.
 2. Export SQL:
 
 ```bash
-ora2pg -c ora2pg.conf -o ./photoalbum.sql
+# 1. schema
+ora2pg -c ora2pg.conf -o photoalbum.sql
+# 2. data
+ora2pg -c ora2pg.conf -t COPY -o data.sql -u system -w photoalbum
 ```
 
 3. Import into Azure PostgreSQL:
@@ -87,7 +90,15 @@ terraform output db_fqdn
 terraform output db_admin_username
 
 export PGPASSWORD="<admin-password>"
-psql -h <db-fqdn> -U <admin-user> -d photoalbum < photoalbum.sql
+
+psql -h <azure-db-fqdn> -U <admin-user> -d photoalbum <<'SQL'
+CREATE ROLE photoalbum LOGIN PASSWORD 'photoalbum';
+GRANT photoalbum TO psqladmin;
+SQL
+
+psql -h <azure-db-fqdn> -U <admin-user> -d photoalbum < TABLE_photoalbum.sql
+psql -h <azure-db-fqdn> -U <admin-user> -d photoalbum < SEQUENCE_photoalbum.sql
+psql -h <azure-db-fqdn> -U <admin-user> -d photoalbum < data.sql
 ```
 
 Expected: import completes without fatal errors.
