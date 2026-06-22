@@ -86,8 +86,7 @@ ora2pg -c ora2pg.conf -t COPY -o data.sql -u system -w photoalbum
 
 ```bash
 cd Resources/java/infra/
-terraform output db_fqdn
-terraform output db_admin_username
+terraform output postgresql_fqdn
 
 export PGPASSWORD="<admin-password>"
 
@@ -107,20 +106,7 @@ Coach prompts:
 - Confirm generated SQL exists and is non-empty.
 - Confirm import log has no terminal error.
 
-### 3 — Alternative path: VS Code extension Preview migration
-
-1. Install extension: [`ms-ossdata.vscode-pgsql`](https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-pgsql).
-2. Start **Schema Conversion** from Oracle to Azure Database for PostgreSQL.
-3. Review converted objects and resolve any **Review Tasks**.
-4. Validate converted schema in the scratch environment.
-5. Run **Application Conversion** (recommended after schema conversion).
-6. Review generated migration report and diffs; apply approved changes.
-
-Coach prompts:
-- Keep this path optional and do not block progress if Preview features are unavailable.
-- Keep row-count and binary-data validation mandatory after deployment.
-
-### 4 — Prevent Hibernate from wiping migrated data
+### 3 — Prevent Hibernate from wiping migrated data
 
 Before app startup against PostgreSQL, set:
 
@@ -133,37 +119,6 @@ Or override with env var in runtime:
 ```bash
 SPRING_JPA_HIBERNATE_DDL_AUTO=validate
 ```
-
-### 5 — Validate migrated data
-
-Run in PostgreSQL:
-
-```sql
-SELECT COUNT(*) FROM photos;
-
-SELECT id, original_file_name, mime_type, file_size, uploaded_at
-FROM photos
-ORDER BY uploaded_at DESC
-LIMIT 5;
-
-SELECT COUNT(*) AS rows_with_photo_data
-FROM photos
-WHERE photo_data IS NOT NULL;
-```
-
-Expected: row counts match Oracle source and sample rows look correct.
-
-### 6 — Verify app behavior against migrated target
-
-Set PostgreSQL env vars, run app, and confirm the gallery shows migrated photos without re-uploading.
-
-### 7 — Decommission Oracle container
-
-```bash
-docker compose down -v
-```
-
-Use this only after validation is complete.
 
 ---
 
