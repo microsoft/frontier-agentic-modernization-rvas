@@ -16,15 +16,20 @@ Cover:
 
 ## Expected Assessment Findings – Java (PhotoAlbum)
 
-Key issues the assessment should surface:
-- **Spring Boot 2.x → 3.x:** `javax.*` → `jakarta.*` namespace migration, Spring Security config changes, Hibernate 6 breaking changes
-- **Java 8 → 21:** Deprecated APIs, `java.util.Date` → `java.time`, potentially some reflection-based patterns
-- **Oracle JDBC driver:** `ojdbc8` dependency — not available in public Maven repos without authentication
-- **BLOB storage:** All photo data stored as BLOBs in Oracle — identified as a cloud readiness concern
+The assessment should surface at least these three key findings (with representative report text):
+
+1. **Java Version Upgrade**
+   > *The application is using a Java version that has reached the end of support. It is strongly recommended to plan and execute a migration strategy to upgrade your application to a supported Java version. Supported Java versions receive long-term support (LTS) from the Java community, including bug fixes and updates. Migrating to a supported version provides you with a stable and well-maintained platform for your application.*
+
+2. **Oracle database found**
+   > *Oracle database found. To migrate a Java application that uses an Oracle database to Azure*
+
+3. **Password found in configuration file**
+   > *Using clear passwords in property files is a security risk, as they can be easily compromised if the files are accessed by unauthorized individuals.*
 
 ## Debrief Discussion Guide
 
-After the squad reviews the report, facilitate a 10-minute debrief:
+After the team reviews the report, facilitate a 10-minute debrief:
 
 1. **What surprised you?** — Attendees often underestimate the scope of the Spring Boot 3 migration
 2. **What can be automated?** — Namespace changes, dependency updates, project file updates
@@ -35,4 +40,3 @@ After the squad reviews the report, facilitate a 10-minute debrief:
 
 - The assessment report format may vary slightly between CLI and VS Code extension — both are acceptable
 - "Top 3 migration blockers" is intentionally subjective — any reasonable answer is correct
-- If the assessment does not surface Oracle or Spring Boot 2 as issues, the squad may have run it on the wrong folder — coach them to re-run from the `PhotoAlbum-Java` root

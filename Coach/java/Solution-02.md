@@ -54,7 +54,7 @@ photo storage from Oracle BLOBs to Azure Blob Storage
 |---|---|
 | `javax.persistence` import errors after upgrade | Ask: "What changed in the javax → jakarta namespace in Spring Boot 3?" |
 | Oracle SQL syntax in queries (e.g., `SYSDATE`, sequences) | Ask: "PostgreSQL uses `NOW()` and `SERIAL` — where are Oracle-specific functions used?" |
-| `spring.jpa.hibernate.ddl-auto=create` dropping the table on restart | Suggest changing to `update` or `validate` after the first run |
+| `spring.jpa.hibernate.ddl-auto=create` dropping the table on restart | Suggest changing to `validate` after the first run |
 | Azure Blob Storage credentials during local dev | Suggest using the Azurite emulator or a real Azure account |
 | Build fails due to Hibernate 6 breaking changes | Spring Boot 3 ships with Hibernate 6. Ask Copilot Chat to explain the errors. |
 
