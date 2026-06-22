@@ -1,5 +1,5 @@
 {
-    "name": "PetClinic Modernization",
+    "name": "Agentic Modernization",
     // Universal Ubuntu image with Ora2Pg for Oracle→PostgreSQL migrations
     // Ships with Java 21, Maven, Terraform, Azure CLI, Docker, and Ora2Pg
     "build": {
@@ -41,7 +41,7 @@
     ],
     "portsAttributes": {
         "8080": {
-            "label": "PetClinic",
+            "label": "Agentic Modernization",
             "onAutoForward": "openBrowserOnce"
         }
     },
