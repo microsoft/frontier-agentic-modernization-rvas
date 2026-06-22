@@ -16,8 +16,33 @@ Set up your local development environment so you are ready to work with the .NET
 
 - Install and verify all required tools listed in the [Prerequisites](../../README.md#prerequisites) section of the hack README
 - Clone the repository **with submodules** so that `Student/Resources/dotnet/dotnet-migration-copilot-samples/` is populated
-- Authenticate the GitHub CLI (`gh auth login`) and verify that the Modernization CLI or extension is active
+- Install and authenticate the **GitHub Copilot Modernization CLI** (see below)
 - Verify your Azure subscription is accessible and you have permissions to create resources
+- Install the **EF Core global tool** (required for Challenge 04):
+  ```bash
+  dotnet tool install --global dotnet-ef
+  ```
+
+### Install the Modernization CLI
+
+**Linux / macOS:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/microsoft/modernize-cli/main/scripts/install.sh | sh
+source ~/.bashrc   # or source ~/.zshrc on macOS
+```
+
+**Windows:**
+```powershell
+winget install GitHub.Copilot.modernization.agent
+```
+
+After installing, authenticate and verify:
+```bash
+gh auth login        # if not already authenticated
+modernize --version  # confirm the CLI is on your PATH
+```
+
+> **VS Code alternative:** Install the **GitHub Copilot Modernization** extension from the VS Code Marketplace. It provides the same capabilities through the editor UI.
 
 ### Optional: Deploy the Legacy .NET Application to an Azure VM
 
@@ -49,7 +74,10 @@ git submodule status
 # 5. .NET submodule source code is present
 ls Student/Resources/dotnet/dotnet-migration-copilot-samples/ContosoUniversity/
 
-# 6. Docker daemon is running (required for Dev Container and image builds)
+# 6. EF Core global tool (required for Challenge 04)
+dotnet tool list --global | grep dotnet-ef || echo "⚠ dotnet-ef not installed — run: dotnet tool install --global dotnet-ef"
+
+# 7. Docker daemon is running (required for Dev Container and image builds)
 docker info --format "Docker version: {{.ServerVersion}}" 2>/dev/null \
   || echo "⚠ Docker is not running — start Docker Desktop"
 ```
@@ -77,4 +105,5 @@ To complete this challenge successfully, demonstrate:
 
 - Your team can deploy the VM while other setup steps are running.
 - **If `git submodule status` shows a `-` prefix**, the submodule has not been initialised. Fix it with: `git submodule update --init --recursive`
-- **If `modernize` is not found**, ensure `~/.local/bin` is on your PATH: `export PATH="$HOME/.local/bin:$PATH"` (add to `~/.bashrc` or `~/.zshrc` to persist)
+- **If `modernize` is not found**, install it first (see the **Install the Modernization CLI** section above), then ensure `~/.local/bin` is on your PATH: `export PATH="$HOME/.local/bin:$PATH"` (add to `~/.bashrc` or `~/.zshrc` to persist)
+- **If `dotnet-ef` is not found**, run: `dotnet tool install --global dotnet-ef` and restart your terminal

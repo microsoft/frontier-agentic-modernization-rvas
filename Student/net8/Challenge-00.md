@@ -16,9 +16,34 @@ Set up your local development environment so you are ready to work with the eSho
 
 - Install and verify all required tools listed in the [Prerequisites](../../README.md#prerequisites) section of the hack README
 - Clone the repository **with submodules** so that `Student/Resources/net8/eShopOnWeb/` is populated
-- Authenticate the GitHub CLI (`gh auth login`) and verify that the Modernization CLI or extension is active
+- Install and authenticate the **GitHub Copilot Modernization CLI** (see below)
 - Verify your Azure subscription is accessible and you have permissions to create resources
 - Confirm **.NET 10 SDK** is installed (`dotnet --version` must show `10.x.x`)
+- Install the **EF Core global tool** (required for Challenge 04):
+  ```bash
+  dotnet tool install --global dotnet-ef
+  ```
+
+### Install the Modernization CLI
+
+**Linux / macOS:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/microsoft/modernize-cli/main/scripts/install.sh | sh
+source ~/.bashrc   # or source ~/.zshrc on macOS
+```
+
+**Windows:**
+```powershell
+winget install GitHub.Copilot.modernization.agent
+```
+
+After installing, authenticate and verify:
+```bash
+gh auth login        # if not already authenticated
+modernize --version  # confirm the CLI is on your PATH
+```
+
+> **VS Code alternative:** Install the **GitHub Copilot Modernization** extension from the VS Code Marketplace. It provides the same capabilities through the editor UI.
 
 ### Verify You Can Build and Run the Legacy App
 
@@ -65,7 +90,10 @@ ls Student/Resources/net8/eShopOnWeb/src/Web/
 # 6. .NET 10 SDK is installed
 dotnet --version   # must start with 10.
 
-# 7. Docker daemon is running
+# 7. EF Core global tool (required for Challenge 04)
+dotnet tool list --global | grep dotnet-ef || echo "⚠ dotnet-ef not installed — run: dotnet tool install --global dotnet-ef"
+
+# 8. Docker daemon is running
 docker info --format "Docker version: {{.ServerVersion}}" 2>/dev/null \
   || echo "⚠ Docker is not running — start Docker Desktop"
 ```
@@ -95,4 +123,5 @@ To complete this challenge successfully, demonstrate:
 
 - **If `git submodule status` shows a `-` prefix**, run: `git submodule update --init --recursive`
 - **If `dotnet --version` shows 8.x or 9.x**, install the .NET 10 SDK — multiple versions coexist; `global.json` controls which is active per folder.
-- **If `modernize` is not found**, ensure `~/.local/bin` is on your PATH: `export PATH="$HOME/.local/bin:$PATH"`
+- **If `modernize` is not found**, install it first (see the **Install the Modernization CLI** section above), then ensure `~/.local/bin` is on your PATH: `export PATH="$HOME/.local/bin:$PATH"`
+- **If `dotnet-ef` is not found**, run: `dotnet tool install --global dotnet-ef` and restart your terminal
