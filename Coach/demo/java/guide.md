@@ -281,6 +281,10 @@ ora2pg -c ora2pg.conf -t COPY -o data.sql -u system -w photoalbum
 
 **Step 3 — Import into Azure PostgreSQL:**
 
+**Pitch:**
+
+> "Now we create a new role in PostgreSQL, grant it to the admin user, and import the schema and data."
+
 ```bash
 export PGPASSWORD="<admin-password>"
 export PGUSER="psqladmin"
@@ -294,6 +298,34 @@ psql -h $PGHOST -U $PGUSER -d photoalbum < TABLE_photoalbum.sql
 psql -h $PGHOST -U $PGUSER -d photoalbum < SEQUENCE_photoalbum.sql
 psql -h $PGHOST -U $PGUSER -d photoalbum < data.sql
 ```
+
+**Step 4 — Infuse AI into the application:**
+
+**Pitch:**
+
+> "We're going to add a new feature: every uploaded photo will be auto-analyzed by Azure OpenAI gpt-4.1-mini (vision) and enriched with a short caption, an accessibility alt-text, and tags. These will render on the gallery cards and detail page, and the `<img alt>` will use the AI alt-text (falling back to the original filename). This change will require database schema updates and more."
+
+**Steps:**
+
+Use the `plan` agent with the following prompt:
+
+```text
+Infuse Azure OpenAI vision into the photoAlbum Spring Boot app. Inspect the
+workspace and produce an implementation plan.
+
+Feature: every uploaded photo is auto-analyzed by Azure OpenAI gpt-4.1-mini (vision)
+and enriched with a short caption (<120 chars), an accessibility alt-text, and 5-10
+lowercase single-word tags. These render on the gallery cards and detail page, and the
+<img alt> uses the AI alt-text (falling back to the original filename). This changes
+will require database schema updates and more.
+
+Hard requirements:
+1. Authenticate with Managed Identity.
+2. No API keys or hard coded values anywhere.
+3. The AI call should not be critical.
+```
+
+Once you agree to the plan, execute it. The agent will implement tehe feature, including database schema changes, service layer updates, and UI changes.
 
 ### Segment 5 — The Reveal **(48:00 – 55:00)**
 
