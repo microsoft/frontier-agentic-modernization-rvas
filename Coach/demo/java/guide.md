@@ -295,18 +295,6 @@ psql -h $PGHOST -U $PGUSER -d photoalbum < SEQUENCE_photoalbum.sql
 psql -h $PGHOST -U $PGUSER -d photoalbum < data.sql
 ```
 
-**Step 5 — Protect the schema from accidental wipe:**
-
-Open `application.properties` and change:
-
-```properties
-spring.jpa.hibernate.ddl-auto=validate
-```
-
-**Pitch:**
-
-> "This is critical. If Hibernate is set to `create` or `update`, it can modify or wipe the schema on the next restart. `validate` means it checks the schema matches the entity definitions and fails immediately if there is a mismatch. Your migrated data is safe."
-
 ### Segment 5 — The Reveal **(48:00 – 55:00)**
 
 **Pitch:**
