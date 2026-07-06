@@ -11,7 +11,7 @@ This challenge moves the modernized Java app from a local environment to Azure C
 Cover:
 - The difference between the `docker-compose.yml` development workflow and a single-container production image (the managed database is external)
 - How Azure Container Apps handles ingress, scaling, and environment variables
-- Why Terraform is the preferred IaC approach for this hackathon: reproducible, reviewable, versionable
+- Why Terraform is the preferred IaC approach: reproducible, reviewable, versionable
 - Managed Identity vs. connection string authentication for Azure services
 
 ## Terraform Resource Checklist – Java

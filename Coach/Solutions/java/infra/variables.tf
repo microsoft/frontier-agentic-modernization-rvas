@@ -13,7 +13,7 @@ variable "location" {
 variable "app_image" {
   type        = string
   description = "Container image to deploy in the Container App."
-  default     = "ghcr.io/microsoft/frontier-agentic-modernization-hackathon/photo-album:latest"
+  default     = "ghcr.io/microsoft/frontier-agentic-modernization-rvas/photo-album:latest"
 }
 
 variable "db_admin_username" {

@@ -11,7 +11,7 @@ This challenge moves the modernized .NET app from a local environment to Azure C
 Cover:
 - The difference between the local development setup (SQL Express in Windows) and the container-based Azure deployment (Azure SQL Database)
 - How Azure Container Apps handles ingress, scaling, and environment variables
-- Why Terraform is the preferred IaC approach for this hackathon: reproducible, reviewable, versionable
+- Why Terraform is the preferred IaC approach: reproducible, reviewable, versionable
 - The `ASPNETCORE_ENVIRONMENT=Production` pattern for switching configuration
 
 ## Terraform Resource Checklist – .NET

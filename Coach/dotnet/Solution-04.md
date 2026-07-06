@@ -19,7 +19,7 @@ Cover:
 - **Offline vs online migration:**
   - *Offline* – source is quiesced, bulk data is copied, application is pointed at target. Suitable for dev/test or short maintenance windows.
   - *Online* – uses Change Data Capture (CDC) to keep source and target in sync while the application continues running; cutover happens with near-zero downtime. Requires SQL Server Agent and a CDC-enabled edition.
-  - For LocalDB / SQL Express and hackathon timelines, **offline migration** is the right choice.
+  - For LocalDB / SQL Express and delivery timelines, **offline migration** is the right choice.
 - **Assessment first:** DMA / the DMS Assessment report surfaces blockers (unsupported features, data type changes, deprecated syntax) *before* the migration starts. Students should read the report before proceeding.
 - **BACPAC as a lightweight alternative:** `sqlpackage /Action:Export` produces a portable `.bacpac` file; `sqlpackage /Action:Import` restores it. Useful for small databases or when DMS network access is blocked.
 - **Connection string update pattern:** EF Core reads from `ConnectionStrings:DefaultConnection`. After migration the value switches from `(LocalDb)\\MSSQLLocalDB` to the Azure SQL Managed Identity connection string already wired up by Terraform in Challenge 03.
@@ -90,7 +90,7 @@ az policy exemption create \
   --policy-definition-reference-ids AzureSQL_WithoutAzureADOnlyAuthentication_Deny \
   --exemption-category Waiver \
   --display-name "Allow SQL auth on target Azure SQL for DMS" \
-  --description "Temporary exemption for hackathon DMS migration target that requires SQL Authentication in the Azure DMS wizard." \
+  --description "Temporary exemption for DMS migration target that requires SQL Authentication in the Azure DMS wizard." \
   --expires-on 2026-05-25T00:00:00Z \
   -o json
 ```

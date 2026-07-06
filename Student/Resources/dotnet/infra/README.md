@@ -1,6 +1,6 @@
 # Deploy ContosoUniversity (Legacy .NET) to Azure VM
 
-This folder contains Terraform configuration and a PowerShell setup script that deploys the **ContosoUniversity** ASP.NET MVC 5 / .NET Framework 4.8 application to a Windows Server 2022 Virtual Machine — the "before" state of the hackathon modernization journey.
+This folder contains Terraform configuration and a PowerShell setup script that deploys the **ContosoUniversity** ASP.NET MVC 5 / .NET Framework 4.8 application to a Windows Server 2022 Virtual Machine — the "before" state of the modernization journey.
 
 ## What Gets Deployed
 

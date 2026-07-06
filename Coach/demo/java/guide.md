@@ -44,8 +44,8 @@ AZURE TARGET  (Coach/Solutions/java/infra outputs)
 
 ```bash
 # Clone the demo repo and solutions branch
-git clone https://github.com/microsoft/frontier-agentic-modernization-hackathon.git
-cd frontier-agentic-modernization-hackathon
+git clone https://github.com/microsoft/frontier-agentic-modernization-rvas.git
+cd frontier-agentic-modernization-rvas
 git submodule update --init --recursive
 ```
 
@@ -128,7 +128,7 @@ Edit `terraform.tfvars`:
 ```hcl
 prefix            = "demo"
 location          = "swedencentral"
-app_image         = "ghcr.io/microsoft/frontier-agentic-modernization-hackathon/photo-album:latest"
+app_image         = "ghcr.io/microsoft/frontier-agentic-modernization-rvas/photo-album:latest"
 db_admin_username = "photoalbumadmin"
 db_admin_password = "DemoP@ssword123!"   # must match password used in A1 for consistency
 resource_group_name  = "demo-photoalbum-aca-rg"

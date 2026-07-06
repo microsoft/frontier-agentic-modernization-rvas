@@ -4,7 +4,7 @@
 
 Legacy applications are everywhere — applications built on .NET Framework 4.8, Spring Boot 2.x with Java 8, proprietary databases, and on-premises infrastructure. Modernizing them is one of the most common — and most complex — challenges software teams face today.
 
-In this hackathon you will use the **GitHub Copilot Modernization** tools to assess, plan, and execute the migration of legacy applications across three parallel tracks:
+In this RVAS you will use the **GitHub Copilot Modernization** tools to assess, plan, and execute the migration of legacy applications across three parallel tracks:
 
 - **ContosoUniversity** (.NET track) — an ASP.NET MVC 5 application running on .NET Framework 4.8, with MSMQ messaging and local file system storage
 - **PhotoAlbum** (Java track) — a Spring Boot 2.7 application running on Java 8, backed by Oracle Database with photo BLOBs
@@ -194,6 +194,6 @@ Student/Resources/net8/eShopOnWeb/                                             �
 
 Thanks to everyone who has contributed!
 
-<a href="https://github.com/microsoft/frontier-agentic-modernization-hackathon/graphs/contributors">
-  <img src="https://contributors-img.web.app/image?repo=microsoft/frontier-agentic-modernization-hackathon" />
+<a href="https://github.com/microsoft/frontier-agentic-modernization-rvas/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=microsoft/frontier-agentic-modernization-rvas" />
 </a>

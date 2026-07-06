@@ -3,5 +3,5 @@
 
 prefix                = "wth"
 location              = "swedencentral"
-app_image             = "ghcr.io/microsoft/frontier-agentic-modernization-hackathon/contoso-university:latest"
+app_image             = "ghcr.io/microsoft/frontier-agentic-modernization-rvas/contoso-university:latest"
 resource_group_name   = "wth-contoso-aca-rg"
