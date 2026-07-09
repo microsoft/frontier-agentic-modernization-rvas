@@ -73,7 +73,9 @@
         /* ─── Typography ────────────────────────────────────────────────── */
         .display {
             font-family: var(--font-display);
-            line-height: .9;
+            line-height: 1.06;
+            letter-spacing: -0.01em;
+            text-wrap: balance;
         }
 
         .mono {
@@ -88,9 +90,8 @@
 
         .section-label {
             font-family: var(--font-body);
-            font-size: .65rem;
-            letter-spacing: .2em;
-            text-transform: uppercase;
+            font-size: .72rem;
+            letter-spacing: .04em;
             color: var(--cyan);
             margin-bottom: 1rem;
             display: flex;
@@ -110,9 +111,8 @@
         .track-label {
             font-family: var(--font-display);
             font-size: 1.05rem;
-            letter-spacing: .12em;
+            letter-spacing: -0.01em;
             color: var(--text-2);
-            text-transform: uppercase;
             margin: 2.5rem 0 1.25rem;
             display: flex;
             align-items: center;
@@ -896,11 +896,12 @@
         }
 
         .md-content blockquote {
-            border-left: 3px solid var(--amber);
+            border: 1px solid rgba(0, 120, 212, .24);
+            box-shadow: inset 0 3px 0 var(--amber);
             padding: .75rem 1rem;
             margin: 1rem 0;
             background: var(--amber-dim);
-            border-radius: 0 var(--radius) var(--radius) 0;
+            border-radius: var(--radius);
         }
 
         .md-content blockquote p {
@@ -1170,7 +1171,7 @@
     <section id="about">
         <div>
             <div class="section-label">Mission Brief</div>
-            <h2 class="section-title display reveal">WHAT YOU'LL<br>ACCOMPLISH</h2>
+            <h2 class="section-title display reveal">What you'll<br>accomplish</h2>
             <p class="section-desc reveal">
                 Use GitHub Copilot Modernization tools to assess, plan, and execute migrations on real legacy codebases
                 — from first assessment to a running container in Azure.
@@ -1258,7 +1259,7 @@
     <!-- Prerequisites -->
     <section id="prerequisites">
         <div class="section-label">Before You Begin</div>
-        <h2 class="section-title display reveal">PREREQUISITES</h2>
+        <h2 class="section-title display reveal">Prerequisites</h2>
         <div class="prereq-layout">
             <div class="prereq-list reveal">
                 <div class="prereq-item">
@@ -1381,7 +1382,7 @@
     <!-- Tech Stack -->
     <section id="stack">
         <div class="section-label">Technology</div>
-        <h2 class="section-title display reveal">AZURE SERVICES</h2>
+        <h2 class="section-title display reveal">Azure services</h2>
         <p class="section-desc reveal">Services you'll provision and integrate during the delivery.</p>
         <div class="stack-grid">
             <div class="stack-item reveal">
@@ -1529,7 +1530,7 @@
         <div class="challenges-header">
             <div>
                 <div class="section-label">The Path</div>
-                <h2 class="section-title display reveal">CHALLENGES</h2>
+                <h2 class="section-title display reveal">Challenges</h2>
             </div>
             <p class="section-desc reveal" style="max-width:340px;">
                 Seven challenges, three parallel tracks. Your team can split — one team on Java, one on .NET, and one
@@ -2118,7 +2119,7 @@
         <div class="challenges-header">
             <div>
                 <div class="section-label" style="color:var(--amber);">Coach Access</div>
-                <h2 class="section-title display">COACH GUIDE</h2>
+                <h2 class="section-title display">Coach guide</h2>
             </div>
             <p class="section-desc" style="max-width:380px;">
                 Facilitation notes, expected outputs, and pitfall tips for each challenge.

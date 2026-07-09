@@ -28,6 +28,7 @@
   --c-accent: #1A77E3;
   --c-accent-dim: #0078D4;
   --c-accent-glow: rgba(26, 119, 227, 0.10);
+  --c-hero-accent: #BFDBFE;
   /* Deprecated alias kept so existing var(--c-gold) references keep working. */
   --c-gold: var(--c-accent);
   --c-gold-dim: var(--c-accent-dim);
@@ -278,7 +279,7 @@ main { flex: 1 0 auto; }
 
 .hero h1, .hero h2 { color: #fff; }
 .hero h1 { margin-top: 18px; }
-.hero .accent { color: #93c5fd; }
+.hero .accent { color: var(--c-hero-accent); }
 .hero .eyebrow { color: rgba(255, 255, 255, 0.72); }
 .hero .eyebrow::before { background: rgba(255, 255, 255, 0.5); }
 
