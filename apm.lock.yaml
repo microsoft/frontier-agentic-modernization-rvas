@@ -1,14 +1,47 @@
 lockfile_version: '1'
-generated_at: '2026-05-04T11:33:32.319151+00:00'
-apm_version: 0.8.6
+generated_at: '2026-07-09T13:40:32.659935+00:00'
+apm_version: 0.24.0
 dependencies:
 - repo_url: anthropics/skills
+  name: skills
   host: github.com
   resolved_commit: 00756142ab04c82a447693cf373c4e0c554d1005
   resolved_ref: '0075614'
+  version: unknown
   virtual_path: skills/frontend-design
   is_virtual: true
   package_type: claude_skill
   deployed_files:
-  - .github/skills/frontend-design
+  - .agents/skills/frontend-design
+  - .agents/skills/frontend-design/LICENSE.txt
+  - .agents/skills/frontend-design/SKILL.md
+  deployed_file_hashes:
+    .agents/skills/frontend-design/LICENSE.txt: sha256:0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594
+    .agents/skills/frontend-design/SKILL.md: sha256:b81e2ff87ed8fa4d6c377ccb127a7254c9e6a77e3ae94f21e6b514f7bb2945a0
   content_hash: sha256:063a0e6448123cd359ad0044cc46b0e490cc7964d45ef4bb9fd842bd2ffbca67
+- repo_url: microsoft/frontier-agentic-devops-rvas
+  name: frontier-agentic-devops-rvas
+  host: github.com
+  resolved_commit: 167af202f30d2f1ff1fb67c6a4016b89e6e5b0f2
+  version: unknown
+  virtual_path: .agents/skills/rvap-brand
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/rvap-brand
+  - .agents/skills/rvap-brand/SKILL.md
+  - .agents/skills/rvap-brand/assets/brand.css
+  - .agents/skills/rvap-brand/assets/logos/logo-full-white.png
+  - .agents/skills/rvap-brand/assets/logos/logo-full.png
+  - .agents/skills/rvap-brand/assets/logos/logo-mark-white.png
+  - .agents/skills/rvap-brand/assets/logos/logo-mark.png
+  - .agents/skills/rvap-brand/references/brand-tokens.md
+  deployed_file_hashes:
+    .agents/skills/rvap-brand/SKILL.md: sha256:0c92618be5d78cbeb9609d8df6460ad11b479e9687614765a98f3f746656418f
+    .agents/skills/rvap-brand/assets/brand.css: sha256:d7a7de048b22d5aa6beb7edbd0c7febdf72dd4d7ab9bbf1e6c4234470d6b1cdb
+    .agents/skills/rvap-brand/assets/logos/logo-full-white.png: sha256:e3825e72e5d0230a662bbb1e4154d8b7c9c480131b39b88a99ee80413a4d685c
+    .agents/skills/rvap-brand/assets/logos/logo-full.png: sha256:70896e041f2043c226e94d724f2f1caf403070e0cb230361a1fbaebc5e95e849
+    .agents/skills/rvap-brand/assets/logos/logo-mark-white.png: sha256:a069108af3b60cf2ffe0d6f42b35cb905822bfb297e0acc2b681159049211aa0
+    .agents/skills/rvap-brand/assets/logos/logo-mark.png: sha256:2f45768367607fc92137aeddb73755d6e11ef33b9607c61d0295b7b095ff0a12
+    .agents/skills/rvap-brand/references/brand-tokens.md: sha256:648e123367b2b89bb2994fe1ca7161011a8ed63fd11835af740412c424a9a22d
+  content_hash: sha256:090db2c13ccbca67ab54b5b6b4b88268e965004873640d8f6de551e86e2a310e

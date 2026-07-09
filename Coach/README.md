@@ -1,4 +1,4 @@
-# Coach Guide – What The Hack: GitHub Copilot App Modernization
+# Coach Guide: Agentic Modernization
 
 > ⚠️ **COACHES ONLY — Do not share this folder with attendees during the event.** Content here contains solutions, hints, and coaching notes.
 

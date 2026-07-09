@@ -184,3 +184,6 @@ apm_modules/
 
 # Local cache files
 .lscache
+
+# Build output directories
+_site

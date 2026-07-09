@@ -5,3 +5,4 @@ dependencies:
   apm:
     # Skills from Anthropic
     - anthropics/skills/skills/frontend-design#0075614
+    - microsoft/frontier-agentic-devops-rvas/.agents/skills/rvap-brand

@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Karla:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@300;400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap"
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
@@ -22,30 +22,38 @@
         }
 
         :root {
-            --bg: #03070f;
-            --surface: #0a1525;
-            --surface-2: #0f1e35;
-            --border: #1a2e4a;
-            --border-2: #243d5c;
+            /* RVAP Brand — Real Value Acceleration Program */
+            --font-display: "Aptos Display", "Outfit", "Segoe UI", system-ui, sans-serif;
+            --font-body:    "Aptos", "Inter", "Segoe UI", system-ui, sans-serif;
+            --font-mono:    "Cascadia Code", "JetBrains Mono", "Fira Code", monospace;
 
-            --cyan: #00d9f5;
-            --cyan-dim: rgba(0, 217, 245, .15);
-            --cyan-glow: 0 0 24px rgba(0, 217, 245, .35);
+            --bg: #FFFFFF;
+            --surface: #F5F8FE;
+            --surface-2: #E3E6ED;
+            --border: #E3E6ED;
+            --border-2: #c8d0de;
 
-            --amber: #f5a623;
-            --amber-dim: rgba(245, 166, 35, .12);
+            /* RVAP Blue replaces cyan as the primary interactive color */
+            --cyan: #1A77E3;
+            --cyan-dim: rgba(26, 119, 227, .12);
+            --cyan-glow: 0 0 24px rgba(26, 119, 227, .25);
 
-            --java-color: #00d9f5;
-            --dotnet-color: #8b5cf6;
-            --deploy-color: #22c55e;
+            /* Microsoft Blue replaces amber (Build pillar accent) */
+            --amber: #0078D4;
+            --amber-dim: rgba(0, 120, 212, .10);
+
+            /* Pillar-mapped track colors */
+            --java-color: #0078D4;     /* Build — Microsoft Blue */
+            --dotnet-color: #504092;   /* Innovate — Purple */
+            --deploy-color: #14868A;   /* Scale — Teal */
             --stretch-color: #f43f5e;
-            --ai-color: #f59e0b;
-            --assess-color: #f5a623;
-            --prereq-color: #6b7280;
+            --ai-color: #1A77E3;
+            --assess-color: #0078D4;
+            --prereq-color: #6B7280;
 
-            --text: #dce8f5;
-            --text-2: #7a9ab8;
-            --text-3: #3a5872;
+            --text: #111827;
+            --text-2: #47494E;
+            --text-3: #6B7280;
 
             --radius: 6px;
             --radius-lg: 12px;
@@ -56,7 +64,7 @@
         }
 
         body {
-            font-family: 'Karla', sans-serif;
+            font-family: var(--font-body);
             background: var(--bg);
             color: var(--text);
             overflow-x: hidden;
@@ -64,12 +72,12 @@
 
         /* ─── Typography ────────────────────────────────────────────────── */
         .display {
-            font-family: 'Teko', sans-serif;
+            font-family: var(--font-display);
             line-height: .9;
         }
 
         .mono {
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-mono);
         }
 
 
@@ -86,9 +94,10 @@
             justify-content: space-between;
             padding: 0 clamp(1rem, 5vw, 3rem);
             height: 60px;
-            background: rgba(3, 7, 15, .85);
+            background: rgba(255, 255, 255, .95);
             backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border);
+            box-shadow: 0 1px 3px rgba(3, 34, 84, .06);
         }
 
         .nav-logo {
@@ -98,26 +107,20 @@
             text-decoration: none;
         }
 
-        .nav-logo-icon {
-            width: 30px;
-            height: 30px;
-            background: var(--cyan);
-            border-radius: 4px;
-            display: grid;
-            place-items: center;
-        }
-
-        .nav-logo-icon svg {
-            width: 18px;
-            height: 18px;
-            fill: var(--bg);
+        .nav-logo img.rvap-nav-logo {
+            height: 32px;
+            width: auto;
         }
 
         .nav-logo-text {
-            font-family: 'Teko', sans-serif;
-            font-size: 1.1rem;
+            font-family: var(--font-display);
+            font-size: .85rem;
+            font-weight: 600;
             letter-spacing: .06em;
-            color: var(--text);
+            text-transform: uppercase;
+            color: #032254;
+            padding-left: .85rem;
+            border-left: 1px solid var(--border);
         }
 
         .nav-links {
@@ -128,12 +131,13 @@
 
         .nav-links a {
             font-size: .75rem;
-            letter-spacing: .12em;
+            letter-spacing: .08em;
             text-transform: uppercase;
             color: var(--text-2);
             text-decoration: none;
             transition: color .2s;
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-body);
+            font-weight: 500;
         }
 
         .nav-links a:hover {
@@ -174,31 +178,9 @@
             justify-content: center;
             padding: 60px clamp(1.5rem, 8vw, 6rem) 0;
             overflow: hidden;
+            background: linear-gradient(135deg, #032254 0%, #0F3A7A 60%, #1A77E3 100%);
         }
 
-        #hero-canvas {
-            position: absolute;
-            inset: 0;
-            opacity: .35;
-        }
-
-        .hero-scanlines {
-            position: absolute;
-            inset: 0;
-            background: repeating-linear-gradient(to bottom,
-                    transparent,
-                    transparent 2px,
-                    rgba(0, 0, 0, .06) 2px,
-                    rgba(0, 0, 0, .06) 4px);
-            pointer-events: none;
-        }
-
-        .hero-vignette {
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(3, 7, 15, .8) 100%);
-            pointer-events: none;
-        }
 
         .hero-content {
             position: relative;
@@ -207,11 +189,12 @@
         }
 
         .hero-label {
-            font-family: 'Fira Code', monospace;
-            font-size: .7rem;
-            letter-spacing: .25em;
+            font-family: var(--font-body);
+            font-size: .8rem;
+            font-weight: 600;
+            letter-spacing: .2em;
             text-transform: uppercase;
-            color: var(--cyan);
+            color: rgba(255,255,255,0.7);
             margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
@@ -227,7 +210,7 @@
         }
 
         .hero-title {
-            font-family: 'Teko', sans-serif;
+            font-family: var(--font-display);
             font-size: clamp(5rem, 16vw, 13rem);
             font-weight: 700;
             line-height: .85;
@@ -244,9 +227,9 @@
             margin-top: 2rem;
             font-size: clamp(1rem, 2.5vw, 1.2rem);
             line-height: 1.6;
-            color: var(--text-2);
+            color: rgba(255,255,255,0.85);
             max-width: 560px;
-            font-weight: 300;
+            font-weight: 400;
         }
 
         .hero-transforms {
@@ -260,25 +243,25 @@
             display: flex;
             align-items: center;
             gap: .5rem;
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-mono);
             font-size: .7rem;
             padding: .35rem .8rem;
             border-radius: 99px;
-            border: 1px solid var(--border-2);
-            background: var(--surface);
-            color: var(--text-2);
+            border: 1px solid rgba(255,255,255,.25);
+            background: rgba(255,255,255,.1);
+            color: rgba(255,255,255,.85);
         }
 
         .transform-pill .from {
-            color: var(--amber);
+            color: rgba(255,255,255,.6);
         }
 
         .transform-pill .to {
-            color: var(--cyan);
+            color: #ffffff;
         }
 
         .transform-pill .arrow {
-            color: var(--text-3);
+            color: rgba(255,255,255,.4);
         }
 
         .hero-actions {
@@ -293,20 +276,20 @@
             align-items: center;
             gap: .5rem;
             padding: .75rem 1.75rem;
-            background: var(--cyan);
-            color: var(--bg);
-            font-family: 'Fira Code', monospace;
-            font-size: .75rem;
-            letter-spacing: .1em;
+            background: #ffffff;
+            color: #032254;
+            font-family: var(--font-body);
+            font-size: .875rem;
+            letter-spacing: .04em;
             text-transform: uppercase;
             text-decoration: none;
             border-radius: var(--radius);
-            font-weight: 500;
+            font-weight: 600;
             transition: box-shadow .25s, transform .2s;
         }
 
         .btn-primary:hover {
-            box-shadow: var(--cyan-glow);
+            box-shadow: 0 4px 16px rgba(3, 34, 84, .25);
             transform: translateY(-2px);
         }
 
@@ -316,20 +299,21 @@
             gap: .5rem;
             padding: .75rem 1.75rem;
             background: transparent;
-            color: var(--text);
-            font-family: 'Fira Code', monospace;
-            font-size: .75rem;
-            letter-spacing: .1em;
+            color: rgba(255,255,255,.9);
+            font-family: var(--font-body);
+            font-size: .875rem;
+            letter-spacing: .04em;
             text-transform: uppercase;
             text-decoration: none;
             border-radius: var(--radius);
-            border: 1px solid var(--border-2);
+            border: 1.5px solid rgba(255,255,255,.4);
+            font-weight: 500;
             transition: border-color .2s, background .2s;
         }
 
         .btn-secondary:hover {
-            border-color: var(--text-2);
-            background: var(--surface);
+            border-color: rgba(255,255,255,.8);
+            background: rgba(255,255,255,.1);
         }
 
         .hero-scroll-hint {
@@ -341,8 +325,8 @@
             flex-direction: column;
             align-items: center;
             gap: .4rem;
-            color: var(--text-3);
-            font-family: 'Fira Code', monospace;
+            color: rgba(255,255,255,.5);
+            font-family: var(--font-body);
             font-size: .6rem;
             letter-spacing: .15em;
             animation: float 2.5s ease-in-out infinite;
@@ -351,7 +335,7 @@
         .scroll-line {
             width: 1px;
             height: 40px;
-            background: linear-gradient(to bottom, var(--text-3), transparent);
+            background: linear-gradient(to bottom, rgba(255,255,255,.5), transparent);
         }
 
         @keyframes float {
@@ -387,10 +371,10 @@
         }
 
         .stat-value {
-            font-family: 'Teko', sans-serif;
+            font-family: var(--font-display);
             font-size: clamp(2.5rem, 6vw, 4.5rem);
             line-height: 1;
-            color: #fff;
+            color: #032254;
         }
 
         .stat-value span {
@@ -402,7 +386,8 @@
             letter-spacing: .18em;
             text-transform: uppercase;
             color: var(--text-2);
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-body);
+            font-weight: 500;
         }
 
         /* ─── Section Scaffolding ───────────────────────────────────────── */
@@ -411,15 +396,16 @@
         }
 
         .section-label {
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-body);
             font-size: .65rem;
-            letter-spacing: .25em;
+            letter-spacing: .2em;
             text-transform: uppercase;
             color: var(--cyan);
             margin-bottom: 1rem;
             display: flex;
             align-items: center;
             gap: .75rem;
+            font-weight: 600;
         }
 
         .section-label::after {
@@ -430,11 +416,10 @@
             max-width: 120px;
         }
 
-        /* ─── Track Labels ──────────────────────────────────────────────── */
         .track-label {
-            font-family: 'Teko', sans-serif;
+            font-family: var(--font-display);
             font-size: 1.05rem;
-            letter-spacing: .15em;
+            letter-spacing: .12em;
             color: var(--text-2);
             text-transform: uppercase;
             margin: 2.5rem 0 1.25rem;
@@ -448,16 +433,17 @@
             flex: none;
             width: 24px;
             height: 2px;
-            background: var(--border-2);
+            background: var(--cyan);
         }
 
         .section-title {
-            font-family: 'Teko', sans-serif;
+            font-family: var(--font-display);
             font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 600;
+            font-weight: 700;
             letter-spacing: -.01em;
             line-height: 1;
             margin-bottom: 1rem;
+            color: #032254;
         }
 
         .section-desc {
@@ -465,7 +451,6 @@
             line-height: 1.75;
             color: var(--text-2);
             max-width: 580px;
-            font-weight: 300;
         }
 
         /* ─── About ─────────────────────────────────────────────────────── */
@@ -500,7 +485,7 @@
         }
 
         .obj-num {
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-mono);
             font-size: .65rem;
             color: var(--cyan);
             padding-top: .15rem;
@@ -517,7 +502,7 @@
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
             overflow: hidden;
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-mono);
         }
 
         .terminal-bar {
@@ -646,20 +631,21 @@
         .challenge-card {
             position: relative;
             --c-color: var(--cyan);
-            background: #0c1d38;
-            border: 1px solid #173257;
+            background: #ffffff;
+            border: 1px solid var(--border);
             padding: 2rem;
             overflow: hidden;
             cursor: pointer;
-            transition: background .25s, border-color .25s;
+            transition: background .25s, border-color .25s, box-shadow .25s;
             text-decoration: none;
             display: flex;
             flex-direction: column;
         }
 
         .challenge-card:hover {
-            background: #10264a;
-            border-color: #1f4c7a;
+            background: var(--surface);
+            border-color: var(--cyan);
+            box-shadow: 0 4px 16px rgba(26, 119, 227, .12);
         }
 
         .challenge-card::after {
@@ -702,10 +688,10 @@
             position: absolute;
             right: -.1em;
             top: -.15em;
-            font-family: 'Teko', sans-serif;
+            font-family: var(--font-display);
             font-size: clamp(5rem, 10vw, 8rem);
             font-weight: 700;
-            color: rgba(255, 255, 255, .025);
+            color: rgba(3, 34, 84, .04);
             line-height: 1;
             user-select: none;
             pointer-events: none;
@@ -719,39 +705,39 @@
         }
 
         .card-phase-badge {
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-body);
             font-size: .6rem;
-            letter-spacing: .18em;
+            font-weight: 600;
+            letter-spacing: .12em;
             text-transform: uppercase;
             padding: .25rem .65rem;
             border-radius: 3px;
             border: 1px solid;
             color: var(--c-color);
             border-color: var(--c-color);
-            background: rgba(0, 217, 245, .08);
+            background: var(--cyan-dim);
         }
 
         .card-num {
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-mono);
             font-size: .65rem;
-            color: rgba(122, 154, 184, .75);
+            color: var(--text-3);
             letter-spacing: .1em;
         }
 
         .card-title {
-            font-family: 'Teko', sans-serif;
+            font-family: var(--font-display);
             font-size: clamp(1.4rem, 3vw, 2rem);
-            font-weight: 600;
-            color: #fff;
+            font-weight: 700;
+            color: #032254;
             line-height: 1.05;
             margin-bottom: .75rem;
         }
 
         .card-desc {
-            font-size: .85rem;
+            font-size: .875rem;
             line-height: 1.65;
-            color: #7ea3c9;
-            font-weight: 300;
+            color: var(--text-2);
             flex: 1;
         }
 
@@ -761,7 +747,7 @@
             justify-content: space-between;
             margin-top: 1.5rem;
             padding-top: 1rem;
-            border-top: 1px solid rgba(36, 61, 92, .65);
+            border-top: 1px solid var(--border);
         }
 
         .card-tags {
@@ -771,12 +757,12 @@
         }
 
         .card-tag {
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-mono);
             font-size: .6rem;
-            color: #6f8fb4;
+            color: var(--text-3);
             letter-spacing: .08em;
-            background: rgba(16, 38, 74, .85);
-            border: 1px solid rgba(36, 61, 92, .45);
+            background: var(--surface);
+            border: 1px solid var(--border);
             padding: .2rem .55rem;
             border-radius: 3px;
         }
@@ -785,7 +771,7 @@
             display: flex;
             align-items: center;
             gap: .35rem;
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-mono);
             font-size: .65rem;
             color: var(--c-color);
             opacity: 0;
@@ -891,14 +877,14 @@
         }
 
         .code-block-title {
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-mono);
             font-size: .65rem;
             letter-spacing: .1em;
             color: var(--text-3);
         }
 
         .code-block-lang {
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-mono);
             font-size: .6rem;
             color: var(--cyan);
             letter-spacing: .1em;
@@ -906,7 +892,7 @@
 
         .code-block-body {
             padding: 1.25rem 1.5rem;
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-mono);
             font-size: .72rem;
             line-height: 1.9;
             color: var(--text-2);
@@ -990,7 +976,7 @@
         }
 
         .stack-phase {
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-mono);
             font-size: .58rem;
             letter-spacing: .1em;
             color: var(--text-3);
@@ -1011,7 +997,7 @@
         .footer-copy {
             font-size: .75rem;
             color: var(--text-3);
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-body);
         }
 
         .footer-links {
@@ -1024,7 +1010,7 @@
             font-size: .72rem;
             color: var(--text-3);
             text-decoration: none;
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-body);
             transition: color .2s;
         }
 
@@ -1048,7 +1034,7 @@
         #drawer-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(3, 7, 15, .7);
+            background: rgba(3, 34, 84, .5);
             backdrop-filter: blur(4px);
             z-index: 200;
             opacity: 0;
@@ -1098,11 +1084,12 @@
         }
 
         .drawer-nav-btn {
-            background: var(--surface-2);
+            background: var(--surface);
             border: 1px solid var(--border);
             color: var(--text-2);
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-body);
             font-size: .7rem;
+            font-weight: 500;
             padding: .35rem .75rem;
             border-radius: var(--radius);
             cursor: pointer;
@@ -1143,8 +1130,9 @@
         }
 
         .drawer-breadcrumb {
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-body);
             font-size: .65rem;
+            font-weight: 500;
             color: var(--text-3);
             letter-spacing: .1em;
             white-space: nowrap;
@@ -1179,10 +1167,10 @@
 
         /* Rendered markdown styles */
         .md-content h1 {
-            font-family: 'Teko', sans-serif;
+            font-family: var(--font-display);
             font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 600;
-            color: #fff;
+            font-weight: 700;
+            color: #032254;
             line-height: 1.05;
             margin-bottom: 1.5rem;
             padding-bottom: 1rem;
@@ -1190,9 +1178,9 @@
         }
 
         .md-content h2 {
-            font-family: 'Teko', sans-serif;
+            font-family: var(--font-display);
             font-size: 1.6rem;
-            font-weight: 500;
+            font-weight: 600;
             color: var(--cyan);
             margin-top: 2.5rem;
             margin-bottom: .75rem;
@@ -1202,7 +1190,7 @@
         .md-content h3 {
             font-size: 1rem;
             font-weight: 600;
-            color: var(--text);
+            color: #032254;
             margin-top: 1.5rem;
             margin-bottom: .5rem;
         }
@@ -1212,7 +1200,6 @@
             line-height: 1.8;
             color: var(--text-2);
             margin-bottom: 1rem;
-            font-weight: 300;
         }
 
         .md-content ul,
@@ -1226,7 +1213,6 @@
             line-height: 1.8;
             color: var(--text-2);
             margin-bottom: .25rem;
-            font-weight: 300;
         }
 
         .md-content li::marker {
@@ -1234,13 +1220,13 @@
         }
 
         .md-content code {
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-mono);
             font-size: .78em;
-            background: var(--surface-2);
+            background: var(--surface);
             border: 1px solid var(--border);
             padding: .1em .4em;
             border-radius: 3px;
-            color: var(--cyan);
+            color: #032254;
         }
 
         .md-content pre {
@@ -1278,7 +1264,7 @@
         .md-content a {
             color: var(--cyan);
             text-decoration: none;
-            border-bottom: 1px solid rgba(0, 217, 245, .3);
+            border-bottom: 1px solid rgba(26, 119, 227, .3);
             transition: border-color .2s;
         }
 
@@ -1297,9 +1283,9 @@
             text-align: left;
             padding: .6rem .75rem;
             border-bottom: 2px solid var(--border-2);
-            color: var(--text);
+            color: #032254;
             font-weight: 600;
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-body);
             font-size: .72rem;
             letter-spacing: .08em;
             text-transform: uppercase;
@@ -1325,12 +1311,12 @@
             display: inline-flex;
             align-items: center;
             gap: .3rem;
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-mono);
             font-size: .7rem;
             color: var(--text-3);
             border-bottom: none;
             padding: .2rem .5rem;
-            background: var(--surface-2);
+            background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 3px;
         }
@@ -1342,7 +1328,7 @@
             height: 200px;
             gap: 1rem;
             color: var(--text-3);
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-body);
             font-size: .75rem;
             letter-spacing: .1em;
         }
@@ -1432,12 +1418,13 @@
             bottom: 2rem;
             left: 50%;
             transform: translateX(-50%) translateY(20px);
-            background: var(--surface-2);
+            background: var(--surface);
             border: 1px solid var(--amber);
             color: var(--amber);
-            font-family: 'Fira Code', monospace;
+            font-family: var(--font-body);
             font-size: .72rem;
-            letter-spacing: .12em;
+            letter-spacing: .08em;
+            font-weight: 600;
             padding: .6rem 1.25rem;
             border-radius: 99px;
             z-index: 300;
@@ -1457,8 +1444,9 @@
 
     <!-- Navigation -->
     <nav>
-        <a class="nav-logo" href="#hero">
-            <span class="nav-logo-text">AGENTIC MODERNIZATION RVAS</span>
+        <a class="nav-logo" href="#hero" aria-label="Real Value Acceleration Program — Home">
+            <img src="assets/img/logo-full.png" alt="RVAP" class="rvap-nav-logo" height="32">
+            <span class="nav-logo-text">Agentic Modernization</span>
         </a>
         <ul class="nav-links">
             <li><a href="#about">Mission</a></li>
@@ -1480,9 +1468,6 @@
 
     <!-- Hero -->
     <section id="hero">
-        <canvas id="hero-canvas"></canvas>
-        <div class="hero-scanlines"></div>
-        <div class="hero-vignette"></div>
 
         <div class="hero-content">
             <div class="hero-label">Migrate and Modernize at Scale</div>
@@ -2292,7 +2277,7 @@
 
         <!-- .NET 8 → .NET 10 Track -->
         <div id="net8-challenges" style="margin-top:2rem;">
-            <div class="track-label" style="color:#00e676;">🟢 .NET 8 Track (eShopOnWeb)</div>
+            <div class="track-label" style="color:var(--deploy-color);">🔷 .NET 8 Track (eShopOnWeb)</div>
             <div class="challenges-grid">
 
                 <!-- net8 CH-00 -->
@@ -2302,7 +2287,7 @@
                         <div>
                             <div class="card-top">
                                 <span class="card-phase-badge"
-                                    style="color:#00e676;border-color:#00e676;background:rgba(0,230,118,.12);">Setup</span>
+                                   >Setup</span>
                                 <span class="card-num mono">CH — 00</span>
                             </div>
                             <h3 class="card-title display">Prerequisites<br>(.NET 8)</h3>
@@ -2331,7 +2316,7 @@
                     <div class="card-bg-number display">01</div>
                     <div class="card-top">
                         <span class="card-phase-badge"
-                            style="color:#00e676;border-color:#00e676;background:rgba(0,230,118,.12);">Assess</span>
+                           >Assess</span>
                         <span class="card-num mono">CH — 01</span>
                     </div>
                     <h3 class="card-title display">Assess eShopOnWeb</h3>
@@ -2353,7 +2338,7 @@
                     <div class="card-bg-number display">02</div>
                     <div class="card-top">
                         <span class="card-phase-badge"
-                            style="color:#00e676;border-color:#00e676;background:rgba(0,230,118,.12);">Modernize</span>
+                           >Modernize</span>
                         <span class="card-num mono">CH — 02</span>
                     </div>
                     <h3 class="card-title display">Modernize to .NET 10</h3>
@@ -2379,7 +2364,7 @@
                     <div class="card-bg-number display">03</div>
                     <div class="card-top">
                         <span class="card-phase-badge"
-                            style="color:#00e676;border-color:#00e676;background:rgba(0,230,118,.12);">Deploy</span>
+                           >Deploy</span>
                         <span class="card-num mono">CH — 03</span>
                     </div>
                     <h3 class="card-title display">Containerize &amp; Deploy (eShopOnWeb)</h3>
@@ -2404,7 +2389,7 @@
                     <div class="card-bg-number display">04</div>
                     <div class="card-top">
                         <span class="card-phase-badge"
-                            style="color:#00e676;border-color:#00e676;background:rgba(0,230,118,.12);">Data
+                           >Data
                             Migration</span>
                         <span class="card-num mono">CH — 04</span>
                     </div>
@@ -2431,7 +2416,7 @@
                     <div class="card-bg-number display">05</div>
                     <div class="card-top">
                         <span class="card-phase-badge"
-                            style="color:#00e676;border-color:#00e676;background:rgba(0,230,118,.12);">Observe &amp;
+                           >Observe &amp;
                             Secure</span>
                         <span class="card-num mono">CH — 05</span>
                     </div>
@@ -2455,7 +2440,7 @@
                     <div class="card-bg-number display">06</div>
                     <div class="card-top">
                         <span class="card-phase-badge"
-                            style="color:#00e676;border-color:#00e676;background:rgba(0,230,118,.12);">Stretch ·
+                           >Stretch ·
                             AI</span>
                         <span class="card-num mono">CH — 06</span>
                     </div>
@@ -2530,7 +2515,7 @@
             <p class="section-desc" style="max-width:380px;">
                 Facilitation notes, expected outputs, and pitfall tips for each challenge.
                 Toggle with <kbd
-                    style="font-family:'Fira Code',monospace;font-size:.7em;padding:.15em .5em;border:1px solid var(--border-2);border-radius:3px;background:var(--surface-2);">Shift+C</kbd>.
+                    style="font-family:var(--font-mono);font-size:.7em;padding:.15em .5em;border:1px solid var(--border-2);border-radius:3px;background:var(--surface);">Shift+C</kbd>.
             </p>
         </div>
 
@@ -2903,7 +2888,7 @@
 
         <!-- Coach .NET 8 Track -->
         <div style="margin-bottom:2rem;">
-            <div class="track-label" style="color:#00e676;">🟢 .NET 8 Track — Coach Notes</div>
+            <div class="track-label" style="color:var(--deploy-color);">🔷 .NET 8 Track — Coach Notes</div>
             <div class="challenges-grid">
 
                 <!-- Coach net8 CH-00 -->
@@ -3074,7 +3059,7 @@
 
     </section>
     <footer>
-        <div class="footer-copy mono">// GitHub Copilot App Modernization · 2026</div>
+        <div class="footer-copy mono">Agentic Modernization · 2026</div>
     </footer>
 
     <!-- Drawer overlay -->
@@ -3096,57 +3081,6 @@
     </div>
 
     <script>
-        // ── Hero canvas — code rain ───────────────────────────────────────
-        const canvas = document.getElementById('hero-canvas');
-        const ctx = canvas.getContext('2d');
-        const chars = '{}[]()<>=;./\\@#$%^&*|~?!_+-01'.split('')
-            .concat(['class', 'void', 'async', 'await', 'import', 'azure',
-                'if', 'for', 'new', 'return', 'using', 'struct',
-                'public', 'const', 'let', 'fn']);
-        let cols = [], drops = [], speeds = [];
-        const FONT_SIZE = 13;
-
-        function initCanvas() {
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
-            const numCols = Math.floor(canvas.width / FONT_SIZE);
-            cols = new Array(numCols).fill(0);
-            drops = cols.map(() => Math.random() * -canvas.height / FONT_SIZE);
-            speeds = cols.map(() => 0.3 + Math.random() * 0.7);
-        }
-
-        function drawRain() {
-            ctx.fillStyle = 'rgba(3,7,15,0.06)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            cols.forEach((_, i) => {
-                const char = chars[Math.floor(Math.random() * chars.length)];
-                const y = drops[i] * FONT_SIZE;
-                const t = drops[i] / (canvas.height / FONT_SIZE);
-
-                // Gradient: amber at top → cyan at bottom
-                const r1 = 245, g1 = 166, b1 = 35;   // amber
-                const r2 = 0, g2 = 217, b2 = 245;  // cyan
-                const r = Math.round(r1 + (r2 - r1) * t);
-                const g = Math.round(g1 + (g2 - g1) * t);
-                const b = Math.round(b1 + (b2 - b1) * t);
-                ctx.fillStyle = `rgba(${r},${g},${b},0.55)`;
-                ctx.font = `${FONT_SIZE}px 'Fira Code', monospace`;
-                ctx.fillText(char, i * FONT_SIZE, y);
-
-                // Head character brighter
-                ctx.fillStyle = `rgba(${r},${g},${b},1)`;
-                ctx.fillText(char, i * FONT_SIZE, y);
-
-                if (y > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i] += speeds[i];
-            });
-        }
-
-        initCanvas();
-        window.addEventListener('resize', initCanvas);
-        setInterval(drawRain, 40);
-
         // ── Scroll reveal ─────────────────────────────────────────────────
         const observer = new IntersectionObserver(entries => {
             entries.forEach(e => {
@@ -3308,7 +3242,7 @@
                     }
                 });
             } catch (err) {
-                drawerContent.innerHTML = `<p style="color:var(--stretch-color);font-family:'Fira Code',monospace;font-size:.8rem;">Failed to load ${entry.file}: ${err.message}</p>`;
+                drawerContent.innerHTML = `<p style="color:var(--stretch-color);font-family:var(--font-body);font-size:.8rem;">Failed to load ${entry.file}: ${err.message}</p>`;
             }
         }
 
