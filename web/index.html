@@ -81,315 +81,6 @@
         }
 
 
-
-        /* ─── Nav ───────────────────────────────────────────────────────── */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 clamp(1rem, 5vw, 3rem);
-            height: 60px;
-            background: rgba(255, 255, 255, .95);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border);
-            box-shadow: 0 1px 3px rgba(3, 34, 84, .06);
-        }
-
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: .75rem;
-            text-decoration: none;
-        }
-
-        .nav-logo img.rvap-nav-logo {
-            height: 32px;
-            width: auto;
-        }
-
-        .nav-logo-text {
-            font-family: var(--font-display);
-            font-size: .85rem;
-            font-weight: 600;
-            letter-spacing: .06em;
-            text-transform: uppercase;
-            color: #032254;
-            padding-left: .85rem;
-            border-left: 1px solid var(--border);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            font-size: .75rem;
-            letter-spacing: .08em;
-            text-transform: uppercase;
-            color: var(--text-2);
-            text-decoration: none;
-            transition: color .2s;
-            font-family: var(--font-body);
-            font-weight: 500;
-        }
-
-        .nav-links a:hover {
-            color: var(--cyan);
-        }
-
-        .nav-cta {
-            width: 38px;
-            height: 38px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            border: 1px solid var(--cyan);
-            color: var(--cyan);
-            border-radius: var(--radius);
-            text-decoration: none;
-            transition: background .2s, box-shadow .2s;
-        }
-
-        .nav-cta svg {
-            width: 18px;
-            height: 18px;
-            fill: currentColor;
-        }
-
-        .nav-cta:hover {
-            background: var(--cyan-dim);
-            box-shadow: var(--cyan-glow);
-        }
-
-        /* ─── Hero ──────────────────────────────────────────────────────── */
-        #hero {
-            position: relative;
-            min-height: 100svh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 60px clamp(1.5rem, 8vw, 6rem) 0;
-            overflow: hidden;
-            background: linear-gradient(135deg, #032254 0%, #0F3A7A 60%, #1A77E3 100%);
-        }
-
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 900px;
-        }
-
-        .hero-label {
-            font-family: var(--font-body);
-            font-size: .8rem;
-            font-weight: 600;
-            letter-spacing: .2em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: .75rem;
-        }
-
-        .hero-label::before {
-            content: '';
-            display: inline-block;
-            width: 30px;
-            height: 1px;
-            background: var(--cyan);
-        }
-
-        .hero-title {
-            font-family: var(--font-display);
-            font-size: clamp(5rem, 16vw, 13rem);
-            font-weight: 700;
-            line-height: .85;
-            letter-spacing: -.02em;
-            color: #fff;
-        }
-
-        .hero-title .accent {
-            color: var(--cyan);
-            display: block;
-        }
-
-        .hero-subtitle {
-            margin-top: 2rem;
-            font-size: clamp(1rem, 2.5vw, 1.2rem);
-            line-height: 1.6;
-            color: rgba(255,255,255,0.85);
-            max-width: 560px;
-            font-weight: 400;
-        }
-
-        .hero-transforms {
-            display: flex;
-            flex-wrap: wrap;
-            gap: .75rem;
-            margin-top: 2rem;
-        }
-
-        .transform-pill {
-            display: flex;
-            align-items: center;
-            gap: .5rem;
-            font-family: var(--font-mono);
-            font-size: .7rem;
-            padding: .35rem .8rem;
-            border-radius: 99px;
-            border: 1px solid rgba(255,255,255,.25);
-            background: rgba(255,255,255,.1);
-            color: rgba(255,255,255,.85);
-        }
-
-        .transform-pill .from {
-            color: rgba(255,255,255,.6);
-        }
-
-        .transform-pill .to {
-            color: #ffffff;
-        }
-
-        .transform-pill .arrow {
-            color: rgba(255,255,255,.4);
-        }
-
-        .hero-actions {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2.5rem;
-            flex-wrap: wrap;
-        }
-
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: .5rem;
-            padding: .75rem 1.75rem;
-            background: #ffffff;
-            color: #032254;
-            font-family: var(--font-body);
-            font-size: .875rem;
-            letter-spacing: .04em;
-            text-transform: uppercase;
-            text-decoration: none;
-            border-radius: var(--radius);
-            font-weight: 600;
-            transition: box-shadow .25s, transform .2s;
-        }
-
-        .btn-primary:hover {
-            box-shadow: 0 4px 16px rgba(3, 34, 84, .25);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            display: inline-flex;
-            align-items: center;
-            gap: .5rem;
-            padding: .75rem 1.75rem;
-            background: transparent;
-            color: rgba(255,255,255,.9);
-            font-family: var(--font-body);
-            font-size: .875rem;
-            letter-spacing: .04em;
-            text-transform: uppercase;
-            text-decoration: none;
-            border-radius: var(--radius);
-            border: 1.5px solid rgba(255,255,255,.4);
-            font-weight: 500;
-            transition: border-color .2s, background .2s;
-        }
-
-        .btn-secondary:hover {
-            border-color: rgba(255,255,255,.8);
-            background: rgba(255,255,255,.1);
-        }
-
-        .hero-scroll-hint {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: .4rem;
-            color: rgba(255,255,255,.5);
-            font-family: var(--font-body);
-            font-size: .6rem;
-            letter-spacing: .15em;
-            animation: float 2.5s ease-in-out infinite;
-        }
-
-        .scroll-line {
-            width: 1px;
-            height: 40px;
-            background: linear-gradient(to bottom, rgba(255,255,255,.5), transparent);
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateX(-50%) translateY(0);
-            }
-
-            50% {
-                transform: translateX(-50%) translateY(6px);
-            }
-        }
-
-        /* ─── Stats Bar ─────────────────────────────────────────────────── */
-        #stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .stat-item {
-            padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 4vw, 3rem);
-            display: flex;
-            flex-direction: column;
-            gap: .35rem;
-            border-right: 1px solid var(--border);
-        }
-
-        .stat-item:last-child {
-            border-right: none;
-        }
-
-        .stat-value {
-            font-family: var(--font-display);
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            line-height: 1;
-            color: #032254;
-        }
-
-        .stat-value span {
-            color: var(--cyan);
-        }
-
-        .stat-label {
-            font-size: .7rem;
-            letter-spacing: .18em;
-            text-transform: uppercase;
-            color: var(--text-2);
-            font-family: var(--font-body);
-            font-weight: 500;
-        }
-
         /* ─── Section Scaffolding ───────────────────────────────────────── */
         section {
             padding: clamp(4rem, 10vw, 7rem) clamp(1.5rem, 8vw, 6rem);
@@ -482,15 +173,6 @@
 
         .objective-item:last-child {
             border-bottom: none;
-        }
-
-        .obj-num {
-            font-family: var(--font-mono);
-            font-size: .65rem;
-            color: var(--cyan);
-            padding-top: .15rem;
-            min-width: 24px;
-            letter-spacing: .05em;
         }
 
         .about-visual {
@@ -983,40 +665,6 @@
             margin-top: auto;
         }
 
-        /* ─── Footer ────────────────────────────────────────────────────── */
-        footer {
-            padding: 2.5rem clamp(1.5rem, 8vw, 6rem);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-top: 1px solid var(--border);
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .footer-copy {
-            font-size: .75rem;
-            color: var(--text-3);
-            font-family: var(--font-body);
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 1.5rem;
-            list-style: none;
-        }
-
-        .footer-links a {
-            font-size: .72rem;
-            color: var(--text-3);
-            text-decoration: none;
-            font-family: var(--font-body);
-            transition: color .2s;
-        }
-
-        .footer-links a:hover {
-            color: var(--cyan);
-        }
 
         /* ─── Reveal animation ──────────────────────────────────────────── */
         .reveal {
@@ -1351,9 +999,6 @@
 
         /* ─── Responsive ────────────────────────────────────────────────── */
         @media (max-width: 900px) {
-            .nav-links {
-                display: none;
-            }
 
             #about {
                 grid-template-columns: 1fr;
@@ -1373,19 +1018,6 @@
 
             .prereq-layout {
                 grid-template-columns: 1fr;
-            }
-
-            #stats {
-                grid-template-columns: 1fr;
-            }
-
-            .stat-item {
-                border-right: none;
-                border-bottom: 1px solid var(--border);
-            }
-
-            .stat-item:last-child {
-                border-bottom: none;
             }
         }
 
@@ -1438,125 +1070,101 @@
             transform: translateX(-50%) translateY(0);
         }
     </style>
+    <link rel="stylesheet" href="assets/css/brand.css" />
+    <link rel="stylesheet" href="assets/css/shell.css" />
 </head>
 
 <body>
-
-    <!-- Navigation -->
-    <nav>
-        <a class="nav-logo" href="#hero" aria-label="Real Value Acceleration Program — Home">
-            <img src="assets/img/logo-full.png" alt="RVAP" class="rvap-nav-logo" height="32">
-            <span class="nav-logo-text">Agentic Modernization</span>
-        </a>
-        <ul class="nav-links">
-            <li><a href="#about">Mission</a></li>
-            <li><a href="#prerequisites">Setup</a></li>
-            <li><a href="#stack">Services</a></li>
-            <li><a href="#java-challenges">Java Challenge</a></li>
-            <li><a href="#dotnet-challenges">.NET Challenge</a></li>
-            <li><a href="#net8-challenges">.NET 8 Challenge</a></li>
-            <li><a href="#customer-challenges">Your App</a></li>
-        </ul>
-        <a class="nav-cta" href="https://github.com/microsoft/frontier-agentic-modernization-rvas" target="_blank"
-            rel="noopener noreferrer" aria-label="Open GitHub repository" title="Open GitHub repository">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                    d="M12 2C6.477 2 2 6.486 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.866-.014-1.699-2.782.605-3.37-1.344-3.37-1.344-.455-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.004.07 1.532 1.033 1.532 1.033.892 1.53 2.341 1.088 2.91.832.092-.647.349-1.088.635-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.269 2.75 1.026A9.565 9.565 0 0112 6.844c.85.004 1.706.115 2.504.337 1.909-1.295 2.748-1.026 2.748-1.026.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.31.678.921.678 1.856 0 1.339-.012 2.419-.012 2.747 0 .269.18.58.688.481A10.022 10.022 0 0022 12.017C22 6.486 17.523 2 12 2z" />
-            </svg>
-        </a>
-    </nav>
-
-    <!-- Hero -->
-    <section id="hero">
-
-        <div class="hero-content">
-            <div class="hero-label">Migrate and Modernize at Scale</div>
-            <h1 class="hero-title display">
-                LEGACY<br>
-                <span class="accent">→ AZURE</span>
-            </h1>
-            <p class="hero-subtitle">
-                Learn by transforming two legacy applications into production-grade cloud-native systems using GitHub
-                Copilot.
-            </p>
-            <p class="hero-subtitle">
-                Win by modernizing one of your own applications with the help of AI-driven tools and expert guidance
-                from Microsoft engineers.
-            </p>
-            <div class="hero-transforms">
-                <div class="transform-pill">
-                    <span class="from">.NET Framework 4.8</span>
-                    <span class="arrow">→</span>
-                    <span class="to">.NET 10 ASP.NET Core</span>
-                </div>
-                <div class="transform-pill">
-                    <span class="from">Spring Boot 2.7 / Java 8</span>
-                    <span class="arrow">→</span>
-                    <span class="to">Spring Boot 3.x / Java 21</span>
-                </div>
-                <div class="transform-pill">
-                    <span class="from">Oracle DB</span>
-                    <span class="arrow">→</span>
-                    <span class="to">Azure PostgreSQL</span>
-                </div>
-                <div class="transform-pill">
-                    <span class="from">MSMQ</span>
-                    <span class="arrow">→</span>
-                    <span class="to">Azure Service Bus</span>
-                </div>
-                <div class="transform-pill">
-                    <span class="from">Your own Application</span>
-                    <span class="arrow">→</span>
-                    <span class="to">to Azure</span>
-                </div>
-                <div class="transform-pill">
-                    <span class="from">ASP.NET Core 8.0</span>
-                    <span class="arrow">→</span>
-                    <span class="to">.NET 10 + Azure Services</span>
-                </div>
-            </div>
-            <div class="hero-actions">
-                <a class="btn-primary" href="#challenges">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z" />
-                    </svg>
-                    Start the Hack
-                </a>
-                <a class="btn-secondary" href="README.md">
-                    Read the Briefing →
-                </a>
+    <header class="nav" role="banner">
+        <div class="nav-inner">
+            <a class="brand" href="index.html" aria-label="RVAS -- Agentic Modernization">
+                <img src="assets/img/logo-full.png" alt="RVAP" class="rvap-nav-logo" height="32">
+            </a>
+            <nav class="nav-links" id="navLinks" aria-label="Primary">
+                <a href="#about">Mission</a>
+                <a href="#prerequisites">Setup</a>
+                <a href="#stack">Services</a>
+                <a href="#java-challenges">Java Challenge</a>
+                <a href="#dotnet-challenges">.NET Challenge</a>
+                <a href="#net8-challenges">.NET 8 Challenge</a>
+                <a href="#customer-challenges">Your App</a>
+                <a class="cta" href="#challenges">Start the Hack →</a>
+                <a class="gh" href="https://github.com/microsoft/frontier-agentic-modernization-rvas" target="_blank" rel="noopener">GitHub ↗</a>
+            </nav>
+            <div class="nav-actions">
+                <button class="icon-btn nav-toggle" type="button" aria-label="Open navigation menu"
+                    aria-expanded="false" aria-controls="navLinks">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+                </button>
             </div>
         </div>
+    </header>
 
-        <div class="hero-scroll-hint">
-            <div class="scroll-line"></div>
-            <span>SCROLL</span>
-        </div>
-    </section>
-
-    <!-- Stats -->
-    <div id="stats">
-        <div class="stat-item reveal" style="transition-delay:.3s">
-            <div class="stat-value display">0<span>4</span></div>
-            <div class="stat-label">Day Estimated</div>
-        </div>
-        <div class="stat-item reveal">
-            <div class="stat-value display">2<span>2</span></div>
-            <div class="stat-label">Challenges</div>
-        </div>
-        <div class="stat-item reveal" style="transition-delay:.2s">
-            <div class="stat-value display">0<span>4</span></div>
-            <div class="stat-label">Tracks</div>
-        </div>
-        <div class="stat-item reveal" style="transition-delay:.1s">
-            <div class="stat-value display">0<span>3</span></div>
-            <div class="stat-label">Demo Applications</div>
-        </div>
-        <div class="stat-item reveal" style="transition-delay:.1s">
-            <div class="stat-value display">0<span>1</span></div>
-            <div class="stat-label">Legacy Application</div>
-        </div>
-    </div>
+    <main>
+        <!-- Hero -->
+        <section class="hero" id="hero" aria-labelledby="heroHeading">
+            <svg class="hero-compass" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <circle cx="200" cy="200" r="180" stroke="currentColor" stroke-width="0.6" stroke-opacity="0.15" stroke-dasharray="4 8"/>
+            <circle cx="200" cy="200" r="140" stroke="currentColor" stroke-width="0.4" stroke-opacity="0.10"/>
+            <circle cx="200" cy="200" r="80"  stroke="currentColor" stroke-width="0.4" stroke-opacity="0.12"/>
+            <path d="M200 60 A140 140 0 0 1 340 200" stroke="#38bdf8" stroke-width="2" stroke-opacity="0.5" stroke-linecap="round"/>
+            <path d="M340 200 A140 140 0 0 1 200 340" stroke="#f87171" stroke-width="2" stroke-opacity="0.5" stroke-linecap="round"/>
+            <path d="M200 340 A140 140 0 0 1 60 200"  stroke="#a78bfa" stroke-width="2" stroke-opacity="0.5" stroke-linecap="round"/>
+            <path d="M60 200 A140 140 0 0 1 200 60"   stroke="#fb923c" stroke-width="2" stroke-opacity="0.5" stroke-linecap="round"/>
+            <line x1="200" y1="20"  x2="200" y2="380" stroke="currentColor" stroke-width="0.5" stroke-opacity="0.10"/>
+            <line x1="20"  y1="200" x2="380" y2="200" stroke="currentColor" stroke-width="0.5" stroke-opacity="0.10"/>
+            <circle cx="200" cy="200" r="5" fill="#1A77E3" fill-opacity="0.8"/>
+            <circle cx="200" cy="200" r="12" stroke="#1A77E3" stroke-width="1" stroke-opacity="0.3"/>
+            <circle cx="200" cy="60"  r="5" fill="#38bdf8" fill-opacity="0.7"/>
+            <circle cx="340" cy="200" r="5" fill="#f87171" fill-opacity="0.7"/>
+            <circle cx="200" cy="340" r="5" fill="#a78bfa" fill-opacity="0.7"/>
+            <circle cx="60"  cy="200" r="5" fill="#fb923c" fill-opacity="0.7"/>
+        </svg>
+            <div class="wrap hero-grid">
+                <div>
+                    <span class="eyebrow">Migrate and Modernize at Scale</span>
+                    <h1 id="heroHeading">Modernize legacy apps with <span class="accent">GitHub Copilot and Azure</span></h1>
+                    <p class="lede">
+                        Learn by transforming two legacy applications into production-grade cloud-native systems using GitHub Copilot.
+                    </p>
+                    <p class="lede">
+                        Win by modernizing one of your own applications with AI-driven tools and guidance from Microsoft engineers.
+                    </p>
+                    <div class="hero-actions">
+                        <a class="btn btn-primary" href="#challenges">
+                            Start the Hack
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                        </a>
+                        <a class="btn btn-ghost" href="README.md">Read the Briefing</a>
+                    </div>
+                    <div class="stats stats-4" aria-label="Delivery session statistics">
+                        <div class="stat"><span class="stat-num" data-count="4">04</span><span class="stat-lbl">Day Estimated</span></div>
+                        <div class="stat"><span class="stat-num" data-count="22">22</span><span class="stat-lbl">Challenges</span></div>
+                        <div class="stat"><span class="stat-num" data-count="4">04</span><span class="stat-lbl">Tracks</span></div>
+                        <div class="stat"><span class="stat-num" data-count="3">03</span><span class="stat-lbl">Demo Applications</span></div>
+                    </div>
+                </div>
+                <div class="hero-modules" aria-label="Modernization track overview">
+                    <a href="#java-challenges" class="hero-mod-card" style="--mod-color:var(--java-color)">
+                        <div class="mod-name">Java modernization</div>
+                        <div class="mod-count">7 challenges · Spring Boot · Java 21</div>
+                    </a>
+                    <a href="#dotnet-challenges" class="hero-mod-card" style="--mod-color:var(--dotnet-color)">
+                        <div class="mod-name">.NET modernization</div>
+                        <div class="mod-count">7 challenges · ASP.NET Core · Azure</div>
+                    </a>
+                    <a href="#net8-challenges" class="hero-mod-card" style="--mod-color:var(--ai-color)">
+                        <div class="mod-name">.NET 8 acceleration</div>
+                        <div class="mod-count">6 challenges · AI assist · cloud services</div>
+                    </a>
+                    <a href="#customer-challenges" class="hero-mod-card" style="--mod-color:var(--deploy-color)">
+                        <div class="mod-name">Your own application</div>
+                        <div class="mod-count">Bring a real workload · modernize to Azure</div>
+                    </a>
+                </div>
+            </div>
+        </section>
 
     <!-- About -->
     <section id="about">
@@ -1569,42 +1177,42 @@
             </p>
             <div class="about-objectives reveal">
                 <div class="objective-item">
-                    <span class="obj-num mono">01</span>
+                    <span class="step-num mono">01</span>
                     <span>Run <code class="mono" style="color:var(--cyan);font-size:.8em">modernize assess</code> to
                         evaluate migration complexity and cloud-readiness gaps</span>
                 </div>
                 <div class="objective-item">
-                    <span class="obj-num mono">02</span>
+                    <span class="step-num mono">02</span>
                     <span>Create AI-driven plans with <code class="mono"
                             style="color:var(--cyan);font-size:.8em">modernize plan create</code> and execute them
                         automatically</span>
                 </div>
                 <div class="objective-item">
-                    <span class="obj-num mono">03</span>
+                    <span class="step-num mono">03</span>
                     <span>Migrate a .NET Framework 4.8 app to .NET 10 ASP.NET Core with Azure Service Bus and Blob
                         Storage</span>
                 </div>
                 <div class="objective-item">
-                    <span class="obj-num mono">04</span>
+                    <span class="step-num mono">04</span>
                     <span>Migrate Spring Boot 2.x / Java 8 to Spring Boot 3.x / Java 21 with PostgreSQL and Blob
                         Storage</span>
                 </div>
                 <div class="objective-item">
-                    <span class="obj-num mono">05</span>
+                    <span class="step-num mono">05</span>
                     <span>Containerize both apps and deploy to Azure Container Apps using Terraform</span>
                 </div>
                 <div class="objective-item">
-                    <span class="obj-num mono">06</span>
+                    <span class="step-num mono">06</span>
                     <span>Harden with Application Insights, Key Vault, and Managed Identity</span>
                 </div>
                 <div class="objective-item">
-                    <span class="obj-num mono">07</span>
+                    <span class="step-num mono">07</span>
                     <span>Infuse Azure OpenAI vision (<code class="mono"
                             style="color:var(--cyan);font-size:.8em">gpt-4.1-mini</code>) with Managed Identity to
                         auto-generate metadata on upload <em style="opacity:.7">(stretch)</em></span>
                 </div>
                 <div class="objective-item">
-                    <span class="obj-num mono">08</span>
+                    <span class="step-num mono">08</span>
                     <span>Modernize <code class="mono"
                             style="color:var(--cyan);font-size:.8em">your own application</code> with the help of
                         AI-driven tools and expert guidance from
@@ -3058,8 +2666,21 @@
         </div>
 
     </section>
-    <footer>
-        <div class="footer-copy mono">Agentic Modernization · 2026</div>
+    </main>
+    <footer class="footer" role="contentinfo">
+        <div class="footer-inner">
+            <a class="brand" href="index.html" aria-label="RVAS -- Agentic Modernization">
+                <img src="assets/img/logo-full.png" alt="RVAP" class="rvap-nav-logo" height="28">
+            </a>
+            <p>Agentic Modernization · 2026</p>
+            <nav class="footer-links" aria-label="Footer">
+                <a href="#about">Mission</a>
+                <a href="#prerequisites">Setup</a>
+                <a href="#stack">Services</a>
+                <a href="#challenges">Challenges</a>
+                <a href="README.md">Briefing</a>
+            </nav>
+        </div>
     </footer>
 
     <!-- Drawer overlay -->
@@ -3117,7 +2738,7 @@
 
         // ── Active nav highlight ──────────────────────────────────────────
         const sections = document.querySelectorAll('section[id], div[id]');
-        const navLinks = document.querySelectorAll('.nav-links a');
+        const navLinks = document.querySelectorAll('.nav-links a:not(.cta):not(.gh)');
 
         window.addEventListener('scroll', () => {
             let current = '';
@@ -3125,9 +2746,7 @@
                 if (window.scrollY >= s.offsetTop - 100) current = s.id;
             });
             navLinks.forEach(a => {
-                a.style.color = a.getAttribute('href') === `#${current}`
-                    ? 'var(--cyan)'
-                    : 'var(--text-2)';
+                a.classList.toggle('active', a.getAttribute('href') === `#${current}`);
             });
         }, { passive: true });
 
@@ -3290,6 +2909,7 @@
             openDrawer(href);
         });
     </script>
+    <script src="assets/js/shell.js"></script>
     <div id="coach-toast"></div>
 </body>
 
