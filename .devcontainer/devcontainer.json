@@ -16,6 +16,7 @@
                 // GitHub Copilot
                 "GitHub.copilot",
                 "GitHub.copilot-chat",
+                "ms-dotnettools.upgrade-agent",
                 // Terraform
                 "hashicorp.terraform",
                 // Azure
