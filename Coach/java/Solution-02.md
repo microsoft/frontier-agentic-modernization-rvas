@@ -1,10 +1,10 @@
-[< Previous Solution](./Solution-01.md) | **[Home](../../README.md)** | [Next Solution >](./Solution-03.md)
+[< Previous Solution](./Solution-01.md) | **[Home](../../README.md)** | [Next Solution >](./Solution-03.md) | [Troubleshooting](../TROUBLESHOOTING.md)
 
 # Coach Guide – Challenge 02: Modernize the Java Application
 
 ## Purpose
 
-This challenge gives attendees hands-on experience using `modernize plan create` and `modernize plan execute` to automate the Spring Boot 2→3 and Java 8→21 migration, and to replace Oracle and in-DB BLOB storage with Azure-native alternatives.
+This challenge gives attendees hands-on experience using `modernize plan create` and `modernize plan execute` to automate the Spring Boot 2→3 and Java 8→25 migration, and to replace Oracle and in-DB BLOB storage with Azure-native alternatives.
 
 ## Mini-Lecture (10 min before challenge)
 
@@ -17,7 +17,7 @@ Cover:
 ## Suggested `modernize plan create` Goal
 
 ```
-Upgrade to Spring Boot 3.x and Java 21, replace Oracle Database with 
+Upgrade to Spring Boot 3.x and Java 25, replace Oracle Database with 
 PostgreSQL (Azure Database for PostgreSQL Flexible Server), and migrate 
 photo storage from Oracle BLOBs to Azure Blob Storage
 ```
@@ -59,5 +59,5 @@ photo storage from Oracle BLOBs to Azure Blob Storage
 
 - `mvn clean package` must succeed — this is binary (pass/fail)
 - Functional verification happens after deployment to Azure in Challenge 03 — there is no local PostgreSQL container (PostgreSQL runs on Azure)
-- A fresh assessment on the updated codebase should show no remaining **mandatory blockers** for the Spring Boot 2→3 / Java 8→21 migration — potential and optional issues are acceptable
+- A fresh assessment on the updated codebase should show no remaining **mandatory blockers** for the Spring Boot 2→3 / Java 8→25 migration — potential and optional issues are acceptable
 - Remind teams **not** to modify `docker-compose.yml` — the Oracle container must stay intact for the data migration in Challenge 04

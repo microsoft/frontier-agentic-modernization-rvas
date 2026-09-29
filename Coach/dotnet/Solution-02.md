@@ -1,4 +1,4 @@
-[< Previous Solution](./Solution-01.md) | **[Home](../../README.md)** | [Next Solution >](./Solution-03.md)
+[< Previous Solution](./Solution-01.md) | **[Home](../../README.md)** | [Next Solution >](./Solution-03.md) | [Troubleshooting](../TROUBLESHOOTING.md)
 
 # Coach Guide – Challenge 02: Modernize the .NET Application
 

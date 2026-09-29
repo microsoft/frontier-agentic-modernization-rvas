@@ -1,8 +1,6 @@
-[< Previous Solution](./Solution-02.md) | **[Home](../../README.md)** | [Next Solution >](./Solution-04.md)
+[< Previous Solution](./Solution-02.md) | **[Home](../../README.md)** | [Next Solution >](./Solution-04.md) | [Troubleshooting](../TROUBLESHOOTING.md)
 
 # Coach Guide – Challenge 03: Containerize, Cloud-Modernize & Deploy
-
-> ⚠️ **COACHES ONLY — Do not share with attendees.**
 
 ## Purpose
 

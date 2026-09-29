@@ -1,4 +1,4 @@
-[< Previous Solution](./Solution-00.md) | **[Home](../../README.md)** | [Next Solution >](./Solution-02.md)
+[< Previous Solution](./Solution-00.md) | **[Home](../../README.md)** | [Next Solution >](./Solution-02.md) | [Troubleshooting](../TROUBLESHOOTING.md)
 
 # Coach Guide – Challenge 01: Assess the Legacy Java Application
 

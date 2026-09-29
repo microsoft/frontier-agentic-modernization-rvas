@@ -19,6 +19,14 @@ build:
 		mkdir -p _site/Coach/$$track; \
 		find Coach/$$track -maxdepth 1 -name "Solution-*.md" -exec cp {} _site/Coach/$$track/ \; 2>/dev/null || true; \
 	done
+	@# Shared coach troubleshooting guide, linked from every Coach Solution-*.md
+	@cp Coach/TROUBLESHOOTING.md _site/Coach/TROUBLESHOOTING.md
+	@# Infra deployment README files (and referenced images) linked from the Challenge-00 docs
+	@for track in java dotnet; do \
+		mkdir -p _site/Student/Resources/$$track/infra; \
+		cp Student/Resources/$$track/infra/README.md _site/Student/Resources/$$track/infra/ 2>/dev/null || true; \
+		cp -r Student/Resources/$$track/infra/assets _site/Student/Resources/$$track/infra/ 2>/dev/null || true; \
+	done
 	@echo "Done → _site/"
 
 clean:

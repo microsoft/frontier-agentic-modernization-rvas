@@ -1,4 +1,4 @@
-[< Previous Solution](./Solution-05.md) | **[Home](../../README.md)**
+[< Previous Solution](./Solution-05.md) | **[Home](../../README.md)** | [Troubleshooting](../TROUBLESHOOTING.md)
 
 # Coach Guide – Challenge 06: Infuse AI into PhotoAlbum (Java Track) — Stretch
 

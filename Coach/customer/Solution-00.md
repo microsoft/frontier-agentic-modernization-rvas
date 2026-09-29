@@ -1,4 +1,4 @@
-**[Home](../../README.md)**
+**[Home](../../README.md)** | [Troubleshooting](../TROUBLESHOOTING.md)
 
 # Coach Guide — Challenge 00: Modernize a Customer Application
 

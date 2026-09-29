@@ -956,7 +956,9 @@
 
         /* Hide the navigation breadcrumb links at top of each challenge .md */
         .md-content>p:first-child a[href*="Challenge"],
-        .md-content>p:first-child a[href*="README"] {
+        .md-content>p:first-child a[href*="README"],
+        .md-content>p:first-child a[href*="Solution"],
+        .md-content>p:first-child a[href$="TROUBLESHOOTING.md"] {
             display: inline-flex;
             align-items: center;
             gap: .3rem;
@@ -968,6 +970,20 @@
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 3px;
+        }
+
+        /* Nav row: Home/Prev/Next stay left, Troubleshooting is pushed to the right edge */
+        .md-content>p:first-child {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: .4rem;
+        }
+
+        .md-content>p:first-child a[href$="TROUBLESHOOTING.md"] {
+            margin-left: auto;
+            color: var(--amber, #b45309);
+            border-color: rgba(180, 83, 9, .35);
         }
 
         .drawer-loading {
@@ -1089,7 +1105,6 @@
                 <a href="#dotnet-challenges">.NET Challenge</a>
                 <a href="#net8-challenges">.NET 8 Challenge</a>
                 <a href="#customer-challenges">Your App</a>
-                <a class="cta" href="#challenges">Start the Hack →</a>
                 <a class="gh" href="https://github.com/microsoft/frontier-agentic-modernization-rvas" target="_blank" rel="noopener">GitHub ↗</a>
             </nav>
             <div class="nav-actions">
@@ -1133,10 +1148,6 @@
                         Win by modernizing one of your own applications with AI-driven tools and guidance from Microsoft engineers.
                     </p>
                     <div class="hero-actions">
-                        <a class="btn btn-primary" href="#challenges">
-                            Start the Hack
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                        </a>
                         <a class="btn btn-ghost" href="README.md">Read the Briefing</a>
                     </div>
                     <div class="stats stats-4" aria-label="Delivery session statistics">
@@ -1149,7 +1160,7 @@
                 <div class="hero-modules" aria-label="Modernization track overview">
                     <a href="#java-challenges" class="hero-mod-card" style="--mod-color:var(--java-color)">
                         <div class="mod-name">Java modernization</div>
-                        <div class="mod-count">7 challenges · Spring Boot · Java 21</div>
+                        <div class="mod-count">7 challenges · Spring Boot · Java 25</div>
                     </a>
                     <a href="#dotnet-challenges" class="hero-mod-card" style="--mod-color:var(--dotnet-color)">
                         <div class="mod-name">.NET modernization</div>
@@ -1195,7 +1206,7 @@
                 </div>
                 <div class="objective-item">
                     <span class="step-num mono">04</span>
-                    <span>Migrate Spring Boot 2.x / Java 8 to Spring Boot 3.x / Java 21 with PostgreSQL and Blob
+                    <span>Migrate Spring Boot 2.x / Java 8 to Spring Boot 3.x / Java 25 with PostgreSQL and Blob
                         Storage</span>
                 </div>
                 <div class="objective-item">
@@ -1233,20 +1244,20 @@
                 <div class="terminal-body mono">
                     <div><span class="t-prompt">$ </span><span class="t-cmd">modernize assess .</span></div>
                     <div class="t-out t-comment">→ Scanning codebase...</div>
-                    <div class="t-out t-warn">⚠ Java 8 → Java 21 migration required</div>
+                    <div class="t-out t-warn">⚠ Java 8 → Java 25 migration required</div>
                     <div class="t-out t-warn">⚠ Spring Boot 2.7 EOL — upgrade to 3.x</div>
                     <div class="t-out t-warn">⚠ Oracle JDBC detected — replace with PostgreSQL</div>
                     <div class="t-out t-warn">⚠ BLOB columns in DB — migrate to Blob Storage</div>
                     <div class="t-out t-comment">→ 14 critical issues · 6 automated fixes</div>
                     <div>&nbsp;</div>
                     <div><span class="t-prompt">$ </span><span class="t-cmd">modernize plan create \</span></div>
-                    <div class="t-out t-cmd"> --goal "Migrate to Java 21, Spring Boot 3,</div>
+                    <div class="t-out t-cmd"> --goal "Migrate to Java 25, Spring Boot 3,</div>
                     <div class="t-out t-cmd"> PostgreSQL and Azure Blob Storage"</div>
                     <div class="t-out t-ok">✓ Plan created: 23 steps · ~2h estimated</div>
                     <div>&nbsp;</div>
                     <div><span class="t-prompt">$ </span><span class="t-cmd">modernize plan execute</span></div>
                     <div class="t-out t-ok">✓ javax.* → jakarta.* namespace migrated</div>
-                    <div class="t-out t-ok">✓ pom.xml updated to Spring Boot 3.3.0</div>
+                    <div class="t-out t-ok">✓ pom.xml updated to Spring Boot 3.5.5</div>
                     <div class="t-out t-ok">✓ Oracle JDBC replaced with PostgreSQL driver</div>
                     <div class="t-out t-ok">✓ BlobService created using Azure SDK</div>
                     <div class="t-out">Step 23/23 — <span class="t-ok">BUILD SUCCESS</span></div>
@@ -1342,8 +1353,7 @@
                     </div>
                     <div class="code-block-body">
                         <div><span class="comment"># Linux / macOS</span></div>
-                        <div><span class="cmd">curl -fsSL https://raw.githubusercontent.com/</span></div>
-                        <div><span class="cmd"> microsoft/modernize-cli/main/scripts/install.sh | sh</span></div>
+                        <div><span class="cmd">curl -fsSL https://raw.githubusercontent.com/microsoft/modernize-cli/main/scripts/install.sh | sh</span></div>
                         <div><span class="cmd">source ~/.bashrc</span></div>
                         <div>&nbsp;</div>
                         <div><span class="comment"># Windows</span></div>
@@ -1603,12 +1613,12 @@
                     </div>
                     <h3 class="card-title display">Modernize the Java App</h3>
                     <p class="card-desc">
-                        Migrate PhotoAlbum from Spring Boot 2.7 / Java 8 / Oracle to Spring Boot 3.x / Java 21 /
+                        Migrate PhotoAlbum from Spring Boot 2.7 / Java 8 / Oracle to Spring Boot 3.x / Java 25 /
                         PostgreSQL + Azure Blob Storage. Tackle javax→jakarta and SQL dialect migration.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
-                            <span class="card-tag">Java 21</span>
+                            <span class="card-tag">Java 25</span>
                             <span class="card-tag">Spring Boot 3</span>
                             <span class="card-tag">PostgreSQL</span>
                             <span class="card-tag">Blob Storage</span>
@@ -2674,13 +2684,6 @@
                 <img src="assets/img/logo-full.png" alt="RVAP" class="rvap-nav-logo" height="28">
             </a>
             <p>Agentic Modernization · 2026</p>
-            <nav class="footer-links" aria-label="Footer">
-                <a href="#about">Mission</a>
-                <a href="#prerequisites">Setup</a>
-                <a href="#stack">Services</a>
-                <a href="#challenges">Challenges</a>
-                <a href="README.md">Briefing</a>
-            </nav>
         </div>
     </footer>
 
@@ -2763,6 +2766,7 @@
         const STUDENT_FILES = [
             { label: 'README', file: 'README.md', title: 'README' },
             { label: 'JAVA-00', file: 'Student/java/Challenge-00.md', title: 'Java – Prerequisites' },
+            { label: 'JAVA-00-INFRA', file: 'Student/Resources/java/infra/README.md', title: 'Java – Deploy PhotoAlbum to Azure VM' },
             { label: 'JAVA-01', file: 'Student/java/Challenge-01.md', title: 'Java – Assess' },
             { label: 'JAVA-02', file: 'Student/java/Challenge-02.md', title: 'Java – Modernize' },
             { label: 'JAVA-03', file: 'Student/java/Challenge-03.md', title: 'Java – Deploy' },
@@ -2770,6 +2774,7 @@
             { label: 'JAVA-05', file: 'Student/java/Challenge-05.md', title: 'Java – Observe & Secure' },
             { label: 'JAVA-06', file: 'Student/java/Challenge-06.md', title: 'Java – AI Assist' },
             { label: 'NET-00', file: 'Student/dotnet/Challenge-00.md', title: '.NET – Prerequisites' },
+            { label: 'NET-00-INFRA', file: 'Student/Resources/dotnet/infra/README.md', title: '.NET – Deploy ContosoUniversity to Azure VM' },
             { label: 'NET-01', file: 'Student/dotnet/Challenge-01.md', title: '.NET – Assess' },
             { label: 'NET-02', file: 'Student/dotnet/Challenge-02.md', title: '.NET – Modernize' },
             { label: 'NET-03', file: 'Student/dotnet/Challenge-03.md', title: '.NET – Deploy' },
@@ -2809,6 +2814,7 @@
             { label: 'COACH-NET8-05', file: 'Coach/net8/Solution-05.md', title: 'Coach · .NET 8 – Observe & Secure' },
             { label: 'COACH-NET8-06', file: 'Coach/net8/Solution-06.md', title: 'Coach · .NET 8 – AI Assist' },
             { label: 'COACH-CUSTOMER-00', file: 'Coach/customer/Solution-00.md', title: 'Coach · Customer – Modernize Your App' },
+            { label: 'COACH-TROUBLESHOOTING', file: 'Coach/TROUBLESHOOTING.md', title: 'Coach · Troubleshooting Guide' },
         ];
 
         let currentIdx = -1;
@@ -2846,16 +2852,34 @@
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 const text = await res.text();
                 drawerContent.innerHTML = marked.parse(text);
+                const base = entry.file.replace(/\/[^\/]+$/, '/');
+                // Images referenced with relative paths (e.g. "assets/foo.png") must be
+                // resolved against the source .md file's own folder, not the SPA page URL,
+                // otherwise they 404 once rendered inside the drawer.
+                drawerContent.querySelectorAll('img[src]').forEach(img => {
+                    const src = img.getAttribute('src');
+                    if (src && !/^([a-z]+:)?\/\//i.test(src) && !src.startsWith('data:')) {
+                        img.setAttribute('src', new URL(src, 'http://x/' + base).pathname.replace(/^\//, ''));
+                    }
+                });
                 drawerContent.querySelectorAll('a[href]').forEach(a => {
                     const href = a.getAttribute('href');
                     if (href && href.endsWith('.md')) {
-                        a.addEventListener('click', e => {
-                            e.preventDefault();
-                            const base = entry.file.replace(/\/[^\/]+$/, '/');
-                            const resolved = new URL(href, 'http://x/' + base).pathname.replace(/^\//, '');
-                            const match = activeFiles.findIndex(f => f.file === resolved);
-                            if (match !== -1) { currentIdx = match; loadAndRender(match); }
-                        });
+                        const resolved = new URL(href, 'http://x/' + base).pathname.replace(/^\//, '');
+                        const match = activeFiles.findIndex(f => f.file === resolved);
+                        // Rewrite the href itself (not just the click handler) so hover
+                        // previews, "open in new tab", and copy-link all resolve correctly
+                        // relative to the file's own folder instead of the SPA's page URL.
+                        a.setAttribute('href', resolved);
+                        if (match !== -1) {
+                            a.addEventListener('click', e => {
+                                e.preventDefault();
+                                currentIdx = match; loadAndRender(match);
+                            });
+                        } else {
+                            a.setAttribute('target', '_blank');
+                            a.setAttribute('rel', 'noopener noreferrer');
+                        }
                     } else if (href && (href.startsWith('http') || href.startsWith('//'))) {
                         a.setAttribute('target', '_blank');
                         a.setAttribute('rel', 'noopener noreferrer');

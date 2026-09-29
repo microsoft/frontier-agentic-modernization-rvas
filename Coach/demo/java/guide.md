@@ -2,7 +2,7 @@
 
 **Duration**: 55 minutes  
 **Audience**: Technical (Java developers, architects)  
-**Pitch**: Migrate a legacy Spring Boot 2.7 / Java 8 / Oracle app to Spring Boot 3.x / Java 21 / Azure PostgreSQL, secured with Key Vault + Managed Identity, hosted on Azure Container Apps.
+**Pitch**: Migrate a legacy Spring Boot 2.7 / Java 8 / Oracle app to Spring Boot 3.x / Java 25 / Azure PostgreSQL, secured with Key Vault + Managed Identity, hosted on Azure Container Apps.
 
 ## Timing
 
@@ -238,7 +238,7 @@ Show the generated plan. Walk through the task list and point out the four key i
 **Step 2 — Agent executes the plan:**
 
 ```bash
-modernize plan execute "Execute the plan migrating to Java 21 and PostgreSQL"
+modernize plan execute "Execute the plan migrating to Java 25 and PostgreSQL"
 ```
 
 or ask the agent in the Copilot extension to: "Execute the plan".
@@ -249,7 +249,7 @@ or ask the agent in the Copilot extension to: "Execute the plan".
 mvn clean package -DskipTests
 ```
 
-**Audience sees:** `BUILD SUCCESS` — the migrated code compiles cleanly with Java 21 and Spring Boot 3.
+**Audience sees:** `BUILD SUCCESS` — the migrated code compiles cleanly with Java 25 and Spring Boot 3.
 
 **Pitch:**
 
@@ -345,7 +345,7 @@ Once you agree to the plan, execute it. The agent will implement tehe feature, i
 >
 > Before: Java 8 end-of-life, Spring Boot unsupported, use of Oracle, photos stored as database BLOBs, running on a virtual machine with no secrets management and no observability.
 >
-> After: Java 21 LTS, Spring Boot 3.x, Azure Database for PostgreSQL — fully managed, no server to patch. Azure Container Apps — serverless, autoscaling, no infrastructure to manage. Secrets locked in Key Vault, never in code. Telemetry flowing to Application Insights with zero code changes.
+> After: Java 25 LTS, Spring Boot 3.x, Azure Database for PostgreSQL — fully managed, no server to patch. Azure Container Apps — serverless, autoscaling, no infrastructure to manage. Secrets locked in Key Vault, never in code. Telemetry flowing to Application Insights with zero code changes.
 >
 > GitHub Copilot assessed the codebase, generated the migration plan, and executed the code changes. The developer stayed in control — Copilot accelerated every step of the journey."
 
@@ -353,7 +353,7 @@ Once you agree to the plan, execute it. The agent will implement tehe feature, i
 
 | | Before | After |
 |---|---|---|
-| Java | 8 (end-of-life 2019) | 21 LTS |
+| Java | 8 (end-of-life 2019) | 25 LTS |
 | Spring Boot | 2.7.18 (unsupported) | 3.x |
 | Database | Oracle XE in Docker | Azure Database for PostgreSQL |
 | Photo storage | Oracle BLOBs | Azure Blob Storage |

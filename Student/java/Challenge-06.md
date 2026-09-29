@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The modernized PhotoAlbum runs on Spring Boot 3.3 / Java 21 with PostgreSQL Flexible Server and Azure Key Vault. In this challenge you will **infuse Azure OpenAI** into the upload pipeline so every photo automatically gets:
+The modernized PhotoAlbum runs on Spring Boot 3.5 / Java 25 with PostgreSQL Flexible Server and Azure Key Vault. In this challenge you will **infuse Azure OpenAI** into the upload pipeline so every photo automatically gets:
 
 - A short **caption**.
 - A list of **tags** (5–10).

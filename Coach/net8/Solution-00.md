@@ -1,8 +1,6 @@
-**[Home](../../README.md)** | [Next Solution >](./Solution-01.md)
+**[Home](../../README.md)** | [Next Solution >](./Solution-01.md) | [Troubleshooting](../TROUBLESHOOTING.md)
 
 # Coach Guide – Challenge 00: Prerequisites (.NET 8 → .NET 10 Track)
-
-> ⚠️ **COACHES ONLY — Do not share with attendees.**
 
 ## Expected Environment State
 

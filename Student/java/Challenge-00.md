@@ -70,7 +70,7 @@ git submodule status
 # 5. Java submodule source code is present
 ls Student/Resources/java/PhotoAlbum-Java/
 
-# 6. Java version (Java 21 required for local builds — 8 is fine for running the legacy app)
+# 6. Java version (Java 25 required for local builds — 8 is fine for running the legacy app)
 java -version 2>&1 | head -1
 
 # 7. Maven version

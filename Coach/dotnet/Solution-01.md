@@ -1,4 +1,4 @@
-[< Previous Solution](./Solution-00.md) | **[Home](../../README.md)** | [Next Solution >](./Solution-02.md)
+[< Previous Solution](./Solution-00.md) | **[Home](../../README.md)** | [Next Solution >](./Solution-02.md) | [Troubleshooting](../TROUBLESHOOTING.md)
 
 # Coach Guide – Challenge 01: Assess the Legacy .NET Application
 
@@ -38,3 +38,4 @@ After the team reviews the report, facilitate a 10-minute debrief:
 - The assessment report format may vary slightly between CLI and VS Code extension — both are acceptable
 - "Top 3 migration blockers" is intentionally subjective — any reasonable answer is correct
 - If the assessment does not surface MSMQ or `System.Web` as issues, the team may have run it on the wrong folder — coach them to re-run from the `ContosoUniversity` root
+- If `System.Web` still isn't detected after confirming the folder is correct, or the AppCat pre-assessment step fails to install, see **[Troubleshooting → .NET assessment issues](../TROUBLESHOOTING.md#2-net-assessment--systemweb-not-detected--appcat-install-blocked-by-nuget-policy)** — this is often a NuGet network-policy block, not a tool bug

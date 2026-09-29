@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.6</version>
+        <version>3.5.5</version>
         <relativePath/>
     </parent>
 
@@ -21,11 +21,11 @@
     <description>A simple photo storage and gallery application built with Spring Boot and PostgreSQL</description>
 
     <properties>
-        <java.version>21</java.version>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <java.version>25</java.version>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-cloud-azure.version>5.18.0</spring-cloud-azure.version>
+        <spring-cloud-azure.version>5.23.0</spring-cloud-azure.version>
     </properties>
 
     <dependencyManagement>

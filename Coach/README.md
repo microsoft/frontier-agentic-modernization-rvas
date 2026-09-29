@@ -8,7 +8,7 @@ This hack is designed for teams of 3–5 people. It covers three parallel modern
 
 | Track | Application | Legacy Stack | Target Stack |
 |---|---|---|---|
-| Java | PhotoAlbum | Spring Boot 2.7 / Java 8 / Oracle DB | Spring Boot 3.x / Java 21 / PostgreSQL + Azure Blob |
+| Java | PhotoAlbum | Spring Boot 2.7 / Java 8 / Oracle DB | Spring Boot 3.x / Java 25 / PostgreSQL + Azure Blob |
 | .NET | ContosoUniversity | .NET Framework 4.8 / ASP.NET MVC 5 / MSMQ | .NET 10 / ASP.NET Core / Azure Service Bus + Blob |
 | .NET 8 | eShopOnWeb | ASP.NET Core 8.0 / EF Core 8 / Swashbuckle | .NET 10 / Microsoft.AspNetCore.OpenApi / Azure Service Bus + Blob |
 
@@ -20,6 +20,10 @@ Challenges 02 and 03 are designed to be parallelized within a team — members c
 
 Per-challenge coach notes (hints, common pitfalls, mini-lecture talking points) live in
 per-track subfolders. Use these during the event — **do not share with attendees**.
+
+> 🛠️ **[Troubleshooting Guide](./TROUBLESHOOTING.md)** — cross-track issues and fixes (Terraform
+> feature-registration errors, NuGet/AppCat network-policy blocks, etc.), linked from every
+> `Solution-*.md` file below.
 
 ### .NET Track
 
@@ -171,6 +175,10 @@ Focus on Challenges 00–02 only. Challenges 03–05 become homework or async ex
 | Azure CLI not logged in | Run `az login` |
 | `modernize assess` hangs | Check `gh auth status` — the tool requires an active GitHub session |
 | Terraform fails on `az login` | Ensure `ARM_USE_CLI=true` is set or run `az login` before `terraform apply` |
+
+For longer-form fixes to cross-track issues (e.g. Terraform feature-registration errors,
+NuGet/AppCat network-policy blocks), see the full **[Troubleshooting Guide](./TROUBLESHOOTING.md)** —
+linked from every `Solution-*.md` file as well.
 
 ---
 

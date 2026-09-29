@@ -12,7 +12,7 @@ The `Student/Resources/java/` directory contains an `infra/` directory with a sk
 
 Containerize and deploy the modernized Java PhotoAlbum application to Azure:
 
-- Verify or update the `Dockerfile` in `../Resources/java/PhotoAlbum-Java/` to build on a Java 21 base image
+- Verify or update the `Dockerfile` in `../Resources/java/PhotoAlbum-Java/` to build on a Java 25 base image
 - Complete the Terraform configuration in `../Resources/java/infra/` to provision:
   - Azure Container Apps environment and app
   - Azure Database for PostgreSQL (Flexible Server)

@@ -21,6 +21,11 @@ This folder contains Terraform configuration and a PowerShell setup script that 
 
 ## Deploy
 
+> **Run all commands below from this folder:** `Student/Resources/dotnet/infra/`
+> ```powershell
+> cd Student/Resources/dotnet/infra
+> ```
+
 ### 1. Create your variables file
 
 ```bash

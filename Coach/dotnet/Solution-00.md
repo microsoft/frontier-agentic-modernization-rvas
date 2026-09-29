@@ -1,4 +1,4 @@
-**[Home](../../README.md)** | [Next Solution >](./Solution-01.md)
+**[Home](../../README.md)** | [Next Solution >](./Solution-01.md) | [Troubleshooting](../TROUBLESHOOTING.md)
 
 # Coach Guide – Challenge 00: Prerequisites (.NET Track)
 

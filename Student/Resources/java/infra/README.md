@@ -21,6 +21,11 @@ This folder contains Terraform configuration and a Bash setup script that deploy
 
 ## Deploy
 
+> **Run all commands below from this folder:** `Student/Resources/java/infra/`
+> ```bash
+> cd Student/Resources/java/infra
+> ```
+
 ### 1. Create your variables file
 
 ```bash

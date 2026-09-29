@@ -10,7 +10,7 @@ In this RVAS you will use the **GitHub Copilot Modernization** tools to assess, 
 - **PhotoAlbum** (Java track) — a Spring Boot 2.7 application running on Java 8, backed by Oracle Database with photo BLOBs
 - **Your own application** (Customer track) — a real customer-owned legacy codebase from your portfolio, modernized using the same workflow
 
-By the end of the event you will have migrated applications to modern runtimes (.NET 10 and Java 21), cloud-native Azure services, and containerized deployments on Azure Container Apps — including a working modernization of a real customer application.
+By the end of the event you will have migrated applications to modern runtimes (.NET 10 and Java 25), cloud-native Azure services, and containerized deployments on Azure Container Apps — including a working modernization of a real customer application.
 
 ## Learning Objectives
 
@@ -20,7 +20,7 @@ By completing this hack you will be able to:
 2. Create AI-driven modernization plans with `modernize plan create` and execute them with `modernize plan execute`
 3. Migrate a .NET Framework 4.8 ASP.NET MVC 5 app to .NET 10 ASP.NET Core
 4. Replace MSMQ with Azure Service Bus and local file storage with Azure Blob Storage
-5. Migrate a Spring Boot 2.x / Java 8 application to Spring Boot 3.x / Java 21
+5. Migrate a Spring Boot 2.x / Java 8 application to Spring Boot 3.x / Java 25
 6. Replace an Oracle Database with Azure Database for PostgreSQL and Azure Blob Storage
 7. Containerize both modernized applications and deploy them to Azure Container Apps using Terraform
 8. Apply the same AI-driven workflow to a **real customer application** from your own portfolio
@@ -35,7 +35,7 @@ Each challenge has a dedicated per-track guide. Pick **`dotnet/`**, **`java/`**,
   - Run the GitHub Copilot Modernization assessment and interpret the results.
 - Challenge 02: **Modernize the Application** — [.NET](Student/dotnet/Challenge-02.md) · [Java](Student/java/Challenge-02.md)
   - .NET: migrate ContosoUniversity from .NET Framework 4.8 to .NET 10 ASP.NET Core with Azure Service Bus and Azure Blob Storage.
-  - Java: migrate PhotoAlbum from Spring Boot 2.7 / Java 8 / Oracle to Spring Boot 3.x / Java 21 / PostgreSQL + Azure Blob Storage.
+  - Java: migrate PhotoAlbum from Spring Boot 2.7 / Java 8 / Oracle to Spring Boot 3.x / Java 25 / PostgreSQL + Azure Blob Storage.
 - Challenge 03: **Containerize & Deploy to Azure Container Apps** — [.NET](Student/dotnet/Challenge-03.md) · [Java](Student/java/Challenge-03.md)
   - Package the modernized app as a container and deploy it to Azure using Terraform.
 - Challenge 04: **Migrate the Database to Azure** — [.NET](Student/dotnet/Challenge-04.md) · [Java](Student/java/Challenge-04.md)

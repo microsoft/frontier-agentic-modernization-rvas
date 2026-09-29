@@ -1,4 +1,4 @@
-**[Home](../../README.md)** | [Next Solution >](./Solution-01.md)
+**[Home](../../README.md)** | [Next Solution >](./Solution-01.md) | [Troubleshooting](../TROUBLESHOOTING.md)
 
 # Coach Guide – Challenge 00: Prerequisites (Java Track)
 
@@ -32,6 +32,13 @@ echo $PATH | grep local
 # If not present:
 export PATH="$HOME/.local/bin:$PATH"
 ```
+
+### Terraform `apply` fails during the optional VM deployment
+If a team attempts the optional Azure VM deployment (`Student/Resources/java/infra/`) and
+`terraform apply` fails with `SubscriptionNotRegisteredForFeature` on the public IP resource,
+see **[Troubleshooting → Terraform apply fails](../TROUBLESHOOTING.md#1-terraform-apply-fails--subscriptionnotregisteredforfeature-azure-vm-deploy)**.
+This is a subscription feature-registration gap, not a Terraform config bug — it can take time
+to resolve, so don't let it block the core (non-VM) challenge track.
 
 ## Success Criteria Notes
 
