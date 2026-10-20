@@ -14,6 +14,8 @@ This hack is designed for teams of 3–5 people. It covers three parallel modern
 
 Challenges 02 and 03 are designed to be parallelized within a team — members can split across any combination of the three tracks.
 
+Presenter-led demo speaker guides: [Java](./demo/java/guide.md) and [.NET / ContosoUniversity](./demo/dotnet/guide.md).
+
 ---
 
 ## Coach Notes Index
