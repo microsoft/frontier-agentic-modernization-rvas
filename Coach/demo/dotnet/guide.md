@@ -55,7 +55,9 @@ export REPO_ROOT="$(pwd)"
 az login
 ```
 
-Use Bash/Linux or WSL for these commands, with the modernization tools, .NET 10 SDK, Terraform, Docker, and go-sqlcmd installed. The legacy app runs on the Windows VM; the migrated app runs on Linux.
+Use Bash or Zsh on Linux/WSL for these commands, with the modernization tools, .NET 10 SDK, Terraform, jq, Docker, and go-sqlcmd installed. The legacy app runs on the Windows VM; the migrated app runs on Linux.
+
+Keep the original Terraform state, backend configuration, workspace, and `terraform.tfvars` for **both** deployments. If resuming from another clone or machine, point `LEGACY_INFRA` and `ACA_INFRA` at the original deployment directories (or initialize their existing remote backends and select the original workspaces). Re-cloning the repository does not recover local state. Do not apply from empty state to recreate resources that already exist.
 
 ### A1 - Deploy the Legacy VM
 
@@ -63,7 +65,7 @@ This provisions a Windows VM with IIS, SQL Express, MSMQ, and the legacy Contoso
 
 ```bash
 cd "$REPO_ROOT/Student/Resources/dotnet/infra"
-cp terraform.tfvars.example terraform.tfvars
+test -f terraform.tfvars || cp terraform.tfvars.example terraform.tfvars
 ```
 
 Edit `terraform.tfvars`:
@@ -99,13 +101,65 @@ Copy the files from `C:\inetpub\wwwroot\ContosoUniversity\Uploads\TeachingMateri
 
 **Database detail:** The VM uses **`ContosoUniversity` on `.\SQLEXPRESS`**, not the sample's developer LocalDB database. DMS connects to the VM's **private IP on port 1433**.
 
+#### Prepare the Local Database Walkthrough
+
+Do this **inside the Windows VM over RDP**, before the audience arrives.
+
+1. Open **PowerShell** and confirm the local database engine is running:
+
+   ```powershell
+   Get-Service -Name 'MSSQL$SQLEXPRESS'
+   ```
+
+   Expect the SQL Server Express service to show `Running`.
+
+2. Install **SQL Server Management Studio (SSMS)** from the [official Microsoft installer page](https://learn.microsoft.com/en-us/ssms/install/install). The VM setup installs the database engine, not SSMS. Finish installation before the live session.
+
+3. Open SSMS and connect with these settings:
+
+   | Setting | Value |
+   |---|---|
+   | Server type | Database Engine |
+   | Server name | `tcp:localhost,1433` |
+   | Authentication | SQL Server Authentication |
+   | Login | `dms_migration` |
+   | Password | Your privately configured `sql_migration_password` |
+   | Trust server certificate | Enabled for this local demo connection |
+
+   The DMS preparation Run Command must have completed to configure TCP port 1433 and this login. Do not show or save the password in the presentation.
+
+4. Expand **Databases → ContosoUniversity → Tables**. Right-click **dbo.Person → Select Top 1000 Rows** and locate the student created earlier. Show **dbo.Course**, **dbo.Enrollment**, and **dbo.Department** in Object Explorer.
+
+5. Open **New Query**, run the following, and leave the query/results ready for Segment 1:
+
+   ```sql
+   USE ContosoUniversity;
+   SELECT @@SERVERNAME AS ServerName,
+          SERVERPROPERTY('InstanceName') AS InstanceName,
+          DB_NAME() AS DatabaseName;
+   SELECT name AS TableName FROM sys.tables ORDER BY name;
+   SELECT * FROM dbo.Person;
+   ```
+
+   Expect instance `SQLEXPRESS`, database `ContosoUniversity`, the application tables, and the student you created. This proves the data lives in SQL Server on the VM rather than in the browser or Azure SQL.
+
+**Command-line fallback:** If `sqlcmd` is installed, run this in **VM PowerShell**. It prompts for `sql_migration_password`; do not put the password on the command line. `-C` trusts the server certificate for this local demo connection.
+
+```powershell
+sqlcmd -S "tcp:localhost,1433" -U dms_migration -d ContosoUniversity -C -Q "SELECT @@SERVERNAME AS ServerName, DB_NAME() AS DatabaseName; SELECT name AS TableName FROM sys.tables ORDER BY name; SELECT * FROM dbo.Person;"
+```
+
+If `sqlcmd` is not found, use SSMS rather than spending live-demo time installing command-line tools.
+
 ### A3 - Deploy Azure Target Infrastructure
 
 This provisions Container Apps, Azure SQL, Service Bus, private Blob Storage, Key Vault, Log Analytics, Azure OpenAI, and the pre-built modern application.
 
+**This is a second, required deployment.** A successful Student apply with VM/DMS outputs completes A1 only; it does not deploy the Coach Container App. If you already deployed the Coach stack, reuse its original state and variables rather than starting a new deployment.
+
 ```bash
 cd "$REPO_ROOT/Coach/Solutions/dotnet/infra"
-cp terraform.tfvars.example terraform.tfvars
+test -f terraform.tfvars || cp terraform.tfvars.example terraform.tfvars
 ```
 
 Edit `terraform.tfvars`:
@@ -125,6 +179,14 @@ terraform output
 
 Open `app_url` and try a course image upload with AI enrichment.
 
+Before A4, confirm this returns the actual Coach resource-group name, not a `No outputs found` warning:
+
+```bash
+terraform -chdir="${ACA_INFRA:-$REPO_ROOT/Coach/Solutions/dotnet/infra}" output -raw resource_group_name
+```
+
+If outputs are missing despite an existing deployment, check `terraform workspace show` and `terraform state list` in its original directory/backend. Do not substitute the Student resource group or run a blind refresh/redeployment against empty state.
+
 **Two databases:** The Student/DMS and Coach/app stacks create separate Azure SQL databases. Segment 4 migrates into the Student DMS target, then points the Container App at it.
 
 **Security and telemetry:** The reference uses a user-assigned managed identity for Azure services. Key Vault and Log Analytics are provisioned, but Key Vault secret loading and Application Insights instrumentation are not wired into the reference.
@@ -133,22 +195,15 @@ Open `app_url` and try a course image upload with AI enrichment.
 
 Have DMS ready to connect to the source and empty target, including an integration runtime if your portal flow requires one. Sign Docker into your image registry; the Coach stack does not create ACR.
 
-In the **Bash terminal**, set the values needed later:
+In the **same Bash or Zsh terminal you will use for the live commands**, source the read-only setup helper:
 
 ```bash
-export LEGACY_INFRA="$REPO_ROOT/Student/Resources/dotnet/infra"
-export ACA_INFRA="$REPO_ROOT/Coach/Solutions/dotnet/infra"
-export MIGRATION_SQL_HOST="$(terraform -chdir="$LEGACY_INFRA" output -raw target_sql_server_for_wizard)"
-export ACA_RG="$(terraform -chdir="$ACA_INFRA" output -raw resource_group_name)"
-export ACA_APP="demo-contoso"
-export APP_IDENTITY_NAME="demo-contoso-id"
-export APP_CLIENT_ID="$(az identity show -g "$ACA_RG" -n "$APP_IDENTITY_NAME" --query clientId -o tsv)"
-export BLOB_ACCOUNT="$(az storage account list -g "$ACA_RG" --query '[0].name' -o tsv)"
-read -rp "Container image tag to build and deploy: " DEMO_IMAGE
-export DEMO_IMAGE
+source "$REPO_ROOT/Coach/demo/dotnet/prepare-env.sh"
 ```
 
-Adjust app/identity names if you changed the prefix.
+**Stop if the helper fails; continue only after it prints `Ready:`.** It validates named Terraform outputs as JSON before making Azure calls, clears stale derived variables, and checks the deployed app, attached identity, and storage account. App/identity names come from the actual deployment, not an assumed prefix; the storage account comes from the Terraform blob endpoint, not the first account in the resource group.
+
+The helper prompts for the full image reference to build and push, for example your registry/repository plus a unique tag. You can set `DEMO_IMAGE` before sourcing to skip the prompt. Use `source`, not `bash prepare-env.sh`, so the exported values remain in your terminal. It does not deploy resources or alter state.
 
 ### A5 - Stage Browser Tabs and VS Code
 
@@ -157,6 +212,8 @@ Adjust app/identity names if you changed the prefix.
 | **Tab 1** | Legacy VM `app_url` | Keep visible at the start |
 | **Tab 2** | Azure Portal | Open DMS, the target SQL database, Service Bus, and Blob Storage |
 | **Tab 3** | Container App `app_url` | Minimize until the reveal |
+
+Keep the VM's RDP session open with **SSMS Object Explorer and the A2 query/results** ready. Keep connection/password dialogs out of view.
 
 In VS Code, open `Student/Resources/dotnet/dotnet-migration-copilot-samples/ContosoUniversity` as the working folder. Have `ContosoUniversity.csproj`, `Services/NotificationService.cs`, `Controllers/CoursesController.cs`, and `Web.config` ready.
 
@@ -177,13 +234,22 @@ In VS Code, open `Student/Resources/dotnet/dotnet-migration-copilot-samples/Cont
 1. Open **Tab 1** and show the student created during setup.
 2. Open a course and its teaching-material image.
 3. Make an update and show the notification UI.
-4. Switch to VS Code and point out:
+4. Switch to **SSMS inside the VM** for a brief local-database walkthrough:
+   - Point to the local server connection and expand **Databases → ContosoUniversity → Tables**.
+   - Show the prepared A2 query results: instance **SQLEXPRESS**, database **ContosoUniversity**, and the application tables.
+   - Find the same student in **dbo.Person** that you just showed in the app. If SSMS is unavailable, use the prepared A2 `sqlcmd` fallback.
+
+   **Say this:**
+
+   > This is the actual SQL Server Express database on the Windows VM. Here is the same student we saw in the application. Later, we will move these records into Azure SQL and verify them again in the modern app.
+
+5. Switch to VS Code and point out:
    - `<TargetFrameworkVersion>v4.8</TargetFrameworkVersion>`
    - `System.Web` and `System.Messaging` references
    - `packages.config` and `Web.config`
    - Local file upload code in `CoursesController.cs`
 
-**Audience sees:** A working application whose web framework, queue, and files are tied to Windows.
+**Audience sees:** A working application whose web framework, queue, and files are tied to Windows, plus direct evidence that its records are stored in the VM's local SQL Server Express database.
 
 ### Segment 2 - Assessment **(5:00 - 15:00)**
 
@@ -297,7 +363,7 @@ UNION ALL SELECT 'Department', COUNT(*) FROM dbo.Department;
 
 Compare counts and find the student created during setup.
 
-From the **Bash terminal**, upload the copied teaching-material files:
+From the **same terminal used in A4**, upload the copied teaching-material files:
 
 ```bash
 az storage blob upload-batch --account-name "$BLOB_ACCOUNT" \
@@ -361,7 +427,7 @@ ALTER ROLE db_datawriter ADD MEMBER [demo-contoso-id];
 
 Run the user creation only if it does not already exist. Schema changes should be applied as the administrator, not by granting the runtime identity additional DDL permissions.
 
-From the migrated project folder in the **Bash terminal**:
+From the migrated project folder in the **same terminal used in A4**:
 
 ```bash
 dotnet build ContosoUniversity.csproj -c Release
@@ -418,6 +484,12 @@ If you show the pre-built Coach image instead, say so clearly. It already includ
 
 | Issue | What to do |
 |---|---|
+| SSMS is missing on the VM | Install it during A2 from the official Microsoft installer page. The VM setup installs the SQL engine, not the graphical browser. |
+| SSMS cannot connect to the local database | Use `tcp:localhost,1433`, SQL Authentication, `dms_migration`, and the configured `sql_migration_password`. Check the SQL Express service and `setup-sql-dms` Run Command. Trust the certificate only for this local demo connection. |
+| `sqlcmd` is not found on the VM | Use the SSMS walkthrough. SQL engine installation alone does not guarantee command-line tools are installed. |
+| A4 reports missing Terraform outputs | A1 and A3 are separate deployments. If both are deployed, select the original directory/backend/workspace for each. Do not use warning text as a resource-group name or recreate deployed resources from empty state. |
+| Azure CLI returns Bad Request during old A4 commands | Clear the warning-valued `ACA_RG` by sourcing `prepare-env.sh` after fixing the Coach state. The helper stops before Azure calls when outputs are missing. |
+| `read: -p: no coprocess` in Zsh | Use the A4 helper, which uses a Bash/Zsh-compatible prompt. Do not paste the old Bash-only `read -rp` command into Zsh. |
 | VM app not reachable | Inspect `C:\setup-contoso.log` and VM Run Commands `setup-contoso` / `setup-sql-dms`. Check IIS, SQL Express, and MSMQ. Installation can take much longer than 15 minutes. |
 | Legacy build fails on Linux | Use Windows for the .NET Framework baseline. The migrated `net10.0` project is the Linux target. |
 | AppCat/NuGet assessment fails | Check the approved package source and network access. See `Coach/TROUBLESHOOTING.md`, section 2. |
