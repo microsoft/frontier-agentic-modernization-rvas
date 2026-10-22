@@ -21,6 +21,11 @@ build:
 	done
 	@# Shared coach troubleshooting guide, linked from every Coach Solution-*.md
 	@cp Coach/TROUBLESHOOTING.md _site/Coach/TROUBLESHOOTING.md
+	@# Presenter demo guides opened in the site's shared markdown drawer
+	@for track in java dotnet; do \
+		mkdir -p _site/Coach/demo/$$track; \
+		cp Coach/demo/$$track/guide.md _site/Coach/demo/$$track/guide.md; \
+	done
 	@# Infra deployment README files (and referenced images) linked from the Challenge-00 docs
 	@for track in java dotnet; do \
 		mkdir -p _site/Student/Resources/$$track/infra; \

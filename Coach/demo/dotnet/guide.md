@@ -45,7 +45,7 @@ AZURE APPLICATION  (Coach/Solutions/dotnet/infra outputs)
 
 ## Part A - Pre-Demo Setup
 
-> Complete setup at least **2 hours before** the demo starts. The Windows VM setup downloads SQL Server and Visual Studio Build Tools and can take substantially longer than the older README estimates.
+> Complete setup at least **2 hours before** the demo starts. The Windows VM setup downloads SQL Server, Visual Studio Build Tools, and SQL Server Management Studio (SSMS).
 
 ### A0 - Set Up Your Local Environment
 
@@ -119,7 +119,7 @@ Do this **inside the Windows VM over RDP**, before the audience arrives.
 
    Expect the SQL Server Express service to show `Running`.
 
-2. Install **SQL Server Management Studio (SSMS)** from the [official Microsoft installer page](https://learn.microsoft.com/en-us/ssms/install/install). The VM setup installs the database engine, not SSMS. Finish installation before the live session.
+2. Confirm the **`setup-ssms` VM Run Command** completed. The Student Terraform stack installs **SQL Server Management Studio (SSMS) 22 automatically**, after the application and DMS setup. Open it from the Start menu or `C:\Program Files\Microsoft SQL Server Management Studio 22\Release\Common7\IDE\Ssms.exe`. If the setup log requests a reboot, complete it before the live session and verify the SQL Express service again. For older VMs, apply the updated stack using its original Terraform state, or install from the [official Microsoft installer page](https://learn.microsoft.com/en-us/ssms/install/install).
 
 3. Open SSMS and connect with these settings:
 
@@ -493,7 +493,7 @@ If you show the pre-built Coach image instead, say so clearly. It already includ
 
 | Issue | What to do |
 |---|---|
-| SSMS is missing on the VM | Install it during A2 from the official Microsoft installer page. The VM setup installs the SQL engine, not the graphical browser. |
+| SSMS is missing on the VM | Check the `setup-ssms` Run Command and `C:\setup-ssms.log`. Apply the updated Student stack using its original state for older VMs, or run `Student/Resources/dotnet/infra/scripts/ssms.ps1` in elevated PowerShell on the VM. Finish installation and any required reboot before A2. |
 | SSMS cannot connect to the local database | Use `tcp:localhost,1433`, SQL Authentication, `dms_migration`, and the configured `sql_migration_password`. Check the SQL Express service and `setup-sql-dms` Run Command. Trust the certificate only for this local demo connection. |
 | `sqlcmd` is not found on the VM | Use the SSMS walkthrough. SQL engine installation alone does not guarantee command-line tools are installed. |
 | A4 reports missing Terraform outputs | A1 and A3 are separate deployments. If both are deployed, select the original directory/backend/workspace for each. Do not use warning text as a resource-group name or recreate deployed resources from empty state. |
