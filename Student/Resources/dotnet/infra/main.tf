@@ -198,3 +198,25 @@ resource "azurerm_virtual_machine_run_command" "setup" {
     environment = "legacy-demo"
   }
 }
+
+# Separate command so existing VMs can gain SSMS without rerunning app setup.
+resource "azurerm_virtual_machine_run_command" "setup_ssms" {
+  name               = "setup-ssms"
+  virtual_machine_id = azurerm_windows_virtual_machine.vm.id
+  location           = azurerm_resource_group.rg.location
+  source {
+    script = file("${path.module}/scripts/ssms.ps1")
+  }
+
+  # Serialize VM Run Commands and wait for VS Build Tools installation to finish.
+  depends_on = [azurerm_virtual_machine_run_command.setup_sql_dms]
+
+  timeouts {
+    create = "90m"
+    update = "90m"
+  }
+
+  tags = {
+    environment = "legacy-demo"
+  }
+}

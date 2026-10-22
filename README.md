@@ -25,6 +25,15 @@ By completing this hack you will be able to:
 7. Containerize both modernized applications and deploy them to Azure Container Apps using Terraform
 8. Apply the same AI-driven workflow to a **real customer application** from your own portfolio
 
+## Demos
+
+The site's **Demo** menu, immediately after **Setup**, opens two presenter-led walkthroughs. Each speaker guide opens in the same side drawer as the challenges, with previous/next navigation between demos.
+
+- [PhotoAlbum Java demo](Coach/demo/java/guide.md): Java 8 / Oracle to Java 25 / Azure PostgreSQL and Container Apps.
+- [ContosoUniversity .NET demo](Coach/demo/dotnet/guide.md): .NET Framework 4.8 / SQL Express to .NET 10 / Azure SQL and Container Apps. Run the presenter tools on **Windows with PowerShell 7**, not Linux/WSL.
+
+Each demo runs for 55 minutes; complete its pre-demo setup before presenting.
+
 ## Challenges
 
 Each challenge has a dedicated per-track guide. Pick **`dotnet/`**, **`java/`**, or **`customer/`** depending on which app you are modernizing. Teams can split across tracks and run all three in parallel.

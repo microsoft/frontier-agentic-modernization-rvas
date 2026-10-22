@@ -481,6 +481,41 @@
             max-width: 420px;
         }
 
+        /* ─── Presenter demos ────────────────────────────────────────────── */
+        #demos {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .demos-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .demo-card {
+            border-radius: var(--radius-lg);
+        }
+
+        .demo-card[data-track="java"] {
+            --c-color: var(--java-color);
+        }
+
+        .demo-card[data-track="dotnet"] {
+            --c-color: var(--dotnet-color);
+        }
+
+        .demo-card .card-arrow {
+            opacity: 1;
+            transform: none;
+        }
+
+        .demo-card:focus-visible {
+            outline: 3px solid var(--c-color);
+            outline-offset: 4px;
+        }
+
         /* ─── Prerequisites ─────────────────────────────────────────────── */
         #prerequisites {
             border-bottom: 1px solid var(--border);
@@ -1039,6 +1074,10 @@
         }
 
         @media (max-width: 600px) {
+            .demos-grid {
+                grid-template-columns: 1fr;
+            }
+
             .challenges-grid {
                 grid-template-columns: 1fr;
             }
@@ -1100,6 +1139,7 @@
             <nav class="nav-links" id="navLinks" aria-label="Primary">
                 <a href="#about">Mission</a>
                 <a href="#prerequisites">Setup</a>
+                <a href="#demos">Demo</a>
                 <a href="#stack">Services</a>
                 <a href="#java-challenges">Java Challenge</a>
                 <a href="#dotnet-challenges">.NET Challenge</a>
@@ -1386,6 +1426,52 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Presenter demos -->
+    <section id="demos" aria-labelledby="demos-heading">
+        <div class="section-label">Presenter-led Walkthroughs</div>
+        <h2 class="section-title display reveal" id="demos-heading">See modernization in action.</h2>
+        <p class="section-desc reveal">Two complete demos, from the legacy application to the Azure reveal.
+            Open a speaker guide alongside the site for setup, live commands, talking points, and troubleshooting.
+            Each demo runs for 55 minutes; complete provisioning before presenting.</p>
+
+        <div class="demos-grid">
+            <a class="challenge-card demo-card" data-track="java" href="Coach/demo/java/guide.md"
+                aria-haspopup="dialog" aria-controls="drawer">
+                <div class="card-top">
+                    <span class="card-phase-badge">Java demo</span>
+                    <span class="card-num">55 MIN</span>
+                </div>
+                <h3 class="card-title">PhotoAlbum</h3>
+                <p class="card-desc">Take Spring Boot 2.7, Java 8, and Oracle to Spring Boot 3.x, Java 25,
+                    and Azure PostgreSQL. Follow the assessment, code migration, data move, and Container Apps reveal.</p>
+                <div class="card-footer">
+                    <div class="card-tags">
+                        <span class="card-tag">Bash</span>
+                        <span class="card-tag">Oracle → PostgreSQL</span>
+                    </div>
+                    <span class="card-arrow">Open guide →</span>
+                </div>
+            </a>
+            <a class="challenge-card demo-card" data-track="dotnet" href="Coach/demo/dotnet/guide.md"
+                aria-haspopup="dialog" aria-controls="drawer">
+                <div class="card-top">
+                    <span class="card-phase-badge">.NET demo</span>
+                    <span class="card-num">55 MIN</span>
+                </div>
+                <h3 class="card-title">ContosoUniversity</h3>
+                <p class="card-desc">Modernize ASP.NET MVC 5 and .NET Framework 4.8 to .NET 10 on Container Apps,
+                    migrate SQL Express to Azure SQL, and add AI image enrichment. Run the presenter tools on Windows.</p>
+                <div class="card-footer">
+                    <div class="card-tags">
+                        <span class="card-tag">Windows · PowerShell 7</span>
+                        <span class="card-tag">SQL Express → Azure SQL</span>
+                    </div>
+                    <span class="card-arrow">Open guide →</span>
+                </div>
+            </a>
         </div>
     </section>
 
@@ -2691,7 +2777,7 @@
     <div id="drawer-overlay"></div>
     <div id="drawer" role="dialog" aria-modal="true" aria-label="Challenge content">
         <div class="drawer-header">
-            <div class="drawer-breadcrumb">CHALLENGE / <span id="drawer-title">–</span></div>
+            <div class="drawer-breadcrumb"><span id="drawer-kind">CHALLENGE</span> / <span id="drawer-title">–</span></div>
             <div style="display:flex;align-items:center;gap:.75rem;">
                 <div class="drawer-nav">
                     <button class="drawer-nav-btn" id="drawer-prev" title="Previous challenge">← prev</button>
@@ -2759,6 +2845,7 @@
         const drawerOverlay = document.getElementById('drawer-overlay');
         const drawerContent = document.getElementById('drawer-content');
         const drawerTitle = document.getElementById('drawer-title');
+        const drawerKind = document.getElementById('drawer-kind');
         const drawerPrev = document.getElementById('drawer-prev');
         const drawerNext = document.getElementById('drawer-next');
         const drawerClose = document.getElementById('drawer-close');
@@ -2817,6 +2904,11 @@
             { label: 'COACH-TROUBLESHOOTING', file: 'Coach/TROUBLESHOOTING.md', title: 'Coach · Troubleshooting Guide' },
         ];
 
+        const DEMO_FILES = [
+            { label: 'DEMO-JAVA', file: 'Coach/demo/java/guide.md', title: 'Java Demo - PhotoAlbum' },
+            { label: 'DEMO-DOTNET', file: 'Coach/demo/dotnet/guide.md', title: '.NET Demo - ContosoUniversity' },
+        ];
+
         let currentIdx = -1;
         let activeFiles = STUDENT_FILES;
 
@@ -2824,9 +2916,16 @@
             // Determine which array owns this file
             const sIdx = STUDENT_FILES.findIndex(f => f.file === mdFile);
             const cIdx = COACH_FILES.findIndex(f => f.file === mdFile);
+            const dIdx = DEMO_FILES.findIndex(f => f.file === mdFile);
             if (sIdx !== -1) { activeFiles = STUDENT_FILES; currentIdx = sIdx; }
             else if (cIdx !== -1) { activeFiles = COACH_FILES; currentIdx = cIdx; }
+            else if (dIdx !== -1) { activeFiles = DEMO_FILES; currentIdx = dIdx; }
             else { activeFiles = STUDENT_FILES; currentIdx = 0; }
+            const kind = activeFiles === DEMO_FILES ? 'demo' : 'challenge';
+            drawerKind.textContent = kind.toUpperCase();
+            drawer.setAttribute('aria-label', `${kind === 'demo' ? 'Demo guide' : 'Challenge content'}`);
+            drawerPrev.title = `Previous ${kind}`;
+            drawerNext.title = `Next ${kind}`;
             loadAndRender(currentIdx);
             drawer.classList.add('open');
             drawerOverlay.classList.add('open');
