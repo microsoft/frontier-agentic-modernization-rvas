@@ -2,6 +2,8 @@
 
 **Duration**: 55 minutes  
 **Audience**: Technical (.NET developers, architects)  
+**Presenter environment**: Windows with PowerShell 7 (`pwsh`), including the modernization CLI and VS Code. Do not run the .NET Framework assessment or migration from Linux, WSL, Bash, or a Linux container.
+
 **Pitch**: Migrate an ASP.NET MVC 5 / .NET Framework 4.8 / SQL Express application on IIS to .NET 10 / ASP.NET Core / Azure SQL on Azure Container Apps, replacing MSMQ with Service Bus and local files with Blob Storage.
 
 ## Timing
@@ -47,25 +49,29 @@ AZURE APPLICATION  (Coach/Solutions/dotnet/infra outputs)
 
 ### A0 - Set Up Your Local Environment
 
-```bash
+Run all presenter commands in **PowerShell 7 on Windows**, unless explicitly marked as SQL or as commands inside the legacy VM.
+
+```powershell
 git clone https://github.com/microsoft/frontier-agentic-modernization-rvas.git
-cd frontier-agentic-modernization-rvas
+Set-Location frontier-agentic-modernization-rvas
 git submodule update --init --recursive
-export REPO_ROOT="$(pwd)"
+$env:REPO_ROOT = (Get-Location).Path
 az login
 ```
 
-Use Bash or Zsh on Linux/WSL for these commands, with the modernization tools, .NET 10 SDK, Terraform, jq, Docker, and go-sqlcmd installed. The legacy app runs on the Windows VM; the migrated app runs on Linux.
+Install the modernization tools, .NET Framework 4.8 targeting/build tools, .NET 10 SDK, Terraform, Azure CLI, and Docker Desktop with Linux containers on the **Windows presenter machine**. The modernization CLI needs Windows to assess and build this legacy .NET Framework application; running it from Linux/WSL will not work for this baseline. The legacy app runs on the Windows VM; only the migrated app targets a Linux container. The PowerShell setup helper uses built-in JSON parsing and does not require jq.
 
-Keep the original Terraform state, backend configuration, workspace, and `terraform.tfvars` for **both** deployments. If resuming from another clone or machine, point `LEGACY_INFRA` and `ACA_INFRA` at the original deployment directories (or initialize their existing remote backends and select the original workspaces). Re-cloning the repository does not recover local state. Do not apply from empty state to recreate resources that already exist.
+Keep the original Terraform state, backend configuration, workspace, and `terraform.tfvars` for **both** deployments. If resuming from another clone or machine, set `$env:LEGACY_INFRA` and `$env:ACA_INFRA` to the original deployment directories (or initialize their existing remote backends and select the original workspaces). Re-cloning the repository does not recover local state. Do not apply from empty state to recreate resources that already exist.
 
 ### A1 - Deploy the Legacy VM
 
 This provisions a Windows VM with IIS, SQL Express, MSMQ, and the legacy ContosoUniversity application. The same Terraform stack also creates DMS and an Azure SQL migration target.
 
-```bash
-cd "$REPO_ROOT/Student/Resources/dotnet/infra"
-test -f terraform.tfvars || cp terraform.tfvars.example terraform.tfvars
+```powershell
+Set-Location "$env:REPO_ROOT\Student\Resources\dotnet\infra"
+if (-not (Test-Path terraform.tfvars)) {
+    Copy-Item terraform.tfvars.example terraform.tfvars
+}
 ```
 
 Edit `terraform.tfvars`:
@@ -81,7 +87,7 @@ sql_admin_login     = "sqladminuser"
 
 Set `admin_password`, `sql_admin_password`, and `sql_migration_password` privately to strong, unique values. Replace the example/default passwords; do not commit variables or Terraform state.
 
-```bash
+```powershell
 terraform init
 terraform apply
 terraform output
@@ -97,7 +103,7 @@ Open the VM's `app_url`. Visit **Students**, **Courses**, and **Departments**. T
 
 Create a student and upload a teaching-material image to an existing course. Leave these visible for the opening segment.
 
-Copy the files from `C:\inetpub\wwwroot\ContosoUniversity\Uploads\TeachingMaterials` to `$HOME/contoso-demo-materials` on your machine. Preserve filenames; these will be uploaded to Blob Storage in Segment 4.
+Copy the files from `C:\inetpub\wwwroot\ContosoUniversity\Uploads\TeachingMaterials` to `$HOME\contoso-demo-materials` on your Windows presenter machine. Preserve filenames; these will be uploaded to Blob Storage in Segment 4.
 
 **Database detail:** The VM uses **`ContosoUniversity` on `.\SQLEXPRESS`**, not the sample's developer LocalDB database. DMS connects to the VM's **private IP on port 1433**.
 
@@ -157,9 +163,11 @@ This provisions Container Apps, Azure SQL, Service Bus, private Blob Storage, Ke
 
 **This is a second, required deployment.** A successful Student apply with VM/DMS outputs completes A1 only; it does not deploy the Coach Container App. If you already deployed the Coach stack, reuse its original state and variables rather than starting a new deployment.
 
-```bash
-cd "$REPO_ROOT/Coach/Solutions/dotnet/infra"
-test -f terraform.tfvars || cp terraform.tfvars.example terraform.tfvars
+```powershell
+Set-Location "$env:REPO_ROOT\Coach\Solutions\dotnet\infra"
+if (-not (Test-Path terraform.tfvars)) {
+    Copy-Item terraform.tfvars.example terraform.tfvars
+}
 ```
 
 Edit `terraform.tfvars`:
@@ -171,7 +179,7 @@ resource_group_name = "demo-contoso-aca-rg"
 app_image           = "ghcr.io/microsoft/frontier-agentic-modernization-rvas/contoso-university:latest"
 ```
 
-```bash
+```powershell
 terraform init
 terraform apply
 terraform output
@@ -181,8 +189,9 @@ Open `app_url` and try a course image upload with AI enrichment.
 
 Before A4, confirm this returns the actual Coach resource-group name, not a `No outputs found` warning:
 
-```bash
-terraform -chdir="${ACA_INFRA:-$REPO_ROOT/Coach/Solutions/dotnet/infra}" output -raw resource_group_name
+```powershell
+$acaInfra = if ($env:ACA_INFRA) { $env:ACA_INFRA } else { "$env:REPO_ROOT\Coach\Solutions\dotnet\infra" }
+terraform "-chdir=$acaInfra" output -raw resource_group_name
 ```
 
 If outputs are missing despite an existing deployment, check `terraform workspace show` and `terraform state list` in its original directory/backend. Do not substitute the Student resource group or run a blind refresh/redeployment against empty state.
@@ -195,15 +204,15 @@ If outputs are missing despite an existing deployment, check `terraform workspac
 
 Have DMS ready to connect to the source and empty target, including an integration runtime if your portal flow requires one. Sign Docker into your image registry; the Coach stack does not create ACR.
 
-In the **same Bash or Zsh terminal you will use for the live commands**, source the read-only setup helper:
+In the **same Windows PowerShell 7 terminal you will use for the live commands**, dot-source the read-only setup helper:
 
-```bash
-source "$REPO_ROOT/Coach/demo/dotnet/prepare-env.sh"
+```powershell
+. "$env:REPO_ROOT\Coach\demo\dotnet\prepare-env.ps1"
 ```
 
 **Stop if the helper fails; continue only after it prints `Ready:`.** It validates named Terraform outputs as JSON before making Azure calls, clears stale derived variables, and checks the deployed app, attached identity, and storage account. App/identity names come from the actual deployment, not an assumed prefix; the storage account comes from the Terraform blob endpoint, not the first account in the resource group.
 
-The helper prompts for the full image reference to build and push, for example your registry/repository plus a unique tag. You can set `DEMO_IMAGE` before sourcing to skip the prompt. Use `source`, not `bash prepare-env.sh`, so the exported values remain in your terminal. It does not deploy resources or alter state.
+The helper prompts for the full image reference to build and push, for example your registry/repository plus a unique tag. You can set `$env:DEMO_IMAGE` before dot-sourcing to skip the prompt. Run it in the current terminal, not a separate `pwsh -File` process, so its `$env:` values remain available for the live commands. Use `prepare-env.ps1`, not the Bash helper. It does not deploy resources or alter state.
 
 ### A5 - Stage Browser Tabs and VS Code
 
@@ -215,7 +224,7 @@ The helper prompts for the full image reference to build and push, for example y
 
 Keep the VM's RDP session open with **SSMS Object Explorer and the A2 query/results** ready. Keep connection/password dialogs out of view.
 
-In VS Code, open `Student/Resources/dotnet/dotnet-migration-copilot-samples/ContosoUniversity` as the working folder. Have `ContosoUniversity.csproj`, `Services/NotificationService.cs`, `Controllers/CoursesController.cs`, and `Web.config` ready.
+In **VS Code on Windows**, open `Student/Resources/dotnet/dotnet-migration-copilot-samples/ContosoUniversity` as the working folder, not a WSL, Remote SSH Linux, or Linux dev-container session. Have `ContosoUniversity.csproj`, `Services/NotificationService.cs`, `Controllers/CoursesController.cs`, and `Web.config` ready.
 
 ## Part B - Live Demo
 
@@ -261,8 +270,8 @@ In VS Code, open `Student/Resources/dotnet/dotnet-migration-copilot-samples/Cont
 
 In the legacy application folder:
 
-```bash
-cd "$REPO_ROOT/Student/Resources/dotnet/dotnet-migration-copilot-samples/ContosoUniversity"
+```powershell
+Set-Location "$env:REPO_ROOT\Student\Resources\dotnet\dotnet-migration-copilot-samples\ContosoUniversity"
 modernize assess --source .
 ```
 
@@ -291,7 +300,7 @@ Open the generated report and walk through these findings, using code inspection
 
 **Step 1 - Generate the migration plan:**
 
-```bash
+```powershell
 modernize plan create "Migrate ContosoUniversity from .NET Framework 4.8 ASP.NET MVC 5 to .NET 10 ASP.NET Core MVC on Linux Azure Container Apps. Convert the project to SDK style and PackageReference. Migrate System.Web, Global.asax, routing, Razor views and Web.config. Upgrade existing EF Core 3.1 to EF Core 10, preserving table names, keys, relationships and data. Replace MSMQ with Azure Service Bus and local teaching-material storage with private Azure Blob Storage. Use DefaultAzureCredential and a user-assigned managed identity, not SQL passwords or service keys. Add a multi-stage Linux Dockerfile listening on port 8080. Preserve CRUD and notifications. Identify existing-file and database-schema migration steps separately. Build and test the result." --source .
 ```
 
@@ -307,7 +316,7 @@ Show the plan and point out:
 
 **Step 2 - Execute the plan:**
 
-```bash
+```powershell
 modernize plan execute "Execute the reviewed ContosoUniversity migration plan targeting .NET 10, ASP.NET Core, Azure Service Bus and private Azure Blob Storage."
 ```
 
@@ -317,7 +326,7 @@ Show the new `.csproj`, `Program.cs`, notification service, and upload controlle
 
 **Step 3 - Verify the build:**
 
-```bash
+```powershell
 dotnet restore ContosoUniversity.csproj
 dotnet build ContosoUniversity.csproj -c Release --no-restore
 ```
@@ -365,9 +374,9 @@ Compare counts and find the student created during setup.
 
 From the **same terminal used in A4**, upload the copied teaching-material files:
 
-```bash
-az storage blob upload-batch --account-name "$BLOB_ACCOUNT" \
-  --destination teaching-materials --source "$HOME/contoso-demo-materials" \
+```powershell
+az storage blob upload-batch --account-name "$env:BLOB_ACCOUNT" `
+  --destination teaching-materials --source "$HOME\contoso-demo-materials" `
   --auth-mode login
 ```
 
@@ -429,13 +438,13 @@ Run the user creation only if it does not already exist. Schema changes should b
 
 From the migrated project folder in the **same terminal used in A4**:
 
-```bash
+```powershell
 dotnet build ContosoUniversity.csproj -c Release
-docker build -t "$DEMO_IMAGE" .
-docker push "$DEMO_IMAGE"
+docker build -t "$env:DEMO_IMAGE" .
+docker push "$env:DEMO_IMAGE"
 
-az containerapp update -g "$ACA_RG" -n "$ACA_APP" --image "$DEMO_IMAGE" \
-  --set-env-vars "ConnectionStrings__DefaultConnection=Server=tcp:$MIGRATION_SQL_HOST,1433;Initial Catalog=ContosoUniversity;Encrypt=True;TrustServerCertificate=False;Authentication=Active Directory Managed Identity;User Id=$APP_CLIENT_ID;" \
+az containerapp update -g "$env:ACA_RG" -n "$env:ACA_APP" --image "$env:DEMO_IMAGE" `
+  --set-env-vars "ConnectionStrings__DefaultConnection=Server=tcp:$env:MIGRATION_SQL_HOST,1433;Initial Catalog=ContosoUniversity;Encrypt=True;TrustServerCertificate=False;Authentication=Active Directory Managed Identity;User Id=$env:APP_CLIENT_ID;" `
   --query properties.latestRevisionName -o tsv
 ```
 
@@ -488,10 +497,10 @@ If you show the pre-built Coach image instead, say so clearly. It already includ
 | SSMS cannot connect to the local database | Use `tcp:localhost,1433`, SQL Authentication, `dms_migration`, and the configured `sql_migration_password`. Check the SQL Express service and `setup-sql-dms` Run Command. Trust the certificate only for this local demo connection. |
 | `sqlcmd` is not found on the VM | Use the SSMS walkthrough. SQL engine installation alone does not guarantee command-line tools are installed. |
 | A4 reports missing Terraform outputs | A1 and A3 are separate deployments. If both are deployed, select the original directory/backend/workspace for each. Do not use warning text as a resource-group name or recreate deployed resources from empty state. |
-| Azure CLI returns Bad Request during old A4 commands | Clear the warning-valued `ACA_RG` by sourcing `prepare-env.sh` after fixing the Coach state. The helper stops before Azure calls when outputs are missing. |
-| `read: -p: no coprocess` in Zsh | Use the A4 helper, which uses a Bash/Zsh-compatible prompt. Do not paste the old Bash-only `read -rp` command into Zsh. |
+| Azure CLI returns Bad Request during old A4 commands | Clear the warning-valued `$env:ACA_RG` by dot-sourcing `prepare-env.ps1` after fixing the Coach state. The helper stops before Azure calls when outputs are missing. |
+| Bash syntax or missing variables in PowerShell | Use the A4 `.ps1` helper and `$env:NAME` variables in the same Windows PowerShell terminal. Do not paste Bash `export`, `source`, or backslash continuations. |
 | VM app not reachable | Inspect `C:\setup-contoso.log` and VM Run Commands `setup-contoso` / `setup-sql-dms`. Check IIS, SQL Express, and MSMQ. Installation can take much longer than 15 minutes. |
-| Legacy build fails on Linux | Use Windows for the .NET Framework baseline. The migrated `net10.0` project is the Linux target. |
+| Legacy assessment, migration, or build fails on Linux/WSL | Run the modernization CLI and VS Code on Windows with .NET Framework 4.8 targeting/build tools. Only the migrated `net10.0` application targets Linux. |
 | AppCat/NuGet assessment fails | Check the approved package source and network access. See `Coach/TROUBLESHOOTING.md`, section 2. |
 | DMS cannot reach SQL Express | Check private IP, TCP 1433, the DMS login, VM Run Command completion, peering, NSG/firewall, and integration runtime if required. Do not use LocalDB settings. |
 | DMS target rejects SQL login | Confirm you selected the Student DMS target, not the Coach Entra-only SQL server. Resolve policy restrictions before delivery. |
@@ -502,6 +511,6 @@ If you show the pre-built Coach image instead, say so clearly. It already includ
 | AI fields stay blank | Leave fields blank, upload an image, save, then open Details/Edit. Check deployment settings, identity role, quota, and logs. |
 | Container revision fails | Check image pull permissions, port 8080, SQL connectivity, and schema compatibility. Inspect console logs below. |
 
-```bash
-az containerapp logs show -g "$ACA_RG" -n "$ACA_APP" --type console --tail 50
+```powershell
+az containerapp logs show -g "$env:ACA_RG" -n "$env:ACA_APP" --type console --tail 50
 ```
