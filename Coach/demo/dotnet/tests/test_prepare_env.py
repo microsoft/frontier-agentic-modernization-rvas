@@ -104,9 +104,22 @@ class PrepareEnvironmentTests(unittest.TestCase):
         for name in DERIVED[:-1]:
             env[name] = "stale-value"
         dump = "import json, os; print('\\nENV=' + json.dumps(dict(os.environ)))"
+        if Path(shell).name == "pwsh":
+            env["PREPARE_SCRIPT"] = str(SCRIPT.with_suffix(".ps1"))
+            command = [
+                shell, "-NoProfile", "-Command",
+                "$result = 0; try { . $env:PREPARE_SCRIPT } "
+                "catch { [Console]::Error.WriteLine($_); $result = 1 }; "
+                "Write-Output ('ENV=' + (ConvertTo-Json -Compress "
+                "([Environment]::GetEnvironmentVariables()))); exit $result",
+            ]
+        else:
+            command = [
+                shell, "-c", 'source "$PREPARE_SCRIPT"; result=$?; '
+                f"python3 -c {shlex.quote(dump)}; exit \"$result\"",
+            ]
         result = subprocess.run(
-            [shell, "-c", 'source "$PREPARE_SCRIPT"; result=$?; '
-             f"python3 -c {shlex.quote(dump)}; exit \"$result\""],
+            command,
             env=env, input=stdin, text=True, capture_output=True,
         )
         exported = json.loads(next(
@@ -200,6 +213,12 @@ class PrepareEnvironmentTests(unittest.TestCase):
                 result, env, _ = self.run_helper(shell, image="", stdin="\n")
                 self.assertNotEqual(result.returncode, 0)
                 self.assertNotIn("ACA_RG", env)
+
+
+@unittest.skipUnless(shutil.which("pwsh"), "PowerShell 7 is not installed")
+class PowerShellPrepareEnvironmentTests(PrepareEnvironmentTests):
+    def shells(self):
+        return [shutil.which("pwsh")]
 
 
 if __name__ == "__main__":
