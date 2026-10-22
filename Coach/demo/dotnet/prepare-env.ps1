@@ -6,6 +6,8 @@
 # 'MIGRATION_SQL_HOST','ACA_RG','ACA_APP','APP_IDENTITY_NAME','APP_CLIENT_ID','BLOB_ACCOUNT','DEMO_IMAGE' |
 #     ForEach-Object { Remove-Item "Env:$_" -ErrorAction SilentlyContinue }
 
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+
 & {
     $ErrorActionPreference = 'Stop'
     'MIGRATION_SQL_HOST', 'ACA_RG', 'ACA_APP', 'APP_IDENTITY_NAME', 'APP_CLIENT_ID', 'BLOB_ACCOUNT' |
