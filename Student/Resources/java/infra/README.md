@@ -1,6 +1,6 @@
 # Deploy PhotoAlbum (Legacy Java) to Azure VM
 
-This folder contains Terraform configuration and a Bash setup script that deploys the **PhotoAlbum** Spring Boot 2.7 / Java 8 / Oracle application to an Ubuntu 22.04 Virtual Machine — the "before" state of the modernization journey.
+Use the Terraform configuration and Bash setup script in this folder to deploy the **PhotoAlbum** Spring Boot 2.7 / Java 8 / Oracle application to an Ubuntu 22.04 Virtual Machine — the "before" state of the modernization journey.
 
 ## What Gets Deployed
 

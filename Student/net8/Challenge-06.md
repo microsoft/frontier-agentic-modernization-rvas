@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The modernized eShopOnWeb now runs on .NET 10 on Azure Container Apps with Azure SQL, Service Bus, Blob Storage, Key Vault, and Application Insights. In this challenge you will **infuse Azure OpenAI** to improve the product catalog experience.
+The modernized eShopOnWeb now runs on .NET 10 on Azure Container Apps with Azure SQL, Service Bus, Blob Storage, Key Vault, and Application Insights. Add **Azure OpenAI** to improve the product catalog experience.
 
 When an admin uploads a **product image** on the Catalog management page, the application will call **Azure OpenAI (`gpt-4.1-mini`, vision)** and receive structured AI suggestions:
 
@@ -18,7 +18,7 @@ Authentication to Azure OpenAI uses **Managed Identity** — no API keys anywher
 
 ## Description
 
-Your goal is to extend the eShopOnWeb Catalog management flow with an AI-assisted product content workflow. Rather than following a prescriptive implementation guide, use **GitHub Copilot** to generate and execute an implementation plan from a clear prompt.
+Extend the eShopOnWeb Catalog management flow with an AI-assisted product content workflow. Use a clear prompt to have **GitHub Copilot** generate and execute an implementation plan, rather than following a prescribed implementation.
 
 Start by asking Copilot to inspect the workspace and produce a plan. A good starting prompt looks like this:
 
@@ -67,6 +67,6 @@ To complete this challenge, demonstrate:
 
 ## Tips
 
-- Craft your prompt carefully — the more clearly you describe the feature requirements and hard constraints, the better the plan Copilot produces. Iterate on the prompt if the initial plan misses something.
+- State the feature requirements and hard constraints clearly so Copilot can produce a better plan. Refine the prompt if the initial plan misses something.
 - When reviewing the plan, pay attention to how Copilot proposes to handle the AI call failure case. The product save flow must remain resilient.
 - Role assignment propagation can take several minutes — if you get `401` immediately after deployment, wait before debugging the code.

@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This challenge validates the full end-to-end stack on Azure SQL. The key teaching moments are EF Core dual-context migration management and the firewall/auth gotchas specific to Azure SQL.
+This challenge validates the full end-to-end stack on Azure SQL. Focus on managing EF Core migrations for two contexts and handling Azure SQL firewall and authentication issues.
 
 ## EF Core Migration Reference Commands
 

@@ -11,7 +11,7 @@ The **PhotoAlbum** application was built with Spring Boot 2.7.18 on Java 8, back
 - **Oracle Database** is an on-premises, proprietary dependency. Replacing it with **Azure Database for PostgreSQL** aligns the application with cloud-native, open-source infrastructure.
 - **BLOB storage in the database** is expensive and doesn't scale well. Migrating photo storage to **Azure Blob Storage** decouples data persistence from the database and improves performance.
 
-In this challenge you will use the GitHub Copilot Modernization tools to create and execute a migration plan that addresses all of these concerns.
+Use the GitHub Copilot Modernization tools to create and execute a migration plan that addresses these concerns.
 
 > **Note:** This challenge can be worked on in parallel with the .NET track by different members of your team.
 
@@ -37,7 +37,7 @@ Your approach should include:
 
 ## Success Criteria
 
-To complete this challenge successfully, demonstrate:
+To complete this challenge, demonstrate:
 
 1. The application builds successfully with no compilation errors
 2. The application configuration (`application.properties` / `application.yml`) targets Azure Database for PostgreSQL and Azure Blob Storage

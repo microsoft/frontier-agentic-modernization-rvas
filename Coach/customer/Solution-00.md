@@ -9,7 +9,7 @@ change, not by programming language.
 
 ## Purpose
 
-This challenge moves teams from the pre-packaged sample apps to a **real codebase**. The goal is straightforward: pick something real and representative, make sure the team can actually build it, and apply the same modernization workflow from the .NET / Java tracks.
+Teams move from the pre-packaged samples to a **real codebase**. Help them choose a representative application they can build, then apply the modernization workflow from the .NET / Java tracks.
 
 The only selection constraint worth enforcing is that teams **do not pick the most complex or most critical application** in the portfolio. Mission-critical, highly complex apps introduce risk and scope that will consume the entire session without producing a meaningful result. A medium-complexity app that the team can build, assess, and containerize in a day is the right target.
 
@@ -53,7 +53,7 @@ From here, the workflow mirrors the .NET and Java track challenges exactly. Refe
 - Migration plan and execution: see [Solution-02 (.NET)](../dotnet/Solution-02.md) or the Java equivalent
 - Containerization and deployment: see the relevant later solution guides
 
-The key difference from the sample tracks: customer repos frequently have build issues, secrets in config files, missing migration scripts, and undocumented startup dependencies. Coach the team to treat each blocker as a learning moment rather than a reason to switch apps.
+Customer repositories frequently have build issues, secrets in config files, missing migration scripts, and undocumented startup dependencies. Help the team learn how to resolve each blocker rather than immediately switching applications.
 
 ---
 
