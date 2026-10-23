@@ -1,6 +1,11 @@
 **[Home](../../README.md)**
 
-# Challenge 00 — Modernize a Customer Application
+# Challenge 00 — Upgrade a Customer Application
+
+**Path: Replatform & refactor, using the Modernization CLI.** If your challenge
+requires substantial architecture or business-workflow changes, use the separate
+[Rearchitect & rebuild route](../rebuild/Challenge-00.md). Do not install the
+rebuild plugin solely to follow this CLI challenge.
 
 ## Introduction
 
@@ -10,7 +15,7 @@ The sample applications used in the .NET and Java tracks are great for learning 
 
 ### Step 1 — Select an Application
 
-Choose **one application** from your customer's portfolio to modernize. The application must be a **real customer-owned codebase** — no sample applications or public repositories. It should be:
+Choose **one application** from your customer's portfolio to upgrade. The application must be a **real customer-owned codebase**, not a sample substituted for customer work. Repository visibility does not determine ownership. It should be:
 
 - **Medium complexity** — multi-layer with an external database and at least one legacy dependency worth replacing (e.g. an old messaging technology, local file storage, end-of-life runtime)
 - **Not the most critical or most complex** application in the portfolio — pick something that is representative enough to be meaningful but realistic to modernize in a focused session
@@ -18,7 +23,7 @@ Choose **one application** from your customer's portfolio to modernize. The appl
 
 Before committing to your selection, verify:
 
-- [ ] Application is built on .NET, Java, or Python.
+- [ ] The chosen application and upgrade scenario are supported by the installed Modernization tooling.
 - [ ] The source code is available and the repository is accessible to everyone on your team
 - [ ] The application builds locally
 - [ ] Docker and container tooling are available on your workstation

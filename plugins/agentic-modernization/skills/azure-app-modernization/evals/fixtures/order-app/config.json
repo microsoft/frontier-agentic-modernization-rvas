@@ -1,0 +1,8 @@
+{
+  "runtime": "python",
+  "database": {"engine": "sqlserver", "version": null},
+  "inventory": {"protocol": "https", "mode": "synchronous"},
+  "notifications": {"mode": "publish", "delivery_guarantee": null},
+  "deployment": {"host": "on-premises", "session_storage": null},
+  "service_timeout_seconds": 30
+}

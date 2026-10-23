@@ -4,7 +4,16 @@
 
 ## Overview
 
-This hack is designed for teams of 3–5 people. It covers three parallel modernization tracks:
+This hack is designed for teams of 3–5 people. Choose **Replatform & refactor** for
+compatibility-first CLI work, or **Rearchitect & rebuild** for application
+architecture and business challenges. Do not route solely by language.
+
+The [rebuild facilitation guide](rebuild/facilitation-guide.md) and
+[scoring rubric](rebuild/scoring-rubric.md) cover the separate plugin route.
+Its target is a reviewed plan and one validated slice, not a whole-app rewrite.
+The existing [customer CLI challenge](customer/Solution-00.md) remains available.
+
+The upgrade route covers three parallel sample tracks:
 
 | Track | Application | Legacy Stack | Target Stack |
 |---|---|---|---|

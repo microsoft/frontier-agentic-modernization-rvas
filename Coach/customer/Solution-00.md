@@ -1,6 +1,11 @@
 **[Home](../../README.md)** | [Troubleshooting](../TROUBLESHOOTING.md)
 
-# Coach Guide — Challenge 00: Modernize a Customer Application
+# Coach Guide — Challenge 00: Upgrade a Customer Application
+
+This is the **Replatform & refactor** customer path. For substantial architecture,
+business-workflow, or rebuild work, use the separate
+[rebuild facilitation guide](../rebuild/facilitation-guide.md). Route by intended
+change, not by programming language.
 
 ## Purpose
 
@@ -23,7 +28,7 @@ Keep this brief. Two points:
 
 ### Step 1 — Application Selection
 
-This challenge requires a **real customer-owned codebase**. Sample applications and public GitHub repositories are not acceptable substitutes. If the team does not have a customer application ready, **stop and work with the customer to identify and prepare one before proceeding** — repo access, build instructions, and Docker tooling should all be confirmed before the session starts.
+This challenge requires a **real customer-owned codebase**. Samples are not acceptable substitutes; a customer-owned public repository is valid with authorized access. If the team does not have a customer application ready, **stop and work with the customer to identify and prepare one before proceeding** — repo access, build instructions, and Docker tooling should all be confirmed before the session starts.
 
 **Push back if the team selects:**
 - A greenfield or already-modern app (no meaningful migration work)

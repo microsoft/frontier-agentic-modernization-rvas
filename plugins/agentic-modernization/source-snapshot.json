@@ -1,0 +1,21 @@
+{
+  "sourceRepository": "customer-success-microsoft/agentic-modernization-rvas-tool",
+  "sourceRevision": "c8dce290ddb3e9e11b420f7aaeb5e15e94866e3e",
+  "sourcePath": ".agents/skills/azure-app-modernization",
+  "destinationPath": "plugins/agentic-modernization/skills/azure-app-modernization",
+  "importedOn": "2026-10-23",
+  "adaptations": [
+    "Evaluation fixture paths point to this repository's plugin directory.",
+    "Delivery routing identifies the separately invoked azure-app-rebuild skill."
+  ],
+  "maintenance": "This repository maintains the distributed copy. Review upstream changes explicitly; do not overwrite local changes through an automatic sync.",
+  "bundledDiagram": {
+    "sourceRepository": "microsoft/frontier-agentic-cobuild-rvas",
+    "sourceRevision": "cbe28cef0200d86a501b9753668f4f46457f9203",
+    "sourcePath": "plugins/agentic-cobuild/skills/cloud-architecture-diagram",
+    "destinationPath": "plugins/agentic-modernization/skills/cloud-architecture-diagram",
+    "importedOn": "2026-10-23",
+    "assetTerms": "skills/cloud-architecture-diagram/references/REFERENCE.md",
+    "assetSnapshot": "skills/cloud-architecture-diagram/source-snapshot.json"
+  }
+}

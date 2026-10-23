@@ -1,0 +1,256 @@
+{
+  "schema_version": 1,
+  "retrieved": "2026-10-07",
+  "sources": {
+    "fabric": {
+      "name": "@fabric-msft/svg-icons",
+      "version": "8.2.0",
+      "published": "2026-06-29",
+      "source": "https://registry.npmjs.org/@fabric-msft/svg-icons/-/svg-icons-8.2.0.tgz",
+      "archive_sha256": "78bccf79e68ba3656456b99d4f643cf7e30f1c262f62c8d78f31367d5d00dbb0",
+      "license": "MIT",
+      "license_notice": "references/REFERENCE.md#fabric-mit-license",
+      "terms_source": "https://learn.microsoft.com/fabric/fundamentals/icons"
+    },
+    "power-platform": {
+      "name": "Microsoft Power Platform icons",
+      "version": "download modified 2026-02-05",
+      "source": "https://download.microsoft.com/download/498606aa-6d27-4f13-aa5c-1401078c153b/Power-Platform-icons-scalable.zip",
+      "archive_sha256": "d5abafebbce553690caf7b42dd14b8335bf2c0dfc09f46bd9ac8041187da2c3a",
+      "terms_source": "https://learn.microsoft.com/power-platform/guidance/icons"
+    },
+    "entra": {
+      "name": "Microsoft Entra architecture icons",
+      "version": "October 2023",
+      "source": "https://download.microsoft.com/download/3/1/a/31a56038-856a-4489-88e4-ee5a1c4352be/Microsoft%20Entra%20architecture%20icons%20-%20Oct%202023.zip",
+      "archive_sha256": "4e07536706a2d092e6524e5417e2c861333fdbdb41c36f78d44dfa07ccc5eedc",
+      "terms_source": "https://learn.microsoft.com/entra/architecture/architecture-icons"
+    }
+  },
+  "icons": {
+    "entra:id": {
+      "label": "Microsoft Entra ID",
+      "path": "assets/entra/i/id.svg",
+      "source_family": "entra",
+      "upstream_filename": "Microsoft Entra ID color icon.svg",
+      "sha256": "efd9f54562bfb78bf3c77aecdd5fc31b61fce8a1cec78c4370b41fc470e54eda"
+    },
+    "entra:id-governance": {
+      "label": "Microsoft Entra ID Governance",
+      "path": "assets/entra/i/id-governance.svg",
+      "source_family": "entra",
+      "upstream_filename": "Microsoft Entra ID Governance color icon.svg",
+      "sha256": "b19ae8a696a9c351444d1ae37602a29b8ac2e29a1779089d436f09feb61249e3"
+    },
+    "entra:product": {
+      "label": "Microsoft Entra",
+      "path": "assets/entra/i/product.svg",
+      "source_family": "entra",
+      "upstream_filename": "Microsoft Entra Product Family.svg",
+      "sha256": "6d7f94e6132c025cb0304d0b1ad0a8beb968b1b6ce0e22f33609b86fa64a450f"
+    },
+    "entra:workload-id": {
+      "label": "Microsoft Entra Workload ID",
+      "path": "assets/entra/i/workload-id.svg",
+      "source_family": "entra",
+      "upstream_filename": "Microsoft Entra Workload ID color icon.svg",
+      "sha256": "f060c986a7f0bd0761c210225dc5db6a8bafa18eb1ea411f3417b9a0dadefe51"
+    },
+    "fabric:dashboard": {
+      "label": "Power BI dashboard",
+      "path": "assets/fabric/i/dashboard.svg",
+      "source_family": "fabric",
+      "upstream_filename": "dashboard_64_item.svg",
+      "sha256": "ad22a7b214636f3b7ac00c142d2bd62bf8e32c0b055ebaf8e7e009811c0261a0"
+    },
+    "fabric:data-agent": {
+      "label": "Fabric Data Agent",
+      "path": "assets/fabric/i/data-agent.svg",
+      "source_family": "fabric",
+      "upstream_filename": "data_agent_64_item.svg",
+      "sha256": "3659be62903c53c665bc0b152084466289fefa0c89ff0c282eb98f6a2e0dcf4e"
+    },
+    "fabric:data-factory": {
+      "label": "Fabric Data Factory",
+      "path": "assets/fabric/i/data-factory.svg",
+      "source_family": "fabric",
+      "upstream_filename": "data_factory_48_color.svg",
+      "sha256": "40d52c473c9d79d5e3e7d3219660b64704661f673cec805cf17d1d2d9cb503d4"
+    },
+    "fabric:dataflow-gen2": {
+      "label": "Dataflow Gen2",
+      "path": "assets/fabric/i/dataflow-gen2.svg",
+      "source_family": "fabric",
+      "upstream_filename": "dataflow_gen2_64_item.svg",
+      "sha256": "694390a986f60673452b17f4e71d5d1ba7637a9ff3ba26df41131449f40a3d1b"
+    },
+    "fabric:eventhouse": {
+      "label": "Fabric Eventhouse",
+      "path": "assets/fabric/i/eventhouse.svg",
+      "source_family": "fabric",
+      "upstream_filename": "event_house_64_item.svg",
+      "sha256": "9d3805a744770579728552eee9ea28bf73afc47bb469b00b1671a0e66cee96c6"
+    },
+    "fabric:eventstream": {
+      "label": "Fabric Eventstream",
+      "path": "assets/fabric/i/eventstream.svg",
+      "source_family": "fabric",
+      "upstream_filename": "eventstream_64_item.svg",
+      "sha256": "3c762303d1702bc8bc1465d2429c481a1609c66e7a6b5c865a43418dbc8d71a2"
+    },
+    "fabric:kql-database": {
+      "label": "KQL database",
+      "path": "assets/fabric/i/kql-database.svg",
+      "source_family": "fabric",
+      "upstream_filename": "kql_database_64_item.svg",
+      "sha256": "88a805c2a4f0af04ce1652fcc7cf2e9bf89282fd963200b6883f351d5fb02c62"
+    },
+    "fabric:lakehouse": {
+      "label": "Fabric Lakehouse",
+      "path": "assets/fabric/i/lakehouse.svg",
+      "source_family": "fabric",
+      "upstream_filename": "lakehouse_64_item.svg",
+      "sha256": "fbf6da87a91ac447b251d283a9a01b9e8987d53cf1acf6aa64692155ac6508ca"
+    },
+    "fabric:mirrored-database": {
+      "label": "Fabric mirrored database",
+      "path": "assets/fabric/i/mirrored-database.svg",
+      "source_family": "fabric",
+      "upstream_filename": "mirrored_generic_database_64_item.svg",
+      "sha256": "7316b6067ef2c21f5acd7a267424d6f59f3e82bbfdf47f0fdcd08ed03cd6d21c"
+    },
+    "fabric:notebook": {
+      "label": "Fabric notebook",
+      "path": "assets/fabric/i/notebook.svg",
+      "source_family": "fabric",
+      "upstream_filename": "notebook_64_item.svg",
+      "sha256": "169c2230621a597b778b757d5788dc54d58ce6a2eacebbf1590e9e89bd11c9d0"
+    },
+    "fabric:onelake": {
+      "label": "Microsoft OneLake",
+      "path": "assets/fabric/i/onelake.svg",
+      "source_family": "fabric",
+      "upstream_filename": "one_lake_48_color.svg",
+      "sha256": "23fe33bcc61e703f655ac98753512a780bc2ff71d157d6c25682841ed9b6a825"
+    },
+    "fabric:pipeline": {
+      "label": "Fabric pipeline",
+      "path": "assets/fabric/i/pipeline.svg",
+      "source_family": "fabric",
+      "upstream_filename": "pipeline_64_item.svg",
+      "sha256": "7c928f8dfd6a31fff48920d3729ff752dc7b3457236c70e75e08ef2c75b372e9"
+    },
+    "fabric:power-bi": {
+      "label": "Power BI",
+      "path": "assets/fabric/i/power-bi.svg",
+      "source_family": "fabric",
+      "upstream_filename": "power_bi_48_color.svg",
+      "sha256": "264abad01f50acaffb697b3ede22215b7d87f387c1af92f0a0b14117d2c2e4f1"
+    },
+    "fabric:product": {
+      "label": "Microsoft Fabric",
+      "path": "assets/fabric/i/product.svg",
+      "source_family": "fabric",
+      "upstream_filename": "fabric_48_color.svg",
+      "sha256": "ef80d2edbfc1b045241d2e9550b7930b648d8018e0274116a3df6d6ccf3adbf9"
+    },
+    "fabric:real-time-intelligence": {
+      "label": "Fabric Real-Time Intelligence",
+      "path": "assets/fabric/i/real-time-intelligence.svg",
+      "source_family": "fabric",
+      "upstream_filename": "real_time_intelligence_48_color.svg",
+      "sha256": "c6aaaf246fb0a611339e9317789d413183267a412f94f7a6fdc8c09c435334fb"
+    },
+    "fabric:report": {
+      "label": "Power BI report",
+      "path": "assets/fabric/i/report.svg",
+      "source_family": "fabric",
+      "upstream_filename": "report_64_item.svg",
+      "sha256": "a9fb1a29a2c459c00a3ec03d92922993260e20597072cf4378819009e80c34e5"
+    },
+    "fabric:semantic-model": {
+      "label": "Power BI semantic model",
+      "path": "assets/fabric/i/semantic-model.svg",
+      "source_family": "fabric",
+      "upstream_filename": "semantic_model_64_item.svg",
+      "sha256": "87861c159d7b08bbefc2483eda204a0d1ff6c57c4ab9f64b156c29d9125f45b0"
+    },
+    "fabric:spark-job-definition": {
+      "label": "Spark job definition",
+      "path": "assets/fabric/i/spark-job-definition.svg",
+      "source_family": "fabric",
+      "upstream_filename": "spark_job_direction_64_item.svg",
+      "sha256": "20e84d17a4009649b6cbc5de5c5b11271c91ddc079f3362d38f7b9a1d3b98835"
+    },
+    "fabric:sql-database": {
+      "label": "SQL database in Microsoft Fabric",
+      "path": "assets/fabric/i/sql-database.svg",
+      "source_family": "fabric",
+      "upstream_filename": "sql_database_64_item.svg",
+      "sha256": "b0a04783c4941e5c327ce948995008c8555aa278d86ab2fa803a198e0008a03f"
+    },
+    "fabric:warehouse": {
+      "label": "Fabric Warehouse",
+      "path": "assets/fabric/i/warehouse.svg",
+      "source_family": "fabric",
+      "upstream_filename": "data_warehouse_64_item.svg",
+      "sha256": "fb8eee23ff1b871706800e87ec3afb4c45bab99ea99d529d3e093c6890011015"
+    },
+    "power-platform:agent-365": {
+      "label": "Microsoft Agent 365",
+      "path": "assets/power-platform/i/agent-365.svg",
+      "source_family": "power-platform",
+      "upstream_filename": "Agent365_scalable.svg",
+      "sha256": "7d7988f5d29d3d3b425bdbb1ebacdd32d74a3e0819a177ed389a99ed73cb0ed9"
+    },
+    "power-platform:ai-builder": {
+      "label": "AI Builder",
+      "path": "assets/power-platform/i/ai-builder.svg",
+      "source_family": "power-platform",
+      "upstream_filename": "AIBuilder_scalable.svg",
+      "sha256": "09354060aae6bfd903f3ff8246e90fce8514f4c56c603e676931fd99d338cfa8"
+    },
+    "power-platform:copilot-studio": {
+      "label": "Microsoft Copilot Studio",
+      "path": "assets/power-platform/i/copilot-studio.svg",
+      "source_family": "power-platform",
+      "upstream_filename": "CopilotStudio_scalable.svg",
+      "sha256": "c614fa6b9b7d33048c6c4efcdd508e5b7818d296cbd1cd7d8848bb2dd1be4fd0"
+    },
+    "power-platform:dataverse": {
+      "label": "Microsoft Dataverse",
+      "path": "assets/power-platform/i/dataverse.svg",
+      "source_family": "power-platform",
+      "upstream_filename": "Dataverse_scalable.svg",
+      "sha256": "df71c0111148d116515a02c5cb07483caad2bcb779664fa16fd837a4709504ab"
+    },
+    "power-platform:power-apps": {
+      "label": "Power Apps",
+      "path": "assets/power-platform/i/power-apps.svg",
+      "source_family": "power-platform",
+      "upstream_filename": "PowerApps_scalable.svg",
+      "sha256": "c357907ad0a2d24a6d8c82b23fe4d2aaa4a4524076991f74770fc043a4cc455a"
+    },
+    "power-platform:power-automate": {
+      "label": "Power Automate",
+      "path": "assets/power-platform/i/power-automate.svg",
+      "source_family": "power-platform",
+      "upstream_filename": "PowerAutomate_scalable.svg",
+      "sha256": "2025db7bb3feec49d75681934b8561fb958cf11bdf0e2acf6e2b28db5c755e8d"
+    },
+    "power-platform:power-pages": {
+      "label": "Power Pages",
+      "path": "assets/power-platform/i/power-pages.svg",
+      "source_family": "power-platform",
+      "upstream_filename": "PowerPages_scalable.svg",
+      "sha256": "7fdc8facba1b64c4e30fbed3d331ecab78746d0d29c29bae593b18788e870631"
+    },
+    "power-platform:product": {
+      "label": "Microsoft Power Platform",
+      "path": "assets/power-platform/i/product.svg",
+      "source_family": "power-platform",
+      "upstream_filename": "PowerPlatform_scalable.svg",
+      "sha256": "c58871d6adac53a51512341e65055d0ec12f29948a001666c11dc7b5bb5fe142"
+    }
+  }
+}
