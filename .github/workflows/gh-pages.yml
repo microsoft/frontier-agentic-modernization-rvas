@@ -9,6 +9,9 @@ on:
       - 'README.md'
       - 'Student/**'
       - 'Coach/**'
+      - 'plugins/**'
+      - 'scripts/**'
+      - 'CONTRIBUTING.md'
       - '.github/workflows/gh-pages.yml'
 
   pull_request:
