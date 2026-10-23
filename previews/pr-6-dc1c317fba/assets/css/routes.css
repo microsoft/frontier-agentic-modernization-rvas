@@ -101,33 +101,10 @@
   box-shadow: inset 0 -2px var(--route-color);
 }
 
-.hero-mod-card[data-route] {
-  color: var(--route-color);
-  background: var(--color-white);
-  border-top: 3px solid var(--route-color);
-}
-
-.hero-mod-card[data-route]:hover {
-  color: var(--route-color);
-  background: var(--route-tint);
-}
-
-.hero-mod-card[data-route] .mod-name {
-  color: var(--route-ink);
-}
-
-.hero-mod-card[data-route] .mod-count {
-  color: var(--color-charcoal);
-}
-
 [data-route] a:focus-visible,
 a[data-route]:focus-visible {
   outline: 3px solid var(--route-color);
   outline-offset: 3px;
-}
-
-.hero-mod-card[data-route]:focus-visible {
-  outline-color: var(--color-white);
 }
 
 #drawer[data-route] .drawer-header {

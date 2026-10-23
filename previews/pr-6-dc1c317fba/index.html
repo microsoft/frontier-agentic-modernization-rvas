@@ -999,36 +999,9 @@
             margin: 2rem 0;
         }
 
-        /* Hide the navigation breadcrumb links at top of each challenge .md */
-        .md-content>p:first-child a[href*="Challenge"],
-        .md-content>p:first-child a[href*="README"],
-        .md-content>p:first-child a[href*="Solution"],
-        .md-content>p:first-child a[href$="TROUBLESHOOTING.md"] {
-            display: inline-flex;
-            align-items: center;
-            gap: .3rem;
-            font-family: var(--font-mono);
-            font-size: .7rem;
-            color: var(--text-3);
-            border-bottom: none;
-            padding: .2rem .5rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 3px;
-        }
-
-        /* Nav row: Home/Prev/Next stay left, Troubleshooting is pushed to the right edge */
-        .md-content>p:first-child {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: .4rem;
-        }
-
-        .md-content>p:first-child a[href$="TROUBLESHOOTING.md"] {
-            margin-left: auto;
-            color: var(--amber, #b45309);
-            border-color: rgba(180, 83, 9, .35);
+        /* The drawer header already provides challenge navigation. */
+        .md-content > p:first-child:has(+ h1):has(a[href$=".md"]) {
+            display: none;
         }
 
         .drawer-loading {
@@ -1160,6 +1133,52 @@
     <link rel="stylesheet" href="assets/css/shell.css" />
     <link rel="stylesheet" href="assets/css/routes.css" />
     <style>
+        #hero {
+            padding: clamp(3rem, 5vw, 4rem) 0;
+        }
+
+        #hero .hero-content {
+            max-width: var(--maxw);
+        }
+
+        #hero h1 {
+            margin-top: 0;
+            font-size: clamp(2.5rem, 5.5vw, 5.25rem);
+        }
+
+        #hero h1 span {
+            display: block;
+        }
+
+        #hero .lede {
+            max-width: 68ch;
+            margin: 1.5rem 0 2rem;
+        }
+
+        #hero .btn {
+            min-height: 44px;
+        }
+
+        #hero a:focus-visible {
+            outline: 3px solid var(--color-white);
+            outline-offset: 4px;
+        }
+
+        #routes {
+            padding-top: clamp(2.5rem, 4vw, 3rem);
+            padding-inline: max(1.5rem, calc((100% - var(--maxw)) / 2 + 1.5rem));
+        }
+
+        #routes .section-title {
+            font-size: clamp(2.25rem, 4vw, 3rem);
+        }
+
+        @media (min-width: 768px) {
+            #routes {
+                padding-inline: max(2.5rem, calc((100% - var(--maxw)) / 2 + 2.5rem));
+            }
+        }
+
         .nav-links > a,
         .path-nav > a,
         .sample-nav > summary {
@@ -1246,12 +1265,6 @@
             text-transform: uppercase;
         }
 
-        .sample-nav-panel .sample-reference {
-            margin-top: .35rem;
-            border-top: 1px solid var(--c-line);
-            border-radius: 0;
-        }
-
         @media (max-width: 1099.98px) {
             .nav-links:not(.open) {
                 display: none;
@@ -1309,9 +1322,9 @@
             <nav class="nav-links" id="navLinks" aria-label="Primary">
                 <a href="#routes">Choose your path</a>
                 <div class="path-nav" data-route="refactor">
-                    <a href="#challenges">Replatform &amp; refactor</a>
+                    <a href="#challenges">Replatform / refactor</a>
                     <details class="sample-nav" id="sampleNav">
-                        <summary aria-label="Explore replatform and refactor tracks"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                        <summary aria-label="Explore replatform / refactor tracks"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
                         <div class="sample-nav-panel">
                             <a href="#customer-challenges">Bring your application<small>Modernization CLI</small></a>
@@ -1319,12 +1332,10 @@
                             <a href="#java-challenges">Java<small>PhotoAlbum</small></a>
                             <a href="#dotnet-challenges">.NET Framework<small>ContosoUniversity</small></a>
                             <a href="#net8-challenges">.NET 8<small>eShopOnWeb</small></a>
-                            <a class="sample-reference" href="Student/sample-architecture.md"
-                                aria-haspopup="dialog" aria-controls="drawer">Architecture &amp; services<small>Reference for the three samples</small></a>
                         </div>
                     </details>
                 </div>
-                <a href="#rebuild-challenges" data-route="rebuild">Rearchitect &amp; rebuild</a>
+                <a href="#rebuild-challenges" data-route="rebuild">Rearchitect / rebuild</a>
                 <a href="#about">Mission</a>
                 <a href="#prerequisites">Setup</a>
                 <a href="#demos">Demo</a>
@@ -1343,65 +1354,15 @@
     <main>
         <!-- Hero -->
         <section class="hero" id="hero" aria-labelledby="heroHeading">
-            <svg class="hero-compass" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-            <circle cx="200" cy="200" r="180" stroke="currentColor" stroke-width="0.6" stroke-opacity="0.15" stroke-dasharray="4 8"/>
-            <circle cx="200" cy="200" r="140" stroke="currentColor" stroke-width="0.4" stroke-opacity="0.10"/>
-            <circle cx="200" cy="200" r="80"  stroke="currentColor" stroke-width="0.4" stroke-opacity="0.12"/>
-            <path d="M200 60 A140 140 0 0 1 340 200" stroke="#38bdf8" stroke-width="2" stroke-opacity="0.5" stroke-linecap="round"/>
-            <path d="M340 200 A140 140 0 0 1 200 340" stroke="#f87171" stroke-width="2" stroke-opacity="0.5" stroke-linecap="round"/>
-            <path d="M200 340 A140 140 0 0 1 60 200"  stroke="#a78bfa" stroke-width="2" stroke-opacity="0.5" stroke-linecap="round"/>
-            <path d="M60 200 A140 140 0 0 1 200 60"   stroke="#fb923c" stroke-width="2" stroke-opacity="0.5" stroke-linecap="round"/>
-            <line x1="200" y1="20"  x2="200" y2="380" stroke="currentColor" stroke-width="0.5" stroke-opacity="0.10"/>
-            <line x1="20"  y1="200" x2="380" y2="200" stroke="currentColor" stroke-width="0.5" stroke-opacity="0.10"/>
-            <circle cx="200" cy="200" r="5" fill="#1A77E3" fill-opacity="0.8"/>
-            <circle cx="200" cy="200" r="12" stroke="#1A77E3" stroke-width="1" stroke-opacity="0.3"/>
-            <circle cx="200" cy="60"  r="5" fill="#38bdf8" fill-opacity="0.7"/>
-            <circle cx="340" cy="200" r="5" fill="#f87171" fill-opacity="0.7"/>
-            <circle cx="200" cy="340" r="5" fill="#a78bfa" fill-opacity="0.7"/>
-            <circle cx="60"  cy="200" r="5" fill="#fb923c" fill-opacity="0.7"/>
-        </svg>
-            <div class="wrap hero-grid">
-                <div>
-                    <span class="eyebrow">RVAS — Agentic Modernization</span>
-                    <h1 id="heroHeading">Modernize legacy apps with <span class="accent">GitHub Copilot and Azure</span></h1>
-                    <p class="lede">
-                        Upgrade an existing workload, or rethink its architecture around your business challenges.
-                    </p>
-                    <p class="lede">
-                        Bring your own application. Replatform and refactor with the Modernization CLI, or rearchitect and rebuild with a plugin.
-                    </p>
-                    <div class="hero-actions">
-                        <a class="btn btn-primary" href="#routes">Choose your path</a>
-                        <a class="btn btn-ghost" href="README.md">Read the Briefing</a>
-                    </div>
-                    <div class="stats stats-4" aria-label="Delivery session statistics">
-                        <div class="stat"><span class="stat-num" data-count="2">02</span><span class="stat-lbl">Delivery Paths</span></div>
-                        <div class="stat"><span class="stat-num" data-count="29">29</span><span class="stat-lbl">Challenges</span></div>
-                        <div class="stat"><span class="stat-num" data-count="5">05</span><span class="stat-lbl">Learning Tracks</span></div>
-                        <div class="stat"><span class="stat-num" data-count="3">03</span><span class="stat-lbl">Sample Applications</span></div>
-                    </div>
-                </div>
-                <div class="hero-modules" aria-label="Modernization track overview">
-                    <a href="#java-challenges" class="hero-mod-card" data-route="refactor">
-                        <div class="mod-name">Java modernization</div>
-                        <div class="mod-count">7 challenges · Spring Boot · Java 25</div>
-                    </a>
-                    <a href="#dotnet-challenges" class="hero-mod-card" data-route="refactor">
-                        <div class="mod-name">.NET modernization</div>
-                        <div class="mod-count">7 challenges · ASP.NET Core · Azure</div>
-                    </a>
-                    <a href="#net8-challenges" class="hero-mod-card" data-route="refactor">
-                        <div class="mod-name">.NET 8 acceleration</div>
-                        <div class="mod-count">7 challenges · AI assist · cloud services</div>
-                    </a>
-                    <a href="#customer-challenges" class="hero-mod-card" data-route="refactor">
-                        <div class="mod-name">Replatform &amp; refactor your app</div>
-                        <div class="mod-count">Customer workload · Modernization CLI</div>
-                    </a>
-                    <a href="#rebuild-challenges" class="hero-mod-card" data-route="rebuild">
-                        <div class="mod-name">Rearchitect &amp; rebuild your app</div>
-                        <div class="mod-count">7 milestones · plugin · one validated slice</div>
-                    </a>
+            <div class="wrap hero-content">
+                <h1 id="heroHeading">Bring your application.<span class="accent">Prove the next step.</span></h1>
+                <p class="lede">
+                    Use GitHub Copilot and Azure to modernize an existing application or reshape its architecture.
+                    Deliver a running upgrade or one validated end-to-end slice&mdash;not just a plan.
+                </p>
+                <div class="hero-actions">
+                    <a class="btn btn-primary" href="#routes">Choose your path <span aria-hidden="true">&darr;</span></a>
+                    <a class="btn btn-ghost" href="README.md" aria-haspopup="dialog" aria-controls="drawer">Read the briefing</a>
                 </div>
             </div>
         </section>
@@ -1415,13 +1376,13 @@
         <div class="challenges-grid">
             <a class="challenge-card half" href="#challenges" data-route="refactor">
                 <div class="card-top"><span class="card-phase-badge">Modernization CLI</span><span class="card-num mono">ROUTE 01</span></div>
-                <h3 class="card-title display">Replatform &amp; refactor</h3>
+                <h3 class="card-title display">Replatform / refactor</h3>
                 <p class="card-desc">Move to managed Azure platforms and modernize existing code. Upgrade runtimes and dependencies while preserving core behavior. Bring your own app or learn with a sample.</p>
                 <div class="card-footer"><span class="card-tag">Modernization CLI</span><div class="card-arrow mono">Explore this path <span aria-hidden="true">&rarr;</span></div></div>
             </a>
             <a class="challenge-card half" href="#rebuild-challenges" data-route="rebuild">
                 <div class="card-top"><span class="card-phase-badge">Agentic Modernization plugin</span><span class="card-num mono">ROUTE 02</span></div>
-                <h3 class="card-title display">Rearchitect &amp; rebuild</h3>
+                <h3 class="card-title display">Rearchitect / rebuild</h3>
                 <p class="card-desc">Bring your business workflows, coupling, and architecture challenges. Recover behavior, compare strategies, then implement one reviewed end-to-end slice in your own repository.</p>
                 <div class="card-footer"><span class="card-tag">Architecture first</span><div class="card-arrow mono">Explore rebuilds <span aria-hidden="true">&rarr;</span></div></div>
             </a>
@@ -1443,11 +1404,11 @@
         </div>
         <div class="mission-paths">
             <article class="mission-path" data-route="refactor" aria-labelledby="mission-refactor-heading">
-                <h3 id="mission-refactor-heading">Replatform &amp; refactor</h3>
+                <h3 id="mission-refactor-heading">Replatform / refactor</h3>
                 <p class="mission-description">
                     Modernize the application you have while preserving the behavior your users rely on.
                 </p>
-                <ol class="mission-workflow" role="list" aria-label="Replatform and refactor workflow">
+                <ol class="mission-workflow" role="list" aria-label="Replatform / refactor workflow">
                     <li>Assess</li>
                     <li>Plan</li>
                     <li>Modernize</li>
@@ -1463,11 +1424,11 @@
                 </dl>
             </article>
             <article class="mission-path" data-route="rebuild" aria-labelledby="mission-rebuild-heading">
-                <h3 id="mission-rebuild-heading">Rearchitect &amp; rebuild</h3>
+                <h3 id="mission-rebuild-heading">Rearchitect / rebuild</h3>
                 <p class="mission-description">
                     Reshape the application around the business or architecture challenge you need to solve.
                 </p>
-                <ol class="mission-workflow" role="list" aria-label="Rearchitect and rebuild workflow">
+                <ol class="mission-workflow" role="list" aria-label="Rearchitect / rebuild workflow">
                     <li>Discover</li>
                     <li>Review</li>
                     <li>Build a slice</li>
@@ -1663,15 +1624,14 @@
         <div class="challenges-header">
             <div>
                 <div class="section-label">The Path</div>
-                <h2 class="section-title display reveal">Replatform &amp; refactor</h2>
+                <h2 class="section-title display reveal">Replatform / refactor</h2>
             </div>
             <p class="section-desc reveal" style="max-width:340px;">
                 <strong>Bring a real customer-owned application.</strong>
                 Assess, modernize, and deploy your workload to Azure with the Modernization CLI.
                 <a href="Student/customer/Challenge-00.md" aria-haspopup="dialog" aria-controls="drawer">Start your application upgrade.</a>
                 The three sample tracks below are optional practice, not substitutes for customer delivery.
-                <a href="Student/sample-architecture.md" aria-haspopup="dialog" aria-controls="drawer">Compare sample architectures and Azure services.</a>
-                For deeper architecture changes, <a href="#rebuild-challenges">choose rearchitect &amp; rebuild</a>.
+                For deeper architecture changes, <a href="#rebuild-challenges">choose rearchitect / rebuild</a>.
             </p>
         </div>
 
@@ -2252,7 +2212,7 @@
 
     <section id="rebuild-challenges" aria-labelledby="rebuild-heading" data-route="rebuild">
         <div class="section-label">Route 02 &middot; Bring your application and its challenges</div>
-        <h2 id="rebuild-heading" class="section-title display reveal">Rearchitect<br>&amp; rebuild</h2>
+        <h2 id="rebuild-heading" class="section-title display reveal">Rearchitect<br>/ rebuild</h2>
         <p class="section-desc reveal">
             One planning conversation produces the complete package. Review its output, prepare a bounded
             handoff, then start a separate implementation session. Plan for two days, not a whole-application rewrite.
