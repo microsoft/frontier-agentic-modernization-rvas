@@ -144,6 +144,12 @@
             max-width: 580px;
         }
 
+        .challenges-header .section-desc a {
+            color: var(--route-ink, var(--text));
+            text-decoration: underline;
+            text-underline-offset: .15em;
+        }
+
         /* ─── About ─────────────────────────────────────────────────────── */
         #about {
             border-bottom: 1px solid var(--border);
@@ -831,6 +837,79 @@
 
         .md-content li::marker {
             color: var(--cyan);
+        }
+
+        .md-content details {
+            margin: .75rem 0;
+            padding: 0 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg);
+            color: var(--text-2);
+            font-size: .9rem;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+        }
+
+        .md-content details > summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            min-height: 48px;
+            margin: 0 -1rem;
+            padding: .75rem 1rem;
+            border-radius: inherit;
+            color: var(--route-ink, var(--color-deep-navy));
+            font-weight: 600;
+            line-height: 1.5;
+            list-style: none;
+            cursor: pointer;
+        }
+
+        .md-content details > summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .md-content details > summary::after {
+            content: '';
+            flex: none;
+            width: .5rem;
+            height: .5rem;
+            margin-right: .25rem;
+            border-right: 2px solid currentColor;
+            border-bottom: 2px solid currentColor;
+            transform: rotate(-45deg);
+        }
+
+        .md-content details > summary:hover {
+            background: var(--surface);
+        }
+
+        .md-content details > summary:focus-visible {
+            outline: 2px solid var(--route-color, var(--color-ms-blue));
+            outline-offset: -3px;
+        }
+
+        .md-content details[open] {
+            padding-bottom: 1rem;
+        }
+
+        .md-content details[open] > summary {
+            margin-bottom: .75rem;
+            border-bottom: 1px solid var(--border);
+            border-radius: var(--radius) var(--radius) 0 0;
+            background: var(--route-tint, var(--surface));
+        }
+
+        .md-content details[open] > summary::after {
+            transform: rotate(45deg);
+        }
+
+        .md-content details > p:last-child,
+        .md-content details > ul:last-child,
+        .md-content details > ol:last-child {
+            margin-bottom: 0;
         }
 
         .md-content code {
@@ -1587,9 +1666,12 @@
                 <h2 class="section-title display reveal">Replatform &amp; refactor</h2>
             </div>
             <p class="section-desc reveal" style="max-width:340px;">
-                Three sample tracks with seven challenges each, plus the customer CLI challenge.
+                <strong>Bring a real customer-owned application.</strong>
+                Assess, modernize, and deploy your workload to Azure with the Modernization CLI.
+                <a href="Student/customer/Challenge-00.md" aria-haspopup="dialog" aria-controls="drawer">Start your application upgrade.</a>
+                The three sample tracks below are optional practice, not substitutes for customer delivery.
                 <a href="Student/sample-architecture.md" aria-haspopup="dialog" aria-controls="drawer">Compare sample architectures and Azure services.</a>
-                Need deeper architecture changes? Choose the rearchitect &amp; rebuild path below.
+                For deeper architecture changes, <a href="#rebuild-challenges">choose rearchitect &amp; rebuild</a>.
             </p>
         </div>
 
@@ -2180,11 +2262,6 @@
             <a class="btn btn-primary" href="Student/rebuild/setup.md">Install &amp; use the plugin</a>
             <a class="btn btn-ghost" href="Student/rebuild/supporting-skills.md">Supporting skill profiles</a>
         </div>
-        <p class="section-desc">
-            Bundled: <code>azure-app-modernization</code>, <code>azure-app-rebuild</code>,
-            and <code>cloud-architecture-diagram</code> with its assets and scripts.
-            Install other supporting skills separately in your application repository.
-        </p>
         <div class="challenges-grid">
             <a class="challenge-card full" data-phase="00" href="Student/rebuild/Challenge-00.md">
                 <div class="card-bg-number display">00</div>
