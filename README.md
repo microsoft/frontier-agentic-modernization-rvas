@@ -4,13 +4,35 @@
 
 Legacy applications are everywhere — applications built on .NET Framework 4.8, Spring Boot 2.x with Java 8, proprietary databases, and on-premises infrastructure. Modernizing them is one of the most common — and most complex — challenges software teams face today.
 
-In this RVAS you will use the **GitHub Copilot Modernization** tools to assess, plan, and execute the migration of legacy applications across three parallel tracks:
+Choose the route that matches the change your application needs:
+
+| Route | Choose it when | Start here |
+| --- | --- | --- |
+| **Replatform & refactor** | Move to managed Azure platforms and modernize existing code while preserving core behavior | The sample tracks below, or [Bring your application](Student/customer/Challenge-00.md) |
+| **Rearchitect & rebuild** | Address business workflows, architecture, coupling, or technology changes beyond a runtime upgrade | [Prepare your application](Student/rebuild/Challenge-00.md) and [plugin setup](Student/rebuild/setup.md) |
+
+Route by the intended change, not the language. A Java or .NET application can
+belong in either route. Rebuild discovery may conclude that a smaller refactor
+is the better choice. Work on customer code in its own application repository,
+not in this tooling repository.
+
+These delivery paths group related [Microsoft R strategies](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/select-cloud-migration-strategy),
+not an exhaustive 5R/6R catalog. **Replatform** changes the hosting or managed
+platform with limited code adaptation; **refactor** modernizes existing code.
+**Rearchitect** changes the application structure; **rebuild** creates a new
+implementation. Rehost, replace, retire, and retain remain valid assessment
+outcomes. Strategies can differ by component and wave.
+
+For **Replatform & refactor**, use the **GitHub Copilot Modernization** tools across these tracks:
 
 - **ContosoUniversity** (.NET track) — an ASP.NET MVC 5 application running on .NET Framework 4.8, with MSMQ messaging and local file system storage
 - **PhotoAlbum** (Java track) — a Spring Boot 2.7 application running on Java 8, backed by Oracle Database with photo BLOBs
-- **Your own application** (Customer track) — a real customer-owned legacy codebase from your portfolio, modernized using the same workflow
+- **Upgrade your application** (Customer track) — a real customer-owned legacy codebase, upgraded using the same CLI workflow
 
-By the end of the event you will have migrated applications to modern runtimes (.NET 10 and Java 25), cloud-native Azure services, and containerized deployments on Azure Container Apps — including a working modernization of a real customer application.
+The upgrade tracks target modern runtimes (.NET 10 and Java 25), cloud-native
+Azure services, and Azure Container Apps. The rebuild route targets an
+evidence-backed architecture and **one validated end-to-end slice**, not a
+promise to rewrite an entire application during the event.
 
 ## Learning Objectives
 
@@ -24,10 +46,11 @@ By completing this hack you will be able to:
 6. Replace an Oracle Database with Azure Database for PostgreSQL and Azure Blob Storage
 7. Containerize both modernized applications and deploy them to Azure Container Apps using Terraform
 8. Apply the same AI-driven workflow to a **real customer application** from your own portfolio
+9. Recover application behavior, compare architecture strategies, and deliver a bounded rebuild slice using the plugin route
 
 ## Demos
 
-The site's **Demo** menu, immediately after **Services**, opens two presenter-led walkthroughs. Each speaker guide opens in the same side drawer as the challenges, with previous/next navigation between demos.
+The site's **Demo** menu opens two presenter-led walkthroughs. Each speaker guide opens in the same side drawer as the challenges, with previous/next navigation between demos.
 
 - [PhotoAlbum Java demo](Coach/demo/java/guide.md): Java 8 / Oracle to Java 25 / Azure PostgreSQL and Container Apps.
 - [ContosoUniversity .NET demo](Coach/demo/dotnet/guide.md): .NET Framework 4.8 / SQL Express to .NET 10 / Azure SQL and Container Apps. Run the presenter tools on **Windows with PowerShell 7**, not Linux/WSL.
@@ -36,7 +59,13 @@ Each demo runs for 55 minutes; complete its pre-demo setup before presenting.
 
 ## Challenges
 
-Each challenge has a dedicated per-track guide. Pick **`dotnet/`**, **`java/`**, or **`customer/`** depending on which app you are modernizing. Teams can split across tracks and run all three in parallel.
+The sample upgrade guides live in **`dotnet/`**, **`java/`**, and **`net8/`**.
+Teams can split across sample tracks. The customer CLI challenge and the separate
+rebuild milestones follow below; they are alternative paths, not extra prerequisites.
+
+See [Sample architecture & services](Student/sample-architecture.md) for the Azure
+targets used by these samples. Customer-owned applications do not need to adopt
+the same architecture.
 
 - Challenge 00: **Prerequisites — Ready, Set, GO!** — [.NET](Student/dotnet/Challenge-00.md) · [Java](Student/java/Challenge-00.md)
   - Prepare your workstation and verify access to all required tools and services.
@@ -73,10 +102,10 @@ Each challenge has a dedicated per-track guide. Pick **`dotnet/`**, **`java/`**,
 - Challenge 06: **Infuse AI into the Application (Stretch)** — [.NET 8](Student/net8/Challenge-06.md)
   - Add Azure OpenAI (`gpt-4.1-mini`, vision) with Managed Identity to generate product descriptions and alt text on image upload.
 
-### Your App Track
+### Upgrade Your Application (CLI Customer Track)
 
-- Challenge 00: **Modernize a Customer Application** — [Customer](Student/customer/Challenge-00.md)
-  - Apply the full modernization workflow to a **real customer-owned codebase** from your portfolio. No sample apps or public repositories — this must be a production legacy application your team owns.
+- Challenge 00: **Upgrade a Customer Application** — [Customer](Student/customer/Challenge-00.md)
+  - Apply the CLI modernization workflow to a **real customer-owned codebase**. Customer ownership and authorized access matter; a public sample is not a substitute.
 
 #### Application Selection Criteria
 
@@ -109,7 +138,65 @@ Before starting, verify the following readiness checklist:
 4. The application is containerized and deployed to Azure
 5. **Coach discussion** — what was the single hardest migration issue the automated tools could not resolve, and how did the team solve it?
 
-## Prerequisites
+## Rearchitect & Rebuild Your Application
+
+Bring your existing application and the business or architectural challenges
+that a runtime upgrade alone cannot solve. This route uses the **Agentic
+Modernization** plugin, not the `modernize` CLI as its orchestrator.
+
+| Challenge | Outcome |
+| --- | --- |
+| [00: Prepare](Student/rebuild/Challenge-00.md) | Bounded journey, customer challenge, decision owners, and workspace |
+| [01: Discover & plan](Student/rebuild/Challenge-01.md) | One interactive skill workflow: analysis, questions, decisions, and the complete eight-artifact package |
+| [02: Review the package](Student/rebuild/Challenge-02.md) | Evidence checks, challenged assumptions, targeted corrections, and a reviewed revision |
+| [03: Prepare the handoff](Student/rebuild/Challenge-03.md) | One slice, acceptance IDs, validation readiness, prerequisites, and delivery inputs |
+| [04: Rebuild](Student/rebuild/Challenge-04.md) | One working, tested end-to-end slice in a separate delivery session |
+| [05: Validate](Student/rebuild/Challenge-05.md) | Acceptance evidence and separate completeness/security reviews |
+| [06: Operationalize](Student/rebuild/Challenge-06.md) | Non-production rehearsal or explicitly limited tabletop, recovery, and handoff |
+
+Allow two days for the full path and agree the slice before the event.
+A shorter planning-only session is useful but is not a completed rebuild.
+See the [setup and usage guide](Student/rebuild/setup.md) and
+[supporting-skill profiles](Student/rebuild/supporting-skills.md).
+
+Discovery, stakeholder questions, target selection, and document generation all
+belong to the single planning workflow in Challenge 01. Challenges 02 and 03
+review its output and prepare delivery; they do not generate separate parts of
+the package.
+
+### Install the Agentic Modernization plugin
+
+For GitHub Copilot CLI, once these files are published:
+
+```bash
+copilot plugin marketplace add microsoft/frontier-agentic-modernization-rvas
+copilot plugin install agentic-modernization@agentic-modernization
+copilot plugin list
+```
+
+For VS Code, add this repository to `chat.plugins.marketplaces`, then install
+**Agentic Modernization** from `@agentPlugins`. The
+[setup guide](Student/rebuild/setup.md) includes exact settings and checks.
+
+The plugin bundles **`azure-app-modernization`**, **`azure-app-rebuild`**, and
+**`cloud-architecture-diagram`**, including diagram assets and scripts, plus public
+Microsoft Learn documentation MCP. Install other supporting skills separately
+in the application repository using the selected profiles; do not install a
+second diagram copy.
+
+Planning produces eight artifacts under `docs/modernization/`, including
+`cost-estimate.md`, and stops at **Ready for review**. Formal package acceptance
+is required only when your governance requests it. Start implementation separately
+with `azure-app-rebuild`, the reviewed package revision, and a bounded slice.
+Neither planning completion nor plugin installation authorizes commits,
+provisioning, deployment, or production migration.
+
+The repository MIT license does not replace the bundled diagram assets'
+[source and permitted-use terms](plugins/agentic-modernization/skills/cloud-architecture-diagram/references/REFERENCE.md).
+
+## Upgrade Route Prerequisites
+
+For rebuild-route tools and readiness, use its [setup guide](Student/rebuild/setup.md).
 
 ### Assumed Knowledge
 
@@ -175,20 +262,25 @@ modernize   # launch interactive TUI
 ```
 .
 ├── README.md                ← This file (hack one-pager)
-├── index.html               ← Card-based navigation for the hack
+├── web/index.html           ← Card-based navigation for both routes
 ├── Student/
 │   ├── dotnet/              ← Challenge-00..06 for the .NET Framework 4.8 track
 │   ├── java/                ← Challenge-00..06 for the Java track
 │   ├── net8/                ← Challenge-00..06 for the .NET 8 → .NET 10 track
-│   ├── customer/            ← Challenge-00 for the Your App track
+│   ├── customer/            ← CLI upgrade challenge for a customer application
+│   ├── rebuild/             ← Seven rebuild milestones, setup, and supporting skills
 │   └── Resources/           ← Sample apps + helper scripts per track
-└── Coach/
-    ├── README.md            ← Coach guide and event logistics
-    ├── dotnet/              ← Coach notes for the .NET Framework 4.8 track
-    ├── java/                ← Coach notes for the Java track
-    ├── net8/                ← Coach notes for the .NET 8 → .NET 10 track
-    ├── customer/            ← Coach notes for the Your App track
-    └── Solutions/           ← Reference implementations the coaches run
+├── Coach/
+│   ├── README.md            ← Coach guide and event logistics
+│   ├── dotnet/              ← Coach notes for the .NET Framework 4.8 track
+│   ├── java/                ← Coach notes for the Java track
+│   ├── net8/                ← Coach notes for the .NET 8 → .NET 10 track
+│   ├── customer/            ← Coach notes for the CLI customer route
+│   ├── rebuild/             ← Rebuild facilitation guide and scoring rubric
+│   └── Solutions/           ← Reference implementations the coaches run
+├── plugins/                 ← Distributable skills, diagram assets, and provenance
+├── scripts/                 ← Supporting-skill inventory, generator, and checks
+└── .github/plugin/          ← Agentic Modernization marketplace catalog
 ```
 
 The sample applications live under each track:

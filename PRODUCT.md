@@ -134,6 +134,11 @@ are not evidence of customer outcomes or guaranteed modernization results.
 5. Favor technically credible, reusable delivery guidance over unsupported
    claims.
 
+The website's mission brief presents both routes with equal weight: their work,
+tooling, and distinct success criteria, united by observable acceptance evidence.
+Keep sample-specific runtime and service details in their tracks rather than
+presenting them as requirements for both routes.
+
 ## Open Decisions
 
 No product-specific accessibility standard or additional inclusion requirements

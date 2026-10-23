@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "agentic-modernization",
+  "version": "1.0.0",
+  "description": "Architecture-first planning, bundled editable diagrams, and separately invoked, acceptance-driven rebuilds for existing applications.",
+  "author": { "name": "Microsoft" },
+  "homepage": "https://microsoft.github.io/frontier-agentic-modernization-rvas/",
+  "repository": "https://github.com/microsoft/frontier-agentic-modernization-rvas",
+  "license": "MIT",
+  "keywords": ["azure", "modernization", "architecture", "rebuild"]
+}
