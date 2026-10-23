@@ -27,7 +27,7 @@ By completing this hack you will be able to:
 
 ## Demos
 
-The site's **Demo** menu, immediately after **Setup**, opens two presenter-led walkthroughs. Each speaker guide opens in the same side drawer as the challenges, with previous/next navigation between demos.
+The site's **Demo** menu, immediately after **Services**, opens two presenter-led walkthroughs. Each speaker guide opens in the same side drawer as the challenges, with previous/next navigation between demos.
 
 - [PhotoAlbum Java demo](Coach/demo/java/guide.md): Java 8 / Oracle to Java 25 / Azure PostgreSQL and Container Apps.
 - [ContosoUniversity .NET demo](Coach/demo/dotnet/guide.md): .NET Framework 4.8 / SQL Express to .NET 10 / Azure SQL and Container Apps. Run the presenter tools on **Windows with PowerShell 7**, not Linux/WSL.
