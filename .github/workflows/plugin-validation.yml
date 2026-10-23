@@ -1,0 +1,40 @@
+name: Plugin and route validation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/plugin/**'
+      - '.github/workflows/plugin-validation.yml'
+      - 'plugins/**'
+      - 'scripts/**'
+      - 'Student/**'
+      - 'Coach/**'
+      - 'web/**'
+      - 'Makefile'
+      - 'README.md'
+      - 'CONTRIBUTING.md'
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24'
+      - name: Install optional diagram test dependency
+        run: python -m pip install -r plugins/agentic-modernization/skills/cloud-architecture-diagram/requirements.txt
+      - name: Validate plugin, route, drawer, and bundled diagram assets
+        run: make test
+      - name: Assemble site
+        run: make build

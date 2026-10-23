@@ -1,0 +1,16 @@
+{
+  "name": "agentic-modernization",
+  "owner": { "name": "Microsoft" },
+  "metadata": {
+    "description": "Architecture-first modernization and bounded application rebuilds.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "agentic-modernization",
+      "description": "Recover an existing application's requirements, plan its Azure architecture, then implement a separately scoped rebuild wave.",
+      "version": "1.0.0",
+      "source": "./plugins/agentic-modernization"
+    }
+  ]
+}
