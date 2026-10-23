@@ -226,7 +226,8 @@ test('unregistered local guides do not silently fall back to README', async () =
     const site = workspace();
     await site.open('CONTRIBUTING.md');
     assert.equal(site.current(), 'CONTRIBUTING.md');
-    assert.match(site.content.innerHTML, /Modernization plugin and route content/);
+    assert.deepEqual(site.requests, ['CONTRIBUTING.md']);
+    assert.equal(site.content.innerHTML, fs.readFileSync(path.join(root, 'CONTRIBUTING.md'), 'utf8'));
     assert.equal(site.elements.get('drawer-prev').disabled, true);
     assert.equal(site.elements.get('drawer-next').disabled, true);
 });
