@@ -1,55 +1,17 @@
-# ContosoUniversity .NET Migration - Demo Speaker Guide
+# ContosoUniversity .NET Migration - Live Speaker Guide
 
-**Duration**: 55 minutes  
-**Audience**: Technical (.NET developers, architects)  
-**Presenter environment**: Windows with PowerShell 7 (`pwsh`), including the modernization CLI and VS Code. Do not run the .NET Framework assessment or migration from Linux, WSL, Bash, or a Linux container.
+**55 minutes | .NET developers and architects | Windows, PowerShell 7, VS Code**
 
-**Pitch**: Migrate an ASP.NET MVC 5 / .NET Framework 4.8 / SQL Express application on IIS to .NET 10 / ASP.NET Core / Azure SQL on Azure Container Apps, replacing MSMQ with Service Bus and local files with Blob Storage.
+**First run:** Expand **Pre-demo setup and reference** below. Complete both Terraform deployments, stage the screens, and rehearse the checkpoints before presenting.
 
-## Timing
+<details>
+<summary><strong>Pre-demo setup and reference (complete before presenting)</strong></summary>
 
-| | Description | Time |
-|---|---|---|
-| **Part A** | Pre-demo setup *(before audience arrives - allow at least 2 hours)* | - |
-| **S1** | Scene Setting - show the legacy app running | 0:00 - 5:00 |
-| **S2** | Assessment - `modernize assess` | 5:00 - 15:00 |
-| **S3** | Code Migration - GitHub Copilot live | 15:00 - 33:00 |
-| **S4** | Database Migration and AI Infusion | 33:00 - 48:00 |
-| **S5** | The Reveal - modern app on Azure Container Apps | 48:00 - 55:00 |
+Allow **at least 2 hours**: the VM downloads SQL Server, Visual Studio Build Tools, and SQL Server Management Studio (SSMS). After setup, continue to **Before Starting the Clock** below.
 
-## Quick Reference - Fill In Before the Demo
+## A0 - Presenter Machine and Terraform State
 
-After running Terraform in Part A, copy these values here. Keep passwords separately.
-
-```text
-LEGACY VM + DMS  (Student/Resources/dotnet/infra outputs)
-  public_ip                    = ___________________________________
-  app_url                      = ___________________________________
-  rdp_command                  = ___________________________________
-  source_sql_private_ip        = ___________________________________
-  source_sql_username          = dms_migration
-  dms_service_name             = ___________________________________
-  dms_project_name             = ___________________________________
-  target_sql_server_for_wizard = ___________________________________
-  target_sql_database          = ContosoUniversity
-  target_sql_username          = ___________________________________
-
-AZURE APPLICATION  (Coach/Solutions/dotnet/infra outputs)
-  app_url                      = ___________________________________
-  resource_group_name          = ___________________________________
-  servicebus_namespace_fqdn    = ___________________________________
-  storage_account_blob_endpoint = __________________________________
-  openai_endpoint              = ___________________________________
-  openai_deployment_name       = ___________________________________
-```
-
-## Part A - Pre-Demo Setup
-
-> Complete setup at least **2 hours before** the demo starts. The Windows VM setup downloads SQL Server, Visual Studio Build Tools, and SQL Server Management Studio (SSMS).
-
-### A0 - Set Up Your Local Environment
-
-Run all presenter commands in **PowerShell 7 on Windows**, unless explicitly marked as SQL or as commands inside the legacy VM.
+Use **Windows with PowerShell 7 (`pwsh`)** and VS Code. Install the modernization CLI/extension, .NET Framework 4.8 targeting/build tools, .NET 10 SDK, Terraform, Azure CLI, and Docker Desktop with Linux containers. Assessment and migration of this baseline do not work from Linux, WSL, Remote SSH Linux, or a Linux dev container. Only the migrated app targets a Linux container.
 
 ```powershell
 git clone https://github.com/microsoft/frontier-agentic-modernization-rvas.git
@@ -59,13 +21,11 @@ $env:REPO_ROOT = (Get-Location).Path
 az login
 ```
 
-Install the modernization tools, .NET Framework 4.8 targeting/build tools, .NET 10 SDK, Terraform, Azure CLI, and Docker Desktop with Linux containers on the **Windows presenter machine**. The modernization CLI needs Windows to assess and build this legacy .NET Framework application; running it from Linux/WSL will not work for this baseline. The legacy app runs on the Windows VM; only the migrated app targets a Linux container. The PowerShell setup helper uses built-in JSON parsing and does not require jq.
+Keep the original Terraform state, backend, workspace, and `terraform.tfvars` for **both** deployments. A new clone does not recover local state. If resuming elsewhere, set `$env:LEGACY_INFRA` and `$env:ACA_INFRA` to the original deployment directories, or initialize their existing remote backends and select the original workspaces. **Do not apply from empty state to recreate existing resources.**
 
-Keep the original Terraform state, backend configuration, workspace, and `terraform.tfvars` for **both** deployments. If resuming from another clone or machine, set `$env:LEGACY_INFRA` and `$env:ACA_INFRA` to the original deployment directories (or initialize their existing remote backends and select the original workspaces). Re-cloning the repository does not recover local state. Do not apply from empty state to recreate resources that already exist.
+## A1 - Deploy the Legacy VM and DMS Target
 
-### A1 - Deploy the Legacy VM
-
-This provisions a Windows VM with IIS, SQL Express, MSMQ, and the legacy ContosoUniversity application. The same Terraform stack also creates DMS and an Azure SQL migration target.
+The Student stack provisions the Windows VM with IIS, SQL Express, MSMQ, and legacy ContosoUniversity, plus DMS and an Azure SQL migration target.
 
 ```powershell
 Set-Location "$env:REPO_ROOT\Student\Resources\dotnet\infra"
@@ -85,7 +45,7 @@ resource_group_name = "demo-contoso-vm-rg"
 sql_admin_login     = "sqladminuser"
 ```
 
-Set `admin_password`, `sql_admin_password`, and `sql_migration_password` privately to strong, unique values. Replace the example/default passwords; do not commit variables or Terraform state.
+Set `admin_password`, `sql_admin_password`, and `sql_migration_password` privately to strong, unique values. Replace example/default passwords; do not commit variables or Terraform state.
 
 ```powershell
 terraform init
@@ -93,35 +53,29 @@ terraform apply
 terraform output
 ```
 
-Copy the outputs to Quick Reference. The VM Run Commands install the app and prepare SQL Express for DMS on TCP port **1433**.
+Record the outputs in the quick reference below. The VM Run Commands install the app and prepare SQL Express for DMS on TCP **1433**.
 
-### A2 - Verify the Legacy App on the VM
+## A2 - Stage the Legacy App and SSMS
 
-Connect with the `rdp_command` output and your VM credentials.
+Connect using `rdp_command` and your VM credentials. Open the VM's `app_url`; visit **Students**, **Courses**, and **Departments** to initialize the database. Create a recognizable student, upload a teaching-material image to an existing course, and leave both ready to show.
 
-Open the VM's `app_url`. Visit **Students**, **Courses**, and **Departments**. The first request initializes the database.
+Copy `C:\inetpub\wwwroot\ContosoUniversity\Uploads\TeachingMaterials` from the VM to `$HOME\contoso-demo-materials` on the presenter machine. Preserve filenames for the later Blob Storage upload.
 
-Create a student and upload a teaching-material image to an existing course. Leave these visible for the opening segment.
+The app uses **`ContosoUniversity` on `.\SQLEXPRESS`**, not developer LocalDB. DMS connects to the VM's **private IP, port 1433**.
 
-Copy the files from `C:\inetpub\wwwroot\ContosoUniversity\Uploads\TeachingMaterials` to `$HOME\contoso-demo-materials` on your Windows presenter machine. Preserve filenames; these will be uploaded to Blob Storage in Segment 4.
+Inside the VM over RDP:
 
-**Database detail:** The VM uses **`ContosoUniversity` on `.\SQLEXPRESS`**, not the sample's developer LocalDB database. DMS connects to the VM's **private IP on port 1433**.
-
-#### Prepare the Local Database Walkthrough
-
-Do this **inside the Windows VM over RDP**, before the audience arrives.
-
-1. Open **PowerShell** and confirm the local database engine is running:
+1. Check the database service:
 
    ```powershell
    Get-Service -Name 'MSSQL$SQLEXPRESS'
    ```
 
-   Expect the SQL Server Express service to show `Running`.
+   Expect `Running`.
 
-2. Confirm the **`setup-ssms` VM Run Command** completed. The Student Terraform stack installs **SQL Server Management Studio (SSMS) 22 automatically**, after the application and DMS setup. Open it from the Start menu or `C:\Program Files\Microsoft SQL Server Management Studio 22\Release\Common7\IDE\Ssms.exe`. If the setup log requests a reboot, complete it before the live session and verify the SQL Express service again. For older VMs, apply the updated stack using its original Terraform state, or install from the [official Microsoft installer page](https://learn.microsoft.com/en-us/ssms/install/install).
+2. Check that the **`setup-ssms` VM Run Command** completed. The Student stack installs SSMS 22 after app/DMS setup. Open it from Start or `C:\Program Files\Microsoft SQL Server Management Studio 22\Release\Common7\IDE\Ssms.exe`. Complete any requested reboot and recheck SQL Express. For older VMs, apply the updated stack with its original state, or use the [official Microsoft installer page](https://learn.microsoft.com/en-us/ssms/install/install).
 
-3. Open SSMS and connect with these settings:
+3. Connect in SSMS:
 
    | Setting | Value |
    |---|---|
@@ -129,14 +83,14 @@ Do this **inside the Windows VM over RDP**, before the audience arrives.
    | Server name | `tcp:localhost,1433` |
    | Authentication | SQL Server Authentication |
    | Login | `dms_migration` |
-   | Password | Your privately configured `sql_migration_password` |
+   | Password | Your private `sql_migration_password` |
    | Trust server certificate | Enabled for this local demo connection |
 
-   The DMS preparation Run Command must have completed to configure TCP port 1433 and this login. Do not show or save the password in the presentation.
+   The DMS preparation Run Command configures TCP and this login. Keep password dialogs out of view.
 
-4. Expand **Databases → ContosoUniversity → Tables**. Right-click **dbo.Person → Select Top 1000 Rows** and locate the student created earlier. Show **dbo.Course**, **dbo.Enrollment**, and **dbo.Department** in Object Explorer.
+4. Expand **Databases > ContosoUniversity > Tables**. Open **dbo.Person > Select Top 1000 Rows** and find your student. Keep **dbo.Course**, **dbo.Enrollment**, and **dbo.Department** visible.
 
-5. Open **New Query**, run the following, and leave the query/results ready for Segment 1:
+5. Leave these query results ready for the opening:
 
    ```sql
    USE ContosoUniversity;
@@ -147,21 +101,19 @@ Do this **inside the Windows VM over RDP**, before the audience arrives.
    SELECT * FROM dbo.Person;
    ```
 
-   Expect instance `SQLEXPRESS`, database `ContosoUniversity`, the application tables, and the student you created. This proves the data lives in SQL Server on the VM rather than in the browser or Azure SQL.
+   Expect `SQLEXPRESS`, `ContosoUniversity`, the application tables, and your student.
 
-**Command-line fallback:** If `sqlcmd` is installed, run this in **VM PowerShell**. It prompts for `sql_migration_password`; do not put the password on the command line. `-C` trusts the server certificate for this local demo connection.
+If SSMS is unavailable and `sqlcmd` is already installed, use **VM PowerShell**:
 
 ```powershell
 sqlcmd -S "tcp:localhost,1433" -U dms_migration -d ContosoUniversity -C -Q "SELECT @@SERVERNAME AS ServerName, DB_NAME() AS DatabaseName; SELECT name AS TableName FROM sys.tables ORDER BY name; SELECT * FROM dbo.Person;"
 ```
 
-If `sqlcmd` is not found, use SSMS rather than spending live-demo time installing command-line tools.
+It prompts for the password; do not put it on the command line. `-C` trusts the local server certificate. Do not spend live-demo time installing `sqlcmd`.
 
-### A3 - Deploy Azure Target Infrastructure
+## A3 - Deploy the Modern App
 
-This provisions Container Apps, Azure SQL, Service Bus, private Blob Storage, Key Vault, Log Analytics, Azure OpenAI, and the pre-built modern application.
-
-**This is a second, required deployment.** A successful Student apply with VM/DMS outputs completes A1 only; it does not deploy the Coach Container App. If you already deployed the Coach stack, reuse its original state and variables rather than starting a new deployment.
+**This is a second, required deployment.** The Coach stack provisions Container Apps, Azure SQL, Service Bus, private Blob Storage, Key Vault, Log Analytics, Azure OpenAI, and the pre-built modern app. Student VM/DMS outputs do not mean the Coach app is deployed. Reuse original state/variables if it already exists.
 
 ```powershell
 Set-Location "$env:REPO_ROOT\Coach\Solutions\dotnet\infra"
@@ -185,183 +137,193 @@ terraform apply
 terraform output
 ```
 
-Open `app_url` and try a course image upload with AI enrichment.
-
-Before A4, confirm this returns the actual Coach resource-group name, not a `No outputs found` warning:
+Open `app_url` and test a course-image upload with AI enrichment. Check that this returns the **Coach** resource group, not `No outputs found`:
 
 ```powershell
 $acaInfra = if ($env:ACA_INFRA) { $env:ACA_INFRA } else { "$env:REPO_ROOT\Coach\Solutions\dotnet\infra" }
 terraform "-chdir=$acaInfra" output -raw resource_group_name
 ```
 
-If outputs are missing despite an existing deployment, check `terraform workspace show` and `terraform state list` in its original directory/backend. Do not substitute the Student resource group or run a blind refresh/redeployment against empty state.
+If outputs are missing, check `terraform workspace show` and `terraform state list` against the original directory/backend. Do not substitute the Student resource group or blindly refresh/redeploy from empty state.
 
-**Two databases:** The Student/DMS and Coach/app stacks create separate Azure SQL databases. Segment 4 migrates into the Student DMS target, then points the Container App at it.
+**Two databases:** Student/DMS and Coach/app create separate Azure SQL databases. The live migration targets the **Student** database; cutover points the Container App at it.
 
-**Security and telemetry:** The reference uses a user-assigned managed identity for Azure services. Key Vault and Log Analytics are provisioned, but Key Vault secret loading and Application Insights instrumentation are not wired into the reference.
+**Reference limitations:** Azure services use a user-assigned managed identity. Key Vault and Log Analytics exist, but Key Vault secret loading and Application Insights instrumentation are not wired into the reference.
 
-### A4 - Prepare the Live Session
+## A4 - Prepare the Live Terminal
 
-Have DMS ready to connect to the source and empty target, including an integration runtime if your portal flow requires one. Sign Docker into your image registry; the Coach stack does not create ACR.
+Prepare DMS against the source and empty Student target, including an integration runtime if the portal flow requires one. Sign Docker into your image registry; the Coach stack does not create ACR.
 
-In the **same Windows PowerShell 7 terminal you will use for the live commands**, dot-source the read-only setup helper:
+Dot-source the read-only helper in the **same Windows PowerShell 7 terminal** used live:
 
 ```powershell
 . "$env:REPO_ROOT\Coach\demo\dotnet\prepare-env.ps1"
 ```
 
-**Stop if the helper fails; continue only after it prints `Ready:`.** It validates named Terraform outputs as JSON before making Azure calls, clears stale derived variables, and checks the deployed app, attached identity, and storage account. App/identity names come from the actual deployment, not an assumed prefix; the storage account comes from the Terraform blob endpoint, not the first account in the resource group.
+**Continue only after `Ready:`.** The helper checks named Terraform outputs as JSON, clears stale derived variables, and checks the deployed app, its attached identity, and storage. It uses actual deployment outputs, not assumed prefixes or the first storage account in a resource group. It needs no jq and does not deploy or alter state.
 
-The helper prompts for the full image reference to build and push, for example your registry/repository plus a unique tag. You can set `$env:DEMO_IMAGE` before dot-sourcing to skip the prompt. Run it in the current terminal, not a separate `pwsh -File` process, so its `$env:` values remain available for the live commands. Use `prepare-env.ps1`, not the Bash helper. It does not deploy resources or alter state.
+Enter the full image reference, including registry/repository and a unique tag, when prompted. Set `$env:DEMO_IMAGE` beforehand to skip the prompt. Do not use the Bash helper or `pwsh -File`: the exported `$env:` values must remain in your live terminal.
 
-### A5 - Stage Browser Tabs and VS Code
+## A5 - Stage the Screens
 
-| Tab | Page | Notes |
+| Screen | Ready to show |
+|---|---|
+| Tab 1 | Legacy app, recognizable student, course image |
+| Tab 2 | Azure Portal: DMS, Student target SQL, Service Bus, Blob Storage |
+| Tab 3 | Coach Container App; keep hidden until the reveal |
+| RDP | SSMS Object Explorer and A2 query results; no password dialogs |
+| VS Code | Legacy `Student/Resources/dotnet/dotnet-migration-copilot-samples/ContosoUniversity` folder |
+
+Have `ContosoUniversity.csproj`, `Services/NotificationService.cs`, `Controllers/CoursesController.cs`, and `Web.config` ready.
+
+## A6 - Rehearse and Save Checkpoints
+
+Rehearse the full flow before presenting. Keep a saved assessment report, reviewed migration plan, and a separate tested migrated working copy with its image tag. Include AI enrichment and the non-destructive schema changes in that rehearsal. Do not depend on the agent finishing both migrations within the live slot.
+
+Leave the **live Student DMS target empty** for the audience run. If rehearsal used it, reset it through a reviewed preparation process before the session; do not improvise a database reset live.
+
+At minute 33, switch to the tested migrated working copy if the live migration is unfinished. Stop the live agent first, and change the terminal directory to that copy. Say which code you are using.
+
+If DMS is still running at minute 40, or tested code/image is unavailable at minute 43, skip cutover and use the pre-built Coach app for the reveal. Keep its original database connection. Explain that it is the reference implementation; do not claim its rows came from the live migration. Only perform cutover after migration, schema changes, identity access, and image build/push have succeeded.
+
+## Quick Reference
+
+Fill this in from Terraform outputs. Keep passwords separately; do not commit completed private notes.
+
+```text
+LEGACY VM + DMS  (Student/Resources/dotnet/infra outputs)
+  public_ip                    = ___________________________________
+  app_url                      = ___________________________________
+  rdp_command                  = ___________________________________
+  source_sql_private_ip        = ___________________________________
+  source_sql_username          = dms_migration
+  dms_service_name             = ___________________________________
+  dms_project_name             = ___________________________________
+  target_sql_server_for_wizard = ___________________________________
+  target_sql_database          = ContosoUniversity
+  target_sql_username          = ___________________________________
+
+AZURE APPLICATION  (Coach/Solutions/dotnet/infra outputs)
+  app_url                      = ___________________________________
+  resource_group_name          = ___________________________________
+  servicebus_namespace_fqdn    = ___________________________________
+  storage_account_blob_endpoint = __________________________________
+  openai_endpoint              = ___________________________________
+  openai_deployment_name       = ___________________________________
+```
+
+## Migration Summary
+
+| | Before | After |
 |---|---|---|
-| **Tab 1** | Legacy VM `app_url` | Keep visible at the start |
-| **Tab 2** | Azure Portal | Open DMS, the target SQL database, Service Bus, and Blob Storage |
-| **Tab 3** | Container App `app_url` | Minimize until the reveal |
+| Runtime | .NET Framework 4.8 | .NET 10 |
+| Web framework | ASP.NET MVC 5 / `System.Web` | ASP.NET Core MVC |
+| Project / startup | Legacy `.csproj`, `Global.asax` | SDK-style project, `Program.cs` |
+| Database | SQL Express on the VM | Azure SQL Database |
+| Data access | EF Core 3.1 | EF Core 10 |
+| Messaging | MSMQ | Azure Service Bus |
+| Teaching materials | VM filesystem | Private Azure Blob Storage |
+| Azure authentication | Windows/local configuration dependencies | User-assigned managed identity |
+| Hosting | IIS on Windows Server | Linux container on Azure Container Apps |
+| AI | None | Optional course image enrichment |
 
-Keep the VM's RDP session open with **SSMS Object Explorer and the A2 query/results** ready. Keep connection/password dialogs out of view.
+</details>
 
-In **VS Code on Windows**, open `Student/Resources/dotnet/dotnet-migration-copilot-samples/ContosoUniversity` as the working folder, not a WSL, Remote SSH Linux, or Linux dev-container session. Have `ContosoUniversity.csproj`, `Services/NotificationService.cs`, `Controllers/CoursesController.cs`, and `Web.config` ready.
+## Before Starting the Clock
 
-## Part B - Live Demo
+Open **PowerShell 7 on Windows at the root of this cloned repository** and run:
 
-### Segment 1 - Scene Setting **(0:00 - 5:00)**
+```powershell
+$env:REPO_ROOT = (Get-Location).Path
+$helper = Join-Path $env:REPO_ROOT 'Coach\demo\dotnet\prepare-env.ps1'
+if (-not (Test-Path $helper)) { throw 'Start in the hackathon repository root.' }
+. $helper
+```
 
-**Pitch:**
+**Continue only after `Ready:`.** `REPO_ROOT` is the repository path; the helper reads both deployments and sets `MIGRATION_SQL_HOST`, `ACA_RG`, `ACA_APP`, `APP_IDENTITY_NAME`, `APP_CLIENT_ID`, and `BLOB_ACCOUNT`. It prompts for `DEMO_IMAGE`, the full registry/repository and unique tag to build and push. These are not values to guess.
 
-> This is ContosoUniversity, running on .NET Framework 4.8 and ASP.NET MVC 5, hosted on IIS with SQL Express. Notifications use Windows Message Queuing, and teaching materials are files on this machine.
->
-> The application still delivers value. The challenge is its dependence on this Windows server. Changing a version number won't replace System.Web, move its queue, or make those files durable in a container.
->
-> We're going to modernize it with GitHub Copilot, move the data, and then add an AI feature.
+If Terraform state lives elsewhere, set `LEGACY_INFRA` and `ACA_INFRA` to those deployment directories before running the helper. Keep this terminal open: all live commands use its environment unless marked **VM PowerShell** or **SQL**. In a new terminal, rerun this preflight.
 
-**Steps:**
+| Segment | Time | Show |
+|---|---|---|
+| 1 - Legacy app | 0:00-5:00 | Working app and its local SQL data |
+| 2 - Assessment | 5:00-15:00 | Framework, queue, storage, and data-access blockers |
+| 3 - Code migration | 15:00-33:00 | Reviewed plan, changed code, build/tests |
+| 4 - Data and AI | 33:00-48:00 | Offline migration, files, optional enrichment, cutover |
+| 5 - Reveal | 48:00-55:00 | Migrated student/image and AI-assisted course creation |
 
-1. Open **Tab 1** and show the student created during setup.
-2. Open a course and its teaching-material image.
-3. Make an update and show the notification UI.
-4. Switch to **SSMS inside the VM** for a brief local-database walkthrough:
-   - Point to the local server connection and expand **Databases → ContosoUniversity → Tables**.
-   - Show the prepared A2 query results: instance **SQLEXPRESS**, database **ContosoUniversity**, and the application tables.
-   - Find the same student in **dbo.Person** that you just showed in the app. If SSMS is unavailable, use the prepared A2 `sqlcmd` fallback.
+**Time gates:** At 33 minutes, use the rehearsed migrated copy if the agent is unfinished. At 40, if DMS is still running, skip cutover. At 43, if code/image is not ready, use the pre-built Coach app. Disclose every checkpoint/reference switch; never present it as live-generated code or live-migrated data.
 
-   **Say this:**
+## Demo 1: From IIS to Azure Container Apps
 
-   > This is the actual SQL Server Express database on the Windows VM. Here is the same student we saw in the application. Later, we will move these records into Azure SQL and verify them again in the modern app.
+**WOW moment:** Find the student and course image from the Windows VM in the modern app, then upload a new image and show saved AI-generated course content.
 
-5. Switch to VS Code and point out:
-   - `<TargetFrameworkVersion>v4.8</TargetFrameworkVersion>`
-   - `System.Web` and `System.Messaging` references
-   - `packages.config` and `Web.config`
-   - Local file upload code in `CoursesController.cs`
+### 1 - Show the Legacy App (0:00-5:00)
 
-**Audience sees:** A working application whose web framework, queue, and files are tied to Windows, plus direct evidence that its records are stored in the VM's local SQL Server Express database.
+1. In **Tab 1**, show the prepared student, course image, and notification UI after an update.
+2. In **VM SSMS**, show the prepared A2 results: `SQLEXPRESS`, `ContosoUniversity`, and the same student in `dbo.Person`. Use the prepared `sqlcmd` fallback if needed.
+3. In VS Code, show `v4.8`, `System.Web`, `System.Messaging`, `packages.config`, `Web.config`, and local upload code in `CoursesController.cs`.
 
-### Segment 2 - Assessment **(5:00 - 15:00)**
+**Say:**
+> The app still delivers value. Its web framework, queue, and files depend on this Windows server. We will change those dependencies and preserve the data.
 
-**Pitch:**
-
-> Before changing code, let's understand the migration blockers. The assessment will help us distinguish project updates from dependencies that need a different implementation.
-
-**Steps:**
-
-In the legacy application folder:
+### 2 - Assess (5:00-15:00)
 
 ```powershell
 Set-Location "$env:REPO_ROOT\Student\Resources\dotnet\dotnet-migration-copilot-samples\ContosoUniversity"
 modernize assess --source .
 ```
 
-Or start **Recommended Assessment** in the modernization extension.
+Alternatively, use **Recommended Assessment** in the extension. Open the report; inspect code for patterns the report misses.
 
-Open the generated report and walk through these findings, using code inspection where the report does not surface a pattern:
+**Show:** `System.Web` to ASP.NET Core; MSMQ to Service Bus; legacy project/configuration to SDK style, PackageReference, `Program.cs`, and `appsettings.json`; local files to Blob Storage. **This sample already uses EF Core 3.1**, not EF6.
 
-1. **`System.Web` / ASP.NET MVC 5**
-   > Controllers, routing, filters, and application startup must move to ASP.NET Core.
-2. **`System.Messaging` / MSMQ**
-   > This Windows queue API must be replaced with Azure Service Bus.
-3. **Project and configuration**
-   > The legacy project, packages.config, Global.asax, and Web.config become an SDK-style project, PackageReference, Program.cs, and appsettings.json.
-4. **Local teaching-material files**
-   > These must move to durable Blob Storage, not the container filesystem.
-5. **Data access**
-   > This sample already uses EF Core 3.1. We need to upgrade it while preserving the SQL schema and existing records.
+**Say:**
+> This is a framework migration, not a version bump. We must also preserve the SQL schema and existing records.
 
-**Audience sees:** The reasons this is a framework migration, not just a runtime upgrade.
+**If assessment overruns:** Show the saved report and identify it as a rehearsal result.
 
-### Segment 3 - AI-Assisted Code Migration **(15:00 - 33:00)**
+### 3 - Plan, Migrate, and Check (15:00-33:00)
 
-**Pitch:**
-
-> Now we create a migration plan. Copilot will coordinate the changes, but we review the plan, inspect the diff, and verify that the application still works.
-
-**Step 1 - Generate the migration plan:**
+1. Generate a plan, or use **Create Plan** in the report with the same goal:
 
 ```powershell
-modernize plan create "Migrate ContosoUniversity from .NET Framework 4.8 ASP.NET MVC 5 to .NET 10 ASP.NET Core MVC on Linux Azure Container Apps. Convert the project to SDK style and PackageReference. Migrate System.Web, Global.asax, routing, Razor views and Web.config. Upgrade existing EF Core 3.1 to EF Core 10, preserving table names, keys, relationships and data. Replace MSMQ with Azure Service Bus and local teaching-material storage with private Azure Blob Storage. Use DefaultAzureCredential and a user-assigned managed identity, not SQL passwords or service keys. Add a multi-stage Linux Dockerfile listening on port 8080. Preserve CRUD and notifications. Identify existing-file and database-schema migration steps separately. Build and test the result." --source .
+modernize plan create "Create the full Azure modernization plan to Azure Container Apps" --source .
 ```
 
-Or click **Create Plan** from the assessment report and use the same goal.
-
-Show the plan and point out:
-
-- `System.Web` and startup migration to ASP.NET Core.
-- MSMQ replacement with `ServiceBusClient`.
-- File upload migration to `IFormFile` and `BlobServiceClient`.
-- Private image delivery through the app, not anonymous blob access.
-- EF Core upgrade, schema compatibility, and managed identity configuration.
-
-**Step 2 - Execute the plan:**
+2. Review .NET 10/ASP.NET Core migration, EF Core schema compatibility, Service Bus, private Blob Storage, managed identity, and Linux container configuration. Preserve existing records, CRUD, and notifications; keep database/file migration separate. Execute the reviewed plan:
 
 ```powershell
-modernize plan execute "Execute the reviewed ContosoUniversity migration plan targeting .NET 10, ASP.NET Core, Azure Service Bus and private Azure Blob Storage."
+modernize plan execute "Execute the plan migrating to .NET 10 and Azure SQL"
 ```
 
-Or ask the extension to execute the reviewed plan.
-
-Show the new `.csproj`, `Program.cs`, notification service, and upload controller.
-
-**Step 3 - Verify the build:**
+3. Show the new `.csproj`, `Program.cs`, notification service, and upload controller. Build and run available tests; check CRUD, uploads, and notifications:
 
 ```powershell
 dotnet restore ContosoUniversity.csproj
 dotnet build ContosoUniversity.csproj -c Release --no-restore
 ```
 
-Run the available tests and check CRUD, uploads, and notifications. A successful build alone does not verify those integrations.
+**Say:**
+> Copilot coordinates the edits. We review the plan and diff, then check behavior. A passing build does not prove the integrations work.
 
-**Pitch:**
+**At 33 minutes:** If unfinished, stop the agent and open the separate tested migrated copy. Change the terminal directory to that copy. Say it was prepared during rehearsal.
 
-> The application now builds for .NET 10. Next we need the original data and files, and we need to deploy this code rather than just show the pre-built reference.
+### 4 - Move Data, Add AI, and Cut Over (33:00-48:00)
 
-### Segment 4 - Database Migration and AI Infusion **(33:00 - 48:00)**
+**Say:**
+> We are moving SQL Express to Azure SQL during a maintenance window, not doing zero-downtime replication. The Student DMS target and Coach app database are separate.
 
-**Pitch:**
+1. Finish legacy edits. Stop source writes in **VM PowerShell**:
 
-> Unlike the Java demo, we're not converting Oracle to PostgreSQL. We're moving SQL Express into Azure SQL. We must preserve the records and explicitly connect the app to the database we migrate.
+```powershell
+Import-Module WebAdministration
+Stop-Website -Name ContosoUniversity
+```
 
-**Step 1 - Migrate with DMS:**
+In **Tab 2**, use the prepared DMS offline flow: source `source_sql_private_ip`, port **1433**, SQL login `dms_migration`, database `ContosoUniversity`. Select the **Student** `target_sql_server_for_wizard`, its empty `ContosoUniversity` database, and the private target SQL login. Include schema migration if tables are absent; select all application tables and start. **Do not select the seeded Coach database.**
 
-1. Finish legacy edits and stop source writes. In **VM PowerShell**:
-
-   ```powershell
-   Import-Module WebAdministration
-   Stop-Website -Name ContosoUniversity
-   ```
-
-2. Open **Tab 2**, the prepared DMS service/project, and the offline migration flow.
-3. Set the source to `source_sql_private_ip`, port **1433**, SQL Authentication, login **`dms_migration`**, database **`ContosoUniversity`**.
-4. Select the **Student** `target_sql_server_for_wizard` and its empty `ContosoUniversity` database. Use the privately configured target SQL login.
-5. Include schema migration if the target has no tables, select all application tables, start migration, and show completion.
-
-This is an **offline migration with a maintenance window**, not zero-downtime replication. Do not select the Coach app's already-seeded reference database.
-
-**Step 2 - Validate data and move the files:**
-
-Run this query on the source through SSMS and on the target through the Azure SQL Query editor, signing in as the configured Entra administrator:
+2. After completion, compare counts on source (SSMS) and target (Azure SQL Query editor, configured Entra administrator). Find the prepared student:
 
 ```sql
 SELECT 'Person' AS [Table], COUNT(*) AS [Rows] FROM dbo.Person
@@ -370,9 +332,7 @@ UNION ALL SELECT 'Enrollment', COUNT(*) FROM dbo.Enrollment
 UNION ALL SELECT 'Department', COUNT(*) FROM dbo.Department;
 ```
 
-Compare counts and find the student created during setup.
-
-From the **same terminal used in A4**, upload the copied teaching-material files:
+Upload the copied files from the presenter terminal:
 
 ```powershell
 az storage blob upload-batch --account-name "$env:BLOB_ACCOUNT" `
@@ -380,7 +340,7 @@ az storage blob upload-batch --account-name "$env:BLOB_ACCOUNT" `
   --auth-mode login
 ```
 
-After a successful upload, run this on the **migrated target** to replace the known legacy path prefix with the blob filename:
+After upload succeeds, update paths on the **migrated target**:
 
 ```sql
 UPDATE dbo.Course
@@ -389,17 +349,10 @@ SET TeachingMaterialImagePath = SUBSTRING(
 WHERE TeachingMaterialImagePath LIKE '~/Uploads/TeachingMaterials/%';
 ```
 
-**Pitch:**
+**Say:**
+> DMS moved rows, not files or queued MSMQ messages. We copied teaching materials separately; new notifications use Service Bus.
 
-> DMS copied database rows, not files or queued MSMQ messages. We moved the teaching materials separately; new notifications will use Service Bus.
-
-**Step 3 - Infuse AI into course authoring:**
-
-**Pitch:**
-
-> Let's add business value: upload a teaching-material image and generate a course description, learning objectives, and accessibility text. AI must remain optional, so a model failure cannot prevent saving a course.
-
-Use the plan agent with this prompt:
+3. If time permits, give the plan agent this AI prompt. Otherwise, review the rehearsed implementation:
 
 ```text
 Add Azure OpenAI vision enrichment to the modernized ContosoUniversity course
@@ -420,13 +373,12 @@ Bound the AI request duration, log failures, and allow saving the course/image
 when AI is unavailable. Build and test successful and failed enrichment.
 ```
 
-Review the plan, execute it, and apply its reviewed schema changes to the migrated database before deployment.
+Review/execute the plan and apply reviewed schema changes **before deploying**. The reference needs nullable `dbo.Course` columns: `Description` and `LearningObjectives` (`nvarchar(2000)`), `AltText` (`nvarchar(500)`). Never drop/recreate the populated database.
 
-For the reference model, the required nullable `dbo.Course` columns are `Description` (`nvarchar(2000)`), `LearningObjectives` (`nvarchar(2000)`), and `AltText` (`nvarchar(500)`). Do not drop/recreate the database to add them.
+**Say:**
+> AI adds descriptions, learning objectives, and alt text, but it must not prevent saving a course when the model fails.
 
-**Step 4 - Deploy and point the app at the migrated database:**
-
-In the target SQL Query editor, grant the app identity access. Adjust the name if you changed the prefix:
+4. Only after migration/schema checks succeed, grant the app identity access in the **target SQL Query editor**. Replace `demo-contoso-id` with `$env:APP_IDENTITY_NAME` if different; create the user only if absent:
 
 ```sql
 CREATE USER [demo-contoso-id] FROM EXTERNAL PROVIDER;
@@ -434,9 +386,7 @@ ALTER ROLE db_datareader ADD MEMBER [demo-contoso-id];
 ALTER ROLE db_datawriter ADD MEMBER [demo-contoso-id];
 ```
 
-Run the user creation only if it does not already exist. Schema changes should be applied as the administrator, not by granting the runtime identity additional DDL permissions.
-
-From the migrated project folder in the **same terminal used in A4**:
+Apply schema changes as administrator; do not grant the runtime identity DDL permissions. From the migrated project folder in the original presenter terminal, run commands one at a time and stop on any failure:
 
 ```powershell
 dotnet build ContosoUniversity.csproj -c Release
@@ -448,43 +398,29 @@ az containerapp update -g "$env:ACA_RG" -n "$env:ACA_APP" --image "$env:DEMO_IMA
   --query properties.latestRevisionName -o tsv
 ```
 
-Wait for the revision to become healthy and check `/Students`. The managed identity must have access to the **migrated database**, not just the original Coach database.
+**Check:** Healthy revision and `/Students`; identity access must be to the migrated database. Do not reapply unchanged Coach Terraform after cutover: it restores the reference image/connection.
 
-This command overrides the Coach Terraform image/connection settings. Do not re-apply the unchanged Coach Terraform after cutover; it would restore the original reference configuration.
+**Time gate:** If DMS is unfinished at 40 minutes, skip cutover. If tested code/image is unavailable at 43, keep the pre-built Coach app and its original connection. Its AI feature is pre-built, not generated live.
 
-If you show the pre-built Coach image instead, say so clearly. It already includes AI enrichment and is not the output of the live agent run.
+### 5 - Reveal (48:00-55:00)
 
-### Segment 5 - The Reveal **(48:00 - 55:00)**
+1. Compare the already-loaded **Tab 1** with **Tab 3**; do not refresh the stopped legacy site.
+2. After successful cutover, find the migrated student and open an existing course image. **Reference fallback:** Show equivalent reference workflows, not a claim of live data migration.
+3. Create a course with an unused number, valid department, and PNG/JPEG under 5 MB. Leave AI fields blank; save, then show **Details/Edit**. The reference enriches **on save**, with no pre-save review panel.
+4. Show the private blob and received notification. The UI consumes messages, so an empty queue is expected after receipt.
+5. Show Container App identity/logs: SQL, Service Bus, Storage, and OpenAI use managed identity. Key Vault secret loading and Application Insights are not wired into the reference.
 
-**Pitch:**
+**Say:**
+> Same university workflows, different platform. We reviewed Copilot's changes, checked behavior, and handled data and files separately. AI adds value without becoming a requirement for saving a course.
 
-> Same university workflows, same migrated records, different platform. We replaced Windows-specific APIs, moved the database and files, and used identity-based access instead of distributing application passwords.
+### Troubleshooting
 
-**Steps:**
+| Symptom | Action |
+|---|---|
+| Environment helper fails or variables are stale | Stop; expand setup above and check A3/A4. Never guess resource names or recreate existing deployments from empty state. |
+| Assessment or code migration overruns | Show the saved report/plan or tested migrated copy; disclose the switch. |
+| DMS is slow or row counts differ | Do not cut over. Show the pre-built reference and explain what remains unvalidated. |
+| New revision is unhealthy or SQL access fails | Check logs, the last healthy revision, and identity access to the Student target. Do not claim a completed cutover. |
+| AI fails or a queue is empty | Saving must still work without AI. Check logs; the notification UI may already have consumed the message. |
 
-1. Show the already-loaded legacy **Tab 1** beside **Tab 3**. Do not refresh the stopped legacy site.
-2. Find the student created on the VM in the modern app.
-3. Open an existing course's migrated image.
-4. Create a course with an unused number, a valid department, and a PNG/JPEG under 5 MB. Leave the AI fields blank.
-5. Click **Create**, then open **Details** or **Edit** to show the saved description, objectives, and alt text. The reference fills fields **on save**; it has no pre-save review panel.
-6. Show the private blob and a received notification. The notification UI consumes queue messages, so the queue may already be empty.
-7. Show the Container App identity and logs. Explain that SQL, Service Bus, Storage, and OpenAI use that identity.
-
-**Migration summary:**
-
-| | Before | After |
-|---|---|---|
-| Runtime | .NET Framework 4.8 | .NET 10 |
-| Web framework | ASP.NET MVC 5 / `System.Web` | ASP.NET Core MVC |
-| Project / startup | Legacy `.csproj`, `Global.asax` | SDK-style project, `Program.cs` |
-| Database | SQL Express on the VM | Azure SQL Database |
-| Data access | EF Core 3.1 | EF Core 10 |
-| Messaging | MSMQ | Azure Service Bus |
-| Teaching materials | VM filesystem | Private Azure Blob Storage |
-| Azure authentication | Windows/local configuration dependencies | User-assigned managed identity |
-| Hosting | IIS on Windows Server | Linux container on Azure Container Apps |
-| AI | None | Optional course image enrichment |
-
-**Closing pitch:**
-
-> Copilot accelerated assessment, planning, and code changes. The developer stayed in control: reviewing the plan, checking the build, migrating the data, and verifying the application. Modernization also created room for a useful AI feature without making the core workflow depend on it.
+**Transition to questions:** Use the migration summary in the expandable setup above to recap the changed dependencies and discuss the audience's own applications.
