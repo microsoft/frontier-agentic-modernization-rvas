@@ -199,6 +199,30 @@ Student/Resources/java/PhotoAlbum-Java/                                        ‚
 Student/Resources/net8/eShopOnWeb/                                             ‚Üê ASP.NET Core 8.0 app
 ```
 
+## Website and PR previews
+
+`.github/workflows/gh-pages.yml` publishes the site from `main` and adds a
+preview comment to PRs from branches in this repository, matching
+`frontier-ghcp-ttt-rvas`. Each PR gets a stable `previews/pr-<number>-<hash>/`
+URL. New commits update the preview and the existing comment. Fork PRs build
+the site but do not publish previews.
+
+Previews are saved on an automatically created `gh-pages` branch. Main-site
+deployments preserve them. Like the reference repo, closing a PR does not
+automatically delete its saved preview.
+
+**Repository settings:**
+
+1. Keep **Settings > Pages > Build and deployment > Source** set to **GitHub Actions**,
+   not deployment from the `gh-pages` branch.
+2. In **Settings > Environments > github-pages > Deployment branches and tags**,
+   keep `main` and add a **branch** rule for `refs/pull/*/merge`. Without this rule,
+   GitHub blocks PR preview deployments.
+3. Allow the GitHub-owned actions used by the workflow if Actions are restricted.
+   The jobs request their own write permissions; the default workflow permission
+   can stay read-only. No PAT or extra secret is needed. Rules covering `gh-pages`
+   must allow the workflow to create and update that generated branch.
+
 ## Contributors
 
 Thanks to everyone who has contributed!
