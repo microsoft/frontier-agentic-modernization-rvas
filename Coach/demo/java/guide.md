@@ -1,313 +1,280 @@
-# PhotoAlbum Java Migration — Demo Speaker Guide
+# PhotoAlbum Java Migration - Live Speaker Guide
 
-**Duration**: 55 minutes  
-**Audience**: Technical (Java developers, architects)  
-**Pitch**: Migrate a legacy Spring Boot 2.7 / Java 8 / Oracle app to Spring Boot 3.x / Java 25 / Azure PostgreSQL, secured with Key Vault + Managed Identity, hosted on Azure Container Apps.
+**55 minutes | Java developers and architects | Bash, Java 25, VS Code**
 
-## Timing
+**First run:** Expand **Pre-demo setup and reference** below. Deploy both stacks, prepare the migration target, and rehearse before presenting. The dedicated **Troubleshooting** chapter remains at the end.
 
-| | Description | Time |
-|---|---|---|
-| **Part A** | Pre-demo setup *(before audience arrives — allow 60 min)* | — |
-| **S1** | Scene Setting — show the legacy app running | 0:00 – 5:00 |
-| **S2** | Assessment — `modernize assess` | 5:00 – 15:00 |
-| **S3** | Code Migration — GitHub Copilot live | 15:00 – 33:00 |
-| **S4** | Database Migration — Ora2Pg | 33:00 – 48:00 |
-| **S5** | The Reveal — modern app on Azure Container Apps | 48:00 – 55:00 |
+<details>
+<summary><strong>Pre-demo setup and reference (complete before presenting)</strong></summary>
 
-## Quick Reference — Fill In Before the Demo
+Allow **at least 2 hours**. Oracle initialization alone can take 3-5 minutes; cloud provisioning and tool installation take longer. After setup, continue to **Before Starting the Clock** below.
 
-After running Terraform in Part A, copy these values here:
+## A0 - Presenter Machine and Terraform State
 
-```
-LEGACY VM
-  public_ip         = ___________________________________________
-  app_url           = http://______________________________:8080
-  ssh_command       = ssh azureuser@________________________
-
-AZURE TARGET  (Coach/Solutions/java/infra outputs)
-  app_url           = https://___________________________________
-  postgresql_fqdn   = ___________________________________________
-  postgresql_server = ___________________________________________
-  key_vault_uri     = https://___________________________________
-  resource_group    = ___________________________________________
-  db_admin_user     = photoalbumadmin
-  db_admin_password = (value you set in terraform.tfvars)
-```
-
-## Part A — Pre-Demo Setup
-
-> Complete all steps at least **2 hours before** the demo starts.  
-> Oracle takes 3–5 minutes to initialise on first boot — start early.
-
-### A0 — Set Up Your Local Environment
+Use a Bash terminal with Git, the modernization CLI/extension, Java 25, Maven, Terraform, Azure CLI, and Docker. The **VM** needs Ora2Pg, Oracle Instant Client/`DBD::Oracle`, and `psql`; cloud-init attempts to install them, but check them during rehearsal rather than assuming success.
 
 ```bash
-# Clone the demo repo and solutions branch
 git clone https://github.com/microsoft/frontier-agentic-modernization-rvas.git
 cd frontier-agentic-modernization-rvas
 git submodule update --init --recursive
+export REPO_ROOT="$PWD"
+az login
 ```
 
-### A1 — Deploy the Legacy VM
+Keep the original Terraform state, backend, workspace, and `terraform.tfvars` for **both** stacks. If resuming, use those deployment directories; a new clone does not recover local state. Do not apply from empty state to recreate existing resources.
 
-This provisions an Ubuntu VM with Docker, Oracle XE, and the legacy PhotoAlbum app running as containers.
+## A1 - Deploy the Legacy VM
+
+The Student stack provisions Ubuntu, Docker, Oracle, and the legacy PhotoAlbum containers. It also creates a separate PostgreSQL migration target.
 
 ```bash
-cd Student/Resources/java/infra
-cp terraform.tfvars.example terraform.tfvars
-```
-
-Edit `terraform.tfvars` and set:
-
-```hcl
-prefix               = "demo"
-location             = "swedencentral"
-admin_username       = "azureuser"
-admin_password       = "DemoP@ssword123!"   # 12+ chars, upper+lower+digit+special, no underscores
-resource_group_name  = "demo-photoalbum-vm-rg"
-```
-
-Deploy:
-
-```bash
-terraform init
-terraform apply   # confirm with 'yes' — takes ~5 minutes
-```
-
-Copy the outputs to the Quick Reference section above:
-
-```bash
-terraform output   # shows public_ip, app_url, ssh_command
-```
-
-### A2 — Verify the Legacy App on the VM
-
-SSH into the VM using the `ssh_command` output. Enter the `admin_password` when prompted:
-
-```bash
-ssh azureuser@<public_ip>
-```
-
-Check that both containers are running:
-
-```bash
-sudo docker compose -f /opt/photoalbum/docker-compose.yml ps
-```
-
-Expected output: both `photoalbum-oracle` (**healthy**) and `photoalbum-java-app` (**running**) are up.
-
-If Oracle is still initialising, follow its log and wait for the ready message:
-
-```bash
-sudo docker compose -f /opt/photoalbum/docker-compose.yml logs -f oracle-db
-# Wait until you see:  DATABASE IS READY TO USE!
-# Press Ctrl+C when ready
-```
-
-Open a browser and navigate to `http://<public_ip>:8080`.  
-**Upload 3–5 test photos** — this is the data you will migrate to Azure PostgreSQL in Segment 4.
-
-Exit the VM:
-
-```bash
-exit
-```
-
-### A4 — Deploy Azure Target Infrastructure
-
-This provisions all Azure resources: Container Apps, PostgreSQL Flexible Server, Azure Blob Storage, Key Vault, Application Insights, Azure OpenAI, and the Container App with the modern image pre-deployed.
-
-```bash
-cd Coach/Solutions/java/infra
-cp terraform.tfvars.example terraform.tfvars
+cd "$REPO_ROOT/Student/Resources/java/infra"
+test -f terraform.tfvars || cp terraform.tfvars.example terraform.tfvars
 ```
 
 Edit `terraform.tfvars`:
 
 ```hcl
-prefix            = "demo"
-location          = "swedencentral"
-app_image         = "ghcr.io/microsoft/frontier-agentic-modernization-rvas/photo-album:latest"
-db_admin_username = "photoalbumadmin"
-db_admin_password = "DemoP@ssword123!"   # must match password used in A1 for consistency
-resource_group_name  = "demo-photoalbum-aca-rg"
+prefix              = "demo"
+location            = "swedencentral"
+admin_username      = "azureuser"
+resource_group_name = "demo-photoalbum-vm-rg"
 ```
 
-Deploy:
+Set `admin_password` and the Student `db_admin_password` privately. Use strong, unique values that meet the variable constraints; replace example defaults. Do not commit credentials or Terraform state.
 
 ```bash
 terraform init
-terraform apply   # takes 10–15 minutes — run this while Oracle initialises locally
-```
-
-Copy all outputs to the Quick Reference section above:
-
-```bash
+terraform apply
 terraform output
 ```
 
-Open the `app_url` in a browser — you should see the modern PhotoAlbum running on Azure Container Apps. 
+Record `public_ip`, `app_url`, and `ssh_command`. Connect using the exact `ssh_command` output and the configured VM password.
 
-### A5 — Stage Browser Tabs and VS Code
+## A2 - Stage the Legacy Data and Migration Tools
 
-Open these **before** the demo starts:
-
-| Tab | URL | Notes |
-|---|---|---|
-| **Tab 1** — Legacy VM | `http://<vm_public_ip>:8080` | Keep visible at the start |
-| **Tab 2** — Azure Portal | `https://portal.azure.com` | Pre-navigate to Key Vault and App Insights |
-| **Tab 3** — ACA app | `https://<app_url>` | **Minimise — this is the final reveal** |
-
-In VS Code, open `Student/Resources/java/PhotoAlbum-Java` as the working folder. Have the integrated terminal ready in that directory.
-
-## Part B — Live Demo
-
-### Segment 1 — Scene Setting **(0:00 – 5:00)**
-
-**Pitch:**
-
-> This is PhotoAlbum — a Spring Boot application running on Java 8 with an Oracle database, deployed to a virtual machine. Classic enterprise setup from a few years ago.
->
-> Let me show you the problems. Java 8 reached end-of-life. Spring Boot 2.7 is no longer maintained. The Oracle JDBC driver requires a licensed account to download — you cannot pull it automatically in a CI/CD pipeline. And photos are stored as binary BLOBs directly inside the database — the worst possible pattern for cloud-native storage. No path to scale, no managed infrastructure, no observability.
->
-> We're going to fix all of that, right now, with the help of GitHub Copilot.
-
-**Steps:**
-
-1. Open **Tab 1** — show the legacy app at `http://<vm_public_ip>:8080`, gallery with test photos visible
-2. Upload a new photo live — it appears in the gallery
-3. Switch to VS Code — open `pom.xml`
-4. Point out these three lines:
-   - `<java.version>1.8</java.version>`
-   - `<artifactId>spring-boot-starter-parent</artifactId>` version `2.7.18`
-   - `<artifactId>ojdbc8</artifactId>` (Oracle JDBC)
-
-**Audience sees:** A working but legacy app. Java 8, Oracle dependency, no cloud-native architecture.
-
-### Segment 2 — Assessment **(5:00 – 15:00)**
-
-**Pitch:**
-
-> Before we write a single line of code, let's understand exactly what we're dealing with. The `modernize` CLI will analyse the entire codebase and surface every migration blocker — automatically.
-
-**Steps:**
-
-Open the VS Code terminal and run the assessment or use the GitHub Copilot modernization extension:
+In **VM Bash**:
 
 ```bash
-cd Student/Resources/java/PhotoAlbum-Java
+sudo docker compose -f /opt/photoalbum/docker-compose.yml ps
+sudo docker compose -f /opt/photoalbum/docker-compose.yml logs -f oracle-db
+```
+
+Expect `photoalbum-oracle` healthy and `photoalbum-java-app` running. Wait for `DATABASE IS READY TO USE!`, then press Ctrl+C. Open the Student `app_url` and upload **3-5 recognizable photos**.
+
+Check the export tools:
+
+```bash
+ora2pg --version
+perl -MDBD::Oracle -e 'print "DBD::Oracle ready\n"'
+psql --version
+```
+
+Copy `Coach/Solutions/java/ora2pg.conf` from the presenter clone to a working directory on the VM using your SSH/SCP client. Check its connection details against the running Oracle container: host `localhost`, port `1521`, service **`FREEPDB1`**, schema/user `PHOTOALBUM`/`photoalbum`. Keep credentials private. Ora2Pg directives use whitespace, not `=`.
+
+Rehearse an export and inspect the generated schema, owner, sequences, indexes, and photo binary representation. Keep saved exports and source row counts as checkpoints. Do not discover missing Oracle client libraries during the audience session.
+
+## A3 - Deploy the Modern App and Choose the Target
+
+From the **presenter terminal**:
+
+```bash
+cd "$REPO_ROOT/Coach/Solutions/java/infra"
+test -f terraform.tfvars || cp terraform.tfvars.example terraform.tfvars
+```
+
+Edit `terraform.tfvars`:
+
+```hcl
+prefix              = "demo"
+location            = "swedencentral"
+app_image           = "ghcr.io/microsoft/frontier-agentic-modernization-rvas/photo-album:latest"
+db_admin_username   = "photoalbumadmin"
+resource_group_name = "demo-photoalbum-aca-rg"
+```
+
+Set the Coach `db_admin_password` privately. It does not need to match the VM password.
+
+```bash
+terraform init
+terraform apply
+terraform output
+```
+
+Open the Coach `app_url` and test an upload, image display, and AI enrichment.
+
+**Two PostgreSQL servers:** This guide imports into the **Coach** `postgresql_fqdn`, the server configured for the Container App. The Student `target_postgresql_fqdn` is a different server. Importing there does not automatically reconnect the app.
+
+Before the live run, prepare an **empty Coach migration database** and keep the modern app stopped until import/schema preparation is complete. Do this during setup, not by improvising a destructive reset live. The reference defaults to `spring.jpa.hibernate.ddl-auto=create`: configure the migrated app with **`SPRING_JPA_HIBERNATE_DDL_AUTO=validate`** before it starts against migrated data.
+
+Rehearse the owner/schema mapping and any additive AI schema changes. Ora2Pg output must match the schema and binary mapping the migrated app actually uses.
+
+**Reference limits:** Photo bytes remain in the database; the checked-in Java reference does not implement Blob Storage. Its system-assigned identity accesses Key Vault and OpenAI; PostgreSQL still uses a password, supplied through secret configuration. The Dockerfile does not attach an Application Insights Java agent. Do not promise those additional migrations unless you implemented and tested them.
+
+## A4 - Stage Screens and Checkpoints
+
+| Screen | Ready to show |
+|---|---|
+| Tab 1 | Student legacy `app_url`, gallery with recognizable photos |
+| Tab 2 | Azure Portal: Coach PostgreSQL, Key Vault, Container App, and logs |
+| Tab 3 | Coach `app_url`; keep hidden until the reveal |
+| VS Code | `Student/Resources/java/PhotoAlbum-Java`, `pom.xml`, assessment terminal |
+| VM SSH | Working directory containing the adjusted `ora2pg.conf` |
+
+Keep a saved assessment report, reviewed plan, tested migrated working copy, built image tag, and migration results. Sign Docker into your registry if deploying a live-built image.
+
+At minute 33, stop an unfinished agent run and switch to the tested migrated copy, naming the checkpoint. At minute 40, if export/import is unfinished, show saved results instead of claiming a live migration. At minute 43, if tested code/image or schema preparation is incomplete, skip live cutover and use rehearsed screenshots/results. Do not start the app against an incomplete database.
+
+## Quick Reference
+
+Record these Terraform outputs privately; keep passwords separately.
+
+| Student outputs | Coach outputs |
+|---|---|
+| `public_ip`, `app_url`, `ssh_command` | `app_url`, `postgresql_fqdn`, `postgresql_server_name` |
+| VM username from `terraform.tfvars` | `resource_group_name`, `key_vault_uri` |
+| Student target is not used in this flow | `openai_endpoint`, `openai_deployment_name` |
+
+Keep the Coach `db_admin_username` beside the outputs. The examples use `photoalbumadmin`; do not substitute the Student default `psqladmin`.
+
+</details>
+
+## Before Starting the Clock
+
+Open **Bash at the root of this cloned repository**. Run commands one at a time and stop on any error or missing output:
+
+```bash
+export REPO_ROOT="$PWD"
+test -f "$REPO_ROOT/Coach/Solutions/java/ora2pg.conf"
+export LEGACY_INFRA="${LEGACY_INFRA:-$REPO_ROOT/Student/Resources/java/infra}"
+export ACA_INFRA="${ACA_INFRA:-$REPO_ROOT/Coach/Solutions/java/infra}"
+export VM_IP="$(terraform -chdir="$LEGACY_INFRA" output -raw public_ip)"
+export LEGACY_URL="$(terraform -chdir="$LEGACY_INFRA" output -raw app_url)"
+export APP_URL="$(terraform -chdir="$ACA_INFRA" output -raw app_url)"
+export PGHOST="$(terraform -chdir="$ACA_INFRA" output -raw postgresql_fqdn)"
+export ACA_RG="$(terraform -chdir="$ACA_INFRA" output -raw resource_group_name)"
+export PG_SERVER="$(terraform -chdir="$ACA_INFRA" output -raw postgresql_server_name)"
+```
+
+`REPO_ROOT` is the clone path; the other values come from the original Terraform deployments. Set `LEGACY_INFRA`/`ACA_INFRA` first if their state lives elsewhere. Keep this terminal open; rerun preflight in a new one. **Exports do not cross SSH:** the VM prompts for its PostgreSQL settings in Segment 4.
+
+| Segment | Time | Show |
+|---|---|---|
+| 1 - Legacy app | 0:00-5:00 | Photo gallery and legacy dependencies |
+| 2 - Assessment | 5:00-15:00 | Runtime, persistence, and configuration findings |
+| 3 - Code migration | 15:00-33:00 | Reviewed plan, changed code, build/tests |
+| 4 - Data and AI | 33:00-48:00 | Ora2Pg export/import and optional enrichment |
+| 5 - Reveal | 48:00-55:00 | Validated gallery and deployed application |
+
+## Demo 1: From Oracle on a VM to PostgreSQL on Container Apps
+
+**WOW moment:** Open recognizable legacy photos in the migrated app, then upload a new photo and show saved AI-generated metadata.
+
+### 1 - Show the Legacy App (0:00-5:00)
+
+1. In **Tab 1**, show the prepared photos and upload one more.
+2. In VS Code, show `pom.xml`: Java `1.8`, Spring Boot `2.7.18`, and `ojdbc8`.
+3. Point to database-backed photo storage and credentials/configuration that need to change.
+
+**Say:**
+> The app works. We will change its runtime, database, configuration, and hosting while preserving the photos.
+
+### 2 - Assess (5:00-15:00)
+
+In the **presenter terminal**:
+
+```bash
+cd "$REPO_ROOT/Student/Resources/java/PhotoAlbum-Java"
 modernize assess --source .
 ```
 
-or start a "Recommended Assessment" in the Copilot extension.
+Alternatively, use **Recommended Assessment** in the extension. Review runtime upgrades, Oracle persistence, and configuration secrets; inspect code for patterns the report misses.
 
-Once you have the results, open the assessment report in VS Code and walk through the findings. Hit these points:
+**Say:**
+> The report gives us a starting point. We still inspect the code and review what the migration needs to preserve.
 
-1. **Java Version Upgrade**  
-   > *The application is using a Java version that has reached the end of support. It is strongly recommended to plan and execute a migration strategy to upgrade your application to a supported Java version. Supported Java versions receive long-term support (LTS) from the Java community, including bug fixes and updates. Migrating to a supported version provides you with a stable and well-maintained platform for your application.*
+If assessment overruns, show the saved report and identify it as a rehearsal result.
 
-2. **Oracle database found**
-   > *Oracle database found. To migrate a Java application that uses an Oracle database to Azure*
+### 3 - Plan, Migrate, and Check (15:00-33:00)
 
-3. **Password found in configuration file**  
-   > *Using clear passwords in property files is a security risk, as they can be easily compromised if the files are accessed by unauthorized individuals.*
-
-### Segment 3 — AI-Assisted Code Migration **(15:00 – 33:00)**
-
-**Pitch:**
-
-> Now we create a migration plan. The `modernize` CLI analyses the assessment output and generates a structured list of tasks. Each one mapped to a specific file or pattern. Then Copilot executes every task in the plan.
-
-**Step 1 — Generate the migration plan:**
+1. Generate the plan, or use **Create Plan** in the report:
 
 ```bash
 modernize plan create "Create the full Azure modernization plan to Azure Container Apps" --source .
 ```
 
-or if using the Copilot extension, click "Create Plan" from the assessment report.
-
-Show the generated plan. Walk through the task list and point out the four key items the agent will execute:
-- Run on a supported, current Java LTS runtime for long-term maintainability and security.
-- Remove plaintext secrets by sourcing credentials from Azure Key Vault.
-- Migrate persistence from Oracle to Azure Database for PostgreSQL, secured with Managed Identity.
-- Replace insecure protocols, hardcoded URLs, and localhost resource access with cloud-ready,
-  externally configurable, secure endpoints.
-- Remediate known CWE weaknesses and CVE vulnerabilities prior to deployment.
-
-**Step 2 — Agent executes the plan:**
+2. Review Java 25/Spring Boot 3 migration, Oracle-to-PostgreSQL schema and binary compatibility, secrets, configurable secure endpoints, and dependency/CWE/CVE findings. Preserve photo records and replace destructive Hibernate schema creation with validation.
 
 ```bash
 modernize plan execute "Execute the plan migrating to Java 25 and PostgreSQL"
 ```
 
-or ask the agent in the Copilot extension to: "Execute the plan".
-
-**Step 3 — Verify the build:**
+3. Inspect the diff and build:
 
 ```bash
 mvn clean package -DskipTests
 ```
 
-**Audience sees:** `BUILD SUCCESS` — the migrated code compiles cleanly with Java 25 and Spring Boot 3.
+**Check:** `BUILD SUCCESS` is a compile/package checkpoint, not a test result. Run the available tests and check upload, gallery, and image download against the migrated schema.
 
-**Pitch:**
+**Say:**
+> Copilot accelerates the edits. We review the plan and diff, then check behavior rather than treating compilation as proof.
 
-> "The plan had everything. Copilot executed each task. We reviewed and accepted. The build passes."
+At minute 33, stop an unfinished run and switch to the rehearsed migrated copy. Say so, and change the terminal directory to that copy.
 
-### Segment 4 — Database Migration **(33:00 – 48:00)**
+### 4 - Move Data and Add AI (33:00-48:00)
 
-**Pitch:**
+**Say:**
+> Ora2Pg exports Oracle schema and data; importing it is separate from changing the Java code. This is an offline migration.
 
-> "The code compiles. Now the data. Our source is Oracle — running locally in Docker. Our target is Azure Database for PostgreSQL Flexible Server, already provisioned in Azure. We will use Ora2Pg — the industry-standard Oracle-to-PostgreSQL migration tool."
-
-**Step 1 — Walk through the Ora2Pg configuration:**
-
-**Pitch:**
-
-> "Ora2Pg reads the Oracle schema, converts every data type to its PostgreSQL equivalent, and generates a SQL script with the CREATE TABLE statements and all the INSERT rows."
-
-**Step 2 — Export schema and data from Oracle (runs on the VM):**
-
-1. Copy and adjust the template in `Coach/Solutions/java/ora2pg.conf`.
-2. Export SQL and data:
+1. Finish uploads and stop source writes. In **VM Bash**, stop only the application, leaving Oracle running:
 
 ```bash
-# 1. schema
+sudo docker compose -f /opt/photoalbum/docker-compose.yml stop photoalbum-java-app
+```
+
+Record the source `PHOTOALBUM.PHOTOS` count using the rehearsed Oracle connection. In the VM directory containing the adjusted `ora2pg.conf`, export:
+
+```bash
 ora2pg -c ora2pg.conf -o photoalbum.sql
-# 2. data
 ora2pg -c ora2pg.conf -t COPY -o data.sql -u system -w photoalbum
 ```
 
-**Step 3 — Import into Azure PostgreSQL:**
+Use the actual configured Oracle credentials; the template command assumes the sample's `system` password. Inspect generated files before import.
 
-**Pitch:**
-
-> "Now we create a new role in PostgreSQL, grant it to the admin user, and import the schema and data."
+2. Still in **VM Bash**, enter the **Coach** target values from the quick reference:
 
 ```bash
-export PGPASSWORD="<admin-password>"
-export PGUSER="psqladmin"
-export PGHOST="<host>"
-psql -h $PGHOST -U $PGUSER -d photoalbum <<'SQL'
-CREATE ROLE photoalbum LOGIN PASSWORD 'photoalbum';
-GRANT photoalbum TO psqladmin;
-SQL
-
-psql -h $PGHOST -U $PGUSER -d photoalbum < TABLE_photoalbum.sql
-psql -h $PGHOST -U $PGUSER -d photoalbum < SEQUENCE_photoalbum.sql
-psql -h $PGHOST -U $PGUSER -d photoalbum < data.sql
+read -r -p "Coach postgresql_fqdn: " PGHOST
+read -r -p "Coach db_admin_username: " PGUSER
+read -r -s -p "Coach database password: " PGPASSWORD
+printf '\n'
+export PGHOST PGUSER PGPASSWORD
+export PGDATABASE=photoalbum PGSSLMODE=require
 ```
 
-**Step 4 — Infuse AI into the application:**
+For the template's `OWNER photoalbum`, create the owner role **only if absent**, then grant it to the configured administrator. It does not need a login password:
 
-**Pitch:**
+```bash
+psql -v ON_ERROR_STOP=1 -v admin="$PGUSER" <<'SQL'
+CREATE ROLE photoalbum NOLOGIN;
+GRANT photoalbum TO :"admin";
+SQL
+```
 
-> "We're going to add a new feature: every uploaded photo will be auto-analyzed by Azure OpenAI gpt-4.1-mini (vision) and enriched with a short caption, an accessibility alt-text, and tags. These will render on the gallery cards and detail page, and the `<img alt>` will use the AI alt-text (falling back to the original filename). This change will require database schema updates and more."
+Import into the prepared empty target. Run each command separately and stop on error:
 
-**Steps:**
+```bash
+psql -v ON_ERROR_STOP=1 < TABLE_photoalbum.sql
+psql -v ON_ERROR_STOP=1 < SEQUENCE_photoalbum.sql
+psql -v ON_ERROR_STOP=1 < data.sql
+psql -v ON_ERROR_STOP=1 < INDEX_photoalbum.sql
+unset PGPASSWORD
+```
 
-Use the `plan` agent with the following prompt:
+Check the generated schema name/search path, photo count, filenames, binary data, and sequence behavior against the source. Use the schema-qualified `photos` table from the export; do not assume it is in `public`.
+
+3. If time permits, give the plan agent this prompt; otherwise review the rehearsed implementation:
 
 ```text
 Infuse Azure OpenAI vision into the photoAlbum Spring Boot app. Inspect the
@@ -316,87 +283,96 @@ workspace and produce an implementation plan.
 Feature: every uploaded photo is auto-analyzed by Azure OpenAI gpt-4.1-mini (vision)
 and enriched with a short caption (<120 chars), an accessibility alt-text, and 5-10
 lowercase single-word tags. These render on the gallery cards and detail page, and the
-<img alt> uses the AI alt-text (falling back to the original filename). This changes
-will require database schema updates and more.
+<img alt> uses the AI alt-text (falling back to the original filename). Include the
+database schema updates, service layer, and UI changes.
 
 Hard requirements:
 1. Authenticate with Managed Identity.
-2. No API keys or hard coded values anywhere.
-3. The AI call should not be critical.
+2. No API keys or hardcoded endpoints.
+3. AI failure must not prevent a photo upload.
+4. Apply non-destructive schema changes to the populated database; never recreate it.
+5. Build and test successful and failed enrichment.
 ```
 
-Once you agree to the plan, execute it. The agent will implement tehe feature, including database schema changes, service layer updates, and UI changes.
+Review/execute the plan and apply its additive schema changes. The reference stores `caption`, `alt_text`, and `tags`; inspect the migrated model before applying changes.
 
-### Segment 5 — The Reveal **(48:00 – 55:00)**
+4. Deploy the tested migrated image, not merely the pre-built reference. Check the deployed image tag, Coach database connection, schema mapping, and **`SPRING_JPA_HIBERNATE_DDL_AUTO=validate`** before starting it against migrated data. Wait for a healthy revision and test the gallery.
 
-**Pitch:**
+If export/import is unfinished at minute 40, show saved migration results. If the tested image/schema is not ready at 43, skip live cutover. Label screenshots, rehearsal checkpoints, and the pre-built Coach image honestly; none proves a live migration.
 
-> "Let me show you where we started — and where we are now."
+### 5 - Reveal (48:00-55:00)
 
-**Steps:**
+1. Compare the already-loaded **Tab 1** with **Tab 3**; do not refresh the stopped legacy app.
+2. After successful import and deployment, find the same photos and open/download them. Otherwise, explain which checkpoint you are showing.
+3. Upload a new photo. Show saved caption, alt text, and tags; the image should still save if AI is unavailable.
+4. Show the actual connection, managed identity, Key Vault, and application logs. Do not claim PostgreSQL passwordless authentication, Blob Storage, or Java-agent telemetry unless those changes were implemented.
 
-1. Open **Tab 1** (legacy VM app) and **Tab 3** (ACA app) side-by-side
-2. On the legacy tab: `http://<vm_public_ip>:8080` — Oracle-backed app on a VM
-3. On the ACA tab: `https://<app_url>` — **the same photos are already there**, migrated
+**Say:**
+> We changed the runtime and database, checked the original photos, and added optional AI enrichment. The developer reviewed the changes and validated the result.
 
-**Pitch:**
-
-> "Same application. Same photos. But everything underneath it is different.
->
-> Before: Java 8 end-of-life, Spring Boot unsupported, use of Oracle, photos stored as database BLOBs, running on a virtual machine with no secrets management and no observability.
->
-> After: Java 25 LTS, Spring Boot 3.x, Azure Database for PostgreSQL — fully managed, no server to patch. Azure Container Apps — serverless, autoscaling, no infrastructure to manage. Secrets locked in Key Vault, never in code. Telemetry flowing to Application Insights with zero code changes.
->
-> GitHub Copilot assessed the codebase, generated the migration plan, and executed the code changes. The developer stayed in control — Copilot accelerated every step of the journey."
-
-**Migration summary:**
-
-| | Before | After |
-|---|---|---|
-| Java | 8 (end-of-life 2019) | 25 LTS |
-| Spring Boot | 2.7.18 (unsupported) | 3.x |
-| Database | Oracle XE in Docker | Azure Database for PostgreSQL |
-| Photo storage | Oracle BLOBs | Azure Blob Storage |
-| Secrets | Plaintext in config | Azure Key Vault + Managed Identity |
-| Observability | None | Azure Application Insights |
-| Hosting | Azure VM | Azure Container Apps |
+**Transition to questions:** Recap the changed dependencies, then use the troubleshooting chapter below if an audience question needs a concrete diagnostic.
 
 ## Troubleshooting
 
-### Oracle container not healthy on VM
+### Oracle Container Not Healthy on the VM
+
+Connect using the recorded `ssh_command`. In **VM Bash**:
 
 ```bash
-ssh azureuser@<public_ip>
+sudo docker compose -f /opt/photoalbum/docker-compose.yml ps
 sudo docker compose -f /opt/photoalbum/docker-compose.yml logs oracle-db | tail -30
-# Wait until: DATABASE IS READY TO USE!
-# Oracle first-time init can take up to 5 minutes
 ```
 
-### `modernize` command not found
+Wait for `DATABASE IS READY TO USE!`; first initialization can take 3-5 minutes. If Ora2Pg cannot load its driver, check `DBD::Oracle`, Oracle Instant Client, and `/etc/profile.d/oracle-instantclient.sh` before retrying.
+
+### `modernize` Command Not Found
+
+In the **presenter terminal**:
 
 ```bash
 export PATH="$HOME/.local/bin:$PATH"
-# Add this line to ~/.bashrc or ~/.zshrc to persist across sessions
+command -v modernize
 ```
 
-### `mvn clean package` fails after migration
+Add the PATH export to `~/.bashrc` or `~/.zshrc` to persist it. If the CLI is not installed, use the prepared extension or saved assessment rather than installing tools live.
 
-Check these in order:
+### `mvn clean package` Fails After Migration
 
-1. **Missed `javax.*` imports** — re-run the namespace migration task from the plan, or open Copilot and ask it to fix remaining `javax.*` imports
-2. **Oracle dialect still in `application.properties`** — ensure `spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect`
-3. **`ojdbc8` still in `pom.xml`** — remove it and add `org.postgresql:postgresql`
-4. Reference the Coach solution: `Coach/Solutions/java/PhotoAlbum-Java/`
+Check in order:
 
-### `psql` connection refused to Azure PostgreSQL
+1. Missed Java EE `javax.*` imports: complete their Jakarta migration; do not blindly replace Java SE packages.
+2. Oracle dialect still configured: check the PostgreSQL dialect and datasource settings.
+3. `ojdbc8` still in `pom.xml`: replace it with `org.postgresql:postgresql`.
+4. Wrong active JDK: check `java -version` and `mvn -version`.
+5. Compare with `Coach/Solutions/java/PhotoAlbum-Java/`.
 
-Your IP may not be in the firewall allowlist. Add it:
+For startup/schema errors, check the exported schema, binary mapping, AI columns, and `ddl-auto=validate`. Never fix missing columns by switching to `create` on populated data.
+
+### `psql` Connection Refused to Azure PostgreSQL
+
+Check hostname, port 5432, SSL, and credentials first. In the **presenter terminal**, use the preflight's Coach resource/server variables to allow the **machine running psql**:
 
 ```bash
+read -r -p "Public outbound IPv4 of the machine running psql: " CLIENT_IP
 az postgres flexible-server firewall-rule create \
-  --resource-group <resource_group_name> \
-  --name <postgresql_server_name> \
-  --rule-name "AllowMyIP" \
-  --start-ip-address "$(curl -s https://api.ipify.org)" \
-  --end-ip-address "$(curl -s https://api.ipify.org)"
+  --resource-group "$ACA_RG" \
+  --name "$PG_SERVER" \
+  --rule-name "AllowDemoMigration" \
+  --start-ip-address "$CLIENT_IP" \
+  --end-ip-address "$CLIENT_IP"
 ```
+
+For VM imports, use the VM's outbound IP, not the presenter's. Remove the temporary rule after the demo:
+
+```bash
+az postgres flexible-server firewall-rule delete \
+  --resource-group "$ACA_RG" --name "$PG_SERVER" \
+  --rule-name "AllowDemoMigration" --yes
+```
+
+| Symptom | Check |
+|---|---|
+| Ora2Pg exports no photos | Source service/schema, Oracle readiness, and privileges |
+| Import errors or different row counts | Stop; inspect generated SQL and owner/schema mapping before cutover |
+| Gallery is empty after restart | Wrong server/schema or destructive Hibernate schema creation |
+| AI is unavailable | Logs, endpoint/deployment, managed identity access; uploads must still work |
