@@ -488,29 +488,3 @@ If you show the pre-built Coach image instead, say so clearly. It already includ
 **Closing pitch:**
 
 > Copilot accelerated assessment, planning, and code changes. The developer stayed in control: reviewing the plan, checking the build, migrating the data, and verifying the application. Modernization also created room for a useful AI feature without making the core workflow depend on it.
-
-## Troubleshooting
-
-| Issue | What to do |
-|---|---|
-| SSMS is missing on the VM | Check the `setup-ssms` Run Command and `C:\setup-ssms.log`. Apply the updated Student stack using its original state for older VMs, or run `Student/Resources/dotnet/infra/scripts/ssms.ps1` in elevated PowerShell on the VM. Finish installation and any required reboot before A2. |
-| SSMS cannot connect to the local database | Use `tcp:localhost,1433`, SQL Authentication, `dms_migration`, and the configured `sql_migration_password`. Check the SQL Express service and `setup-sql-dms` Run Command. Trust the certificate only for this local demo connection. |
-| `sqlcmd` is not found on the VM | Use the SSMS walkthrough. SQL engine installation alone does not guarantee command-line tools are installed. |
-| A4 reports missing Terraform outputs | A1 and A3 are separate deployments. If both are deployed, select the original directory/backend/workspace for each. Do not use warning text as a resource-group name or recreate deployed resources from empty state. |
-| Azure CLI returns Bad Request during old A4 commands | Clear the warning-valued `$env:ACA_RG` by dot-sourcing `prepare-env.ps1` after fixing the Coach state. The helper stops before Azure calls when outputs are missing. |
-| Bash syntax or missing variables in PowerShell | Use the A4 `.ps1` helper and `$env:NAME` variables in the same Windows PowerShell terminal. Do not paste Bash `export`, `source`, or backslash continuations. |
-| VM app not reachable | Inspect `C:\setup-contoso.log` and VM Run Commands `setup-contoso` / `setup-sql-dms`. Check IIS, SQL Express, and MSMQ. Installation can take much longer than 15 minutes. |
-| Legacy assessment, migration, or build fails on Linux/WSL | Run the modernization CLI and VS Code on Windows with .NET Framework 4.8 targeting/build tools. Only the migrated `net10.0` application targets Linux. |
-| AppCat/NuGet assessment fails | Check the approved package source and network access. See `Coach/TROUBLESHOOTING.md`, section 2. |
-| DMS cannot reach SQL Express | Check private IP, TCP 1433, the DMS login, VM Run Command completion, peering, NSG/firewall, and integration runtime if required. Do not use LocalDB settings. |
-| DMS target rejects SQL login | Confirm you selected the Student DMS target, not the Coach Entra-only SQL server. Resolve policy restrictions before delivery. |
-| App still shows only seed data | Check the deployed SQL hostname: the two Terraform stacks create separate servers. Apply the explicit connection switch. |
-| `Invalid column name` after cutover | Apply the reviewed schema changes to the existing target. `EnsureCreated()` does not add missing columns. |
-| Managed identity SQL login fails | Check the attached identity, `AZURE_CLIENT_ID`, connection string client ID, and database user/roles on the migrated target. |
-| Migrated image does not load | Confirm the blob uploaded and the stored path is its filename, not the old local path. Keep the container private. |
-| AI fields stay blank | Leave fields blank, upload an image, save, then open Details/Edit. Check deployment settings, identity role, quota, and logs. |
-| Container revision fails | Check image pull permissions, port 8080, SQL connectivity, and schema compatibility. Inspect console logs below. |
-
-```powershell
-az containerapp logs show -g "$env:ACA_RG" -n "$env:ACA_APP" --type console --tail 50
-```
