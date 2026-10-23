@@ -1133,6 +1133,52 @@
     <link rel="stylesheet" href="assets/css/shell.css" />
     <link rel="stylesheet" href="assets/css/routes.css" />
     <style>
+        #hero {
+            padding: clamp(3rem, 5vw, 4rem) 0;
+        }
+
+        #hero .hero-content {
+            max-width: var(--maxw);
+        }
+
+        #hero h1 {
+            margin-top: 0;
+            font-size: clamp(2.5rem, 5.5vw, 5.25rem);
+        }
+
+        #hero h1 span {
+            display: block;
+        }
+
+        #hero .lede {
+            max-width: 68ch;
+            margin: 1.5rem 0 2rem;
+        }
+
+        #hero .btn {
+            min-height: 44px;
+        }
+
+        #hero a:focus-visible {
+            outline: 3px solid var(--color-white);
+            outline-offset: 4px;
+        }
+
+        #routes {
+            padding-top: clamp(2.5rem, 4vw, 3rem);
+            padding-inline: max(1.5rem, calc((100% - var(--maxw)) / 2 + 1.5rem));
+        }
+
+        #routes .section-title {
+            font-size: clamp(2.25rem, 4vw, 3rem);
+        }
+
+        @media (min-width: 768px) {
+            #routes {
+                padding-inline: max(2.5rem, calc((100% - var(--maxw)) / 2 + 2.5rem));
+            }
+        }
+
         .nav-links > a,
         .path-nav > a,
         .sample-nav > summary {
@@ -1316,65 +1362,15 @@
     <main>
         <!-- Hero -->
         <section class="hero" id="hero" aria-labelledby="heroHeading">
-            <svg class="hero-compass" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-            <circle cx="200" cy="200" r="180" stroke="currentColor" stroke-width="0.6" stroke-opacity="0.15" stroke-dasharray="4 8"/>
-            <circle cx="200" cy="200" r="140" stroke="currentColor" stroke-width="0.4" stroke-opacity="0.10"/>
-            <circle cx="200" cy="200" r="80"  stroke="currentColor" stroke-width="0.4" stroke-opacity="0.12"/>
-            <path d="M200 60 A140 140 0 0 1 340 200" stroke="#38bdf8" stroke-width="2" stroke-opacity="0.5" stroke-linecap="round"/>
-            <path d="M340 200 A140 140 0 0 1 200 340" stroke="#f87171" stroke-width="2" stroke-opacity="0.5" stroke-linecap="round"/>
-            <path d="M200 340 A140 140 0 0 1 60 200"  stroke="#a78bfa" stroke-width="2" stroke-opacity="0.5" stroke-linecap="round"/>
-            <path d="M60 200 A140 140 0 0 1 200 60"   stroke="#fb923c" stroke-width="2" stroke-opacity="0.5" stroke-linecap="round"/>
-            <line x1="200" y1="20"  x2="200" y2="380" stroke="currentColor" stroke-width="0.5" stroke-opacity="0.10"/>
-            <line x1="20"  y1="200" x2="380" y2="200" stroke="currentColor" stroke-width="0.5" stroke-opacity="0.10"/>
-            <circle cx="200" cy="200" r="5" fill="#1A77E3" fill-opacity="0.8"/>
-            <circle cx="200" cy="200" r="12" stroke="#1A77E3" stroke-width="1" stroke-opacity="0.3"/>
-            <circle cx="200" cy="60"  r="5" fill="#38bdf8" fill-opacity="0.7"/>
-            <circle cx="340" cy="200" r="5" fill="#f87171" fill-opacity="0.7"/>
-            <circle cx="200" cy="340" r="5" fill="#a78bfa" fill-opacity="0.7"/>
-            <circle cx="60"  cy="200" r="5" fill="#fb923c" fill-opacity="0.7"/>
-        </svg>
-            <div class="wrap hero-grid">
-                <div>
-                    <span class="eyebrow">RVAS — Agentic Modernization</span>
-                    <h1 id="heroHeading">Modernize legacy apps with <span class="accent">GitHub Copilot and Azure</span></h1>
-                    <p class="lede">
-                        Upgrade an existing workload, or rethink its architecture around your business challenges.
-                    </p>
-                    <p class="lede">
-                        Bring your own application. Replatform / refactor with the Modernization CLI, or rearchitect / rebuild with a plugin.
-                    </p>
-                    <div class="hero-actions">
-                        <a class="btn btn-primary" href="#routes">Choose your path</a>
-                        <a class="btn btn-ghost" href="README.md">Read the Briefing</a>
-                    </div>
-                    <div class="stats stats-4" aria-label="Delivery session statistics">
-                        <div class="stat"><span class="stat-num" data-count="2">02</span><span class="stat-lbl">Delivery Paths</span></div>
-                        <div class="stat"><span class="stat-num" data-count="29">29</span><span class="stat-lbl">Challenges</span></div>
-                        <div class="stat"><span class="stat-num" data-count="5">05</span><span class="stat-lbl">Learning Tracks</span></div>
-                        <div class="stat"><span class="stat-num" data-count="3">03</span><span class="stat-lbl">Sample Applications</span></div>
-                    </div>
-                </div>
-                <div class="hero-modules" aria-label="Modernization track overview">
-                    <a href="#java-challenges" class="hero-mod-card" data-route="refactor">
-                        <div class="mod-name">Java modernization</div>
-                        <div class="mod-count">7 challenges · Spring Boot · Java 25</div>
-                    </a>
-                    <a href="#dotnet-challenges" class="hero-mod-card" data-route="refactor">
-                        <div class="mod-name">.NET modernization</div>
-                        <div class="mod-count">7 challenges · ASP.NET Core · Azure</div>
-                    </a>
-                    <a href="#net8-challenges" class="hero-mod-card" data-route="refactor">
-                        <div class="mod-name">.NET 8 acceleration</div>
-                        <div class="mod-count">7 challenges · AI assist · cloud services</div>
-                    </a>
-                    <a href="#customer-challenges" class="hero-mod-card" data-route="refactor">
-                        <div class="mod-name">Replatform / refactor your app</div>
-                        <div class="mod-count">Customer workload · Modernization CLI</div>
-                    </a>
-                    <a href="#rebuild-challenges" class="hero-mod-card" data-route="rebuild">
-                        <div class="mod-name">Rearchitect / rebuild your app</div>
-                        <div class="mod-count">7 milestones · plugin · one validated slice</div>
-                    </a>
+            <div class="wrap hero-content">
+                <h1 id="heroHeading">Bring your application.<span class="accent">Prove the next step.</span></h1>
+                <p class="lede">
+                    Use GitHub Copilot and Azure to modernize an existing application or reshape its architecture.
+                    Deliver a running upgrade or one validated end-to-end slice&mdash;not just a plan.
+                </p>
+                <div class="hero-actions">
+                    <a class="btn btn-primary" href="#routes">Choose your path <span aria-hidden="true">&darr;</span></a>
+                    <a class="btn btn-ghost" href="README.md" aria-haspopup="dialog" aria-controls="drawer">Read the briefing</a>
                 </div>
             </div>
         </section>
