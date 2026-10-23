@@ -999,36 +999,9 @@
             margin: 2rem 0;
         }
 
-        /* Hide the navigation breadcrumb links at top of each challenge .md */
-        .md-content>p:first-child a[href*="Challenge"],
-        .md-content>p:first-child a[href*="README"],
-        .md-content>p:first-child a[href*="Solution"],
-        .md-content>p:first-child a[href$="TROUBLESHOOTING.md"] {
-            display: inline-flex;
-            align-items: center;
-            gap: .3rem;
-            font-family: var(--font-mono);
-            font-size: .7rem;
-            color: var(--text-3);
-            border-bottom: none;
-            padding: .2rem .5rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 3px;
-        }
-
-        /* Nav row: Home/Prev/Next stay left, Troubleshooting is pushed to the right edge */
-        .md-content>p:first-child {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: .4rem;
-        }
-
-        .md-content>p:first-child a[href$="TROUBLESHOOTING.md"] {
-            margin-left: auto;
-            color: var(--amber, #b45309);
-            border-color: rgba(180, 83, 9, .35);
+        /* The drawer header already provides challenge navigation. */
+        .md-content > p:first-child:has(+ h1):has(a[href$=".md"]) {
+            display: none;
         }
 
         .drawer-loading {
@@ -1309,9 +1282,9 @@
             <nav class="nav-links" id="navLinks" aria-label="Primary">
                 <a href="#routes">Choose your path</a>
                 <div class="path-nav" data-route="refactor">
-                    <a href="#challenges">Replatform &amp; refactor</a>
+                    <a href="#challenges">Replatform / refactor</a>
                     <details class="sample-nav" id="sampleNav">
-                        <summary aria-label="Explore replatform and refactor tracks"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                        <summary aria-label="Explore replatform / refactor tracks"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
                         <div class="sample-nav-panel">
                             <a href="#customer-challenges">Bring your application<small>Modernization CLI</small></a>
@@ -1324,7 +1297,7 @@
                         </div>
                     </details>
                 </div>
-                <a href="#rebuild-challenges" data-route="rebuild">Rearchitect &amp; rebuild</a>
+                <a href="#rebuild-challenges" data-route="rebuild">Rearchitect / rebuild</a>
                 <a href="#about">Mission</a>
                 <a href="#prerequisites">Setup</a>
                 <a href="#demos">Demo</a>
@@ -1368,7 +1341,7 @@
                         Upgrade an existing workload, or rethink its architecture around your business challenges.
                     </p>
                     <p class="lede">
-                        Bring your own application. Replatform and refactor with the Modernization CLI, or rearchitect and rebuild with a plugin.
+                        Bring your own application. Replatform / refactor with the Modernization CLI, or rearchitect / rebuild with a plugin.
                     </p>
                     <div class="hero-actions">
                         <a class="btn btn-primary" href="#routes">Choose your path</a>
@@ -1395,11 +1368,11 @@
                         <div class="mod-count">7 challenges · AI assist · cloud services</div>
                     </a>
                     <a href="#customer-challenges" class="hero-mod-card" data-route="refactor">
-                        <div class="mod-name">Replatform &amp; refactor your app</div>
+                        <div class="mod-name">Replatform / refactor your app</div>
                         <div class="mod-count">Customer workload · Modernization CLI</div>
                     </a>
                     <a href="#rebuild-challenges" class="hero-mod-card" data-route="rebuild">
-                        <div class="mod-name">Rearchitect &amp; rebuild your app</div>
+                        <div class="mod-name">Rearchitect / rebuild your app</div>
                         <div class="mod-count">7 milestones · plugin · one validated slice</div>
                     </a>
                 </div>
@@ -1415,13 +1388,13 @@
         <div class="challenges-grid">
             <a class="challenge-card half" href="#challenges" data-route="refactor">
                 <div class="card-top"><span class="card-phase-badge">Modernization CLI</span><span class="card-num mono">ROUTE 01</span></div>
-                <h3 class="card-title display">Replatform &amp; refactor</h3>
+                <h3 class="card-title display">Replatform / refactor</h3>
                 <p class="card-desc">Move to managed Azure platforms and modernize existing code. Upgrade runtimes and dependencies while preserving core behavior. Bring your own app or learn with a sample.</p>
                 <div class="card-footer"><span class="card-tag">Modernization CLI</span><div class="card-arrow mono">Explore this path <span aria-hidden="true">&rarr;</span></div></div>
             </a>
             <a class="challenge-card half" href="#rebuild-challenges" data-route="rebuild">
                 <div class="card-top"><span class="card-phase-badge">Agentic Modernization plugin</span><span class="card-num mono">ROUTE 02</span></div>
-                <h3 class="card-title display">Rearchitect &amp; rebuild</h3>
+                <h3 class="card-title display">Rearchitect / rebuild</h3>
                 <p class="card-desc">Bring your business workflows, coupling, and architecture challenges. Recover behavior, compare strategies, then implement one reviewed end-to-end slice in your own repository.</p>
                 <div class="card-footer"><span class="card-tag">Architecture first</span><div class="card-arrow mono">Explore rebuilds <span aria-hidden="true">&rarr;</span></div></div>
             </a>
@@ -1443,11 +1416,11 @@
         </div>
         <div class="mission-paths">
             <article class="mission-path" data-route="refactor" aria-labelledby="mission-refactor-heading">
-                <h3 id="mission-refactor-heading">Replatform &amp; refactor</h3>
+                <h3 id="mission-refactor-heading">Replatform / refactor</h3>
                 <p class="mission-description">
                     Modernize the application you have while preserving the behavior your users rely on.
                 </p>
-                <ol class="mission-workflow" role="list" aria-label="Replatform and refactor workflow">
+                <ol class="mission-workflow" role="list" aria-label="Replatform / refactor workflow">
                     <li>Assess</li>
                     <li>Plan</li>
                     <li>Modernize</li>
@@ -1463,11 +1436,11 @@
                 </dl>
             </article>
             <article class="mission-path" data-route="rebuild" aria-labelledby="mission-rebuild-heading">
-                <h3 id="mission-rebuild-heading">Rearchitect &amp; rebuild</h3>
+                <h3 id="mission-rebuild-heading">Rearchitect / rebuild</h3>
                 <p class="mission-description">
                     Reshape the application around the business or architecture challenge you need to solve.
                 </p>
-                <ol class="mission-workflow" role="list" aria-label="Rearchitect and rebuild workflow">
+                <ol class="mission-workflow" role="list" aria-label="Rearchitect / rebuild workflow">
                     <li>Discover</li>
                     <li>Review</li>
                     <li>Build a slice</li>
@@ -1663,7 +1636,7 @@
         <div class="challenges-header">
             <div>
                 <div class="section-label">The Path</div>
-                <h2 class="section-title display reveal">Replatform &amp; refactor</h2>
+                <h2 class="section-title display reveal">Replatform / refactor</h2>
             </div>
             <p class="section-desc reveal" style="max-width:340px;">
                 <strong>Bring a real customer-owned application.</strong>
@@ -1671,7 +1644,7 @@
                 <a href="Student/customer/Challenge-00.md" aria-haspopup="dialog" aria-controls="drawer">Start your application upgrade.</a>
                 The three sample tracks below are optional practice, not substitutes for customer delivery.
                 <a href="Student/sample-architecture.md" aria-haspopup="dialog" aria-controls="drawer">Compare sample architectures and Azure services.</a>
-                For deeper architecture changes, <a href="#rebuild-challenges">choose rearchitect &amp; rebuild</a>.
+                For deeper architecture changes, <a href="#rebuild-challenges">choose rearchitect / rebuild</a>.
             </p>
         </div>
 
@@ -2252,7 +2225,7 @@
 
     <section id="rebuild-challenges" aria-labelledby="rebuild-heading" data-route="rebuild">
         <div class="section-label">Route 02 &middot; Bring your application and its challenges</div>
-        <h2 id="rebuild-heading" class="section-title display reveal">Rearchitect<br>&amp; rebuild</h2>
+        <h2 id="rebuild-heading" class="section-title display reveal">Rearchitect<br>/ rebuild</h2>
         <p class="section-desc reveal">
             One planning conversation produces the complete package. Review its output, prepare a bounded
             handoff, then start a separate implementation session. Plan for two days, not a whole-application rewrite.
