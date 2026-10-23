@@ -22,8 +22,8 @@ Python 3.10+ is needed for the diagram tooling; inspect its requirements and
 renderer setup before use. Azure access is not needed merely to inspect source
 or write a plan. Delivery tools and cloud permissions depend on the chosen target.
 
-A missing build environment can be an explicit planning evidence gap, but it
-blocks claims of executable validation. Establish a runnable baseline before
+If the build environment is missing, record it as a gap in the planning evidence;
+you cannot claim executable validation. Establish a runnable baseline before
 implementing a slice.
 
 ## Install provided plugin
@@ -96,8 +96,8 @@ The workflow produces eight artifacts under `docs/modernization/`: `assessment.m
 `migration-plan.md`. UI recovery may also write `PRODUCT.md`, `DESIGN.md`, and
 `.impeccable/design.json`.
 
-Ordinary completion is **Ready for review**. Formal package acceptance is
-required only when requested by your team or governance process. Missing pricing,
+The completed package is normally marked **Ready for review**. Formal package
+acceptance is required only when requested by your team or governance process. Missing pricing,
 diagram rendering, or independent review must have an honest status and owner.
 Planning ends with **architecture and migration planning only; implementation
 not started**. Neither acceptance nor "continue" starts a rebuild.

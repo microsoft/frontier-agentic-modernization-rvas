@@ -4,11 +4,11 @@
 
 ## Introduction
 
-A common misconception is that an application already running on ASP.NET Core does not need a formal assessment before upgrading — "it's already modern, just bump the version." This challenge will prove that assumption wrong.
+A common misconception is that an application already running on ASP.NET Core does not need a formal assessment before upgrading — "it's already modern, just bump the version." This challenge shows why assessment still matters.
 
 **eShopOnWeb** runs on ASP.NET Core 8.0, uses Central Package Management across five projects, and has a Blazor WebAssembly admin area. Moving to .NET 10 involves breaking API changes, package compatibility issues, and a significant OpenAPI tooling change that affects every consumer of the PublicApi project.
 
-The GitHub Copilot Modernization tool provides an assessment capability (accessible from both the CLI and the VS Code panel) that analyses your codebase and produces a structured report. Understanding this report is the foundation for every subsequent challenge.
+The GitHub Copilot Modernization tool analyses your codebase and produces a structured assessment report from either the CLI or the VS Code panel. You will use this report in every subsequent challenge.
 
 ## Description
 
@@ -25,7 +25,7 @@ Review the generated assessment report and discuss as a team:
 
 ## Success Criteria
 
-To complete this challenge successfully, demonstrate:
+To complete this challenge, demonstrate:
 
 1. An assessment report exists for the eShopOnWeb application
 2. Your team can articulate the **top issues identified** across the five projects — separating mandatory blockers from potential and optional items

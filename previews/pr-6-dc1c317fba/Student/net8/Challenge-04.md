@@ -11,7 +11,7 @@ The eShopOnWeb solution uses **two separate EF Core databases**:
 | `CatalogContext` | `Microsoft.eShopOnWebCatalogDb` | Products, catalog types, catalog brands |
 | `AppIdentityDbContext` | `Microsoft.eShopOnWebIdentityDb` | ASP.NET Core Identity users and roles |
 
-In Challenge 03 you provisioned an Azure SQL Database and deployed containers that point at it — but the schema has not been created and no data exists. This challenge completes that work and validates the end-to-end stack.
+In Challenge 03 you provisioned an Azure SQL Database and deployed containers that point at it. The database still needs its schema and data. In this challenge, create them and validate the end-to-end stack.
 
 ## Description
 
@@ -46,7 +46,7 @@ Query the Azure SQL Catalog database to verify the seeded row counts match the e
 
 ## Success Criteria
 
-To complete this challenge successfully, demonstrate:
+To complete this challenge, demonstrate:
 
 1. Both EF Core migration commands complete without errors against Azure SQL
 2. The catalog page shows the seeded products when running fully on Azure

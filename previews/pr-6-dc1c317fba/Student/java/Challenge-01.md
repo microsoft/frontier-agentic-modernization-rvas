@@ -4,9 +4,9 @@
 
 ## Introduction
 
-Before touching any code, experienced modernization teams always start with a thorough **assessment**. An assessment surfaces the migration complexity, identifies deprecated APIs, incompatible dependencies, and cloud-readiness gaps — before you write a single line of new code.
+Start with a thorough **assessment** before changing code. It helps you understand migration complexity and identifies deprecated APIs, incompatible dependencies, and cloud-readiness gaps.
 
-The GitHub Copilot Modernization tool provides an assessment capability (accessible from both the CLI and the VS Code panel) that analyses your codebase and produces a structured report. Understanding this report is the foundation for every subsequent challenge.
+The GitHub Copilot Modernization tool analyses your codebase and produces a structured assessment report from either the CLI or the VS Code panel. You will use this report in every subsequent challenge.
 
 In this challenge you will run an assessment on the Java PhotoAlbum application and learn to read the output critically.
 
@@ -24,7 +24,7 @@ Review the generated assessment report and discuss as a team:
 
 ## Success Criteria
 
-To complete this challenge successfully, demonstrate:
+To complete this challenge, demonstrate:
 
 1. An assessment report exists for the PhotoAlbum (Java) application
 2. Your team can articulate the **top 3 mandatory blockers** for the application (dependencies, APIs, or patterns that require manual attention)
@@ -39,4 +39,3 @@ To complete this challenge successfully, demonstrate:
 ## Tips
 
 - The GitHub Copilot Modernization tool can be used from both the terminal and the VS Code extension panel. Explore both interfaces — they produce the same report but may suit different workflows.
-

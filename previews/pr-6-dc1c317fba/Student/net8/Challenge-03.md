@@ -4,9 +4,9 @@
 
 ## Introduction
 
-With eShopOnWeb running on .NET 10, the next step is to make it truly **cloud-native**: add Azure-managed services for the pieces that currently rely on local infrastructure, containerize both applications, and deploy them to **Azure Container Apps**.
+With eShopOnWeb running on .NET 10, replace its remaining local infrastructure dependencies with Azure-managed services. Then containerize both applications and deploy them to **Azure Container Apps**.
 
-Two cloud-modernization gaps need to be filled before deployment:
+Address two gaps before deployment:
 
 1. **Product images**: currently embedded in the project. These need to move to **Azure Blob Storage** so the stateless container can serve them via SAS URLs.
 2. **Order events**: checkout currently creates orders synchronously with no downstream notification. Add an **Azure Service Bus** message published on every successful order so downstream services can subscribe asynchronously.
@@ -51,7 +51,7 @@ Build and push both container images to the registry, then apply the Terraform c
 
 ## Success Criteria
 
-To complete this challenge successfully, demonstrate:
+To complete this challenge, demonstrate:
 
 1. Both container images build successfully and are pushed to the registry
 2. The Terraform configuration applies without errors and all resources are provisioned

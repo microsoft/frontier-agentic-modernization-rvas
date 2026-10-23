@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This is the most technically dense challenge in the net8 track. The main teaching moments are:
+This is the most technically demanding challenge in the net8 track. Focus on:
 1. How Central Package Management simplifies (and amplifies) a Target Framework Moniker migration
 2. The Swashbuckle → `Microsoft.AspNetCore.OpenApi` transition
 3. Incremental build-fix cycles as a best practice

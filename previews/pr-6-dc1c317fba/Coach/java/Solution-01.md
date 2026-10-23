@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This challenge teaches attendees how to use `modernize assess` on the Java application and builds the mental model for what needs to change before they touch any code. The debrief discussion after this challenge is critical — it sets the direction for Challenge 02.
+Attendees use `modernize assess` on the Java application to understand what needs to change before editing code. The debrief is essential: it sets the direction for Challenge 02.
 
 ## Mini-Lecture (10 min before challenge)
 

@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This challenge is the most technically complex in the .NET track. The migration from .NET Framework 4.8 to .NET 10 ASP.NET Core involves many breaking changes, and the `System.Web` dependency makes it impossible to do a simple in-place upgrade. The `modernize` tool significantly accelerates this but does not automate everything.
+This is the most technically complex challenge in the .NET track. Migrating from .NET Framework 4.8 to .NET 10 ASP.NET Core involves many breaking changes; the `System.Web` dependency rules out a simple in-place upgrade. The `modernize` tool speeds up much of the work but does not automate everything.
 
 ## Mini-Lecture (10 min before challenge)
 
