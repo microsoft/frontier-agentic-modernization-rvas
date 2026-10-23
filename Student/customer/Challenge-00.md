@@ -9,7 +9,7 @@ rebuild plugin solely to follow this CLI challenge.
 
 ## Introduction
 
-The sample applications used in the .NET and Java tracks are great for learning the tools — but the real value of GitHub Copilot Modernization is realized when you apply it to **your own applications**. In this challenge you shift from a pre-packaged sample to a **customer-owned codebase** and apply the same modernization workflow end-to-end.
+The .NET and Java samples help you learn the tools. In this challenge, apply what you learned to **your own applications**: use the same modernization workflow end-to-end on a **customer-owned codebase** rather than a pre-packaged sample.
 
 ## Description
 
@@ -63,6 +63,6 @@ To complete this challenge, demonstrate:
 
 ## Tips
 
-- Avoid picking the application that everyone is afraid to touch — those are high-risk, high-complexity candidates that will burn your time. Pick something that is representative but tractable.
+- Avoid applications the team considers too risky or complex to change in the available time. Choose one that is representative but tractable.
 - If the application fails to build locally, resolve that blocker before running the assessment. The tool needs a buildable project to produce meaningful results.
 - The same modernization patterns from the .NET and Java tracks apply here — the only difference is the codebase. Lean on what you already know.

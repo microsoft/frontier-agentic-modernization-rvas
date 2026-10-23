@@ -6,7 +6,7 @@
 
 Score each milestone **Done (2)**, **Partially Done (1)**, or **Not Done (0)**.
 Done requires observable evidence for every applicable participant criterion.
-Named blockers are honest partial outcomes, not automatically passes.
+Named blockers count as partial outcomes, not automatic passes.
 Each spot check below should take under two minutes once the evidence is open.
 
 | Challenge | Verification | Expected evidence |

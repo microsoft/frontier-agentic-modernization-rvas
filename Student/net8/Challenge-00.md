@@ -4,11 +4,11 @@
 
 ## Introduction
 
-Before diving into application modernization, you need a working local environment with all required tools installed and authenticated. This challenge ensures everyone on your team starts from the same baseline for the **.NET 8 → .NET 10 track**.
+Before starting the **.NET 8 → .NET 10 track**, set up a working local environment with all required tools installed and authenticated. Everyone on your team needs this baseline.
 
 The repository uses **Git submodules** to include the eShopOnWeb sample application. You must initialise the submodule before the source code is available on your machine.
 
-This repo also provides a **Dev Container** definition (`.devcontainer/`) that pre-installs most dependencies inside a Docker container — if you prefer that approach, opening the repo in VS Code with the Dev Containers extension will get you up and running quickly.
+If you prefer a container-based environment, open the repository in VS Code with the Dev Containers extension. The **Dev Container** definition (`.devcontainer/`) pre-installs most dependencies inside a Docker container.
 
 ## Description
 
@@ -100,7 +100,7 @@ docker info --format "Docker version: {{.ServerVersion}}" 2>/dev/null \
 
 ## Success Criteria
 
-To complete this challenge successfully, demonstrate:
+To complete this challenge, demonstrate:
 
 1. `modernize --version` (CLI) or the GitHub Copilot Modernization extension shows as active in VS Code
 2. `gh auth status` returns your authenticated GitHub account

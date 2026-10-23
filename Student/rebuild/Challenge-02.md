@@ -25,9 +25,9 @@ component/UI dispositions, the selected architecture, and migration waves.
 Check that preserved contracts and intentional changes match stakeholder answers.
 
 Challenge the strategy comparison, including a lower-change option where feasible.
-Check official evidence for target-sensitive claims, cost assumptions and pricing
-status, integration/data ownership, coexistence, and recovery limits. Open the
-editable diagrams and distinguish structural, rendered, and independent review.
+Check official evidence for claims that depend on the target, cost assumptions
+and pricing status, integration/data ownership, coexistence, and recovery limits.
+Open the editable diagrams and distinguish structural, rendered, and independent review.
 
 Record discrepancies and request targeted corrections in the existing planning
 workflow. Material new evidence reopens only the affected baseline or target
@@ -44,7 +44,7 @@ not label the package implementation-ready merely because all files exist.
 - [ ] A reviewed journey traces source evidence through stable requirement/acceptance IDs, architecture responsibilities, and migration waves.
 - [ ] Review findings cover behavior/UI preservation, strategy alternatives, official target evidence, costs, and recovery assumptions.
 - [ ] Both editable diagrams have honest structural, rendered, and independent review statuses.
-- [ ] Findings are corrected or explicitly dispositioned with owners; affected artifacts and decision records are consistent.
+- [ ] Findings are corrected or have a recorded decision and owner; affected artifacts and decision records are consistent.
 - [ ] The reviewed package revision and any required acceptance are recorded, with remaining delivery blockers visible.
 
 ## Hints

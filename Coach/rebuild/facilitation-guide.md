@@ -27,7 +27,7 @@ Confirm the format and slice with the customer before the event.
 | 2 afternoon | 05 reviews, 06 rehearsal and handoff | Break before independent review; end with evidence demo |
 
 Use the [participant setup guide](../../Student/rebuild/setup.md) before the event.
-Provided plugin bundles three skills, including the complete diagram package.
+The provided plugin bundles three skills, including the complete diagram package.
 Install supporting profiles in the application repository, not the workshop repo.
 Do not install duplicate diagram copies. Check renderer availability separately.
 
@@ -109,8 +109,8 @@ business/UI contracts. Data adapters or routing seams need clear write ownership
 Do not invoke upstream `implement` unattended; it includes a commit step.
 Our delivery skill does not commit or operate cloud resources by default.
 For a blocked team, reduce the slice only with explicit scope/acceptance changes.
-For an ahead team, strengthen failure-path and compatibility evidence before
-starting another wave.
+If a team is ahead of schedule, strengthen its failure-path and compatibility
+evidence before starting another wave.
 
 ## Challenge 05: Reviews (60 minutes)
 

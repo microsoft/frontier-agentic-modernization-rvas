@@ -19,11 +19,11 @@ workflow. Bring that challenge, not a predetermined replacement architecture.
 
 ## Description
 
-Choose one tractable customer application and a business journey worth improving.
-Explain the desired outcome, current friction, known constraints, and who decides
-what must be preserved. Establish that this is architecture-first work, not merely
-a runtime upgrade. Use the [upgrade route](../customer/Challenge-00.md) if that
-better fits.
+Choose one customer application and a business journey you can reasonably improve
+in the available time. Explain the desired outcome, current friction, known
+constraints, and who decides what must be preserved. Establish that this is
+architecture-first work, not merely a runtime upgrade. Use the [upgrade route](../customer/Challenge-00.md)
+if that better fits.
 
 Work in the application repository. Make the plugin's three bundled skills and
 the relevant [supporting skills](supporting-skills.md) discoverable. Prepare source,
@@ -31,7 +31,7 @@ operating notes, contracts, and sanitized database/UI evidence. Record unavailab
 evidence rather than blocking all static planning or pretending it is complete.
 
 Do not install the Modernization CLI solely for this route. A rebuild may target
-any evidenced application stack; Java/.NET are not entry requirements.
+any application stack supported by the evidence; Java/.NET are not entry requirements.
 
 ## Success Criteria
 

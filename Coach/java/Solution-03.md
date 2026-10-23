@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This challenge moves the modernized Java app from a local environment to Azure Container Apps using Docker and Terraform. Attendees must deal with multi-container coordination (app + PostgreSQL → managed service) and cloud-specific configuration.
+Attendees deploy the modernized Java app from a local environment to Azure Container Apps using Docker and Terraform. They must coordinate the app with PostgreSQL as a managed service and handle cloud-specific configuration.
 
 ## Mini-Lecture (10 min before challenge)
 

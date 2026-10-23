@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The **eShopOnWeb** application is a multi-project ASP.NET Core 8.0 reference application. Unlike the radical .NET Framework 4.8 migrations you may have seen before, this is an **in-place runtime upgrade** — but it still involves real breaking changes that the automated tools can partially resolve and that GitHub Copilot Chat can help you finish.
+The **eShopOnWeb** application is a multi-project ASP.NET Core 8.0 reference application. Unlike a .NET Framework 4.8 migration, this is an **in-place runtime upgrade**. It still involves breaking changes: automated tools can resolve some, and GitHub Copilot Chat can help you address the rest.
 
 The five projects in the solution each need attention:
 
@@ -16,7 +16,7 @@ The five projects in the solution each need attention:
 | `PublicApi` | ASP.NET Core Web API | **Swashbuckle removal → OpenAPI replacement** |
 | `BlazorAdmin` | Blazor WebAssembly | Target Framework Moniker bump, WASM package versions |
 
-The most **visible breaking change** in this migration is the removal of Swashbuckle in favour of the new built-in `Microsoft.AspNetCore.OpenApi` package introduced in .NET 9. Every team hits this; it is intentional.
+The most **visible breaking change** in this migration is the removal of Swashbuckle in favour of the built-in `Microsoft.AspNetCore.OpenApi` package introduced in .NET 9. Every team will encounter this intentional change.
 
 The target state for this challenge is:
 
@@ -55,7 +55,7 @@ Build the solution and start both `Web` and `PublicApi` to confirm the migration
 
 ## Success Criteria
 
-To complete this challenge successfully, demonstrate:
+To complete this challenge, demonstrate:
 
 1. The solution builds successfully with zero errors targeting `net10.0`
 2. The `Web` project starts and the store home page loads

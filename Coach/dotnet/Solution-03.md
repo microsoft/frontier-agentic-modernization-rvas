@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This challenge moves the modernized .NET app from a local environment to Azure Container Apps using Docker and Terraform. Attendees must deal with the multi-service nature of the app (SQL Server, Service Bus, Blob Storage) and cloud-specific configuration.
+Attendees deploy the modernized .NET app from a local environment to Azure Container Apps using Docker and Terraform. They must configure its connections to SQL Server, Service Bus, and Blob Storage, along with the cloud-specific settings.
 
 ## Mini-Lecture (10 min before challenge)
 

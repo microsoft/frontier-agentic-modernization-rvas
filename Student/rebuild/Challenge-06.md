@@ -7,8 +7,8 @@
 
 ## Introduction
 
-A safe modernization needs an operating and recovery story. The event can prove
-that story for a bounded slice without promising a production cutover.
+A safe modernization needs a plan for operation and recovery. The event can
+validate that plan for a bounded slice without promising a production cutover.
 
 ## Prerequisites
 

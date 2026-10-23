@@ -4,7 +4,7 @@
 
 ## Purpose
 
-Stretch challenge demonstrating the Managed Identity → Azure OpenAI pattern. Same RBAC approach as Challenge 05, extended to `Cognitive Services OpenAI User`. Key teaching moment: graceful degradation — the AI call must never block the core business operation.
+This stretch challenge uses Managed Identity to access Azure OpenAI. It extends the RBAC approach from Challenge 05 to `Cognitive Services OpenAI User`. Focus on graceful degradation: the AI call must never block the core business operation.
 
 ## Terraform — Azure OpenAI Resources
 

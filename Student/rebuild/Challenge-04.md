@@ -20,8 +20,8 @@ repository full of generated scaffolding. The reviewed package is the contract.
 
 Start a **new delivery session** and explicitly select `azure-app-rebuild` using
 the handoff in the [setup guide](setup.md). Identify the package revision, bounded
-slice, and acceptance IDs. Reconcile source against the plan before editing.
-Return material drift to the affected planning decision.
+slice, and acceptance IDs. Compare the source with the plan before editing.
+Revisit the affected planning decision if they differ materially.
 
 Implement the slice in dependency order. Preserve external behavior, contracts,
 data ownership, and UI surfaces unless the specification intentionally changes

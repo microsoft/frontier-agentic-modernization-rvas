@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This challenge exists to ensure all attendees start from the same baseline for the Java track. It is largely a logistics/setup challenge and should take no more than 30 minutes.
+Use this setup challenge to give all attendees the same baseline for the Java track. It should take no more than 30 minutes.
 
 ## Mini-Lecture (5 min before challenge)
 

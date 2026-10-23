@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The **ContosoUniversity** application is a university management system built on **ASP.NET MVC 5** targeting **.NET Framework 4.8**. It has several dependencies that are tightly coupled to the Windows on-premises world:
+The **ContosoUniversity** application is a university management system built on **ASP.NET MVC 5** targeting **.NET Framework 4.8**. Several dependencies tie it to an on-premises Windows environment:
 
 - **`System.Messaging` (MSMQ)** — Microsoft Message Queuing is a Windows-only technology used by the `NotificationService`. It has no equivalent in .NET (Core) and must be replaced with a cloud-native messaging service.
 - **Local file system storage** — teaching materials are uploaded to `Uploads/TeachingMaterials/` on disk, which is incompatible with stateless containerized deployments.
@@ -40,7 +40,7 @@ Your approach should include:
 
 ## Success Criteria
 
-To complete this challenge successfully, demonstrate:
+To complete this challenge, demonstrate:
 
 1. The application builds successfully with no errors targeting .NET 10
 2. The application starts without runtime errors
@@ -64,4 +64,3 @@ To complete this challenge successfully, demonstrate:
 - Build the application early and often after each significant change to catch issues incrementally rather than all at once.
 - `Global.asax` startup logic must be migrated to `Program.cs` using the ASP.NET Core host builder pattern.
 - The `HtmlHelper` and `UrlHelper` extension methods work differently in ASP.NET Core Tag Helpers — Copilot Chat can help you convert Razor views.
-

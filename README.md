@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Legacy applications are everywhere — applications built on .NET Framework 4.8, Spring Boot 2.x with Java 8, proprietary databases, and on-premises infrastructure. Modernizing them is one of the most common — and most complex — challenges software teams face today.
+Modernizing legacy applications is one of the most common and most complex challenges software teams face today. These applications include systems built on .NET Framework 4.8, Spring Boot 2.x with Java 8, proprietary databases, and on-premises infrastructure.
 
 Choose the route that matches the change your application needs:
 
@@ -16,8 +16,8 @@ belong in either route. Rebuild discovery may conclude that a smaller refactor
 is the better choice. Work on customer code in its own application repository,
 not in this tooling repository.
 
-These delivery paths group related [Microsoft R strategies](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/select-cloud-migration-strategy),
-not an exhaustive 5R/6R catalog. **Replatform** changes the hosting or managed
+These delivery paths group related [Microsoft R strategies](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/select-cloud-migration-strategy);
+they are not an exhaustive 5R/6R catalog. **Replatform** changes the hosting or managed
 platform with limited code adaptation; **refactor** modernizes existing code.
 **Rearchitect** changes the application structure; **rebuild** creates a new
 implementation. Rehost, replace, retire, and retain remain valid assessment
@@ -85,7 +85,7 @@ the same architecture.
 
 ### eShopOnWeb Track (.NET 8 → .NET 10)
 
-**eShopOnWeb** is an ASP.NET Core 8.0 multi-project reference application (Web MVC + PublicApi + BlazorAdmin + Infrastructure + ApplicationCore). The migration targets .NET 10 and introduces real breaking changes: the Swashbuckle → `Microsoft.AspNetCore.OpenApi` transition, Central Package Management cascade, EF Core 10 updates, and Blazor WASM package bumps — plus cloud-native uplift with Azure Service Bus and Azure Blob Storage.
+**eShopOnWeb** is an ASP.NET Core 8.0 multi-project reference application (Web MVC + PublicApi + BlazorAdmin + Infrastructure + ApplicationCore). The migration targets .NET 10 and involves breaking changes: the Swashbuckle → `Microsoft.AspNetCore.OpenApi` transition, package changes that cascade through Central Package Management, EF Core 10 updates, and Blazor WASM package updates. It also adds Azure Service Bus and Azure Blob Storage.
 
 - Challenge 00: **Prerequisites — Ready, Set, GO!** — [.NET 8](Student/net8/Challenge-00.md)
   - Prepare your workstation with the .NET 10 SDK and verify access to all required tools and services.
@@ -146,7 +146,7 @@ Modernization** plugin, not the `modernize` CLI as its orchestrator.
 
 | Challenge | Outcome |
 | --- | --- |
-| [00: Prepare](Student/rebuild/Challenge-00.md) | Bounded journey, customer challenge, decision owners, and workspace |
+| [00: Prepare](Student/rebuild/Challenge-00.md) | A clearly scoped journey, customer challenge, decision owners, and workspace |
 | [01: Discover & plan](Student/rebuild/Challenge-01.md) | One interactive skill workflow: analysis, questions, decisions, and the complete eight-artifact package |
 | [02: Review the package](Student/rebuild/Challenge-02.md) | Evidence checks, challenged assumptions, targeted corrections, and a reviewed revision |
 | [03: Prepare the handoff](Student/rebuild/Challenge-03.md) | One slice, acceptance IDs, validation readiness, prerequisites, and delivery inputs |

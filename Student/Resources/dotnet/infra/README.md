@@ -1,6 +1,6 @@
 # Deploy ContosoUniversity (Legacy .NET) to Azure VM
 
-This folder contains Terraform configuration and a PowerShell setup script that deploys the **ContosoUniversity** ASP.NET MVC 5 / .NET Framework 4.8 application to a Windows Server 2022 Virtual Machine — the "before" state of the modernization journey.
+Use the Terraform configuration and PowerShell setup script in this folder to deploy the **ContosoUniversity** ASP.NET MVC 5 / .NET Framework 4.8 application to a Windows Server 2022 Virtual Machine — the "before" state of the modernization journey.
 
 ## What Gets Deployed
 
@@ -53,12 +53,11 @@ Terraform will output:
 
 ### 3. Wait for setup to complete
 
-The `setup-contoso` VM Run Command runs `scripts/setup.ps1` automatically after the VM starts. This installs:
+The `setup-contoso` VM Run Command runs `scripts/setup.ps1` automatically after the VM starts. It installs the following tools, then clones, builds, and deploys the application:
 - Chocolatey, Git, NuGet CLI, SQL Server Express 2019
 - IIS features + ASP.NET 4.x
 - MSMQ
 - Visual Studio 2022 Build Tools
-- Clones, builds, and deploys the application
 
 After `setup-sql-dms` prepares SQL Express for migration, a separate `setup-ssms` Run Command runs `scripts/ssms.ps1`. It downloads the [official SSMS 22 installer](https://learn.microsoft.com/en-us/ssms/install/install) and installs it silently, waiting for completion without automatically rebooting the VM. It skips installation if the managed SSMS executable already exists.
 

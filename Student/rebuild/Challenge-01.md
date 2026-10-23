@@ -30,9 +30,9 @@ pause for decisions.
 
 Help the skill recover actors, journeys, rules, permissions, failures,
 integrations, data, and current architecture. For UI applications, preserve
-product/design authority and meaningful surface behavior unless changes are
-explicitly selected. Resolve contradictions between observed behavior and
-stakeholder intent. Compare lower-change options with deeper refactoring or
+product/design authority and the behavior of meaningful UI surfaces unless
+changes are explicitly selected. Resolve contradictions between observed behavior
+and stakeholder intent. Compare lower-change options with deeper refactoring or
 rebuild before choosing a target.
 
 Continue through specification, Azure architecture, costs, editable diagrams,
@@ -51,7 +51,7 @@ claiming a complete package.
 
 - [ ] The planning conversation records stakeholder answers, baseline confirmation, and target selection or bounded delegation.
 - [ ] All eight artifacts listed in the [setup guide](setup.md) exist in the handed-off package and cover the agreed application scope.
-- [ ] Recovered behavior, integrations, data, and applicable UI authority are evidenced; unknowns and contradictions are explicit.
+- [ ] Evidence supports the recovered behavior, integrations, data, and applicable UI authority; unknowns and contradictions are explicit.
 - [ ] The package includes a pricing attempt/status, current and target diagrams with honest review statuses, and dependency-ordered migration waves.
 - [ ] The handoff is marked **Ready for review** and states "architecture and migration planning only; implementation not started".
 

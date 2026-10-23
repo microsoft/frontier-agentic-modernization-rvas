@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The modernized ContosoUniversity now runs on .NET 10 with Azure SQL, Service Bus, and Blob Storage. In this challenge you will **infuse Azure OpenAI** into the application so the admin gets meaningful help when authoring courses.
+The modernized ContosoUniversity now runs on .NET 10 with Azure SQL, Service Bus, and Blob Storage. Add **Azure OpenAI** to help the admin author courses.
 
 When an admin uploads a *teaching-material image* on the Course Create/Edit pages, the application will call **Azure OpenAI (gpt-4.1-mini, vision)** and receive structured suggestions:
 
@@ -16,7 +16,7 @@ Authentication to Azure OpenAI uses **Managed Identity** — no API keys anywher
 
 ## Description
 
-Your goal is to extend the ContosoUniversity application end-to-end with an AI-assisted course content workflow. Rather than following a prescriptive implementation guide, use **GitHub Copilot** to generate and execute an implementation plan from a clear prompt.
+Extend ContosoUniversity end-to-end with an AI-assisted course content workflow. Use a clear prompt to have **GitHub Copilot** generate and execute an implementation plan, rather than following a prescribed implementation.
 
 Start by asking Copilot to inspect the workspace and produce a plan. A good starting prompt looks like this:
 
@@ -63,7 +63,6 @@ To complete this challenge, demonstrate:
 
 ## Tips
 
-- Craft your prompt carefully — the more clearly you describe the feature requirements and hard constraints, the better the plan Copilot produces. Iterate on the prompt if the initial plan misses something.
+- State the feature requirements and hard constraints clearly so Copilot can produce a better plan. Refine the prompt if the initial plan misses something.
 - When reviewing the plan, pay attention to how Copilot proposes to handle the AI call failure case. The course save flow must remain resilient.
 - The AI enrichment runs at upload time, but consider how a coach or admin might re-analyze an existing course image after the feature is added.
-

@@ -4,9 +4,9 @@
 
 ## Introduction
 
-A modernized application running in the cloud needs more than just working code. Production-grade applications require **observability** (so you can diagnose issues quickly) and **secret management** (so credentials are never stored in code or environment variables).
+Production applications need **observability** to diagnose issues quickly and **secret management** to keep credentials out of code and environment variables.
 
-This stretch challenge pushes the modernized Java application toward production readiness using two Azure capabilities:
+In this stretch challenge, improve the modernized Java application's production readiness with:
 
 - **Azure Application Insights** — distributed tracing, live metrics, and structured logging
 - **Azure Key Vault + Managed Identity** — secrets (connection strings, credentials) retrieved at runtime without any secrets in code or configuration files
@@ -26,7 +26,7 @@ Apply production hardening to the modernized Java PhotoAlbum application:
 
 ## Success Criteria
 
-To complete this challenge successfully, demonstrate:
+To complete this challenge, demonstrate:
 
 1. Application Insights shows live telemetry (requests, dependencies, exceptions) from the Java application
 2. No connection strings or credentials appear in any application config file, environment variable, or Terraform state

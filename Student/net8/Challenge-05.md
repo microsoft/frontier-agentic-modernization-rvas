@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The eShopOnWeb application is now running on .NET 10 in Azure Container Apps, connected to Azure SQL, Service Bus, and Blob Storage. But connection strings are still plain-text environment variables, and there is no observability into the running system.
+The eShopOnWeb application now runs on .NET 10 in Azure Container Apps, connected to Azure SQL, Service Bus, and Blob Storage. Connection strings are still stored as plain-text environment variables, and the running system has no observability.
 
 This challenge closes both gaps:
 
@@ -41,7 +41,7 @@ Confirm that no plaintext connection strings appear in the Container App environ
 
 ## Success Criteria
 
-To complete this challenge successfully, demonstrate:
+To complete this challenge, demonstrate:
 
 1. Application Insights **Live Metrics** shows active requests when browsing the store
 2. A distributed trace for an order placement spans both `Web` and `PublicApi` and is visible in **Transaction Search**
