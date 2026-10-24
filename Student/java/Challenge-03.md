@@ -4,9 +4,9 @@
 
 ## Introduction
 
-With the Java application modernized, the next step is to package it as a container image and deploy it to **Azure Container Apps** — a serverless container hosting platform that provides automatic scaling, built-in networking, and deep integration with Azure services.
+Package the modernized Java application as a container image and deploy it to **Azure Container Apps**, a serverless container hosting platform with automatic scaling, built-in networking, and integration with Azure services.
 
-The `Student/Resources/java/` directory contains an `infra/` directory with a skeleton Terraform configuration. Your task is to complete this configuration to provision all required Azure resources and deploy the container.
+Complete the skeleton Terraform configuration in `Student/Resources/java/` under `infra/` to provision the required Azure resources and deploy the container.
 
 ## Description
 
@@ -26,7 +26,7 @@ Containerize and deploy the modernized Java PhotoAlbum application to Azure:
 
 ## Success Criteria
 
-To complete this challenge successfully, demonstrate:
+To complete this challenge, demonstrate:
 
 1. The container image builds successfully and is pushed to a container registry
 2. The Terraform configuration applies without errors and all resources are provisioned
@@ -45,7 +45,6 @@ To complete this challenge successfully, demonstrate:
 
 ## Tips
 
-- Azure Container Apps can pull images directly from a registry. Make sure your Container App is configured with the correct registry credentials or uses Managed Identity for ACR access.
+- Configure your Container App with registry credentials or Managed Identity for ACR access so it can pull the image.
 - After applying your Terraform configuration, check the outputs to retrieve the Container App URL.
 - Connection strings for Azure services should be passed to the Container App as **environment variables** or **secrets** — do not hard-code them in the container image.
-

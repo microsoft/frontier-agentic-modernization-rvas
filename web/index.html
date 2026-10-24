@@ -43,8 +43,8 @@
             --amber-dim: rgba(0, 120, 212, .10);
 
             /* Pillar-mapped track colors */
-            --java-color: #0078D4;     /* Build — Microsoft Blue */
-            --dotnet-color: #504092;   /* Innovate — Purple */
+            --java-color: var(--route-refactor-color);
+            --dotnet-color: var(--route-refactor-color);
             --deploy-color: #14868A;   /* Scale — Teal */
             --stretch-color: #f43f5e;
             --ai-color: #1A77E3;
@@ -57,6 +57,21 @@
 
             --radius: 6px;
             --radius-lg: 12px;
+
+            --page-gutter: 24px;
+            --section-space: clamp(3rem, 6vw, 5rem);
+            --text-hero: clamp(2.5rem, 5vw, 4.5rem);
+            --text-section: clamp(2rem, 3.5vw, 3rem);
+            --text-heading: clamp(1.25rem, 2vw, 1.5rem);
+            --text-body: 1rem;
+            --text-small: .875rem;
+            --text-meta: .75rem;
+        }
+
+        @media (min-width: 768px) {
+            :root {
+                --page-gutter: 40px;
+            }
         }
 
         html {
@@ -84,33 +99,18 @@
 
 
         /* ─── Section Scaffolding ───────────────────────────────────────── */
-        section {
-            padding: clamp(4rem, 10vw, 7rem) clamp(1.5rem, 8vw, 6rem);
-        }
-
-        .section-label {
-            font-family: var(--font-body);
-            font-size: .72rem;
-            letter-spacing: .04em;
-            color: var(--cyan);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: .75rem;
-            font-weight: 600;
-        }
-
-        .section-label::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-            max-width: 120px;
+        main > section {
+            padding-block: var(--section-space);
+            padding-inline: max(var(--page-gutter), calc((100% - var(--maxw)) / 2 + var(--page-gutter)));
+            scroll-margin-top: 74px;
         }
 
         .track-label {
             font-family: var(--font-display);
-            font-size: 1.05rem;
+            font-size: var(--text-body);
+            font-weight: 600;
+            max-width: 100%;
+            overflow-wrap: anywhere;
             letter-spacing: -0.01em;
             color: var(--text-2);
             margin: 2.5rem 0 1.25rem;
@@ -129,150 +129,100 @@
 
         .section-title {
             font-family: var(--font-display);
-            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-size: var(--text-section);
             font-weight: 700;
             letter-spacing: -.01em;
-            line-height: 1;
+            line-height: 1.15;
             margin-bottom: 1rem;
             color: #032254;
+            overflow-wrap: anywhere;
         }
 
         .section-desc {
-            font-size: 1rem;
+            font-size: var(--text-body);
             line-height: 1.75;
             color: var(--text-2);
-            max-width: 580px;
+            max-width: 68ch;
         }
 
-        /* ─── About ─────────────────────────────────────────────────────── */
-        #about {
+        .challenges-header .section-desc a {
+            color: var(--route-ink, var(--text));
+            text-decoration: underline;
+            text-underline-offset: .15em;
+        }
+
+        /* ─── Getting started ───────────────────────────────────────────── */
+        .route-options {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: start;
-            border-bottom: 1px solid var(--border);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 3rem;
+            margin-top: 2rem;
         }
 
-        .about-objectives {
+        .route-option {
+            min-width: 0;
             display: flex;
             flex-direction: column;
-            gap: .6rem;
-            margin-top: 1.5rem;
-        }
-
-        .objective-item {
-            display: flex;
             align-items: flex-start;
-            gap: .75rem;
-            padding: .75rem 0;
-            border-bottom: 1px solid var(--border);
-            font-size: .9rem;
+            gap: 1rem;
+            padding-top: 1.75rem;
+            border-top: 1px solid var(--border-2);
+        }
+
+        .route-option h3 {
+            font-family: var(--font-display);
+            font-size: var(--text-heading);
+            line-height: 1.2;
+            color: var(--route-color);
+            overflow-wrap: anywhere;
+        }
+
+        .route-option p {
+            font-size: var(--text-body);
+            line-height: 1.7;
             color: var(--text-2);
-            line-height: 1.5;
         }
 
-        .objective-item:last-child {
-            border-bottom: none;
+        .route-option .route-tool {
+            font-size: var(--text-small);
+            color: var(--route-ink);
         }
 
-        .about-visual {
-            position: relative;
-        }
-
-        .terminal-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            font-family: var(--font-mono);
-        }
-
-        .terminal-bar {
+        .route-actions {
             display: flex;
             align-items: center;
-            gap: .5rem;
-            padding: .7rem 1rem;
-            background: var(--surface-2);
-            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: auto;
+            padding-top: .5rem;
         }
 
-        .t-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
+        .route-actions .btn {
+            min-height: 44px;
         }
 
-        .t-dot.r {
-            background: #ff5f57;
+        .route-more {
+            display: inline-flex;
+            align-items: center;
+            min-height: 44px;
+            color: var(--route-ink);
+            font-size: var(--text-small);
+            text-decoration: underline;
+            text-underline-offset: .2em;
         }
 
-        .t-dot.y {
-            background: #ffbd2e;
-        }
-
-        .t-dot.g {
-            background: #28ca41;
-        }
-
-        .terminal-title {
-            margin-left: .5rem;
-            font-size: .65rem;
-            letter-spacing: .12em;
-            color: var(--text-3);
-        }
-
-        .terminal-body {
-            padding: 1.25rem 1.5rem;
-            font-size: .72rem;
-            line-height: 2;
-            color: var(--text-2);
-        }
-
-        .t-prompt {
-            color: var(--cyan);
-            user-select: none;
-        }
-
-        .t-cmd {
-            color: var(--text);
-        }
-
-        .t-out {
-            color: var(--text-2);
-            padding-left: 1.25rem;
-        }
-
-        .t-ok {
-            color: var(--deploy-color);
-        }
-
-        .t-warn {
-            color: var(--amber);
-        }
-
-        .t-comment {
-            color: var(--text-3);
-        }
-
-        .t-blink {
-            display: inline-block;
-            width: 8px;
-            height: 14px;
-            background: var(--cyan);
-            margin-left: 2px;
-            vertical-align: middle;
-            animation: blink .9s step-end infinite;
-        }
-
-        @keyframes blink {
-
-            0%,
-            100% {
-                opacity: 1
+        @media (max-width: 900px) {
+            .route-actions {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: .5rem;
             }
+        }
 
-            50% {
-                opacity: 0
+        @media (max-width: 700px) {
+            .route-options {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 2.5rem;
             }
         }
 
@@ -283,16 +233,19 @@
 
         .challenges-header {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 3.5rem;
-            gap: 2rem;
-            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 2.5rem;
+            gap: 1rem;
+        }
+
+        .challenges-header .section-title {
+            margin-bottom: 0;
         }
 
         .challenges-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 1px;
             background: var(--border);
             border: 1px solid var(--border);
@@ -312,10 +265,11 @@
 
         .challenge-card {
             position: relative;
+            min-width: 0;
             --c-color: var(--cyan);
             background: #ffffff;
             border: 1px solid var(--border);
-            padding: 2rem;
+            padding: clamp(1.25rem, 3vw, 2rem);
             overflow: hidden;
             cursor: pointer;
             transition: background .25s, border-color .25s, box-shadow .25s;
@@ -383,14 +337,16 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: .75rem;
             margin-bottom: 1.25rem;
         }
 
         .card-phase-badge {
             font-family: var(--font-body);
-            font-size: .6rem;
+            font-size: var(--text-meta);
             font-weight: 600;
-            letter-spacing: .12em;
+            letter-spacing: .04em;
             text-transform: uppercase;
             padding: .25rem .65rem;
             border-radius: 3px;
@@ -402,31 +358,35 @@
 
         .card-num {
             font-family: var(--font-mono);
-            font-size: .65rem;
+            font-size: var(--text-meta);
             color: var(--text-3);
             letter-spacing: .1em;
         }
 
         .card-title {
             font-family: var(--font-display);
-            font-size: clamp(1.4rem, 3vw, 2rem);
+            font-size: var(--text-heading);
             font-weight: 700;
             color: #032254;
-            line-height: 1.05;
+            line-height: 1.2;
             margin-bottom: .75rem;
+            overflow-wrap: anywhere;
         }
 
         .card-desc {
-            font-size: .875rem;
-            line-height: 1.65;
+            font-size: var(--text-body);
+            line-height: 1.7;
             color: var(--text-2);
             flex: 1;
+            overflow-wrap: anywhere;
         }
 
         .card-footer {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
             margin-top: 1.5rem;
             padding-top: 1rem;
             border-top: 1px solid var(--border);
@@ -440,7 +400,7 @@
 
         .card-tag {
             font-family: var(--font-mono);
-            font-size: .6rem;
+            font-size: var(--text-meta);
             color: var(--text-3);
             letter-spacing: .08em;
             background: var(--surface);
@@ -454,7 +414,7 @@
             align-items: center;
             gap: .35rem;
             font-family: var(--font-mono);
-            font-size: .65rem;
+            font-size: var(--text-small);
             color: var(--c-color);
             opacity: 0;
             transition: opacity .25s, transform .25s;
@@ -473,12 +433,39 @@
             gap: 2rem;
         }
 
-        .challenge-card.full .card-title {
-            font-size: clamp(2rem, 4vw, 3rem);
+        /* ─── Presenter demos ────────────────────────────────────────────── */
+        #demos {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
         }
 
-        .challenge-card.full .card-desc {
-            max-width: 420px;
+        .demos-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .demo-card {
+            border-radius: var(--radius-lg);
+        }
+
+        .demo-card[data-track="java"] {
+            --c-color: var(--java-color);
+        }
+
+        .demo-card[data-track="dotnet"] {
+            --c-color: var(--dotnet-color);
+        }
+
+        .demo-card .card-arrow {
+            opacity: 1;
+            transform: none;
+        }
+
+        .demo-card:focus-visible {
+            outline: 3px solid var(--c-color);
+            outline-offset: 4px;
         }
 
         /* ─── Prerequisites ─────────────────────────────────────────────── */
@@ -488,8 +475,8 @@
 
         .prereq-layout {
             display: grid;
-            grid-template-columns: 1fr 1.3fr;
-            gap: 4rem;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+            gap: 3rem;
             align-items: start;
             margin-top: 3rem;
         }
@@ -498,6 +485,10 @@
             display: flex;
             flex-direction: column;
             gap: 0;
+        }
+
+        .prereq-layout > * {
+            min-width: 0;
         }
 
         .prereq-item {
@@ -531,15 +522,16 @@
 
         .prereq-name {
             font-weight: 600;
-            font-size: .9rem;
+            font-size: var(--text-body);
             color: var(--text);
             margin-bottom: .2rem;
         }
 
         .prereq-note {
-            font-size: .8rem;
+            font-size: var(--text-small);
             color: var(--text-2);
-            font-weight: 300;
+            font-weight: 400;
+            line-height: 1.7;
         }
 
         .code-block {
@@ -553,6 +545,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
             padding: .6rem 1.25rem;
             background: var(--surface-2);
             border-bottom: 1px solid var(--border);
@@ -560,14 +554,14 @@
 
         .code-block-title {
             font-family: var(--font-mono);
-            font-size: .65rem;
+            font-size: var(--text-meta);
             letter-spacing: .1em;
             color: var(--text-3);
         }
 
         .code-block-lang {
             font-family: var(--font-mono);
-            font-size: .6rem;
+            font-size: var(--text-meta);
             color: var(--cyan);
             letter-spacing: .1em;
         }
@@ -575,7 +569,7 @@
         .code-block-body {
             padding: 1.25rem 1.5rem;
             font-family: var(--font-mono);
-            font-size: .72rem;
+            font-size: var(--text-small);
             line-height: 1.9;
             color: var(--text-2);
             overflow-x: auto;
@@ -583,6 +577,10 @@
 
         .code-block-body .comment {
             color: var(--text-3);
+        }
+
+        .code-block-body > div {
+            white-space: nowrap;
         }
 
         .code-block-body .cmd {
@@ -600,71 +598,6 @@
         .code-block-body .ok {
             color: var(--deploy-color);
         }
-
-        /* ─── Azure Stack ───────────────────────────────────────────────── */
-        #stack {
-            border-bottom: 1px solid var(--border);
-        }
-
-        .stack-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1px;
-            background: var(--border);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            margin-top: 3rem;
-        }
-
-        .stack-item {
-            background: var(--surface);
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: .5rem;
-        }
-
-        .stack-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: var(--radius);
-            background: #fff;
-            border: 1px solid var(--border);
-            display: grid;
-            place-items: center;
-            padding: 4px;
-        }
-
-        .stack-icon img,
-        .stack-icon svg {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
-        }
-
-        .stack-name {
-            font-size: .85rem;
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .stack-desc {
-            font-size: .75rem;
-            color: var(--text-2);
-            font-weight: 300;
-            line-height: 1.5;
-        }
-
-        .stack-phase {
-            font-family: var(--font-mono);
-            font-size: .58rem;
-            letter-spacing: .1em;
-            color: var(--text-3);
-            margin-top: auto;
-        }
-
 
         /* ─── Reveal animation ──────────────────────────────────────────── */
         .reveal {
@@ -867,6 +800,79 @@
             color: var(--cyan);
         }
 
+        .md-content details {
+            margin: .75rem 0;
+            padding: 0 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg);
+            color: var(--text-2);
+            font-size: .9rem;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+        }
+
+        .md-content details > summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            min-height: 48px;
+            margin: 0 -1rem;
+            padding: .75rem 1rem;
+            border-radius: inherit;
+            color: var(--route-ink, var(--color-deep-navy));
+            font-weight: 600;
+            line-height: 1.5;
+            list-style: none;
+            cursor: pointer;
+        }
+
+        .md-content details > summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .md-content details > summary::after {
+            content: '';
+            flex: none;
+            width: .5rem;
+            height: .5rem;
+            margin-right: .25rem;
+            border-right: 2px solid currentColor;
+            border-bottom: 2px solid currentColor;
+            transform: rotate(-45deg);
+        }
+
+        .md-content details > summary:hover {
+            background: var(--surface);
+        }
+
+        .md-content details > summary:focus-visible {
+            outline: 2px solid var(--route-color, var(--color-ms-blue));
+            outline-offset: -3px;
+        }
+
+        .md-content details[open] {
+            padding-bottom: 1rem;
+        }
+
+        .md-content details[open] > summary {
+            margin-bottom: .75rem;
+            border-bottom: 1px solid var(--border);
+            border-radius: var(--radius) var(--radius) 0 0;
+            background: var(--route-tint, var(--surface));
+        }
+
+        .md-content details[open] > summary::after {
+            transform: rotate(45deg);
+        }
+
+        .md-content details > p:last-child,
+        .md-content details > ul:last-child,
+        .md-content details > ol:last-child {
+            margin-bottom: 0;
+        }
+
         .md-content code {
             font-family: var(--font-mono);
             font-size: .78em;
@@ -954,36 +960,9 @@
             margin: 2rem 0;
         }
 
-        /* Hide the navigation breadcrumb links at top of each challenge .md */
-        .md-content>p:first-child a[href*="Challenge"],
-        .md-content>p:first-child a[href*="README"],
-        .md-content>p:first-child a[href*="Solution"],
-        .md-content>p:first-child a[href$="TROUBLESHOOTING.md"] {
-            display: inline-flex;
-            align-items: center;
-            gap: .3rem;
-            font-family: var(--font-mono);
-            font-size: .7rem;
-            color: var(--text-3);
-            border-bottom: none;
-            padding: .2rem .5rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 3px;
-        }
-
-        /* Nav row: Home/Prev/Next stay left, Troubleshooting is pushed to the right edge */
-        .md-content>p:first-child {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: .4rem;
-        }
-
-        .md-content>p:first-child a[href$="TROUBLESHOOTING.md"] {
-            margin-left: auto;
-            color: var(--amber, #b45309);
-            border-color: rgba(180, 83, 9, .35);
+        /* The drawer header already provides challenge navigation. */
+        .md-content > p:first-child:has(+ h1):has(a[href$=".md"]) {
+            display: none;
         }
 
         .drawer-loading {
@@ -1017,12 +996,8 @@
         /* ─── Responsive ────────────────────────────────────────────────── */
         @media (max-width: 900px) {
 
-            #about {
-                grid-template-columns: 1fr;
-            }
-
             .challenges-grid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
             .challenge-card.full {
@@ -1034,11 +1009,15 @@
             }
 
             .prereq-layout {
-                grid-template-columns: 1fr;
+                grid-template-columns: minmax(0, 1fr);
             }
         }
 
         @media (max-width: 600px) {
+            .demos-grid {
+                grid-template-columns: 1fr;
+            }
+
             .challenges-grid {
                 grid-template-columns: 1fr;
             }
@@ -1047,9 +1026,6 @@
                 grid-column: span 1;
             }
 
-            .stack-grid {
-                grid-template-columns: 1fr 1fr;
-            }
         }
 
         /* ─── Coach Mode ────────────────────────────────────────────────── */
@@ -1086,9 +1062,199 @@
             opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
+
+        #rebuild-challenges > .section-desc {
+            margin-bottom: 1.5rem;
+        }
+
+        #rebuild-challenges .hero-actions {
+            margin-bottom: 1.5rem;
+        }
+
+        #rebuild-challenges code {
+            overflow-wrap: anywhere;
+        }
+
     </style>
     <link rel="stylesheet" href="assets/css/brand.css" />
     <link rel="stylesheet" href="assets/css/shell.css" />
+    <link rel="stylesheet" href="assets/css/routes.css" />
+    <style>
+        #hero {
+            padding: var(--section-space) 0;
+        }
+
+        #hero .hero-content {
+            max-width: var(--maxw);
+        }
+
+        #hero h1 {
+            margin-top: 0;
+            font-size: var(--text-hero);
+            overflow-wrap: anywhere;
+        }
+
+        #hero h1 span {
+            display: block;
+        }
+
+        #hero .lede {
+            max-width: 68ch;
+            margin: 1.5rem 0 2rem;
+            font-size: 1.125rem;
+        }
+
+        main .btn {
+            min-height: 44px;
+            font-size: var(--text-small);
+        }
+
+        #hero a:focus-visible {
+            outline: 3px solid var(--color-white);
+            outline-offset: 4px;
+        }
+
+        #about {
+            scroll-margin-top: 74px;
+        }
+
+        .nav-links > a,
+        .path-nav > a,
+        .sample-nav > summary {
+            white-space: nowrap;
+        }
+
+        .path-nav {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .sample-nav {
+            position: static;
+        }
+
+        .sample-nav > summary {
+            display: flex;
+            align-items: center;
+            gap: .4rem;
+            justify-content: center;
+            min-width: 32px;
+            min-height: 32px;
+            padding: 6px 8px;
+            border-radius: var(--r-sm);
+            color: var(--c-dim);
+            font-size: .875rem;
+            font-weight: 500;
+            cursor: pointer;
+            list-style: none;
+        }
+
+        .sample-nav > summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .sample-nav > summary:hover,
+        .sample-nav[open] > summary,
+        .path-nav:has(.sample-nav a.active) > a,
+        .sample-nav:has(a.active) > summary {
+            color: var(--c-fg);
+            background: var(--c-600);
+        }
+
+        .sample-nav > summary:focus-visible,
+        .nav-links a:focus-visible {
+            outline: 2px solid var(--c-accent);
+            outline-offset: 2px;
+        }
+
+        .sample-nav[open] > summary svg {
+            transform: rotate(180deg);
+        }
+
+        .sample-nav-panel {
+            position: absolute;
+            top: calc(100% + .5rem);
+            left: 0;
+            width: 17rem;
+            padding: .4rem;
+            background: var(--c-800);
+            border: 1px solid var(--c-line);
+            border-radius: var(--r);
+            box-shadow: var(--shadow);
+            z-index: var(--z-dropdown);
+        }
+
+        .sample-nav-panel a {
+            display: block;
+        }
+
+        .sample-nav-panel small {
+            display: block;
+            color: var(--c-faint);
+            font-size: .75rem;
+        }
+
+        .sample-nav-label {
+            padding: .5rem 11px .15rem;
+            color: var(--c-faint);
+            font-size: .65rem;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 1099.98px) {
+            .nav-links:not(.open) {
+                display: none;
+            }
+
+            .nav-toggle {
+                display: grid;
+            }
+
+            .nav-actions {
+                margin-left: auto;
+            }
+
+            .nav-links.open {
+                align-items: stretch;
+                max-height: calc(100dvh - 58px);
+                overflow-y: auto;
+            }
+
+            .path-nav {
+                display: block;
+            }
+
+            .path-nav > a {
+                display: block;
+                width: calc(100% - 40px);
+            }
+
+            .nav-links > a,
+            .path-nav > a {
+                white-space: normal;
+            }
+
+            .sample-nav > summary {
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 36px;
+            }
+
+            .sample-nav-panel {
+                position: static;
+                width: auto;
+                margin: .25rem 0 .25rem .75rem;
+                border: 0;
+                border-left: 2px solid var(--c-line);
+                border-radius: 0;
+                box-shadow: none;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -1098,13 +1264,22 @@
                 <img src="assets/img/logo-full.png" alt="RVAP" class="rvap-nav-logo" height="32">
             </a>
             <nav class="nav-links" id="navLinks" aria-label="Primary">
-                <a href="#about">Mission</a>
-                <a href="#prerequisites">Setup</a>
-                <a href="#stack">Services</a>
-                <a href="#java-challenges">Java Challenge</a>
-                <a href="#dotnet-challenges">.NET Challenge</a>
-                <a href="#net8-challenges">.NET 8 Challenge</a>
-                <a href="#customer-challenges">Your App</a>
+                <div class="path-nav" data-route="refactor">
+                    <a href="#challenges">Replatform / refactor</a>
+                    <details class="sample-nav" id="sampleNav">
+                        <summary aria-label="Explore replatform / refactor tracks"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+                        <div class="sample-nav-panel">
+                            <a href="#customer-challenges">Bring your application<small>Modernization CLI</small></a>
+                            <div class="sample-nav-label">Or learn with a sample</div>
+                            <a href="#java-challenges">Java<small>PhotoAlbum</small></a>
+                            <a href="#dotnet-challenges">.NET Framework<small>ContosoUniversity</small></a>
+                            <a href="#net8-challenges">.NET 8<small>eShopOnWeb</small></a>
+                        </div>
+                    </details>
+                </div>
+                <a href="#rebuild-challenges" data-route="rebuild">Rearchitect / rebuild</a>
+                <a href="#demos">Demos</a>
                 <a class="gh" href="https://github.com/microsoft/frontier-agentic-modernization-rvas" target="_blank" rel="noopener">GitHub ↗</a>
             </nav>
             <div class="nav-actions">
@@ -1120,157 +1295,54 @@
     <main>
         <!-- Hero -->
         <section class="hero" id="hero" aria-labelledby="heroHeading">
-            <svg class="hero-compass" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-            <circle cx="200" cy="200" r="180" stroke="currentColor" stroke-width="0.6" stroke-opacity="0.15" stroke-dasharray="4 8"/>
-            <circle cx="200" cy="200" r="140" stroke="currentColor" stroke-width="0.4" stroke-opacity="0.10"/>
-            <circle cx="200" cy="200" r="80"  stroke="currentColor" stroke-width="0.4" stroke-opacity="0.12"/>
-            <path d="M200 60 A140 140 0 0 1 340 200" stroke="#38bdf8" stroke-width="2" stroke-opacity="0.5" stroke-linecap="round"/>
-            <path d="M340 200 A140 140 0 0 1 200 340" stroke="#f87171" stroke-width="2" stroke-opacity="0.5" stroke-linecap="round"/>
-            <path d="M200 340 A140 140 0 0 1 60 200"  stroke="#a78bfa" stroke-width="2" stroke-opacity="0.5" stroke-linecap="round"/>
-            <path d="M60 200 A140 140 0 0 1 200 60"   stroke="#fb923c" stroke-width="2" stroke-opacity="0.5" stroke-linecap="round"/>
-            <line x1="200" y1="20"  x2="200" y2="380" stroke="currentColor" stroke-width="0.5" stroke-opacity="0.10"/>
-            <line x1="20"  y1="200" x2="380" y2="200" stroke="currentColor" stroke-width="0.5" stroke-opacity="0.10"/>
-            <circle cx="200" cy="200" r="5" fill="#1A77E3" fill-opacity="0.8"/>
-            <circle cx="200" cy="200" r="12" stroke="#1A77E3" stroke-width="1" stroke-opacity="0.3"/>
-            <circle cx="200" cy="60"  r="5" fill="#38bdf8" fill-opacity="0.7"/>
-            <circle cx="340" cy="200" r="5" fill="#f87171" fill-opacity="0.7"/>
-            <circle cx="200" cy="340" r="5" fill="#a78bfa" fill-opacity="0.7"/>
-            <circle cx="60"  cy="200" r="5" fill="#fb923c" fill-opacity="0.7"/>
-        </svg>
-            <div class="wrap hero-grid">
-                <div>
-                    <span class="eyebrow">RVAS — Agentic Modernization</span>
-                    <h1 id="heroHeading">Modernize legacy apps with <span class="accent">GitHub Copilot and Azure</span></h1>
-                    <p class="lede">
-                        Learn by transforming two legacy applications into production-grade cloud-native systems using GitHub Copilot.
-                    </p>
-                    <p class="lede">
-                        Win by modernizing one of your own applications with AI-driven tools and guidance from Microsoft engineers.
-                    </p>
-                    <div class="hero-actions">
-                        <a class="btn btn-ghost" href="README.md">Read the Briefing</a>
-                    </div>
-                    <div class="stats stats-4" aria-label="Delivery session statistics">
-                        <div class="stat"><span class="stat-num" data-count="4">04</span><span class="stat-lbl">Day Estimated</span></div>
-                        <div class="stat"><span class="stat-num" data-count="22">22</span><span class="stat-lbl">Challenges</span></div>
-                        <div class="stat"><span class="stat-num" data-count="4">04</span><span class="stat-lbl">Tracks</span></div>
-                        <div class="stat"><span class="stat-num" data-count="3">03</span><span class="stat-lbl">Demo Applications</span></div>
-                    </div>
-                </div>
-                <div class="hero-modules" aria-label="Modernization track overview">
-                    <a href="#java-challenges" class="hero-mod-card" style="--mod-color:var(--java-color)">
-                        <div class="mod-name">Java modernization</div>
-                        <div class="mod-count">7 challenges · Spring Boot · Java 25</div>
-                    </a>
-                    <a href="#dotnet-challenges" class="hero-mod-card" style="--mod-color:var(--dotnet-color)">
-                        <div class="mod-name">.NET modernization</div>
-                        <div class="mod-count">7 challenges · ASP.NET Core · Azure</div>
-                    </a>
-                    <a href="#net8-challenges" class="hero-mod-card" style="--mod-color:var(--ai-color)">
-                        <div class="mod-name">.NET 8 acceleration</div>
-                        <div class="mod-count">6 challenges · AI assist · cloud services</div>
-                    </a>
-                    <a href="#customer-challenges" class="hero-mod-card" style="--mod-color:var(--deploy-color)">
-                        <div class="mod-name">Your own application</div>
-                        <div class="mod-count">Bring a real workload · modernize to Azure</div>
-                    </a>
+            <div class="wrap hero-content">
+                <h1 id="heroHeading">Modernize your application.<span class="accent">Validate the result.</span></h1>
+                <p class="lede">
+                    Use GitHub Copilot and Azure to modernize an existing application or reshape its architecture.
+                    Deliver a running upgrade or one validated end-to-end slice.
+                </p>
+                <div class="hero-actions">
+                    <a class="btn btn-primary" href="#routes">Get started <span aria-hidden="true">&darr;</span></a>
+                    <a class="btn btn-ghost" href="README.md" aria-haspopup="dialog" aria-controls="drawer">Read the briefing</a>
                 </div>
             </div>
         </section>
 
-    <!-- About -->
-    <section id="about">
-        <div>
-            <div class="section-label">Mission Brief</div>
-            <h2 class="section-title display reveal">What you'll<br>accomplish</h2>
-            <p class="section-desc reveal">
-                Use GitHub Copilot Modernization tools to assess, plan, and execute migrations on real legacy codebases
-                — from first assessment to a running container in Azure.
-            </p>
-            <div class="about-objectives reveal">
-                <div class="objective-item">
-                    <span class="step-num mono">01</span>
-                    <span>Run <code class="mono" style="color:var(--cyan);font-size:.8em">modernize assess</code> to
-                        evaluate migration complexity and cloud-readiness gaps</span>
+    <section id="routes" aria-labelledby="routes-heading">
+        <div id="about" aria-hidden="true"></div>
+        <h2 id="routes-heading" class="section-title display">Start with the change you need</h2>
+        <p class="section-desc">
+            A Java or .NET app can take either route. Discovery may recommend a smaller refactor.
+        </p>
+        <div class="route-options">
+            <article class="route-option" data-route="refactor" aria-labelledby="refactor-heading">
+                <h3 id="refactor-heading">Replatform / refactor</h3>
+                <p>Upgrade runtimes and dependencies or move to managed Azure services while preserving core behavior.</p>
+                <p>Deliver a running modernized application and show that required behavior still works.</p>
+                <p class="route-tool">GitHub Copilot Modernization CLI</p>
+                <div class="route-actions">
+                    <a class="btn btn-primary" href="Student/customer/Challenge-00.md" aria-haspopup="dialog" aria-controls="drawer">Start an upgrade</a>
+                    <a class="route-more" href="#challenges">Explore sample tracks</a>
                 </div>
-                <div class="objective-item">
-                    <span class="step-num mono">02</span>
-                    <span>Create AI-driven plans with <code class="mono"
-                            style="color:var(--cyan);font-size:.8em">modernize plan create</code> and execute them
-                        automatically</span>
+            </article>
+            <article class="route-option" data-route="rebuild" aria-labelledby="rebuild-route-heading">
+                <h3 id="rebuild-route-heading">Rearchitect / rebuild</h3>
+                <p>Change business workflows or architecture when a runtime upgrade alone is not enough.</p>
+                <p>Deliver a reviewed architecture and one validated end-to-end slice, not a full application rewrite.</p>
+                <p class="route-tool">Agentic Modernization plugin</p>
+                <div class="route-actions">
+                    <a class="btn btn-primary" href="Student/rebuild/Challenge-00.md" aria-haspopup="dialog" aria-controls="drawer">Start a rebuild</a>
+                    <a class="route-more" href="#rebuild-challenges">View rebuild milestones</a>
                 </div>
-                <div class="objective-item">
-                    <span class="step-num mono">03</span>
-                    <span>Migrate a .NET Framework 4.8 app to .NET 10 ASP.NET Core with Azure Service Bus and Blob
-                        Storage</span>
-                </div>
-                <div class="objective-item">
-                    <span class="step-num mono">04</span>
-                    <span>Migrate Spring Boot 2.x / Java 8 to Spring Boot 3.x / Java 25 with PostgreSQL and Blob
-                        Storage</span>
-                </div>
-                <div class="objective-item">
-                    <span class="step-num mono">05</span>
-                    <span>Containerize both apps and deploy to Azure Container Apps using Terraform</span>
-                </div>
-                <div class="objective-item">
-                    <span class="step-num mono">06</span>
-                    <span>Harden with Application Insights, Key Vault, and Managed Identity</span>
-                </div>
-                <div class="objective-item">
-                    <span class="step-num mono">07</span>
-                    <span>Infuse Azure OpenAI vision (<code class="mono"
-                            style="color:var(--cyan);font-size:.8em">gpt-4.1-mini</code>) with Managed Identity to
-                        auto-generate metadata on upload <em style="opacity:.7">(stretch)</em></span>
-                </div>
-                <div class="objective-item">
-                    <span class="step-num mono">08</span>
-                    <span>Modernize <code class="mono"
-                            style="color:var(--cyan);font-size:.8em">your own application</code> with the help of
-                        AI-driven tools and expert guidance from
-                        Microsoft
-                        engineers</span>
-                </div>
-            </div>
-        </div>
-        <div class="about-visual reveal">
-            <div class="terminal-card">
-                <div class="terminal-bar">
-                    <div class="t-dot r"></div>
-                    <div class="t-dot y"></div>
-                    <div class="t-dot g"></div>
-                    <span class="terminal-title mono">modernize — PhotoAlbum-Java</span>
-                </div>
-                <div class="terminal-body mono">
-                    <div><span class="t-prompt">$ </span><span class="t-cmd">modernize assess .</span></div>
-                    <div class="t-out t-comment">→ Scanning codebase...</div>
-                    <div class="t-out t-warn">⚠ Java 8 → Java 25 migration required</div>
-                    <div class="t-out t-warn">⚠ Spring Boot 2.7 EOL — upgrade to 3.x</div>
-                    <div class="t-out t-warn">⚠ Oracle JDBC detected — replace with PostgreSQL</div>
-                    <div class="t-out t-warn">⚠ BLOB columns in DB — migrate to Blob Storage</div>
-                    <div class="t-out t-comment">→ 14 critical issues · 6 automated fixes</div>
-                    <div>&nbsp;</div>
-                    <div><span class="t-prompt">$ </span><span class="t-cmd">modernize plan create \</span></div>
-                    <div class="t-out t-cmd"> --goal "Migrate to Java 25, Spring Boot 3,</div>
-                    <div class="t-out t-cmd"> PostgreSQL and Azure Blob Storage"</div>
-                    <div class="t-out t-ok">✓ Plan created: 23 steps · ~2h estimated</div>
-                    <div>&nbsp;</div>
-                    <div><span class="t-prompt">$ </span><span class="t-cmd">modernize plan execute</span></div>
-                    <div class="t-out t-ok">✓ javax.* → jakarta.* namespace migrated</div>
-                    <div class="t-out t-ok">✓ pom.xml updated to Spring Boot 3.5.5</div>
-                    <div class="t-out t-ok">✓ Oracle JDBC replaced with PostgreSQL driver</div>
-                    <div class="t-out t-ok">✓ BlobService created using Azure SDK</div>
-                    <div class="t-out">Step 23/23 — <span class="t-ok">BUILD SUCCESS</span></div>
-                    <div><span class="t-prompt">$ </span><span class="t-blink"></span></div>
-                </div>
-            </div>
+            </article>
         </div>
     </section>
 
     <!-- Prerequisites -->
     <section id="prerequisites">
-        <div class="section-label">Before You Begin</div>
         <h2 class="section-title display reveal">Prerequisites</h2>
+        <p class="section-desc">The tools below support the upgrade tracks. For architecture-first work, use the
+            <a href="Student/rebuild/setup.md">rebuild plugin setup</a>; the Modernization CLI is not a rebuild prerequisite.</p>
         <div class="prereq-layout">
             <div class="prereq-list reveal">
                 <div class="prereq-item">
@@ -1389,168 +1461,69 @@
         </div>
     </section>
 
-    <!-- Tech Stack -->
-    <section id="stack">
-        <div class="section-label">Technology</div>
-        <h2 class="section-title display reveal">Azure services</h2>
-        <p class="section-desc reveal">Services you'll provision and integrate during the delivery.</p>
-        <div class="stack-grid">
-            <div class="stack-item reveal">
-                <div class="stack-icon">
-                    <img src="https://cdn.jsdelivr.net/gh/benc-uk/icon-collection@master/azure-icons/Container-Instances.svg"
-                        alt="Azure Container Apps" loading="lazy" />
+    <!-- Presenter demos -->
+    <section id="demos" aria-labelledby="demos-heading" data-route="refactor">
+        <h2 class="section-title display reveal" id="demos-heading">See modernization in action.</h2>
+        <p class="section-desc reveal">Two demos follow legacy applications through modernization and deployment to Azure.
+            Open a speaker guide alongside the site for setup, live commands, talking points, and troubleshooting.
+            Each demo runs for 55 minutes; complete provisioning before presenting.</p>
+
+        <div class="demos-grid">
+            <a class="challenge-card demo-card" data-track="java" href="Coach/demo/java/guide.md"
+                aria-haspopup="dialog" aria-controls="drawer">
+                <div class="card-top">
+                    <span class="card-phase-badge">Java demo</span>
+                    <span class="card-num">55 MIN</span>
                 </div>
-                <div class="stack-name">Azure Container Apps</div>
-                <div class="stack-desc">Serverless container hosting with automatic scaling and built-in networking
+                <h3 class="card-title">PhotoAlbum</h3>
+                <p class="card-desc">Upgrade Spring Boot 2.7 and Java 8 to Spring Boot 3.x and Java 25,
+                    migrate Oracle data to Azure PostgreSQL, and deploy to Container Apps. Start with an assessment.</p>
+                <div class="card-footer">
+                    <div class="card-tags">
+                        <span class="card-tag">Bash</span>
+                        <span class="card-tag">Oracle → PostgreSQL</span>
+                    </div>
+                    <span class="card-arrow">Open guide →</span>
                 </div>
-                <div class="stack-phase mono">CH 03 · 04</div>
-            </div>
-            <div class="stack-item reveal" style="transition-delay:.05s">
-                <div class="stack-icon">
-                    <img src="https://cdn.jsdelivr.net/gh/benc-uk/icon-collection@master/azure-icons/Azure-Database-PostgreSQL-Server.svg"
-                        alt="Azure Database for PostgreSQL" loading="lazy" />
+            </a>
+            <a class="challenge-card demo-card" data-track="dotnet" href="Coach/demo/dotnet/guide.md"
+                aria-haspopup="dialog" aria-controls="drawer">
+                <div class="card-top">
+                    <span class="card-phase-badge">.NET demo</span>
+                    <span class="card-num">55 MIN</span>
                 </div>
-                <div class="stack-name">Azure DB for PostgreSQL</div>
-                <div class="stack-desc">Managed PostgreSQL Flexible Server — Oracle replacement for PhotoAlbum</div>
-                <div class="stack-phase mono">Java CH 02 · 03</div>
-            </div>
-            <div class="stack-item reveal" style="transition-delay:.1s">
-                <div class="stack-icon" aria-label="Azure SQL Database">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" role="img" aria-hidden="true">
-                        <defs>
-                            <radialGradient id="sqldb-b" cx="9.36" cy="10.57" r="7.07" gradientUnits="userSpaceOnUse">
-                                <stop offset="0" stop-color="#f2f2f2" />
-                                <stop offset=".58" stop-color="#eee" />
-                                <stop offset="1" stop-color="#e6e6e6" />
-                            </radialGradient>
-                            <linearGradient id="sqldb-a" x1="2.59" y1="10.16" x2="15.41" y2="10.16"
-                                gradientUnits="userSpaceOnUse">
-                                <stop offset="0" stop-color="#005ba1" />
-                                <stop offset=".07" stop-color="#0060a9" />
-                                <stop offset=".36" stop-color="#0071c8" />
-                                <stop offset=".52" stop-color="#0078d4" />
-                                <stop offset=".64" stop-color="#0074cd" />
-                                <stop offset=".82" stop-color="#006abb" />
-                                <stop offset="1" stop-color="#005ba1" />
-                            </linearGradient>
-                        </defs>
-                        <path
-                            d="M9 5.14c-3.54 0-6.41-1-6.41-2.32v12.36c0 1.27 2.82 2.3 6.32 2.32H9c3.54 0 6.41-1 6.41-2.32V2.82c0 1.29-2.87 2.32-6.41 2.32z"
-                            fill="url(#sqldb-a)" />
-                        <path d="M15.41 2.82c0 1.29-2.87 2.32-6.41 2.32s-6.41-1-6.41-2.32S5.46.5 9 .5s6.41 1 6.41 2.32"
-                            fill="#e8e8e8" />
-                        <path
-                            d="M13.92 2.63c0 .82-2.21 1.48-4.92 1.48s-4.92-.66-4.92-1.48S6.29 1.16 9 1.16s4.92.66 4.92 1.47"
-                            fill="#50e6ff" />
-                        <path
-                            d="M9 3a11.55 11.55 0 00-3.89.57A11.42 11.42 0 009 4.11a11.15 11.15 0 003.89-.58A11.84 11.84 0 009 3z"
-                            fill="#198ab3" />
-                        <path
-                            d="M12.9 11.4V8H12v4.13h2.46v-.73zM5.76 9.73a1.83 1.83 0 01-.51-.31.44.44 0 01-.12-.32.34.34 0 01.15-.3.68.68 0 01.42-.12 1.62 1.62 0 011 .29v-.86a2.58 2.58 0 00-1-.16 1.64 1.64 0 00-1.09.34 1.08 1.08 0 00-.42.89c0 .51.32.91 1 1.21a2.88 2.88 0 01.62.36.42.42 0 01.15.32.38.38 0 01-.16.31.81.81 0 01-.45.11 1.66 1.66 0 01-1.09-.42V12a2.17 2.17 0 001.07.24 1.88 1.88 0 001.18-.33 1.08 1.08 0 00.33-.91 1.05 1.05 0 00-.25-.7 2.42 2.42 0 00-.83-.57zM11 11.32a2.34 2.34 0 00.33-1.26A2.32 2.32 0 0011 9a1.81 1.81 0 00-.7-.75 2 2 0 00-1-.26 2.11 2.11 0 00-1.08.27 1.86 1.86 0 00-.73.74 2.46 2.46 0 00-.26 1.14 2.26 2.26 0 00.24 1 1.76 1.76 0 00.69.74 2.06 2.06 0 001 .3l.86 1h1.21L10 12.08a1.79 1.79 0 001-.76zm-1-.25a.94.94 0 01-.76.35.92.92 0 01-.76-.36 1.52 1.52 0 01-.29-1 1.53 1.53 0 01.29-1 1 1 0 01.78-.37.87.87 0 01.75.37 1.62 1.62 0 01.27 1 1.46 1.46 0 01-.28 1.01z"
-                            fill="url(#sqldb-b)" />
-                    </svg>
+                <h3 class="card-title">ContosoUniversity</h3>
+                <p class="card-desc">Modernize ASP.NET MVC 5 and .NET Framework 4.8 to .NET 10 on Container Apps,
+                    migrate SQL Express to Azure SQL, and add AI image enrichment. Run the presenter tools on Windows.</p>
+                <div class="card-footer">
+                    <div class="card-tags">
+                        <span class="card-tag">Windows · PowerShell 7</span>
+                        <span class="card-tag">SQL Express → Azure SQL</span>
+                    </div>
+                    <span class="card-arrow">Open guide →</span>
                 </div>
-                <div class="stack-name">Azure SQL Database</div>
-                <div class="stack-desc">Fully managed relational database for ContosoUniversity with EF Core</div>
-                <div class="stack-phase mono">.NET CH 02 · 03</div>
-            </div>
-            <div class="stack-item reveal" style="transition-delay:.15s">
-                <div class="stack-icon" aria-label="Azure Blob Storage">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" role="img" aria-hidden="true">
-                        <defs>
-                            <linearGradient id="stor-a" x1="9" y1="15.83" x2="9" y2="5.79"
-                                gradientUnits="userSpaceOnUse">
-                                <stop offset="0" stop-color="#b3b3b3" />
-                                <stop offset=".26" stop-color="#c1c1c1" />
-                                <stop offset="1" stop-color="#e6e6e6" />
-                            </linearGradient>
-                        </defs>
-                        <path d="M.5 5.79h17v9.48a.57.57 0 01-.57.57H1.07a.57.57 0 01-.57-.57V5.79z"
-                            fill="url(#stor-a)" />
-                        <path d="M1.07 2.17h15.86a.57.57 0 01.57.57v3.05H.5V2.73a.57.57 0 01.57-.56z" fill="#37c2b1" />
-                        <path
-                            d="M2.81 6.89h12.37a.27.27 0 01.26.27v1.4a.27.27 0 01-.26.27H2.81a.27.27 0 01-.26-.27v-1.4a.27.27 0 01.26-.27z"
-                            fill="#fff" />
-                        <path
-                            d="M2.82 9.68h12.37a.27.27 0 01.26.27v1.41a.27.27 0 01-.26.27H2.82a.27.27 0 01-.26-.27V10a.27.27 0 01.26-.32z"
-                            fill="#37c2b1" />
-                        <path
-                            d="M2.82 12.5h12.37a.27.27 0 01.26.27v1.41a.27.27 0 01-.26.27H2.82a.27.27 0 01-.26-.27v-1.41a.27.27 0 01.26-.27z"
-                            fill="#258277" />
-                    </svg>
-                </div>
-                <div class="stack-name">Azure Blob Storage</div>
-                <div class="stack-desc">Object storage for photos and teaching materials — replaces file system and DB
-                    BLOBs</div>
-                <div class="stack-phase mono">CH 02 · 03</div>
-            </div>
-            <div class="stack-item reveal" style="transition-delay:.2s">
-                <div class="stack-icon">
-                    <img src="https://cdn.jsdelivr.net/gh/benc-uk/icon-collection@master/azure-icons/Service-Bus.svg"
-                        alt="Azure Service Bus" loading="lazy" />
-                </div>
-                <div class="stack-name">Azure Service Bus</div>
-                <div class="stack-desc">Cloud-native messaging — replaces MSMQ for the .NET notification service</div>
-                <div class="stack-phase mono">.NET CH 02 · 03</div>
-            </div>
-            <div class="stack-item reveal" style="transition-delay:.25s">
-                <div class="stack-icon">
-                    <img src="https://cdn.jsdelivr.net/gh/benc-uk/icon-collection@master/azure-icons/Application-Insights.svg"
-                        alt="Application Insights" loading="lazy" />
-                </div>
-                <div class="stack-name">Application Insights</div>
-                <div class="stack-desc">Distributed tracing, live metrics, and structured logging for both apps</div>
-                <div class="stack-phase mono">CH 04</div>
-            </div>
-            <div class="stack-item reveal" style="transition-delay:.3s">
-                <div class="stack-icon">
-                    <img src="https://cdn.jsdelivr.net/gh/benc-uk/icon-collection@master/azure-icons/Key-Vaults.svg"
-                        alt="Azure Key Vault" loading="lazy" />
-                </div>
-                <div class="stack-name">Azure Key Vault</div>
-                <div class="stack-desc">Centralised secret management — no connection strings in code or config files
-                </div>
-                <div class="stack-phase mono">CH 04</div>
-            </div>
-            <div class="stack-item reveal" style="transition-delay:.35s">
-                <div class="stack-icon">
-                    <img src="https://cdn.jsdelivr.net/gh/benc-uk/icon-collection@master/azure-icons/Container-Registries.svg"
-                        alt="Azure Container Registry" loading="lazy" />
-                </div>
-                <div class="stack-name">Container Registry</div>
-                <div class="stack-desc">Store and manage container images; integrated with Container Apps via Managed
-                    Identity</div>
-                <div class="stack-phase mono">CH 03</div>
-            </div>
-            <div class="stack-item reveal" style="transition-delay:.4s">
-                <div class="stack-icon ai">
-                    <img src="https://cdn.jsdelivr.net/gh/benc-uk/icon-collection@master/azure-icons/Cognitive-Services.svg"
-                        alt="Azure OpenAI" loading="lazy" />
-                </div>
-                <div class="stack-name">Azure OpenAI</div>
-                <div class="stack-desc">Vision model <code class="mono" style="font-size:.9em">gpt-4.1-mini</code>
-                    called with Managed Identity to auto-generate captions, alt text, and tags</div>
-                <div class="stack-phase mono">CH 05</div>
-            </div>
+            </a>
         </div>
     </section>
 
     <!-- Challenges -->
-    <section id="challenges">
+    <section id="challenges" data-route="refactor">
         <div class="challenges-header">
             <div>
-                <div class="section-label">The Path</div>
-                <h2 class="section-title display reveal">Challenges</h2>
+                <h2 class="section-title display reveal">Replatform / refactor</h2>
             </div>
-            <p class="section-desc reveal" style="max-width:340px;">
-                Seven challenges, three parallel tracks. Your team can split — one team on Java, one on .NET, and one
-                on your own customer application.
+            <p class="section-desc reveal">
+                <strong>Bring a real customer-owned application.</strong>
+                Assess, modernize, and deploy your workload to Azure with the Modernization CLI.
+                <a href="Student/customer/Challenge-00.md" aria-haspopup="dialog" aria-controls="drawer">Start your application upgrade.</a>
+                The three sample tracks below are optional practice, not substitutes for customer delivery.
+                For deeper architecture changes, <a href="#rebuild-challenges">choose rearchitect / rebuild</a>.
             </p>
         </div>
 
         <!-- Java Track -->
         <div id="java-challenges" style="margin-bottom:2rem;">
-            <div class="track-label" style="color:var(--java-color);">☕ Java Track</div>
+            <div class="track-label">☕ Java Track</div>
             <div class="challenges-grid">
 
                 <!-- Java CH-00 -->
@@ -1566,9 +1539,8 @@
                         </div>
                         <div style="display:flex;flex-direction:column;justify-content:space-between;">
                             <p class="card-desc">
-                                Configure your workstation for the Java track: GitHub Copilot Modernization CLI, Docker,
-                                Azure CLI, Terraform, GitHub CLI. Initialise the PhotoAlbum submodule and optionally
-                                deploy to an Azure VM to see the legacy state.
+                                Set up GitHub Copilot Modernization CLI, Docker, Azure CLI, Terraform, and GitHub CLI.
+                                Initialise the PhotoAlbum submodule. You can also deploy the legacy app to an Azure VM.
                             </p>
                             <div class="card-footer">
                                 <div class="card-tags">
@@ -1613,8 +1585,8 @@
                     </div>
                     <h3 class="card-title display">Modernize the Java App</h3>
                     <p class="card-desc">
-                        Migrate PhotoAlbum from Spring Boot 2.7 / Java 8 / Oracle to Spring Boot 3.x / Java 25 /
-                        PostgreSQL + Azure Blob Storage. Tackle javax→jakarta and SQL dialect migration.
+                        Upgrade PhotoAlbum from Spring Boot 2.7 and Java 8 to Spring Boot 3.x and Java 25.
+                        Replace Oracle with PostgreSQL and Azure Blob Storage. Migrate javax to jakarta and update the SQL dialect.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -1636,8 +1608,8 @@
                     </div>
                     <h3 class="card-title display">Containerize &amp; Deploy (Java)</h3>
                     <p class="card-desc">
-                        Package PhotoAlbum as a container image, push to Azure Container Registry, and deploy to Azure
-                        Container Apps via Terraform. Provision PostgreSQL Flexible Server and Blob Storage.
+                        Build a PhotoAlbum container image, push it to Azure Container Registry, and deploy it to Azure
+                        Container Apps with Terraform. Provision PostgreSQL Flexible Server and Blob Storage.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -1660,7 +1632,7 @@
                     <h3 class="card-title display">Migrate the Database to PostgreSQL</h3>
                     <p class="card-desc">
                         Move PhotoAlbum data from Oracle to Azure Database for PostgreSQL Flexible Server
-                        and validate row parity and app behavior after cutover.
+                        and check that the rows match and the app works after cutover.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -1682,7 +1654,8 @@
                     </div>
                     <h3 class="card-title display">Observe &amp; Secure</h3>
                     <p class="card-desc">
-                        Production hardening: Application Insights (Java agent), Azure Key Vault + Managed Identity.
+                        Add monitoring with the Application Insights Java agent.
+                        Manage secrets with Azure Key Vault and Managed Identity.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -1701,11 +1674,11 @@
                         <span class="card-phase-badge">Stretch · AI</span>
                         <span class="card-num mono">CH — 06</span>
                     </div>
-                    <h3 class="card-title display">Infuse AI into PhotoAlbum</h3>
+                    <h3 class="card-title display">Add AI to PhotoAlbum</h3>
                     <p class="card-desc">
-                        Call Azure OpenAI <code class="mono" style="font-size:.85em">gpt-4.1-mini</code> (vision)
-                        from the upload pipeline using Managed Identity to auto-generate captions, alt text,
-                        and tags for every photo.
+                        Generate captions, alt text, and tags for each uploaded photo with Azure OpenAI
+                        <code class="mono" style="font-size:.85em">gpt-4.1-mini</code> (vision).
+                        Use Managed Identity to authenticate.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -1723,7 +1696,7 @@
 
         <!-- .NET Track -->
         <div id="dotnet-challenges">
-            <div class="track-label" style="color:var(--dotnet-color);">🔷 .NET Track</div>
+            <div class="track-label">🔷 .NET Track</div>
             <div class="challenges-grid">
 
                 <!-- .NET CH-00 -->
@@ -1739,9 +1712,8 @@
                         </div>
                         <div style="display:flex;flex-direction:column;justify-content:space-between;">
                             <p class="card-desc">
-                                Configure your workstation for the .NET track: GitHub Copilot Modernization CLI, Docker,
-                                Azure CLI, Terraform, GitHub CLI. Initialise the ContosoUniversity submodule and
-                                optionally deploy to a Windows VM to see the legacy state.
+                                Set up GitHub Copilot Modernization CLI, Docker, Azure CLI, Terraform, and GitHub CLI.
+                                Initialise the ContosoUniversity submodule. You can also deploy the legacy app to a Windows VM.
                             </p>
                             <div class="card-footer">
                                 <div class="card-tags">
@@ -1766,7 +1738,7 @@
                     <h3 class="card-title display">Assess the .NET App</h3>
                     <p class="card-desc">
                         Run <code class="mono" style="font-size:.85em">modernize assess</code> on ContosoUniversity.
-                        Identify MSMQ, System.Web, and cloud-readiness blockers before touching any code.
+                        Identify MSMQ, System.Web, and cloud-readiness blockers before changing code.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -1786,8 +1758,8 @@
                     </div>
                     <h3 class="card-title display">Modernize the .NET App</h3>
                     <p class="card-desc">
-                        Migrate ContosoUniversity from .NET Framework 4.8 / ASP.NET MVC 5 / MSMQ to .NET 10 / ASP.NET
-                        Core / Azure Service Bus + Blob Storage. Remove System.Web and convert to SDK-style csproj.
+                        Upgrade ContosoUniversity from .NET Framework 4.8 and ASP.NET MVC 5 to .NET 10 and ASP.NET Core.
+                        Replace MSMQ with Azure Service Bus and add Blob Storage. Remove System.Web and convert to SDK-style csproj.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -1809,8 +1781,8 @@
                     </div>
                     <h3 class="card-title display">Containerize &amp; Deploy (.NET)</h3>
                     <p class="card-desc">
-                        Package ContosoUniversity as a container image, push to Azure Container Registry, and deploy
-                        to Azure Container Apps via Terraform. Provision Azure SQL, Service Bus, and Blob Storage.
+                        Build a ContosoUniversity container image, push it to Azure Container Registry, and deploy it
+                        to Azure Container Apps with Terraform. Provision Azure SQL, Service Bus, and Blob Storage.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -1832,7 +1804,7 @@
                     </div>
                     <h3 class="card-title display">Migrate the Database to Azure SQL</h3>
                     <p class="card-desc">
-                        Move the legacy ContosoUniversity data from LocalDB / SQL Express into Azure SQL Database,
+                        Move ContosoUniversity data from LocalDB or SQL Express to Azure SQL Database,
                         then verify the deployed app reads the migrated rows.
                     </p>
                     <div class="card-footer">
@@ -1855,7 +1827,8 @@
                     </div>
                     <h3 class="card-title display">Observe &amp; Secure</h3>
                     <p class="card-desc">
-                        Production hardening: Application Insights SDK, Azure Key Vault + Managed Identity.
+                        Add monitoring with the Application Insights SDK.
+                        Manage secrets with Azure Key Vault and Managed Identity.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -1874,11 +1847,11 @@
                         <span class="card-phase-badge">Stretch · AI</span>
                         <span class="card-num mono">CH — 06</span>
                     </div>
-                    <h3 class="card-title display">Infuse AI into ContosoUniversity</h3>
+                    <h3 class="card-title display">Add AI to ContosoUniversity</h3>
                     <p class="card-desc">
-                        Call Azure OpenAI <code class="mono" style="font-size:.85em">gpt-4.1-mini</code> (vision)
-                        from the Course Create/Edit flow using Managed Identity to auto-suggest descriptions,
-                        learning objectives, and accessible alt text.
+                        Suggest course descriptions, learning objectives, and accessible alt text in the Course Create/Edit flow
+                        with Azure OpenAI <code class="mono" style="font-size:.85em">gpt-4.1-mini</code> (vision).
+                        Use Managed Identity to authenticate.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -1896,7 +1869,7 @@
 
         <!-- .NET 8 → .NET 10 Track -->
         <div id="net8-challenges" style="margin-top:2rem;">
-            <div class="track-label" style="color:var(--deploy-color);">🔷 .NET 8 Track (eShopOnWeb)</div>
+            <div class="track-label">🔷 .NET 8 Track (eShopOnWeb)</div>
             <div class="challenges-grid">
 
                 <!-- net8 CH-00 -->
@@ -1913,9 +1886,8 @@
                         </div>
                         <div style="display:flex;flex-direction:column;justify-content:space-between;">
                             <p class="card-desc">
-                                Configure your workstation for the .NET 8 track: install the .NET 10 SDK, verify
-                                GitHub Copilot Modernization CLI, Docker, Azure CLI, and Terraform. Initialise the
-                                eShopOnWeb submodule.
+                                Install the .NET 10 SDK and check that GitHub Copilot Modernization CLI, Docker,
+                                Azure CLI, and Terraform work. Initialise the eShopOnWeb submodule.
                             </p>
                             <div class="card-footer">
                                 <div class="card-tags">
@@ -1941,7 +1913,7 @@
                     <h3 class="card-title display">Assess eShopOnWeb</h3>
                     <p class="card-desc">
                         Run <code class="mono" style="font-size:.85em">modernize assess</code> on eShopOnWeb.
-                        Identify Swashbuckle removal, TFM blockers, and EF Core 10 changes across all 5 projects.
+                        Check all 5 projects for Swashbuckle removal, target framework (TFM) blockers, and EF Core 10 changes.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -1962,9 +1934,9 @@
                     </div>
                     <h3 class="card-title display">Modernize to .NET 10</h3>
                     <p class="card-desc">
-                        Bump all 5 projects to <code class="mono" style="font-size:.85em">net10.0</code> via
+                        Upgrade all 5 projects to <code class="mono" style="font-size:.85em">net10.0</code> via
                         <code class="mono" style="font-size:.85em">Directory.Packages.props</code>. Replace Swashbuckle
-                        with <code class="mono" style="font-size:.85em">Microsoft.AspNetCore.OpenApi</code> + Scalar.
+                        with <code class="mono" style="font-size:.85em">Microsoft.AspNetCore.OpenApi</code> and Scalar.
                         Fix EF Core 10 and Blazor WASM breaking changes.
                     </p>
                     <div class="card-footer">
@@ -1988,8 +1960,8 @@
                     </div>
                     <h3 class="card-title display">Containerize &amp; Deploy (eShopOnWeb)</h3>
                     <p class="card-desc">
-                        Add Azure Service Bus (order events) and Azure Blob Storage (product images).
-                        Update Dockerfiles to .NET 10 base images. Deploy Web + PublicApi to Azure Container Apps via
+                        Use Azure Service Bus for order events and Azure Blob Storage for product images.
+                        Update Dockerfiles to .NET 10 base images. Deploy Web and PublicApi to Azure Container Apps with
                         Terraform.
                     </p>
                     <div class="card-footer">
@@ -2017,7 +1989,7 @@
                         Apply EF Core migrations for both <code class="mono"
                             style="font-size:.85em">CatalogContext</code>
                         and <code class="mono" style="font-size:.85em">AppIdentityDbContext</code> against Azure SQL.
-                        Validate seed data and end-to-end order flow.
+                        Check the seed data and test the end-to-end order flow.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -2041,8 +2013,8 @@
                     </div>
                     <h3 class="card-title display">Observe &amp; Secure</h3>
                     <p class="card-desc">
-                        Application Insights distributed tracing across Web + PublicApi.
-                        Azure Key Vault + Managed Identity — zero plaintext secrets.
+                        Trace requests across Web and PublicApi with Application Insights.
+                        Use Azure Key Vault and Managed Identity to avoid plaintext secrets.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -2063,11 +2035,11 @@
                             AI</span>
                         <span class="card-num mono">CH — 06</span>
                     </div>
-                    <h3 class="card-title display">Infuse AI into eShopOnWeb</h3>
+                    <h3 class="card-title display">Add AI to eShopOnWeb</h3>
                     <p class="card-desc">
-                        Call Azure OpenAI <code class="mono" style="font-size:.85em">gpt-4.1-mini</code> (vision)
-                        from the catalog admin to auto-generate product descriptions, tags, and accessible alt text
-                        using Managed Identity.
+                        Generate product descriptions, tags, and accessible alt text in the catalog admin with Azure OpenAI
+                        <code class="mono" style="font-size:.85em">gpt-4.1-mini</code> (vision).
+                        Use Managed Identity to authenticate.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -2084,7 +2056,7 @@
 
         <!-- Customer Track -->
         <div id="customer-challenges" style="margin-top:2rem;">
-            <div class="track-label" style="color:var(--amber);">🏢 Your App Track</div>
+            <div class="track-label">Upgrade Your Application &mdash; CLI Customer Track</div>
             <div class="challenges-grid">
 
                 <!-- Customer CH-00 -->
@@ -2093,19 +2065,17 @@
                     <div class="card-inner">
                         <div>
                             <div class="card-top">
-                                <span class="card-phase-badge"
-                                    style="color:var(--amber);border-color:var(--amber);background:var(--amber-dim);">Your
+                                <span class="card-phase-badge">Your
                                     App</span>
                                 <span class="card-num mono">CH — 00</span>
                             </div>
-                            <h3 class="card-title display">Modernize <br>Your Application</h3>
+                            <h3 class="card-title display">Upgrade <br>Your Application</h3>
                         </div>
                         <div style="display:flex;flex-direction:column;justify-content:space-between;">
                             <p class="card-desc">
-                                Apply everything you've learned to a real codebase. Select a
-                                medium-complexity application that is representative of your legacy estate,
-                                not the most critical or most complex one. Assess, modernize, containerize, and deploy
-                                it to Azure using the same workflow from the .NET and Java tracks.
+                                Choose a real customer-owned application that represents your legacy systems.
+                                Aim for medium complexity; avoid the most critical or complex app.
+                                Assess, modernize, containerize, and deploy it to Azure using the .NET and Java track workflow.
                             </p>
                             <div class="card-footer">
                                 <div class="card-tags">
@@ -2124,23 +2094,102 @@
         </div>
     </section>
 
+    <section id="rebuild-challenges" aria-labelledby="rebuild-heading" data-route="rebuild">
+        <h2 id="rebuild-heading" class="section-title display reveal">Rearchitect / rebuild</h2>
+        <p class="section-desc reveal">
+            One planning conversation produces the complete package. Review it, scope one slice,
+            then start a separate implementation session. Allow two days for the route, not a whole-application rewrite.
+            Discovery may favor a smaller refactor.
+        </p>
+        <div class="hero-actions">
+            <a class="btn btn-primary" href="Student/rebuild/setup.md">Install &amp; use the plugin</a>
+            <a class="btn btn-ghost" href="Student/rebuild/supporting-skills.md">Supporting skill profiles</a>
+        </div>
+        <div class="challenges-grid">
+            <a class="challenge-card full" data-phase="00" href="Student/rebuild/Challenge-00.md">
+                <div class="card-bg-number display">00</div>
+                <div class="card-inner">
+                    <div>
+                        <div class="card-top"><span class="card-phase-badge">Prepare</span><span class="card-num mono">REBUILD &middot; 00</span></div>
+                        <h3 class="card-title display">Define the goal and scope</h3>
+                    </div>
+                    <div>
+                        <p class="card-desc">Define the business outcome and choose one user journey. Identify who makes decisions and gather evidence. You do not need to choose a runtime, container platform, or rewrite in advance.</p>
+                        <div class="card-footer"><span class="card-tag">30 min &middot; setup</span><div class="card-arrow mono">Start here <span aria-hidden="true">&rarr;</span></div></div>
+                    </div>
+                </div>
+            </a>
+            <a class="challenge-card half" data-phase="01" href="Student/rebuild/Challenge-01.md">
+                <div class="card-top"><span class="card-phase-badge">Plan</span><span class="card-num mono">REBUILD &middot; 01</span></div>
+                <h3 class="card-title display">Assess the app and plan the changes</h3>
+                <p class="card-desc">Analyze the application, answer questions, confirm how it works today, and choose a target. One planning workflow produces all eight planning artifacts.</p>
+                <div class="card-footer"><span class="card-tag">150 min &middot; planning</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
+            </a>
+            <a class="challenge-card half" data-phase="02" href="Student/rebuild/Challenge-02.md">
+                <div class="card-top"><span class="card-phase-badge">Review</span><span class="card-num mono">REBUILD &middot; 02</span></div>
+                <h3 class="card-title display">Review the architecture and costs</h3>
+                <p class="card-desc">Check the documented behavior, alternatives, architecture, costs, diagrams, and migration assumptions. Request specific corrections and save the reviewed version.</p>
+                <div class="card-footer"><span class="card-tag">45 min &middot; package review</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
+            </a>
+            <a class="challenge-card half" data-phase="03" href="Student/rebuild/Challenge-03.md">
+                <div class="card-top"><span class="card-phase-badge">Handoff</span><span class="card-num mono">REBUILD &middot; 03</span></div>
+                <h3 class="card-title display">Choose what to build first</h3>
+                <p class="card-desc">Choose one slice from the reviewed package. Identify its acceptance criteria IDs, dependencies, and what you need to build it. Confirm you can test it safely before starting a separate implementation session.</p>
+                <div class="card-footer"><span class="card-tag">30 min &middot; handoff</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
+            </a>
+            <a class="challenge-card half" data-phase="04" href="Student/rebuild/Challenge-04.md">
+                <div class="card-top"><span class="card-phase-badge">Rebuild</span><span class="card-num mono">REBUILD &middot; 04</span></div>
+                <h3 class="card-title display">Build one end-to-end workflow</h3>
+                <p class="card-desc">Start a separate delivery session with the reviewed package. Build and test one end-to-end journey. Preserve contracts outside the agreed changes.</p>
+                <div class="card-footer"><span class="card-tag">150 min &middot; delivery</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
+            </a>
+            <a class="challenge-card half" data-phase="05" href="Student/rebuild/Challenge-05.md">
+                <div class="card-top"><span class="card-phase-badge">Validate</span><span class="card-num mono">REBUILD &middot; 05</span></div>
+                <h3 class="card-title display">Test the workflow and review security</h3>
+                <p class="card-desc">Check that the implementation is complete, then review security. Resolve findings and show evidence of what passed, failed, or remains blocked.</p>
+                <div class="card-footer"><span class="card-tag">60 min &middot; review</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
+            </a>
+            <a class="challenge-card half" data-phase="06" href="Student/rebuild/Challenge-06.md">
+                <div class="card-top"><span class="card-phase-badge">Operationalize</span><span class="card-num mono">REBUILD &middot; 06</span></div>
+                <h3 class="card-title display">Rehearse deployment and recovery</h3>
+                <p class="card-desc">Rehearse operations in an authorized non-production environment. For a tabletop exercise, state what was not tested. Show what recovery covers and who owns the next delivery wave.</p>
+                <div class="card-footer"><span class="card-tag">60 min &middot; operations</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
+            </a>
+        </div>
+    </section>
+
     <!-- Coach Section (hidden by default — press Shift+C to toggle) -->
     <section id="coach" class="coach-hidden">
         <div class="challenges-header">
             <div>
-                <div class="section-label" style="color:var(--amber);">Coach Access</div>
                 <h2 class="section-title display">Coach guide</h2>
             </div>
-            <p class="section-desc" style="max-width:380px;">
-                Facilitation notes, expected outputs, and pitfall tips for each challenge.
+            <p class="section-desc">
+                Facilitation notes, expected outputs, and common problems for each challenge.
                 Toggle with <kbd
                     style="font-family:var(--font-mono);font-size:.7em;padding:.15em .5em;border:1px solid var(--border-2);border-radius:3px;background:var(--surface);">Shift+C</kbd>.
             </p>
         </div>
 
+        <div style="margin-bottom:2rem;" data-route="rebuild">
+            <div class="track-label">Rebuild Route &mdash; Coach Materials</div>
+            <div class="challenges-grid">
+                <a class="challenge-card half" href="Coach/rebuild/facilitation-guide.md">
+                    <h3 class="card-title display">Facilitate the rebuild route</h3>
+                    <p class="card-desc">Plan the two days, guide required decisions, and keep planning separate from delivery. Help teams that are blocked or ahead of schedule.</p>
+                    <div class="card-arrow mono">Open guide <span aria-hidden="true">&rarr;</span></div>
+                </a>
+                <a class="challenge-card half" href="Coach/rebuild/scoring-rubric.md">
+                    <h3 class="card-title display">Score observable evidence</h3>
+                    <p class="card-desc">Check the evidence for each milestone. Distinguish a reviewed plan, a working slice, and a live rehearsal from partial results or tabletop exercises.</p>
+                    <div class="card-arrow mono">Open rubric <span aria-hidden="true">&rarr;</span></div>
+                </a>
+            </div>
+        </div>
+
         <!-- Coach Java Track -->
-        <div style="margin-bottom:2rem;">
-            <div class="track-label" style="color:var(--java-color);">☕ Java Track — Coach Notes</div>
+        <div style="margin-bottom:2rem;" data-route="refactor">
+            <div class="track-label">☕ Java Track — Coach Notes</div>
             <div class="challenges-grid">
 
                 <!-- Coach Java CH-00 -->
@@ -2156,8 +2205,8 @@
                         </div>
                         <div style="display:flex;flex-direction:column;justify-content:space-between;">
                             <p class="card-desc">
-                                Expected environment state, Oracle Docker RAM requirements (4 GB), submodule pitfalls,
-                                and how to verify the modernize CLI is correctly installed.
+                                Check the environment, Oracle Docker RAM requirements (4 GB), submodules,
+                                and modernize CLI installation.
                             </p>
                             <div class="card-footer">
                                 <div class="card-tags">
@@ -2179,8 +2228,8 @@
                     </div>
                     <h3 class="card-title display">Assess — Coach Notes</h3>
                     <p class="card-desc">
-                        Expected assessment findings: Spring Boot 2→3 blockers, Oracle JDBC, BLOB columns.
-                        Debrief discussion questions and key talking points.
+                        Expected assessment findings for Spring Boot 2 to 3 blockers, Oracle JDBC, and BLOB columns,
+                        with debrief questions and talking points.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -2200,8 +2249,8 @@
                     </div>
                     <h3 class="card-title display">Modernize — Coach Notes</h3>
                     <p class="card-desc">
-                        Key pom.xml changes, javax→jakarta migration, PostgreSQL dialect, Azure Blob SDK.
-                        Pitfalls table and common student errors.
+                        Guidance on pom.xml changes, javax to jakarta migration, the PostgreSQL dialect, and the Azure Blob SDK.
+                        Includes common student errors and how to address them.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -2242,8 +2291,8 @@
                     </div>
                     <h3 class="card-title display">Migrate the Database — Coach Notes</h3>
                     <p class="card-desc">
-                        Mini-lecture on Oracle→PostgreSQL differences, Ora2Pg workflow with troubleshooting table,
-                        common pitfalls, and step-by-step reference implementation with <code class="mono"
+                        Oracle and PostgreSQL differences, the Ora2Pg workflow, troubleshooting,
+                        and a reference implementation with an <code class="mono"
                             style="font-size:.85em">ora2pg.conf</code> template.
                     </p>
                     <div class="card-footer">
@@ -2265,7 +2314,7 @@
                     </div>
                     <h3 class="card-title display">Observe &amp; Secure — Coach Notes</h3>
                     <p class="card-desc">
-                        App Insights Java agent Dockerfile snippet and Key Vault + Managed Identity steps.
+                        A Dockerfile snippet for the Application Insights Java agent and setup steps for Key Vault and Managed Identity.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -2283,11 +2332,11 @@
                         <span class="card-phase-badge">Stretch · AI</span>
                         <span class="card-num mono">COACH — 06</span>
                     </div>
-                    <h3 class="card-title display">Infuse AI — Coach Notes</h3>
+                    <h3 class="card-title display">Add AI — Coach Notes</h3>
                     <p class="card-desc">
-                        Reference Terraform for Azure OpenAI + RBAC, <code class="mono"
+                        Terraform examples for Azure OpenAI and RBAC, <code class="mono"
                             style="font-size:.85em">azure-ai-openai</code>
-                        snippets, common pitfalls table, and a working end-to-end implementation under
+                        snippets, common problems, and a working end-to-end implementation in
                         <code class="mono" style="font-size:.85em">Coach/Solutions/java/</code>.
                     </p>
                     <div class="card-footer">
@@ -2303,8 +2352,8 @@
         </div>
 
         <!-- Coach .NET Track -->
-        <div>
-            <div class="track-label" style="color:var(--dotnet-color);">🔷 .NET Track — Coach Notes</div>
+        <div data-route="refactor">
+            <div class="track-label">🔷 .NET Track — Coach Notes</div>
             <div class="challenges-grid">
 
                 <!-- Coach .NET CH-00 -->
@@ -2320,8 +2369,8 @@
                         </div>
                         <div style="display:flex;flex-direction:column;justify-content:space-between;">
                             <p class="card-desc">
-                                Expected environment state, expected build failure on Linux/macOS for .NET Framework
-                                4.8, and how to verify the modernize CLI is on PATH.
+                                Check setup and confirm that the modernize CLI is on PATH.
+                                Understand the expected .NET Framework 4.8 build failure on Linux/macOS.
                             </p>
                             <div class="card-footer">
                                 <div class="card-tags">
@@ -2343,8 +2392,8 @@
                     </div>
                     <h3 class="card-title display">Assess — Coach Notes</h3>
                     <p class="card-desc">
-                        Expected findings: MSMQ, System.Web, packages.config, Global.asax, Web.config, local FS
-                        blockers. Debrief discussion questions.
+                        Expected findings for MSMQ, System.Web, packages.config, Global.asax, Web.config, and local
+                        file storage, with debrief questions.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -2364,8 +2413,9 @@
                     </div>
                     <h3 class="card-title display">Modernize — Coach Notes</h3>
                     <p class="card-desc">
-                        SDK-style csproj conversion, System.Web removal, Global.asax→Program.cs,
-                        MSMQ→Service Bus, local FS→Blob, EF Core. Pitfalls table.
+                        Convert to SDK-style csproj, remove System.Web, move Global.asax startup to Program.cs,
+                        replace MSMQ with Service Bus and local file storage with Blob Storage, and adopt EF Core.
+                        Includes common problems.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -2406,8 +2456,8 @@
                     </div>
                     <h3 class="card-title display">Migrate the Database — Coach Notes</h3>
                     <p class="card-desc">
-                        DMS setup, policy exemption guidance, target SQL auth caveats, and troubleshooting notes for
-                        the .NET database migration challenge.
+                        DMS setup, policy exemptions, SQL authentication caveats for the target database,
+                        and help with common migration problems.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -2429,7 +2479,7 @@
                     </div>
                     <h3 class="card-title display">Observe &amp; Secure — Coach Notes</h3>
                     <p class="card-desc">
-                        App Insights SDK setup and Key Vault + Managed Identity coaching notes for the .NET track.
+                        Application Insights SDK setup and guidance on Key Vault and Managed Identity for the .NET track.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -2447,11 +2497,11 @@
                         <span class="card-phase-badge">Stretch · AI</span>
                         <span class="card-num mono">COACH — 06</span>
                     </div>
-                    <h3 class="card-title display">Infuse AI — Coach Notes</h3>
+                    <h3 class="card-title display">Add AI — Coach Notes</h3>
                     <p class="card-desc">
-                        Reference Terraform for Azure OpenAI + RBAC, <code class="mono"
+                        Terraform examples for Azure OpenAI and RBAC, <code class="mono"
                             style="font-size:.85em">Azure.AI.OpenAI</code>
-                        snippets, common pitfalls table, and a working end-to-end implementation under
+                        snippets, common problems, and a working end-to-end implementation in
                         <code class="mono" style="font-size:.85em">Coach/Solutions/dotnet/</code>.
                     </p>
                     <div class="card-footer">
@@ -2467,8 +2517,8 @@
         </div>
 
         <!-- Coach Customer Track -->
-        <div style="margin-top:2rem;">
-            <div class="track-label" style="color:var(--amber);">🏢 Customer Track — Coach Notes</div>
+        <div style="margin-top:2rem;" data-route="refactor">
+            <div class="track-label">CLI Customer Track &mdash; Coach Notes</div>
             <div class="challenges-grid">
 
                 <!-- Coach Customer CH-00 -->
@@ -2477,8 +2527,7 @@
                     <div class="card-inner">
                         <div>
                             <div class="card-top">
-                                <span class="card-phase-badge"
-                                    style="color:var(--amber);border-color:var(--amber);background:var(--amber-dim);">Your
+                                <span class="card-phase-badge">Your
                                     App</span>
                                 <span class="card-num mono">COACH — 00</span>
                             </div>
@@ -2486,9 +2535,8 @@
                         </div>
                         <div style="display:flex;flex-direction:column;justify-content:space-between;">
                             <p class="card-desc">
-                                Application selection criteria, readiness gate checklist, facilitation notes for the
-                                two-step workflow, and a table of common blockers with recommended responses.
-                                A real customer codebase is mandatory — no samples or public repos.
+                                Help teams choose an application, check readiness, and follow the two-step workflow.
+                                Includes guidance for common blockers. Teams must use a real customer-owned codebase, not a public sample.
                             </p>
                             <div class="card-footer">
                                 <div class="card-tags">
@@ -2506,8 +2554,8 @@
         </div>
 
         <!-- Coach .NET 8 Track -->
-        <div style="margin-bottom:2rem;">
-            <div class="track-label" style="color:var(--deploy-color);">🔷 .NET 8 Track — Coach Notes</div>
+        <div style="margin-bottom:2rem;" data-route="refactor">
+            <div class="track-label">🔷 .NET 8 Track — Coach Notes</div>
             <div class="challenges-grid">
 
                 <!-- Coach net8 CH-00 -->
@@ -2523,11 +2571,10 @@
                         </div>
                         <div style="display:flex;flex-direction:column;justify-content:space-between;">
                             <p class="card-desc">
-                                Expected environment state, .NET 10 SDK check, submodule pin details
+                                Check the environment, .NET 10 SDK, and submodule pin
                                 (<code class="mono" style="font-size:.85em">NimblePros/eShopOnWeb @ a34eda5</code>),
-                                and the <code class="mono" style="font-size:.85em">global.json</code> vs
-                                <code class="mono" style="font-size:.85em">Directory.Packages.props</code> discussion
-                                point.
+                                then discuss the difference between <code class="mono" style="font-size:.85em">global.json</code> and
+                                <code class="mono" style="font-size:.85em">Directory.Packages.props</code>.
                             </p>
                             <div class="card-footer">
                                 <div class="card-tags">
@@ -2549,8 +2596,8 @@
                     </div>
                     <h3 class="card-title display">Assess — Coach Notes</h3>
                     <p class="card-desc">
-                        Expected top findings: Swashbuckle critical, TFM bump, package cascade.
-                        Mini-lecture on Central Package Management risks. Debrief discussion questions.
+                        Expected findings for the critical Swashbuckle blocker, target framework (TFM) updates,
+                        and dependent package changes. Includes Central Package Management risks and debrief questions.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -2570,9 +2617,9 @@
                     </div>
                     <h3 class="card-title display">Modernize — Coach Notes</h3>
                     <p class="card-desc">
-                        Suggested modernize plan goal, exact <code class="mono"
-                            style="font-size:.85em">Directory.Packages.props</code>
-                        version table, Swashbuckle → OpenAPI + Scalar replacement snippet, common pitfalls table.
+                        A suggested modernize plan goal, a version table for <code class="mono"
+                            style="font-size:.85em">Directory.Packages.props</code>,
+                        a snippet for replacing Swashbuckle with OpenAPI and Scalar, and common problems.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -2592,8 +2639,8 @@
                     </div>
                     <h3 class="card-title display">Deploy — Coach Notes</h3>
                     <p class="card-desc">
-                        Dockerfile pitfalls (build context), Service Bus singleton pattern, Blob SAS URL patterns,
-                        Terraform checklist for ACA + SQL + Storage + Service Bus.
+                        Guidance on Docker build context, the Service Bus singleton pattern, and Blob SAS URLs.
+                        Includes a Terraform checklist for Container Apps, SQL, Storage, and Service Bus.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -2615,7 +2662,7 @@
                     <h3 class="card-title display">Migrate the Database — Coach Notes</h3>
                     <p class="card-desc">
                         Reference <code class="mono" style="font-size:.85em">dotnet ef database update</code> commands
-                        for both DbContexts, expected seed row counts, Azure SQL firewall pitfalls.
+                        for both DbContexts, expected seed row counts, and common Azure SQL firewall problems.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -2636,9 +2683,9 @@
                     </div>
                     <h3 class="card-title display">Observe &amp; Secure — Coach Notes</h3>
                     <p class="card-desc">
-                        Application Insights setup, Key Vault + Managed Identity Terraform snippets,
-                        <code class="mono" style="font-size:.85em">DefaultAzureCredential</code> chain explanation,
-                        role propagation wait times.
+                        Application Insights setup, Terraform snippets for Key Vault and Managed Identity,
+                        an explanation of the <code class="mono" style="font-size:.85em">DefaultAzureCredential</code> chain,
+                        and role propagation wait times.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -2656,12 +2703,11 @@
                         <span class="card-phase-badge">Stretch · AI</span>
                         <span class="card-num mono">COACH — 06</span>
                     </div>
-                    <h3 class="card-title display">Infuse AI — Coach Notes</h3>
+                    <h3 class="card-title display">Add AI — Coach Notes</h3>
                     <p class="card-desc">
-                        Reference Terraform for Azure OpenAI + RBAC, <code class="mono"
+                        Terraform examples for Azure OpenAI and RBAC, a <code class="mono"
                             style="font-size:.85em">CatalogItemAiService</code>
-                        implementation with graceful degradation, common pitfalls, and Blazor Web App migration stretch
-                        note.
+                        implementation with graceful degradation, common problems, and an optional Blazor Web App migration.
                     </p>
                     <div class="card-footer">
                         <div class="card-tags">
@@ -2691,7 +2737,7 @@
     <div id="drawer-overlay"></div>
     <div id="drawer" role="dialog" aria-modal="true" aria-label="Challenge content">
         <div class="drawer-header">
-            <div class="drawer-breadcrumb">CHALLENGE / <span id="drawer-title">–</span></div>
+            <div class="drawer-breadcrumb"><span id="drawer-kind">CHALLENGE</span> / <span id="drawer-title">–</span></div>
             <div style="display:flex;align-items:center;gap:.75rem;">
                 <div class="drawer-nav">
                     <button class="drawer-nav-btn" id="drawer-prev" title="Previous challenge">← prev</button>
@@ -2705,6 +2751,7 @@
         </div>
     </div>
 
+    <div id="coach-toast" role="status"></div>
     <script>
         // ── Scroll reveal ─────────────────────────────────────────────────
         const observer = new IntersectionObserver(entries => {
@@ -2740,6 +2787,32 @@
         const grid = document.querySelector('.challenges-grid');
         if (grid) cardObserver.observe(grid);
 
+        // ── Sample navigation ─────────────────────────────────────────────
+        const sampleNav = document.getElementById('sampleNav');
+        const primaryNav = document.getElementById('navLinks');
+        const navToggle = document.querySelector('.nav-toggle');
+
+        function closeNavigation() {
+            sampleNav.open = false;
+            primaryNav.classList.remove('open');
+            navToggle.setAttribute('aria-expanded', 'false');
+        }
+
+        primaryNav.addEventListener('click', event => {
+            if (event.target.closest('a')) closeNavigation();
+        });
+        document.addEventListener('click', event => {
+            if (!sampleNav.contains(event.target)) sampleNav.open = false;
+        });
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && sampleNav.open) {
+                sampleNav.open = false;
+                sampleNav.querySelector('summary').focus();
+                event.stopImmediatePropagation();
+            }
+        });
+        window.matchMedia('(min-width: 1100px)').addEventListener('change', closeNavigation);
+
         // ── Active nav highlight ──────────────────────────────────────────
         const sections = document.querySelectorAll('section[id], div[id]');
         const navLinks = document.querySelectorAll('.nav-links a:not(.cta):not(.gh)');
@@ -2759,6 +2832,7 @@
         const drawerOverlay = document.getElementById('drawer-overlay');
         const drawerContent = document.getElementById('drawer-content');
         const drawerTitle = document.getElementById('drawer-title');
+        const drawerKind = document.getElementById('drawer-kind');
         const drawerPrev = document.getElementById('drawer-prev');
         const drawerNext = document.getElementById('drawer-next');
         const drawerClose = document.getElementById('drawer-close');
@@ -2788,10 +2862,28 @@
             { label: 'NET8-04', file: 'Student/net8/Challenge-04.md', title: '.NET 8 – Migrate Data' },
             { label: 'NET8-05', file: 'Student/net8/Challenge-05.md', title: '.NET 8 – Observe & Secure' },
             { label: 'NET8-06', file: 'Student/net8/Challenge-06.md', title: '.NET 8 – AI Assist' },
-            { label: 'CUSTOMER-00', file: 'Student/customer/Challenge-00.md', title: 'Customer – Modernize Your App' },
+            { label: 'CUSTOMER-00', file: 'Student/customer/Challenge-00.md', title: 'Customer – Upgrade Your App' },
+        ];
+
+        const REBUILD_FILES = [
+            { file: 'Student/rebuild/Challenge-00.md', title: 'Rebuild - Prepare' },
+            { file: 'Student/rebuild/Challenge-01.md', title: 'Rebuild - Run Discovery and Modernization Planning' },
+            { file: 'Student/rebuild/Challenge-02.md', title: 'Rebuild - Review and Challenge the Modernization Package' },
+            { file: 'Student/rebuild/Challenge-03.md', title: 'Rebuild - Prepare the Implementation Handoff' },
+            { file: 'Student/rebuild/Challenge-04.md', title: 'Rebuild - Implement One Slice' },
+            { file: 'Student/rebuild/Challenge-05.md', title: 'Rebuild - Validate' },
+            { file: 'Student/rebuild/Challenge-06.md', title: 'Rebuild - Operationalize' },
+        ];
+
+        const GUIDE_FILES = [
+            { file: 'Student/sample-architecture.md', title: 'Sample Architecture & Services' },
+            { file: 'Student/rebuild/setup.md', title: 'Rebuild - Plugin Setup and Usage' },
+            { file: 'Student/rebuild/supporting-skills.md', title: 'Rebuild - Supporting Skill Profiles' },
         ];
 
         const COACH_FILES = [
+            { file: 'Coach/rebuild/facilitation-guide.md', title: 'Coach - Rebuild Facilitation' },
+            { file: 'Coach/rebuild/scoring-rubric.md', title: 'Coach - Rebuild Scoring' },
             { label: 'COACH-JAVA-00', file: 'Coach/java/Solution-00.md', title: 'Coach · Java – Prerequisites' },
             { label: 'COACH-JAVA-01', file: 'Coach/java/Solution-01.md', title: 'Coach · Java – Assess' },
             { label: 'COACH-JAVA-02', file: 'Coach/java/Solution-02.md', title: 'Coach · Java – Modernize' },
@@ -2813,21 +2905,31 @@
             { label: 'COACH-NET8-04', file: 'Coach/net8/Solution-04.md', title: 'Coach · .NET 8 – Migrate Data' },
             { label: 'COACH-NET8-05', file: 'Coach/net8/Solution-05.md', title: 'Coach · .NET 8 – Observe & Secure' },
             { label: 'COACH-NET8-06', file: 'Coach/net8/Solution-06.md', title: 'Coach · .NET 8 – AI Assist' },
-            { label: 'COACH-CUSTOMER-00', file: 'Coach/customer/Solution-00.md', title: 'Coach · Customer – Modernize Your App' },
+            { label: 'COACH-CUSTOMER-00', file: 'Coach/customer/Solution-00.md', title: 'Coach · Customer – Upgrade Your App' },
             { label: 'COACH-TROUBLESHOOTING', file: 'Coach/TROUBLESHOOTING.md', title: 'Coach · Troubleshooting Guide' },
+        ];
+
+        const DEMO_FILES = [
+            { label: 'DEMO-JAVA', file: 'Coach/demo/java/guide.md', title: 'Java Demo - PhotoAlbum' },
+            { label: 'DEMO-DOTNET', file: 'Coach/demo/dotnet/guide.md', title: '.NET Demo - ContosoUniversity' },
         ];
 
         let currentIdx = -1;
         let activeFiles = STUDENT_FILES;
+        let renderRequest = 0;
 
-        function openDrawer(mdFile) {
-            // Determine which array owns this file
-            const sIdx = STUDENT_FILES.findIndex(f => f.file === mdFile);
-            const cIdx = COACH_FILES.findIndex(f => f.file === mdFile);
-            if (sIdx !== -1) { activeFiles = STUDENT_FILES; currentIdx = sIdx; }
-            else if (cIdx !== -1) { activeFiles = COACH_FILES; currentIdx = cIdx; }
-            else { activeFiles = STUDENT_FILES; currentIdx = 0; }
-            loadAndRender(currentIdx);
+        function openDrawer(mdFile, fragment = '') {
+            const groups = [STUDENT_FILES, REBUILD_FILES, GUIDE_FILES, COACH_FILES, DEMO_FILES];
+            activeFiles = groups.find(files => files.some(entry => entry.file === mdFile))
+                || [{ file: mdFile, title: mdFile.split('/').pop() }];
+            currentIdx = activeFiles.findIndex(entry => entry.file === mdFile);
+            const kind = activeFiles === DEMO_FILES ? 'demo'
+                : activeFiles === GUIDE_FILES ? 'guide' : 'challenge';
+            drawerKind.textContent = kind.toUpperCase();
+            drawer.setAttribute('aria-label', `${kind === 'challenge' ? 'Challenge content' : `${kind} guide`}`);
+            drawerPrev.title = `Previous ${kind}`;
+            drawerNext.title = `Next ${kind}`;
+            loadAndRender(currentIdx, fragment);
             drawer.classList.add('open');
             drawerOverlay.classList.add('open');
             document.body.style.overflow = 'hidden';
@@ -2839,8 +2941,14 @@
             document.body.style.overflow = '';
         }
 
-        async function loadAndRender(idx) {
+        async function loadAndRender(idx, fragment = '') {
+            const request = ++renderRequest;
             const entry = activeFiles[idx];
+            const route = /^(Student|Coach)\/rebuild\//.test(entry.file) ? 'rebuild'
+                : /^(Student|Coach)\/(java|dotnet|net8|customer|Resources|demo)\//.test(entry.file)
+                    || entry.file === 'Student/sample-architecture.md' ? 'refactor' : '';
+            if (route) drawer.setAttribute('data-route', route);
+            else drawer.removeAttribute('data-route');
             drawerTitle.textContent = entry.title;
             drawerPrev.disabled = idx <= 0;
             drawerNext.disabled = idx >= activeFiles.length - 1;
@@ -2851,41 +2959,49 @@
                 const res = await fetch(entry.file);
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 const text = await res.text();
+                if (request !== renderRequest) return;
                 drawerContent.innerHTML = marked.parse(text);
-                const base = entry.file.replace(/\/[^\/]+$/, '/');
-                // Images referenced with relative paths (e.g. "assets/foo.png") must be
-                // resolved against the source .md file's own folder, not the SPA page URL,
-                // otherwise they 404 once rendered inside the drawer.
+                const sourceURL = new URL(entry.file, document.baseURI);
+                const siteRoot = new URL('.', document.baseURI);
+                drawerContent.querySelectorAll('h1, h2, h3, h4').forEach(heading => {
+                    heading.id = heading.textContent.toLowerCase().replace(/[^\w\s-]/g, '').trim().replace(/\s+/g, '-');
+                });
                 drawerContent.querySelectorAll('img[src]').forEach(img => {
                     const src = img.getAttribute('src');
                     if (src && !/^([a-z]+:)?\/\//i.test(src) && !src.startsWith('data:')) {
-                        img.setAttribute('src', new URL(src, 'http://x/' + base).pathname.replace(/^\//, ''));
+                        img.setAttribute('src', new URL(src, sourceURL).href);
                     }
                 });
                 drawerContent.querySelectorAll('a[href]').forEach(a => {
                     const href = a.getAttribute('href');
-                    if (href && href.endsWith('.md')) {
-                        const resolved = new URL(href, 'http://x/' + base).pathname.replace(/^\//, '');
-                        const match = activeFiles.findIndex(f => f.file === resolved);
-                        // Rewrite the href itself (not just the click handler) so hover
-                        // previews, "open in new tab", and copy-link all resolve correctly
-                        // relative to the file's own folder instead of the SPA's page URL.
-                        a.setAttribute('href', resolved);
-                        if (match !== -1) {
-                            a.addEventListener('click', e => {
-                                e.preventDefault();
-                                currentIdx = match; loadAndRender(match);
-                            });
-                        } else {
-                            a.setAttribute('target', '_blank');
-                            a.setAttribute('rel', 'noopener noreferrer');
-                        }
-                    } else if (href && (href.startsWith('http') || href.startsWith('//'))) {
+                    if (!href) return;
+                    if (href.startsWith('#')) {
+                        a.addEventListener('click', e => {
+                            e.preventDefault();
+                            drawerContent.querySelector(`#${CSS.escape(decodeURIComponent(href.slice(1)))}`)?.scrollIntoView();
+                        });
+                        return;
+                    }
+                    const url = new URL(href, sourceURL);
+                    a.setAttribute('href', url.href);
+                    if (url.origin === siteRoot.origin && url.pathname.startsWith(siteRoot.pathname)
+                        && url.pathname.endsWith('.md')) {
+                        const resolved = decodeURIComponent(url.pathname.slice(siteRoot.pathname.length));
+                        a.addEventListener('click', e => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            openDrawer(resolved, url.hash);
+                        });
+                    } else if (url.protocol === 'http:' || url.protocol === 'https:') {
                         a.setAttribute('target', '_blank');
                         a.setAttribute('rel', 'noopener noreferrer');
                     }
                 });
+                if (fragment) {
+                    drawerContent.querySelector(`#${CSS.escape(decodeURIComponent(fragment.slice(1)))}`)?.scrollIntoView();
+                }
             } catch (err) {
+                if (request !== renderRequest) return;
                 drawerContent.innerHTML = `<p style="color:var(--stretch-color);font-family:var(--font-body);font-size:.8rem;">Failed to load ${entry.file}: ${err.message}</p>`;
             }
         }
@@ -2929,13 +3045,16 @@
             const link = e.target.closest('a[href]');
             if (!link) return;
             const href = link.getAttribute('href');
-            if (!href || !href.endsWith('.md')) return;
+            if (!href) return;
+            const url = new URL(href, document.baseURI);
+            const siteRoot = new URL('.', document.baseURI);
+            if (url.origin !== siteRoot.origin || !url.pathname.startsWith(siteRoot.pathname)
+                || !url.pathname.endsWith('.md')) return;
             e.preventDefault();
-            openDrawer(href);
+            openDrawer(decodeURIComponent(url.pathname.slice(siteRoot.pathname.length)), url.hash);
         });
     </script>
     <script src="assets/js/shell.js"></script>
-    <div id="coach-toast"></div>
 </body>
 
 </html>

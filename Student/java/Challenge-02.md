@@ -4,14 +4,14 @@
 
 ## Introduction
 
-The **PhotoAlbum** application was built with Spring Boot 2.7.18 on Java 8, backed by an Oracle Database that stores photos as BLOBs. This technology stack presents several modernization challenges:
+The **PhotoAlbum** application uses Spring Boot 2.7.18 on Java 8 and stores photos as BLOBs in Oracle Database. Modernize these parts of the stack:
 
 - **Spring Boot 2.x** reached end-of-life in November 2023. Spring Boot 3.x requires Java 17+ and introduces breaking namespace changes (`javax.*` → `jakarta.*`).
 - **Java 8** is several major versions behind the current LTS release (Java 25), missing significant performance improvements and language features.
 - **Oracle Database** is an on-premises, proprietary dependency. Replacing it with **Azure Database for PostgreSQL** aligns the application with cloud-native, open-source infrastructure.
 - **BLOB storage in the database** is expensive and doesn't scale well. Migrating photo storage to **Azure Blob Storage** decouples data persistence from the database and improves performance.
 
-In this challenge you will use the GitHub Copilot Modernization tools to create and execute a migration plan that addresses all of these concerns.
+Use the GitHub Copilot Modernization tools to create and execute a migration plan.
 
 > **Note:** This challenge can be worked on in parallel with the .NET track by different members of your team.
 
@@ -26,7 +26,7 @@ Modernize the PhotoAlbum Java application from its current state to:
 
 Your approach should include:
 
-- Use the GitHub Copilot Modernization tool to generate a migration plan with a goal that captures all the migration objectives above
+- Use the GitHub Copilot Modernization tool to generate a plan with a goal covering all migration objectives above
 - Review the generated migration plan before executing it
 - Execute the migration plan using the appropriate tool command
 - Use GitHub Copilot Chat to resolve any compilation errors or test failures the automated migration cannot fix
@@ -37,7 +37,7 @@ Your approach should include:
 
 ## Success Criteria
 
-To complete this challenge successfully, demonstrate:
+To complete this challenge, demonstrate:
 
 1. The application builds successfully with no compilation errors
 2. The application configuration (`application.properties` / `application.yml`) targets Azure Database for PostgreSQL and Azure Blob Storage

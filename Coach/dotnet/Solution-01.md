@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This challenge teaches attendees how to use `modernize assess` on the .NET application and builds the mental model for what needs to change before they touch any code. The debrief discussion after this challenge is critical — it sets the direction for Challenge 02.
+Attendees use `modernize assess` to identify the .NET application's migration needs before editing code. Use the debrief to set the direction for Challenge 02.
 
 ## Mini-Lecture (10 min before challenge)
 

@@ -4,7 +4,7 @@
 
 ## Purpose
 
-Stretch challenge demonstrating the Managed Identity → Azure OpenAI pattern. Same RBAC approach as Challenge 05, extended to `Cognitive Services OpenAI User`. Key teaching moment: graceful degradation — the AI call must never block the core business operation.
+This stretch challenge uses Managed Identity to access Azure OpenAI. It extends the RBAC approach from Challenge 05 to `Cognitive Services OpenAI User`. Focus on graceful degradation: the AI call must never block the core business operation.
 
 ## Terraform — Azure OpenAI Resources
 
@@ -95,7 +95,7 @@ public class CatalogItemAiService : ICatalogItemAiService
 
 **"Why is the AI call wrapped in `try/catch` and must never throw?"**
 
-Expected answer: The AI call is a non-critical enhancement to a core business operation (catalog item save). If it throws, the user's work is lost. The UX principle is **progressive enhancement** or **graceful degradation** — the core feature works without the enhancement. The AI feature is additive; its failure should be logged as a warning and silently skipped, not surfaced to the user as an error.
+Expected answer: Saving a catalog item must work without AI. If the AI call throws, the user's work is lost. Use **progressive enhancement** or **graceful degradation**: log the AI failure as a warning and skip the enhancement without showing the user an error.
 
 ## Stretch Note — BlazorAdmin Migration
 
@@ -105,4 +105,4 @@ If teams finish early, suggest migrating `BlazorAdmin` to the new Blazor Web App
 - Remove the standalone `BlazorAdmin` project and its `Microsoft.AspNetCore.Components.WebAssembly.Server` host integration from `Web`
 - Benefit: server-side pre-rendering, faster TTFB, single hosting model
 
-This is non-trivial (30–60 min) and should only be attempted if Challenge 06 is complete.
+Allow 30–60 min, and attempt this only after completing Challenge 06.

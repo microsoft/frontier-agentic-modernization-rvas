@@ -1,0 +1,89 @@
+{
+  "installer": "skills@1.7.1",
+  "minimumNode": "22.20.0",
+  "agent": "github-copilot",
+  "verifiedOn": "2026-10-23",
+  "profiles": [
+    {
+      "id": "planning",
+      "title": "Planning essentials",
+      "when": "Install before architecture-first discovery. These skills are not needed for the CLI upgrade tracks.",
+      "sources": [
+        {
+          "repository": "mattpocock/skills",
+          "revision": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
+          "path": "skills/productivity/grilling",
+          "skills": { "grilling": "Interview stakeholders about unresolved decisions." }
+        },
+        {
+          "repository": "mattpocock/skills",
+          "revision": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
+          "path": "skills/engineering/domain-modeling",
+          "skills": { "domain-modeling": "Recover domain vocabulary and record domain decisions." }
+        },
+        {
+          "repository": "microsoft/azure-skills",
+          "revision": "3e15ebee595bb092949b9e2e70157fef043d0b0e",
+          "path": ".github/plugins/azure-cost/skills/cost-estimation",
+          "skills": { "cost-estimation": "Attempt bounded pricing and record assumptions, evidence, or concrete blockers." }
+        }
+      ]
+    },
+    {
+      "id": "ui",
+      "title": "Existing UI",
+      "when": "Install when the application has a user interface. Planning uses bounded init/document discovery, not hooks, live mode, or redesign.",
+      "sources": [
+        {
+          "repository": "pbakaus/impeccable",
+          "revision": "5cb95eea9c96479f57afe0732a45470d30183326",
+          "path": ".github/skills/impeccable",
+          "skills": { "impeccable": "Recover product/design authority and preserve or intentionally change named UI surfaces." }
+        }
+      ]
+    },
+    {
+      "id": "implementation",
+      "title": "Implementation support",
+      "when": "Install before a separately requested rebuild slice. Our azure-app-rebuild skill controls delivery; upstream implement is deliberately excluded because it includes an automatic commit step.",
+      "sources": [
+        {
+          "repository": "mattpocock/skills",
+          "revision": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
+          "path": "skills/engineering",
+          "skills": {
+            "codebase-design": "Design bounded module interfaces without replacing the selected architecture.",
+            "tdd": "Develop changed behavior through focused failing tests.",
+            "diagnosing-bugs": "Reproduce failures and test hypotheses.",
+            "code-review": "Review implementation against repository standards and requirements."
+          }
+        },
+        {
+          "repository": "mattpocock/skills",
+          "revision": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
+          "path": "skills/productivity/handoff",
+          "skills": { "handoff": "Preserve package, scope, and validation context for another session." }
+        }
+      ]
+    },
+    {
+      "id": "target",
+      "title": "Target-specific specialists",
+      "when": "Optional. Install only the named skills needed by the selected target; the command below lists the available selection and can be narrowed. Specialist installation does not authorize deployment.",
+      "sources": [
+        {
+          "repository": "microsoft/azure-skills",
+          "revision": "3e15ebee595bb092949b9e2e70157fef043d0b0e",
+          "path": "skills",
+          "skills": {
+            "discover-azure-skills": "Find additional Azure specialists.",
+            "azure-enterprise-infra-planner": "Consult on enterprise identity, network, and landing-zone constraints.",
+            "entra-app-registration": "Consult on application OAuth and identity.",
+            "azure-kubernetes": "Consult when Kubernetes has an evidenced requirement.",
+            "azure-diagnostics": "Investigate operational failures in an authorized environment."
+          }
+        }
+      ]
+    }
+  ]
+}

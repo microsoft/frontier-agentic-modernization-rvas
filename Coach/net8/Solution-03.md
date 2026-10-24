@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This challenge adds the two cloud-native services missing from the base app (Blob Storage, Service Bus) and deploys to ACA. Key teaching moments: fire-and-forget messaging, SAS URL generation, and Terraform multi-resource orchestration.
+Attendees add Blob Storage and Service Bus to the base app, then deploy it to ACA. Focus on fire-and-forget messaging, SAS URL generation, and using Terraform to coordinate multiple resources.
 
 ## Dockerfile Base Image Updates
 
@@ -17,7 +17,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ```
 
-**Common Dockerfile pitfall**: eShopOnWeb's multi-stage build copies `src/` subdirectories. If the build context is set to `src/Web/` instead of the solution root, `COPY src/Infrastructure ...` fails. Build context must be the solution root.
+Set the Docker build context to the solution root. eShopOnWeb's multi-stage build copies `src/` subdirectories; using `src/Web/` as the context makes `COPY src/Infrastructure ...` fail.
 
 ## Blob Storage — Key Implementation Notes
 

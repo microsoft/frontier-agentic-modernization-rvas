@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This challenge teaches attendees how to use `modernize assess` on the Java application and builds the mental model for what needs to change before they touch any code. The debrief discussion after this challenge is critical — it sets the direction for Challenge 02.
+Attendees use `modernize assess` to identify the Java application's migration needs before editing code. Use the debrief to set the direction for Challenge 02.
 
 ## Mini-Lecture (10 min before challenge)
 
@@ -16,7 +16,7 @@ Cover:
 
 ## Expected Assessment Findings – Java (PhotoAlbum)
 
-The assessment should surface at least these three key findings (with representative report text):
+The assessment should surface at least these three findings (representative report text follows):
 
 1. **Java Version Upgrade**
    > *The application is using a Java version that has reached the end of support. It is strongly recommended to plan and execute a migration strategy to upgrade your application to a supported Java version. Supported Java versions receive long-term support (LTS) from the Java community, including bug fixes and updates. Migrating to a supported version provides you with a stable and well-maintained platform for your application.*

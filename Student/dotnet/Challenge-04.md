@@ -4,9 +4,11 @@
 
 ## Introduction
 
-The modernized ContosoUniversity runs on .NET 10 in Azure Container Apps with Azure SQL Database, Service Bus, and Blob Storage. However, the **production data** from the legacy application still lives in the on-premises SQL Express / LocalDB instance. Before decommissioning the legacy system, that data must be **migrated to the Azure SQL Database** with full fidelity and validation.
+Migrate the legacy **production data** from the on-premises SQL Express / LocalDB instance to **Azure SQL Database** before decommissioning the legacy system. Preserve all data and validate the results.
 
-In this challenge you will use **Azure Database Migration Service (DMS)** — operated directly from the **Azure Portal** — to assess compatibility, migrate the schema and data, validate the results, and confirm the application reads its production data from Azure.
+The modernized ContosoUniversity runs on .NET 10 in Azure Container Apps with Azure SQL Database, Service Bus, and Blob Storage.
+
+Use **Azure Database Migration Service (DMS)** in the **Azure Portal** to assess compatibility, migrate the schema and data, validate the results, and confirm the application reads its production data from Azure.
 
 ## Description
 
@@ -14,7 +16,7 @@ Perform a complete offline database migration from the legacy ContosoUniversity 
 
 **Assessment**
 
-- In the **Azure Portal**, create an **Azure Database Migration Service** instance in the same resource group as the Challenge 03 infrastructure.
+- In the **Azure Portal**, create an **Azure Database Migration Service** instance (Free tier) in the same resource group as the Challenge 03 infrastructure.
 - Create a new migration project targeting **SQL Server → Azure SQL Database** and connect to the source database (`(localdb)\MSSQLLocalDB`, database `ContosoUniversityNoAuthEFCore`).
 - Run the built-in assessment to surface any compatibility issues between the SQL Express source and Azure SQL Database target.
 - Review the report and confirm there are no blocking issues before proceeding.
@@ -22,7 +24,6 @@ Perform a complete offline database migration from the legacy ContosoUniversity 
 **Migration**
 
 - Using the DMS migration wizard in the Azure Portal, configure an **offline migration** from LocalDB to the Azure SQL Database created by your Terraform infrastructure.
-- Provision a new **Azure Database Migration Service** instance (Free tier) in the same resource group.
 - Select all tables from the source database for migration.
 - Start the migration and monitor per-table progress until all tables report **Completed**.
 
@@ -65,4 +66,3 @@ To complete this challenge, demonstrate:
 - LocalDB uses a named pipe transport rather than TCP/IP, which can prevent the DMS Integration Runtime from connecting directly. If the DMS migration agent cannot reach LocalDB, use the `sqlpackage` CLI as a fallback: export a `.bacpac` from LocalDB, then import it into Azure SQL Database.
 - If the target database already contains tables or rows (from a previous `Database.Migrate()` run), truncate the target tables before starting the DMS migration, or enable the "overwrite existing data" option in the wizard to avoid duplicate-key errors.
 - The `dbo.__EFMigrationsHistory` table tracks which EF Core migrations have been applied. Include it in the DMS table selection so the application does not try to re-run migrations on the already-populated database.
-

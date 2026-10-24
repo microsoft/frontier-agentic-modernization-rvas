@@ -4,17 +4,17 @@
 
 ## Purpose
 
-This challenge takes the team through a production-grade data migration from the Oracle XE database (running as a Docker container in the legacy stack) to the Azure Database for PostgreSQL Flexible Server provisioned in Challenge 03.
+Teams migrate data from Oracle XE in the legacy Docker stack to the Azure Database for PostgreSQL Flexible Server provisioned in Challenge 03.
 
 Use this guidance with two valid migration paths:
 - Primary path: Ora2Pg export + psql import.
 - Alternative path: VS Code PostgreSQL extension (`ms-ossdata.vscode-pgsql`) with Schema and Application Conversion (Preview).
 
-In environments where Preview capabilities are enabled, the same extension can also drive AI-assisted **Schema Conversion** and **Application Conversion** for Oracle-to-PostgreSQL modernization.
+Where Preview capabilities are enabled, the extension supports AI-assisted schema and application conversion.
 
-This is a critical cutover step: application state moves to managed PostgreSQL so the Oracle container can be decommissioned before post-cutover hardening.
+Validate the migrated application state before decommissioning Oracle and starting post-cutover hardening.
 
-A working reference for the Azure infrastructure already lives in `Coach/Solutions/java/infra/`. The `azurerm_postgresql_flexible_server` resource provisioned there is the migration target.
+The infrastructure reference is in `Coach/Solutions/java/infra/`. Its `azurerm_postgresql_flexible_server` resource is the migration target.
 
 ---
 
