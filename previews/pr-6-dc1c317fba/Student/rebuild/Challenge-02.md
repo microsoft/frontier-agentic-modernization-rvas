@@ -25,9 +25,10 @@ component/UI dispositions, the selected architecture, and migration waves.
 Check that preserved contracts and intentional changes match stakeholder answers.
 
 Challenge the strategy comparison, including a lower-change option where feasible.
-Check official evidence for claims that depend on the target, cost assumptions
-and pricing status, integration/data ownership, coexistence, and recovery limits.
-Open the editable diagrams and distinguish structural, rendered, and independent review.
+Check official evidence for target-dependent claims. Review cost assumptions,
+pricing status, integration and data ownership, coexistence, and recovery limits.
+Open the editable diagrams and distinguish structural checks, rendered checks,
+and independent review.
 
 Record discrepancies and request targeted corrections in the existing planning
 workflow. Material new evidence reopens only the affected baseline or target

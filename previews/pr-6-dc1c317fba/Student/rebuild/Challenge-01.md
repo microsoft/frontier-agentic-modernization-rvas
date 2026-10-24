@@ -42,8 +42,8 @@ you do not generate each one in a separate exercise. The skill consults the
 bundled diagram and installed cost-estimation skills within this workflow.
 
 Do not change application code or execute unknown scripts. Static inspection
-does not prove runtime performance or migration duration. Mark missing evidence,
-pricing-tool blockers, and review limitations honestly. If the timebox expires
+does not prove runtime performance or migration duration. Record missing evidence,
+pricing-tool blockers, and review limitations. If the timebox expires
 before handoff, record the current phase and unresolved decisions rather than
 claiming a complete package.
 

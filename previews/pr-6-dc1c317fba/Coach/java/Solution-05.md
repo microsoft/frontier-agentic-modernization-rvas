@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This is the core production-readiness challenge for the Java track. It covers: telemetry with Application Insights, secrets management with Key Vault, and Managed Identity for passwordless auth.
+Attendees add Application Insights telemetry, manage secrets with Key Vault, and use Managed Identity for passwordless authentication.
 
 ## Mini-Lecture (10 min before challenge)
 
@@ -27,8 +27,6 @@ ENV JAVA_TOOL_OPTIONS="-javaagent:/app/applicationinsights-agent.jar"
 ```
 APPLICATIONINSIGHTS_CONNECTION_STRING=InstrumentationKey=...;IngestionEndpoint=...
 ```
-
-3. No changes to `pom.xml` or Java source code are required.
 
 ## Key Vault + Managed Identity – Java
 

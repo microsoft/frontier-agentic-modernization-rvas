@@ -9,18 +9,18 @@ change, not by programming language.
 
 ## Purpose
 
-Teams move from the pre-packaged samples to a **real codebase**. Help them choose a representative application they can build, then apply the modernization workflow from the .NET / Java tracks.
+Help teams choose a representative customer application they can build, then apply the modernization workflow from the .NET / Java tracks.
 
-The only selection constraint worth enforcing is that teams **do not pick the most complex or most critical application** in the portfolio. Mission-critical, highly complex apps introduce risk and scope that will consume the entire session without producing a meaningful result. A medium-complexity app that the team can build, assess, and containerize in a day is the right target.
+Do not choose the portfolio's most complex or most critical application. Its risk and scope can consume the session. Choose a medium-complexity app the team can build, assess, and containerize in a day.
 
 ---
 
 ## Mini-Lecture (5 min before challenge)
 
-Keep this brief. Two points:
+Cover two points:
 
 1. **Real apps are messier than samples.** Build failures, hard-coded secrets, missing Dockerfiles, and undocumented dependencies are normal. The workflow is the same; the friction is higher.
-2. **Pick tractable, not impressive.** The application the team is afraid to touch is not the right starting point. The application that is a good example of the legacy estate — legacy runtime, external database, one or two cloud-incompatible dependencies — is the right starting point.
+2. **Choose a manageable application.** Look for a legacy runtime, an external database, and one or two cloud-incompatible dependencies. Avoid the application the team is afraid to touch.
 
 ---
 
@@ -37,7 +37,7 @@ This challenge requires a **real customer-owned codebase**. Samples are not acce
 
 ### Step 2 — Readiness Checks
 
-**This is the most important gate.** A team that selects an application they cannot build locally will be blocked for the rest of the session. Walk through the checklist with them before they start the assessment:
+Check readiness before assessment. If the team cannot build the application locally, they cannot proceed:
 
 - **Repo accessible** — everyone can clone it without needing someone else's credentials
 - **Builds locally** — warnings are fine; a complete build failure is not
@@ -47,13 +47,13 @@ If a check fails, help the team triage: 10-minute fix (install missing SDK, set 
 
 ### Assessment and Migration
 
-From here, the workflow mirrors the .NET and Java track challenges exactly. Refer to the corresponding Solution guides for detailed facilitation notes on each step:
+Follow the .NET and Java workflow. Use the corresponding Solution guides:
 
 - Assessment: see [Solution-01 (.NET)](../dotnet/Solution-01.md) or the Java equivalent
 - Migration plan and execution: see [Solution-02 (.NET)](../dotnet/Solution-02.md) or the Java equivalent
 - Containerization and deployment: see the relevant later solution guides
 
-Customer repositories frequently have build issues, secrets in config files, missing migration scripts, and undocumented startup dependencies. Help the team learn how to resolve each blocker rather than immediately switching applications.
+Help teams resolve manageable blockers rather than immediately switching applications.
 
 ---
 
@@ -75,5 +75,5 @@ Customer repositories frequently have build issues, secrets in config files, mis
 |---|---|
 | Build fails before assessment | Help triage the build error. If it is a missing dependency or config value, unblock them. If it is a multi-hour structural issue, redirect to a different app. |
 | Assessment produces no findings | Likely a build failure or a near-modern app. Check the assessment logs; if the app is already modern, have the team pick a more representative target. |
-| Team picks an app nobody understands | Redirect. Domain ignorance blocks every architectural decision. Someone on the team needs to know what the app does. |
-| Secrets hard-coded in config | Good teaching moment — this is a real and common blocker. Walk through replacing with environment variables or Azure Key Vault references before containerizing. |
+| Team picks an app nobody understands | Redirect to an app someone on the team understands well enough to make architectural decisions. |
+| Secrets hard-coded in config | Walk through replacing them with environment variables or Azure Key Vault references before containerizing. |

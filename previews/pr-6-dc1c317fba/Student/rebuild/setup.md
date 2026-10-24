@@ -13,7 +13,8 @@ runtime upgrade. For compatibility-first upgrades, use the
 
 Bring source, build/run notes, relevant contracts, sanitized schema/data evidence,
 and a business/product stakeholder who can resolve behavior and scope decisions.
-Identify one tractable business journey and the challenge it needs to address.
+Choose one business journey you can improve in the available time and identify
+the problem it needs to address.
 Do not bring production data, credentials, or unrestricted database backups.
 
 Use Git and a supported GitHub Copilot CLI or VS Code with Copilot access.
@@ -64,10 +65,10 @@ Use the exact [profile commands](supporting-skills.md):
 optional, not a request to install every Azure skill.
 
 The plugin bundles our planning and rebuild skills, `cloud-architecture-diagram`
-with its assets and scripts, and public Microsoft Learn documentation MCP.
-Do not install another copy of the diagram skill. The plugin does not install the
-other upstream supporting skills or grant
-Azure access. Use `/skills` and `/mcp` in CLI, or **Chat: Configure Skills** and
+with its assets and scripts, and the public Microsoft Learn documentation MCP server.
+Do not install another copy of the diagram skill. The plugin does not install
+other upstream supporting skills or grant Azure access.
+Use `/skills` and `/mcp` in CLI, or **Chat: Configure Skills** and
 the MCP server list in VS Code, to verify availability. Reload if necessary.
 
 ## Start architecture-first planning
@@ -83,8 +84,7 @@ compare a lower-change option with rearchitecture or rebuild, and plan before
 changing code. Preserve existing UI behavior unless we explicitly select changes.
 ```
 
-**Challenge 01 is one complete planning workflow**, not a sequence of separate
-document-generation tasks. Stay in the conversation through analysis, questions,
+**Complete Challenge 01 in one planning conversation.** Work through analysis, questions,
 baseline confirmation, and target selection or bounded delegation. The skill
 pauses for those decisions and may draft documents progressively; it then
 reconciles the complete package before handing off. You do not need to invoke
@@ -97,8 +97,8 @@ The workflow produces eight artifacts under `docs/modernization/`: `assessment.m
 `.impeccable/design.json`.
 
 The completed package is normally marked **Ready for review**. Formal package
-acceptance is required only when requested by your team or governance process. Missing pricing,
-diagram rendering, or independent review must have an honest status and owner.
+acceptance is required only when requested by your team or governance process.
+Record the status and owner of missing pricing, diagram rendering, or independent review.
 Planning ends with **architecture and migration planning only; implementation
 not started**. Neither acceptance nor "continue" starts a rebuild.
 

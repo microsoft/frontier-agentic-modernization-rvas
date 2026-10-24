@@ -17,7 +17,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ```
 
-**Common Dockerfile pitfall**: eShopOnWeb's multi-stage build copies `src/` subdirectories. If the build context is set to `src/Web/` instead of the solution root, `COPY src/Infrastructure ...` fails. Build context must be the solution root.
+Set the Docker build context to the solution root. eShopOnWeb's multi-stage build copies `src/` subdirectories; using `src/Web/` as the context makes `COPY src/Infrastructure ...` fail.
 
 ## Blob Storage — Key Implementation Notes
 

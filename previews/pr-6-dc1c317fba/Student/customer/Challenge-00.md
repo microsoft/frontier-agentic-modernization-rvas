@@ -9,7 +9,7 @@ rebuild plugin solely to follow this CLI challenge.
 
 ## Introduction
 
-The .NET and Java samples help you learn the tools. In this challenge, apply what you learned to **your own applications**: use the same modernization workflow end-to-end on a **customer-owned codebase** rather than a pre-packaged sample.
+Apply the .NET or Java sample workflow end-to-end to a **customer-owned codebase**.
 
 ## Description
 
@@ -18,8 +18,8 @@ The .NET and Java samples help you learn the tools. In this challenge, apply wha
 Choose **one application** from your customer's portfolio to upgrade. The application must be a **real customer-owned codebase**, not a sample substituted for customer work. Repository visibility does not determine ownership. It should be:
 
 - **Medium complexity** — multi-layer with an external database and at least one legacy dependency worth replacing (e.g. an old messaging technology, local file storage, end-of-life runtime)
-- **Not the most critical or most complex** application in the portfolio — pick something that is representative enough to be meaningful but realistic to modernize in a focused session
-- **Business and product stakeholder engagement.** Business and product stakeholders need to be part of the decision before any delivery work starts.
+- **Not the most critical or most complex** application in the portfolio — choose a representative application you can realistically modernize in a focused session
+- **Business and product stakeholder engagement** — include these stakeholders in the decision before any delivery work starts
 
 Before committing to your selection, verify:
 
@@ -65,4 +65,4 @@ To complete this challenge, demonstrate:
 
 - Avoid applications the team considers too risky or complex to change in the available time. Choose one that is representative but tractable.
 - If the application fails to build locally, resolve that blocker before running the assessment. The tool needs a buildable project to produce meaningful results.
-- The same modernization patterns from the .NET and Java tracks apply here — the only difference is the codebase. Lean on what you already know.
+- Use the modernization patterns from the .NET and Java tracks.

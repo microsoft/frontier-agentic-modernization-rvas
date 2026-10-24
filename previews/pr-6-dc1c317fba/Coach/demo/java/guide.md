@@ -168,7 +168,7 @@ export PG_SERVER="$(terraform -chdir="$ACA_INFRA" output -raw postgresql_server_
 
 ## Demo 1: From Oracle on a VM to PostgreSQL on Container Apps
 
-**WOW moment:** Open recognizable legacy photos in the migrated app, then upload a new photo and show saved AI-generated metadata.
+**Demo outcome:** Open recognizable legacy photos in the migrated app, then upload a new photo and show saved AI-generated metadata.
 
 ### 1 - Show the Legacy App (0:00-5:00)
 

@@ -256,7 +256,7 @@ If Terraform state lives elsewhere, set `LEGACY_INFRA` and `ACA_INFRA` to those 
 
 ## Demo 1: From IIS to Azure Container Apps
 
-**WOW moment:** Find the student and course image from the Windows VM in the modern app, then upload a new image and show saved AI-generated course content.
+**Demo outcome:** Find the student and course image from the Windows VM in the modern app, then upload a new image and show saved AI-generated course content.
 
 ### 1 - Show the Legacy App (0:00-5:00)
 

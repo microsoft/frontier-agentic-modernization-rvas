@@ -4,16 +4,14 @@
 
 ## Introduction
 
-Production applications need **observability** to diagnose issues quickly and **secret management** to keep credentials out of code and environment variables.
-
-In this stretch challenge, improve the modernized .NET application's production readiness with:
+In this stretch challenge, add **observability** to diagnose issues and **secret management** to keep credentials out of code and environment variables:
 
 - **Azure Application Insights** — distributed tracing, live metrics, and structured logging
 - **Azure Key Vault + Managed Identity** — secrets (connection strings, credentials) retrieved at runtime without any secrets in code or configuration files
 
 ## Description
 
-Apply production hardening to the modernized ContosoUniversity .NET application:
+Update the modernized ContosoUniversity .NET application:
 
 **Observability:**
 - Integrate the Application Insights SDK into the .NET application
@@ -43,5 +41,5 @@ To complete this challenge, demonstrate:
 
 ## Tips
 
-- The Azure SDK for .NET supports `DefaultAzureCredential`, which transparently uses Managed Identity when running in Azure and developer credentials locally.
+- The Azure SDK for .NET supports `DefaultAzureCredential`, which uses Managed Identity when running in Azure and developer credentials locally.
 - Azure Container Apps natively support Key Vault secret references — you can reference a Key Vault secret directly as a Container App secret without any SDK changes in the application.
