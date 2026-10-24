@@ -27,7 +27,7 @@ The application seeds data on first startup when the database is empty. Trigger 
 - Login works with `demouser@microsoft.com` / `Pass@word1`
 - The admin user can access `/admin` and the Blazor admin panel loads
 
-### Step 3 — Row-Parity Check
+### Step 3 — Check Row Counts
 
 Query the Azure SQL Catalog database to verify the seeded row counts match the expected values:
 
@@ -39,10 +39,10 @@ Query the Azure SQL Catalog database to verify the seeded row counts match the e
 
 ### Step 4 — End-to-End Smoke Test
 
-- Browse catalog → all products display with Blob Storage images
-- Add items to basket → basket persists across requests
-- Place an order → order appears in the database + Service Bus message is published
-- Log in as admin → Blazor admin panel shows order history
+- Browse the catalog and confirm all products display with Blob Storage images
+- Add items to the basket and confirm it persists across requests
+- Place an order and confirm it appears in the database and publishes a Service Bus message
+- Log in as admin and confirm the Blazor admin panel shows order history
 
 ## Success Criteria
 

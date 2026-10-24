@@ -11,12 +11,6 @@ The **ContosoUniversity** application is a university management system built on
 - **ASP.NET MVC 5 / `System.Web`** — the entire `System.Web` stack was not ported to .NET Core. Every controller, filter, and configuration element must be migrated to the ASP.NET Core equivalents.
 - **`packages.config` + `.csproj` format** — the legacy project format must be converted to the SDK-style `.csproj`.
 
-The target state is:
-- **.NET 10** with ASP.NET Core MVC
-- **Azure Service Bus** replacing MSMQ
-- **Azure Blob Storage** replacing the local file system uploads folder
-- **Azure SQL Database** (EF Core updated to latest)
-
 > **Note:** This challenge can be worked on in parallel with the Java track by different members of your team.
 
 ## Description
@@ -30,7 +24,7 @@ Modernize the ContosoUniversity .NET application to:
 
 Your approach should include:
 
-- Use the GitHub Copilot Modernization tool to generate a migration plan with a goal that captures all migration objectives above
+- Use the GitHub Copilot Modernization tool to generate a plan with a goal covering all migration objectives above
 - Review the generated migration plan before executing it
 - Execute the migration plan using the appropriate tool command
 - Use GitHub Copilot Chat to resolve compilation errors that automated tools cannot handle
@@ -61,6 +55,6 @@ To complete this challenge, demonstrate:
 
 ## Tips
 
-- Build the application early and often after each significant change to catch issues incrementally rather than all at once.
+- Build after each significant change to catch issues early.
 - `Global.asax` startup logic must be migrated to `Program.cs` using the ASP.NET Core host builder pattern.
 - The `HtmlHelper` and `UrlHelper` extension methods work differently in ASP.NET Core Tag Helpers — Copilot Chat can help you convert Razor views.

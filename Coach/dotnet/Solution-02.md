@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This is the most technically complex challenge in the .NET track. Migrating from .NET Framework 4.8 to .NET 10 ASP.NET Core involves many breaking changes; the `System.Web` dependency rules out a simple in-place upgrade. The `modernize` tool speeds up much of the work but does not automate everything.
+The `System.Web` dependency rules out a simple in-place upgrade from .NET Framework 4.8 to .NET 10 ASP.NET Core. This is the .NET track's most technically complex challenge, with many breaking changes. The `modernize` tool speeds up the work but does not automate everything.
 
 ## Mini-Lecture (10 min before challenge)
 
@@ -67,7 +67,7 @@ Azure Blob Storage. Update Entity Framework Core to the latest version.
 
 ## Success Criteria Notes
 
-- `dotnet build` targeting `net10.0` is binary (pass/fail)
+- `dotnet build` targeting `net10.0` must succeed
 - `dotnet run` starting without exceptions is the minimum functional bar
 - If attendees are running low on time, CRUD operations without Service Bus or Blob Storage integrations is acceptable — these can be stubbed
 - Showing `NotificationService.cs` using `ServiceBusClient` and the upload controller using `BlobContainerClient` are distinct verification points

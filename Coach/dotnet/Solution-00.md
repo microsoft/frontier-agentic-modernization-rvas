@@ -16,14 +16,14 @@ Briefly explain:
 ## Common Issues and Hints
 
 ### Submodule folder is empty
-The most common issue. After cloning, attendees must run:
+After cloning, attendees must run:
 ```bash
 git submodule update --init --recursive
 ```
 If they cloned with `--recurse-submodules`, the submodule should be populated automatically.
 
 ### .NET Framework 4.8 build fails on Linux/macOS
-The ContosoUniversity project targets .NET Framework 4.8, which is Windows-only. On Linux/macOS, the build will fail with `msbuild`. This is **expected** — the migration in Challenge 02 will move the project to .NET 10. For this challenge, simply verify that the source code is present (submodule initialised) rather than requiring a successful build on non-Windows machines.
+ContosoUniversity targets .NET Framework 4.8, which is Windows-only. On Linux/macOS, `msbuild` is expected to fail. Verify that the source code is present (submodule initialised); do not require a successful build. Challenge 02 moves the project to .NET 10.
 
 ### `modernize` CLI not found after install
 The install script adds the binary to `~/.local/bin`. Ensure this path is in `$PATH`:

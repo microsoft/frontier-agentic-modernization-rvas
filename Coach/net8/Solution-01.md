@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This challenge establishes that even a "modern" ASP.NET Core 8 application needs careful assessment before a runtime upgrade. The key teaching moment is the Swashbuckle → OpenAPI transition, which hits nearly every API project migrating past .NET 8.
+Assess even a "modern" ASP.NET Core 8 application before upgrading its runtime. Focus on the Swashbuckle → OpenAPI transition, which affects nearly every API project migrating past .NET 8.
 
 ## Expected Top Assessment Findings
 

@@ -1,6 +1,6 @@
 # Deploy ContosoUniversity (Legacy .NET) to Azure VM
 
-Use the Terraform configuration and PowerShell setup script in this folder to deploy the **ContosoUniversity** ASP.NET MVC 5 / .NET Framework 4.8 application to a Windows Server 2022 Virtual Machine — the "before" state of the modernization journey.
+Deploy the **ContosoUniversity** ASP.NET MVC 5 / .NET Framework 4.8 application to a Windows Server 2022 VM with the Terraform configuration and PowerShell setup script in this folder. This is the "before" state for modernization.
 
 ## What Gets Deployed
 
@@ -34,9 +34,9 @@ cp terraform.tfvars.example terraform.tfvars
 ```
 
 Edit `terraform.tfvars` and set:
-- `admin_password` — must be 12+ characters with upper, lower, digit, and special character
+- `admin_password` — at least 12 characters, including uppercase and lowercase letters, a digit, and a special character
 
-> **Note:** At `terraform apply` time, Terraform calls `https://api.ipify.org` to detect your outbound public IP and automatically scopes the NSG RDP rule to that address. If your IP changes (e.g. after a network switch), re-run `terraform apply` to update the rule.
+> **Note:** During `terraform apply`, Terraform calls `https://api.ipify.org` to detect your outbound public IP and restricts the NSG RDP rule to that address. If your IP changes (e.g. after a network switch), re-run `terraform apply` to update the rule.
 
 ### 2. Initialise and apply
 
@@ -67,7 +67,7 @@ For an **existing VM**, run `terraform plan` and `terraform apply` from its orig
 
 ### 4. Verify the application
 
-Open a browser and navigate to `http://<public-ip>`.
+Open `http://<public-ip>` in a browser.
 
 You should see the ContosoUniversity home page. On first load, the application creates the database schema automatically via `DbInitializer`.
 

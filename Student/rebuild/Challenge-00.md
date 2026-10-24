@@ -7,9 +7,10 @@
 
 ## Introduction
 
-An old runtime is not always the main problem. Your application might be hard to
-change, tightly coupled to another system, or unable to support a new business
-workflow. Bring that challenge, not a predetermined replacement architecture.
+Start with the application's business or architecture problem, not a predetermined
+replacement architecture. An old runtime may not be the main issue: the application
+might be hard to change, tightly coupled to another system, or unable to support
+a new business workflow.
 
 ## Prerequisites
 
@@ -27,8 +28,8 @@ if that better fits.
 
 Work in the application repository. Make the plugin's three bundled skills and
 the relevant [supporting skills](supporting-skills.md) discoverable. Prepare source,
-operating notes, contracts, and sanitized database/UI evidence. Record unavailable
-evidence rather than blocking all static planning or pretending it is complete.
+operating notes, contracts, and sanitized database/UI evidence. Record missing
+evidence. You can continue static planning, but do not claim the evidence is complete.
 
 Do not install the Modernization CLI solely for this route. A rebuild may target
 any application stack supported by the evidence; Java/.NET are not entry requirements.

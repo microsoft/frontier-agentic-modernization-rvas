@@ -4,7 +4,7 @@
 
 ## Purpose
 
-Attendees use `modernize assess` on the .NET application to understand what needs to change before editing code. The debrief is essential: it sets the direction for Challenge 02.
+Attendees use `modernize assess` to identify the .NET application's migration needs before editing code. Use the debrief to set the direction for Challenge 02.
 
 ## Mini-Lecture (10 min before challenge)
 

@@ -4,11 +4,9 @@
 
 ## Introduction
 
-Start with a thorough **assessment** before changing code. It helps you understand migration complexity and identifies deprecated APIs, incompatible dependencies, and cloud-readiness gaps.
+Assess the application before changing code to identify deprecated APIs, incompatible dependencies, and cloud-readiness gaps.
 
-The GitHub Copilot Modernization tool analyses your codebase and produces a structured assessment report from either the CLI or the VS Code panel. You will use this report in every subsequent challenge.
-
-In this challenge you will run an assessment on the .NET ContosoUniversity application and learn to read the output critically.
+The GitHub Copilot Modernization tool produces an assessment report from either the CLI or the VS Code panel. Review its findings critically; you will use the report in every subsequent challenge.
 
 ## Description
 
@@ -27,7 +25,7 @@ Review the generated assessment report and discuss as a team:
 To complete this challenge, demonstrate:
 
 1. An assessment report exists for the ContosoUniversity (.NET) application
-2. Your team can articulate the **top mandatory blockers** for the application (dependencies, APIs, or patterns that require manual attention)
+2. Your team can explain the **top mandatory blockers** for the application (dependencies, APIs, or patterns that require manual attention)
 3. Your team has identified which modernization steps the tool can automate vs. which require manual intervention
 4. **Explain to your coach** — what is the difference between a **mandatory blocker** and a **potential issue** in the assessment report? Which category would block you from proceeding with the migration?
 
@@ -38,4 +36,4 @@ To complete this challenge, demonstrate:
 
 ## Tips
 
-- The GitHub Copilot Modernization tool can be used from both the terminal and the VS Code extension panel. Explore both interfaces — they produce the same report but may suit different workflows.
+- Try the terminal and VS Code extension panel. They produce the same report but may suit different workflows.

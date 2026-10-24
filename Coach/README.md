@@ -4,14 +4,14 @@
 
 ## Overview
 
-This hack is designed for teams of 3–5 people. Choose **Replatform & refactor** for
+Use teams of 3–5 people. Choose **Replatform & refactor** for
 compatibility-first CLI work, or **Rearchitect & rebuild** for application
 architecture and business challenges. Do not route solely by language.
 
 The [rebuild facilitation guide](rebuild/facilitation-guide.md) and
 [scoring rubric](rebuild/scoring-rubric.md) cover the separate plugin route.
 Its target is a reviewed plan and one validated slice, not a whole-app rewrite.
-The existing [customer CLI challenge](customer/Solution-00.md) remains available.
+Use the [customer CLI challenge](customer/Solution-00.md) for customer application upgrades.
 
 The upgrade route covers three parallel sample tracks:
 
@@ -29,8 +29,8 @@ Presenter-led demo speaker guides: [Java](./demo/java/guide.md) and [.NET / Cont
 
 ## Coach Notes Index
 
-Per-challenge coach notes (hints, common pitfalls, mini-lecture talking points) live in
-per-track subfolders. Use these during the event — **do not share with attendees**.
+Use the per-track notes for hints, common pitfalls, and mini-lecture talking points.
+Do not share them with attendees.
 
 > 🛠️ **[Troubleshooting Guide](./TROUBLESHOOTING.md)** — cross-track issues and fixes (Terraform
 > feature-registration errors, NuGet/AppCat network-policy blocks, etc.), linked from every
@@ -187,16 +187,16 @@ Focus on Challenges 00–02 only. Challenges 03–05 become homework or async ex
 | `modernize assess` hangs | Check `gh auth status` — the tool requires an active GitHub session |
 | Terraform fails on `az login` | Ensure `ARM_USE_CLI=true` is set or run `az login` before `terraform apply` |
 
-For longer-form fixes to cross-track issues (e.g. Terraform feature-registration errors,
-NuGet/AppCat network-policy blocks), see the full **[Troubleshooting Guide](./TROUBLESHOOTING.md)** —
-linked from every `Solution-*.md` file as well.
+For detailed fixes to Terraform feature-registration errors and NuGet/AppCat
+network-policy blocks, see the [Troubleshooting Guide](./TROUBLESHOOTING.md),
+also linked from every `Solution-*.md` file.
 
 ---
 
 ## Student Resources & Fallback Guidance
 
-Attendees receive the sample applications via Git submodules. If submodule initialisation
-fails or is taking too long, coaches can provide the apps directly:
+Attendees receive the sample applications via Git submodules. If initialisation
+fails or takes too long, use these recovery and verification commands:
 
 ```bash
 # Recover a broken or missing submodule
