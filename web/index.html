@@ -57,6 +57,21 @@
 
             --radius: 6px;
             --radius-lg: 12px;
+
+            --page-gutter: 24px;
+            --section-space: clamp(3rem, 6vw, 5rem);
+            --text-hero: clamp(2.5rem, 5vw, 4.5rem);
+            --text-section: clamp(2rem, 3.5vw, 3rem);
+            --text-heading: clamp(1.25rem, 2vw, 1.5rem);
+            --text-body: 1rem;
+            --text-small: .875rem;
+            --text-meta: .75rem;
+        }
+
+        @media (min-width: 768px) {
+            :root {
+                --page-gutter: 40px;
+            }
         }
 
         html {
@@ -84,33 +99,18 @@
 
 
         /* ─── Section Scaffolding ───────────────────────────────────────── */
-        section {
-            padding: clamp(4rem, 10vw, 7rem) clamp(1.5rem, 8vw, 6rem);
-        }
-
-        .section-label {
-            font-family: var(--font-body);
-            font-size: .72rem;
-            letter-spacing: .04em;
-            color: var(--cyan);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: .75rem;
-            font-weight: 600;
-        }
-
-        .section-label::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-            max-width: 120px;
+        main > section {
+            padding-block: var(--section-space);
+            padding-inline: max(var(--page-gutter), calc((100% - var(--maxw)) / 2 + var(--page-gutter)));
+            scroll-margin-top: 74px;
         }
 
         .track-label {
             font-family: var(--font-display);
-            font-size: 1.05rem;
+            font-size: var(--text-body);
+            font-weight: 600;
+            max-width: 100%;
+            overflow-wrap: anywhere;
             letter-spacing: -0.01em;
             color: var(--text-2);
             margin: 2.5rem 0 1.25rem;
@@ -129,19 +129,20 @@
 
         .section-title {
             font-family: var(--font-display);
-            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-size: var(--text-section);
             font-weight: 700;
             letter-spacing: -.01em;
-            line-height: 1;
+            line-height: 1.15;
             margin-bottom: 1rem;
             color: #032254;
+            overflow-wrap: anywhere;
         }
 
         .section-desc {
-            font-size: 1rem;
+            font-size: var(--text-body);
             line-height: 1.75;
             color: var(--text-2);
-            max-width: 580px;
+            max-width: 68ch;
         }
 
         .challenges-header .section-desc a {
@@ -170,19 +171,20 @@
 
         .route-option h3 {
             font-family: var(--font-display);
-            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-size: var(--text-heading);
             line-height: 1.2;
             color: var(--route-color);
+            overflow-wrap: anywhere;
         }
 
         .route-option p {
-            font-size: .95rem;
+            font-size: var(--text-body);
             line-height: 1.7;
             color: var(--text-2);
         }
 
         .route-option .route-tool {
-            font-size: .875rem;
+            font-size: var(--text-small);
             color: var(--route-ink);
         }
 
@@ -204,7 +206,7 @@
             align-items: center;
             min-height: 44px;
             color: var(--route-ink);
-            font-size: .875rem;
+            font-size: var(--text-small);
             text-decoration: underline;
             text-underline-offset: .2em;
         }
@@ -231,16 +233,19 @@
 
         .challenges-header {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 3.5rem;
-            gap: 2rem;
-            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 2.5rem;
+            gap: 1rem;
+        }
+
+        .challenges-header .section-title {
+            margin-bottom: 0;
         }
 
         .challenges-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 1px;
             background: var(--border);
             border: 1px solid var(--border);
@@ -260,10 +265,11 @@
 
         .challenge-card {
             position: relative;
+            min-width: 0;
             --c-color: var(--cyan);
             background: #ffffff;
             border: 1px solid var(--border);
-            padding: 2rem;
+            padding: clamp(1.25rem, 3vw, 2rem);
             overflow: hidden;
             cursor: pointer;
             transition: background .25s, border-color .25s, box-shadow .25s;
@@ -331,14 +337,16 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: .75rem;
             margin-bottom: 1.25rem;
         }
 
         .card-phase-badge {
             font-family: var(--font-body);
-            font-size: .6rem;
+            font-size: var(--text-meta);
             font-weight: 600;
-            letter-spacing: .12em;
+            letter-spacing: .04em;
             text-transform: uppercase;
             padding: .25rem .65rem;
             border-radius: 3px;
@@ -350,31 +358,35 @@
 
         .card-num {
             font-family: var(--font-mono);
-            font-size: .65rem;
+            font-size: var(--text-meta);
             color: var(--text-3);
             letter-spacing: .1em;
         }
 
         .card-title {
             font-family: var(--font-display);
-            font-size: clamp(1.4rem, 3vw, 2rem);
+            font-size: var(--text-heading);
             font-weight: 700;
             color: #032254;
-            line-height: 1.05;
+            line-height: 1.2;
             margin-bottom: .75rem;
+            overflow-wrap: anywhere;
         }
 
         .card-desc {
-            font-size: .875rem;
-            line-height: 1.65;
+            font-size: var(--text-body);
+            line-height: 1.7;
             color: var(--text-2);
             flex: 1;
+            overflow-wrap: anywhere;
         }
 
         .card-footer {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
             margin-top: 1.5rem;
             padding-top: 1rem;
             border-top: 1px solid var(--border);
@@ -388,7 +400,7 @@
 
         .card-tag {
             font-family: var(--font-mono);
-            font-size: .6rem;
+            font-size: var(--text-meta);
             color: var(--text-3);
             letter-spacing: .08em;
             background: var(--surface);
@@ -402,7 +414,7 @@
             align-items: center;
             gap: .35rem;
             font-family: var(--font-mono);
-            font-size: .65rem;
+            font-size: var(--text-small);
             color: var(--c-color);
             opacity: 0;
             transition: opacity .25s, transform .25s;
@@ -419,14 +431,6 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
-        }
-
-        .challenge-card.full .card-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-        }
-
-        .challenge-card.full .card-desc {
-            max-width: 420px;
         }
 
         /* ─── Presenter demos ────────────────────────────────────────────── */
@@ -471,8 +475,8 @@
 
         .prereq-layout {
             display: grid;
-            grid-template-columns: 1fr 1.3fr;
-            gap: 4rem;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+            gap: 3rem;
             align-items: start;
             margin-top: 3rem;
         }
@@ -481,6 +485,10 @@
             display: flex;
             flex-direction: column;
             gap: 0;
+        }
+
+        .prereq-layout > * {
+            min-width: 0;
         }
 
         .prereq-item {
@@ -514,15 +522,16 @@
 
         .prereq-name {
             font-weight: 600;
-            font-size: .9rem;
+            font-size: var(--text-body);
             color: var(--text);
             margin-bottom: .2rem;
         }
 
         .prereq-note {
-            font-size: .8rem;
+            font-size: var(--text-small);
             color: var(--text-2);
-            font-weight: 300;
+            font-weight: 400;
+            line-height: 1.7;
         }
 
         .code-block {
@@ -536,6 +545,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
             padding: .6rem 1.25rem;
             background: var(--surface-2);
             border-bottom: 1px solid var(--border);
@@ -543,14 +554,14 @@
 
         .code-block-title {
             font-family: var(--font-mono);
-            font-size: .65rem;
+            font-size: var(--text-meta);
             letter-spacing: .1em;
             color: var(--text-3);
         }
 
         .code-block-lang {
             font-family: var(--font-mono);
-            font-size: .6rem;
+            font-size: var(--text-meta);
             color: var(--cyan);
             letter-spacing: .1em;
         }
@@ -558,7 +569,7 @@
         .code-block-body {
             padding: 1.25rem 1.5rem;
             font-family: var(--font-mono);
-            font-size: .72rem;
+            font-size: var(--text-small);
             line-height: 1.9;
             color: var(--text-2);
             overflow-x: auto;
@@ -566,6 +577,10 @@
 
         .code-block-body .comment {
             color: var(--text-3);
+        }
+
+        .code-block-body > div {
+            white-space: nowrap;
         }
 
         .code-block-body .cmd {
@@ -982,7 +997,7 @@
         @media (max-width: 900px) {
 
             .challenges-grid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
             .challenge-card.full {
@@ -994,7 +1009,7 @@
             }
 
             .prereq-layout {
-                grid-template-columns: 1fr;
+                grid-template-columns: minmax(0, 1fr);
             }
         }
 
@@ -1066,7 +1081,7 @@
     <link rel="stylesheet" href="assets/css/routes.css" />
     <style>
         #hero {
-            padding: clamp(3rem, 5vw, 4rem) 0;
+            padding: var(--section-space) 0;
         }
 
         #hero .hero-content {
@@ -1075,7 +1090,8 @@
 
         #hero h1 {
             margin-top: 0;
-            font-size: clamp(2.5rem, 5.5vw, 5.25rem);
+            font-size: var(--text-hero);
+            overflow-wrap: anywhere;
         }
 
         #hero h1 span {
@@ -1085,10 +1101,12 @@
         #hero .lede {
             max-width: 68ch;
             margin: 1.5rem 0 2rem;
+            font-size: 1.125rem;
         }
 
-        #hero .btn {
+        main .btn {
             min-height: 44px;
+            font-size: var(--text-small);
         }
 
         #hero a:focus-visible {
@@ -1096,24 +1114,8 @@
             outline-offset: 4px;
         }
 
-        #routes,
         #about {
             scroll-margin-top: 74px;
-        }
-
-        #routes {
-            padding-top: clamp(2.5rem, 4vw, 3rem);
-            padding-inline: max(1.5rem, calc((100% - var(--maxw)) / 2 + 1.5rem));
-        }
-
-        #routes .section-title {
-            font-size: clamp(2.25rem, 4vw, 3rem);
-        }
-
-        @media (min-width: 768px) {
-            #routes {
-                padding-inline: max(2.5rem, calc((100% - var(--maxw)) / 2 + 2.5rem));
-            }
         }
 
         .nav-links > a,
@@ -1230,6 +1232,11 @@
                 width: calc(100% - 40px);
             }
 
+            .nav-links > a,
+            .path-nav > a {
+                white-space: normal;
+            }
+
             .sample-nav > summary {
                 position: absolute;
                 top: 0;
@@ -1333,7 +1340,6 @@
 
     <!-- Prerequisites -->
     <section id="prerequisites">
-        <div class="section-label">Before you begin</div>
         <h2 class="section-title display reveal">Prerequisites</h2>
         <p class="section-desc">The tools below support the upgrade tracks. For architecture-first work, use the
             <a href="Student/rebuild/setup.md">rebuild plugin setup</a>; the Modernization CLI is not a rebuild prerequisite.</p>
@@ -1457,7 +1463,6 @@
 
     <!-- Presenter demos -->
     <section id="demos" aria-labelledby="demos-heading" data-route="refactor">
-        <div class="section-label">Presenter-led walkthroughs</div>
         <h2 class="section-title display reveal" id="demos-heading">See modernization in action.</h2>
         <p class="section-desc reveal">Two demos follow legacy applications through modernization and deployment to Azure.
             Open a speaker guide alongside the site for setup, live commands, talking points, and troubleshooting.
@@ -1505,10 +1510,9 @@
     <section id="challenges" data-route="refactor">
         <div class="challenges-header">
             <div>
-                <div class="section-label">Upgrade your application</div>
                 <h2 class="section-title display reveal">Replatform / refactor</h2>
             </div>
-            <p class="section-desc reveal" style="max-width:340px;">
+            <p class="section-desc reveal">
                 <strong>Bring a real customer-owned application.</strong>
                 Assess, modernize, and deploy your workload to Azure with the Modernization CLI.
                 <a href="Student/customer/Challenge-00.md" aria-haspopup="dialog" aria-controls="drawer">Start your application upgrade.</a>
@@ -2095,8 +2099,7 @@
     </section>
 
     <section id="rebuild-challenges" aria-labelledby="rebuild-heading" data-route="rebuild">
-        <div class="section-label">Route 02 &middot; Bring your application and its challenges</div>
-        <h2 id="rebuild-heading" class="section-title display reveal">Rearchitect<br>/ rebuild</h2>
+        <h2 id="rebuild-heading" class="section-title display reveal">Rearchitect / rebuild</h2>
         <p class="section-desc reveal">
             One planning conversation produces the complete package. Review it, scope one slice,
             then start a separate implementation session. Allow two days for the route, not a whole-application rewrite.
@@ -2163,10 +2166,9 @@
     <section id="coach" class="coach-hidden">
         <div class="challenges-header">
             <div>
-                <div class="section-label" style="color:var(--amber);">Coach Access</div>
                 <h2 class="section-title display">Coach guide</h2>
             </div>
-            <p class="section-desc" style="max-width:380px;">
+            <p class="section-desc">
                 Facilitation notes, expected outputs, and common problems for each challenge.
                 Toggle with <kbd
                     style="font-family:var(--font-mono);font-size:.7em;padding:.15em .5em;border:1px solid var(--border-2);border-radius:3px;background:var(--surface);">Shift+C</kbd>.

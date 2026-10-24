@@ -141,6 +141,10 @@ links. Navigation provides shortcuts to the routes and demos rather than
 repeating the introduction. Keep sample-specific runtime and service details in
 their tracks rather than presenting them as requirements for both routes.
 
+All homepage sections use the shared shell's content width and gutters.
+Typography is sized by role: hero, section heading, card heading, body, and
+supporting text. Sections do not introduce their own heading or body scales.
+
 ## Open Decisions
 
 No product-specific accessibility standard or additional inclusion requirements
