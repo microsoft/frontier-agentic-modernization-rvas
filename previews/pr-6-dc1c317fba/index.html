@@ -150,129 +150,75 @@
             text-underline-offset: .15em;
         }
 
-        /* ─── About ─────────────────────────────────────────────────────── */
-        #about {
-            border-bottom: 1px solid var(--border);
-        }
-
-        .mission-header {
-            max-width: 960px;
-            margin-bottom: 3rem;
-        }
-
-        .mission-header .section-title {
-            line-height: 1.1;
-        }
-
-        .mission-header .section-desc {
-            max-width: 70ch;
-        }
-
-        .mission-paths {
+        /* ─── Getting started ───────────────────────────────────────────── */
+        .route-options {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 4rem;
+            gap: 3rem;
+            margin-top: 2rem;
         }
 
-        .mission-path {
+        .route-option {
             min-width: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+            padding-top: 1.75rem;
+            border-top: 1px solid var(--border-2);
         }
 
-        .mission-path h3 {
+        .route-option h3 {
             font-family: var(--font-display);
             font-size: clamp(1.5rem, 3vw, 2rem);
             line-height: 1.2;
             color: var(--route-color);
-            margin-bottom: .75rem;
         }
 
-        .mission-description,
-        .mission-path dd {
+        .route-option p {
             font-size: .95rem;
             line-height: 1.7;
             color: var(--text-2);
         }
 
-        .mission-workflow {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(min-content, 1fr));
-            gap: .5rem;
-            padding: 1.25rem .75rem;
-            margin: 1.5rem 0;
-            border-radius: var(--radius);
-            background: var(--route-tint);
-            list-style: none;
-            counter-reset: mission-step;
-        }
-
-        .mission-workflow li {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: .5rem;
+        .route-option .route-tool {
+            font-size: .875rem;
             color: var(--route-ink);
-            font-size: .8rem;
-            font-weight: 600;
-            line-height: 1.4;
-            text-align: center;
         }
 
-        .mission-workflow li::before {
-            counter-increment: mission-step;
-            content: counter(mission-step);
-            display: grid;
-            place-items: center;
-            width: 1.75rem;
-            height: 1.75rem;
-            border: 1px solid var(--route-color);
-            border-radius: 50%;
-            background: var(--route-tint);
-            z-index: 1;
-            font-variant-numeric: tabular-nums;
+        .route-actions {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: auto;
+            padding-top: .5rem;
         }
 
-        .mission-workflow li::after {
-            content: '';
-            position: absolute;
-            top: .875rem;
-            left: 0;
-            right: -.5rem;
-            height: 1px;
-            background: var(--route-color);
+        .route-actions .btn {
+            min-height: 44px;
         }
 
-        .mission-workflow li:first-child::after {
-            left: 50%;
+        .route-more {
+            display: inline-flex;
+            align-items: center;
+            min-height: 44px;
+            color: var(--route-ink);
+            font-size: .875rem;
+            text-decoration: underline;
+            text-underline-offset: .2em;
         }
 
-        .mission-workflow li:last-child::after {
-            right: 50%;
+        @media (max-width: 900px) {
+            .route-actions {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: .5rem;
+            }
         }
 
-        .mission-path dt {
-            margin-top: 1.5rem;
-            margin-bottom: .35rem;
-            font-size: .85rem;
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .mission-principle {
-            margin-top: 3rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border);
-            font-size: .95rem;
-            line-height: 1.7;
-            color: var(--text-2);
-        }
-
-        .mission-principle strong {
-            color: var(--color-deep-navy);
-        }
-
-        @media (max-width: 800px) {
-            .mission-paths {
+        @media (max-width: 700px) {
+            .route-options {
                 grid-template-columns: minmax(0, 1fr);
                 gap: 2.5rem;
             }
@@ -1102,15 +1048,6 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        #routes .challenges-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        #routes .card-top {
-            flex-wrap: wrap;
-            gap: .75rem;
-        }
-
         #rebuild-challenges > .section-desc {
             margin-bottom: 1.5rem;
         }
@@ -1123,11 +1060,6 @@
             overflow-wrap: anywhere;
         }
 
-        @media (max-width: 640px) {
-            #routes .challenges-grid {
-                grid-template-columns: minmax(0, 1fr);
-            }
-        }
     </style>
     <link rel="stylesheet" href="assets/css/brand.css" />
     <link rel="stylesheet" href="assets/css/shell.css" />
@@ -1162,6 +1094,11 @@
         #hero a:focus-visible {
             outline: 3px solid var(--color-white);
             outline-offset: 4px;
+        }
+
+        #routes,
+        #about {
+            scroll-margin-top: 74px;
         }
 
         #routes {
@@ -1320,7 +1257,6 @@
                 <img src="assets/img/logo-full.png" alt="RVAP" class="rvap-nav-logo" height="32">
             </a>
             <nav class="nav-links" id="navLinks" aria-label="Primary">
-                <a href="#routes">Choose your path</a>
                 <div class="path-nav" data-route="refactor">
                     <a href="#challenges">Replatform / refactor</a>
                     <details class="sample-nav" id="sampleNav">
@@ -1336,9 +1272,7 @@
                     </details>
                 </div>
                 <a href="#rebuild-challenges" data-route="rebuild">Rearchitect / rebuild</a>
-                <a href="#about">Mission</a>
-                <a href="#prerequisites">Setup</a>
-                <a href="#demos">Demo</a>
+                <a href="#demos">Demos</a>
                 <a class="gh" href="https://github.com/microsoft/frontier-agentic-modernization-rvas" target="_blank" rel="noopener">GitHub ↗</a>
             </nav>
             <div class="nav-actions">
@@ -1361,92 +1295,40 @@
                     Deliver a running upgrade or one validated end-to-end slice.
                 </p>
                 <div class="hero-actions">
-                    <a class="btn btn-primary" href="#routes">Choose your path <span aria-hidden="true">&darr;</span></a>
+                    <a class="btn btn-primary" href="#routes">Get started <span aria-hidden="true">&darr;</span></a>
                     <a class="btn btn-ghost" href="README.md" aria-haspopup="dialog" aria-controls="drawer">Read the briefing</a>
                 </div>
             </div>
         </section>
 
     <section id="routes" aria-labelledby="routes-heading">
-        <div class="section-label">Start with the change you need</div>
-        <h2 id="routes-heading" class="section-title display reveal">Choose your<br>modernization route.</h2>
-        <p class="section-desc reveal">
-            Choose by the intended change, not the programming language. A Java or .NET app can take either route.
+        <div id="about" aria-hidden="true"></div>
+        <h2 id="routes-heading" class="section-title display">Start with the change you need</h2>
+        <p class="section-desc">
+            A Java or .NET app can take either route. Discovery may recommend a smaller refactor.
         </p>
-        <div class="challenges-grid">
-            <a class="challenge-card half" href="#challenges" data-route="refactor">
-                <div class="card-top"><span class="card-phase-badge">Modernization CLI</span><span class="card-num mono">ROUTE 01</span></div>
-                <h3 class="card-title display">Replatform / refactor</h3>
-                <p class="card-desc">Move to managed Azure platforms and modernize existing code. Upgrade runtimes and dependencies while preserving core behavior. Bring your own app or learn with a sample.</p>
-                <div class="card-footer"><span class="card-tag">Modernization CLI</span><div class="card-arrow mono">Explore this path <span aria-hidden="true">&rarr;</span></div></div>
-            </a>
-            <a class="challenge-card half" href="#rebuild-challenges" data-route="rebuild">
-                <div class="card-top"><span class="card-phase-badge">Agentic Modernization plugin</span><span class="card-num mono">ROUTE 02</span></div>
-                <h3 class="card-title display">Rearchitect / rebuild</h3>
-                <p class="card-desc">Address business workflows, coupling, or architecture changes beyond a runtime upgrade. Recover behavior, compare strategies, then implement one reviewed end-to-end slice in your own repository.</p>
-                <div class="card-footer"><span class="card-tag">Architecture first</span><div class="card-arrow mono">Explore rebuilds <span aria-hidden="true">&rarr;</span></div></div>
-            </a>
-        </div>
-        <p class="section-desc" style="margin-top:1.5rem;">
-            These delivery paths group related <a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/plan/select-cloud-migration-strategy" target="_blank" rel="noopener">Microsoft R strategies</a>,
-            but do not cover every strategy. Choose a strategy per workload or component; architecture planning may recommend a smaller change instead of a rebuild.
-        </p>
-    </section>
-
-    <!-- About -->
-    <section id="about" aria-labelledby="mission-heading">
-        <div class="mission-header">
-            <h2 id="mission-heading" class="section-title display">What each route delivers</h2>
-            <p class="section-desc">
-                Understand your application, choose the change it needs, and use AI-assisted workflows
-                to deliver a validated outcome.
-            </p>
-        </div>
-        <div class="mission-paths">
-            <article class="mission-path" data-route="refactor" aria-labelledby="mission-refactor-heading">
-                <h3 id="mission-refactor-heading">Replatform / refactor</h3>
-                <p class="mission-description">
-                    Modernize the application you have while preserving the behavior your users rely on.
-                </p>
-                <ol class="mission-workflow" role="list" aria-label="Replatform / refactor workflow">
-                    <li>Assess</li>
-                    <li>Plan</li>
-                    <li>Modernize</li>
-                    <li>Validate</li>
-                </ol>
-                <dl>
-                    <dt>The work</dt>
-                    <dd>Assess blockers, plan upgrades, modernize code and dependencies, then deploy and validate.</dd>
-                    <dt>Tooling</dt>
-                    <dd>GitHub Copilot Modernization CLI</dd>
-                    <dt>Outcome</dt>
-                    <dd>A running modernized application, with evidence that required behavior is preserved.</dd>
-                </dl>
+        <div class="route-options">
+            <article class="route-option" data-route="refactor" aria-labelledby="refactor-heading">
+                <h3 id="refactor-heading">Replatform / refactor</h3>
+                <p>Upgrade runtimes and dependencies or move to managed Azure services while preserving core behavior.</p>
+                <p>Deliver a running modernized application with evidence that required behavior is preserved.</p>
+                <p class="route-tool">GitHub Copilot Modernization CLI</p>
+                <div class="route-actions">
+                    <a class="btn btn-primary" href="Student/customer/Challenge-00.md" aria-haspopup="dialog" aria-controls="drawer">Start an upgrade</a>
+                    <a class="route-more" href="#challenges">Explore sample tracks</a>
+                </div>
             </article>
-            <article class="mission-path" data-route="rebuild" aria-labelledby="mission-rebuild-heading">
-                <h3 id="mission-rebuild-heading">Rearchitect / rebuild</h3>
-                <p class="mission-description">
-                    Reshape the application around the business or architecture challenge you need to solve.
-                </p>
-                <ol class="mission-workflow" role="list" aria-label="Rearchitect / rebuild workflow">
-                    <li>Discover</li>
-                    <li>Review</li>
-                    <li>Build a slice</li>
-                    <li>Validate</li>
-                </ol>
-                <dl>
-                    <dt>The work</dt>
-                    <dd>Recover behavior, compare architecture options, review the plan, then implement and validate one bounded slice.</dd>
-                    <dt>Tooling</dt>
-                    <dd>Agentic Modernization plugin</dd>
-                    <dt>Outcome</dt>
-                    <dd>A reviewed architecture and one working end-to-end slice, with acceptance evidence. The scope is one slice, not the whole application.</dd>
-                </dl>
+            <article class="route-option" data-route="rebuild" aria-labelledby="rebuild-route-heading">
+                <h3 id="rebuild-route-heading">Rearchitect / rebuild</h3>
+                <p>Change business workflows or architecture when a runtime upgrade alone is not enough.</p>
+                <p>Deliver a reviewed architecture and one validated end-to-end slice, not a whole-application rewrite.</p>
+                <p class="route-tool">Agentic Modernization plugin</p>
+                <div class="route-actions">
+                    <a class="btn btn-primary" href="Student/rebuild/Challenge-00.md" aria-haspopup="dialog" aria-controls="drawer">Start a rebuild</a>
+                    <a class="route-more" href="#rebuild-challenges">View rebuild milestones</a>
+                </div>
             </article>
         </div>
-        <p class="mission-principle">
-            Support the result with observable evidence on either route.
-        </p>
     </section>
 
     <!-- Prerequisites -->
