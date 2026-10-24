@@ -134,10 +134,12 @@ are not evidence of customer outcomes or guaranteed modernization results.
 5. Favor technically credible, reusable delivery guidance over unsupported
    claims.
 
-The website's mission brief presents both routes with equal weight: their work,
-tooling, and distinct success criteria, united by observable acceptance evidence.
-Keep sample-specific runtime and service details in their tracks rather than
-presenting them as requirements for both routes.
+The homepage compares the two routes once, with equal weight for their purpose,
+tooling, and distinct outcomes. Each route links directly to its first customer
+challenge, with sample tracks and rebuild milestones available as secondary
+links. Navigation provides shortcuts to the routes and demos rather than
+repeating the introduction. Keep sample-specific runtime and service details in
+their tracks rather than presenting them as requirements for both routes.
 
 ## Open Decisions
 
