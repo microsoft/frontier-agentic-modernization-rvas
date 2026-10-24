@@ -1,6 +1,6 @@
 # Deploy PhotoAlbum (Legacy Java) to Azure VM
 
-Use the Terraform configuration and Bash setup script in this folder to deploy the **PhotoAlbum** Spring Boot 2.7 / Java 8 / Oracle application to an Ubuntu 22.04 Virtual Machine — the "before" state of the modernization journey.
+Deploy the **PhotoAlbum** Spring Boot 2.7 / Java 8 / Oracle application to an Ubuntu 22.04 VM with the Terraform configuration and Bash setup script in this folder. This is the "before" state for modernization.
 
 ## What Gets Deployed
 
@@ -33,9 +33,9 @@ cp terraform.tfvars.example terraform.tfvars
 ```
 
 Edit `terraform.tfvars` and set:
-- `admin_password` — a strong password (12+ chars, upper+lower+digit+special, no underscores)
+- `admin_password` — a strong password with at least 12 characters, including uppercase and lowercase letters, a digit, and a special character; no underscores
 
-> **Note:** At `terraform apply` time, Terraform calls `https://api.ipify.org` to detect your outbound public IP and automatically scopes the NSG SSH rule to that address. If your IP changes (e.g. after a network switch), re-run `terraform apply` to update the rule.
+> **Note:** During `terraform apply`, Terraform calls `https://api.ipify.org` to detect your outbound public IP and restricts the NSG SSH rule to that address. If your IP changes (e.g. after a network switch), re-run `terraform apply` to update the rule.
 
 ### 2. Initialise and apply
 
@@ -74,7 +74,7 @@ sudo docker compose -f /opt/photoalbum/docker-compose.yml ps
 sudo docker compose -f /opt/photoalbum/docker-compose.yml logs -f photoalbum-java-app
 ```
 
-Then open a browser and navigate to `http://<public-ip>:8080`.
+Then open `http://<public-ip>:8080` in a browser.
 
 You should see the PhotoAlbum gallery page ready to accept photo uploads.
 
@@ -93,7 +93,7 @@ cat /var/log/cloud-init-output.log
 
 ### Oracle container is unhealthy
 
-Oracle XE/Free performs a lengthy first-time initialisation that can take up to 5 minutes. The Spring Boot app is configured to wait (`depends_on` with health check). You can monitor Oracle progress:
+Oracle XE/Free can take up to 5 minutes to initialise on first run. The Spring Boot app waits for it (`depends_on` with health check). Monitor Oracle's progress:
 
 ```bash
 sudo docker compose -f /opt/photoalbum/docker-compose.yml logs oracle-db

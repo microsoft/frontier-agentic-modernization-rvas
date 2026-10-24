@@ -4,15 +4,15 @@
 
 ## Purpose
 
-This challenge gives attendees hands-on experience using `modernize plan create` and `modernize plan execute` to automate the Spring Boot 2→3 and Java 8→25 migration, and to replace Oracle and in-DB BLOB storage with Azure-native alternatives.
+Attendees use `modernize plan create` and `modernize plan execute` to automate the Spring Boot 2→3 and Java 8→25 migration and replace Oracle and in-DB BLOB storage with Azure-native alternatives.
 
 ## Mini-Lecture (10 min before challenge)
 
 Cover:
 - How `modernize plan create` works: it analyses the assessment output and generates a structured migration plan with discrete tasks
 - How `modernize plan execute` works: it applies each task in the plan, using Copilot to generate code changes
-- The human-in-the-loop role: the tool automates the mechanical parts, but attendees must review and fix what the tool cannot handle automatically
-- The `javax.*` → `jakarta.*` namespace change is one of the most impactful Spring Boot 3 changes
+- Attendees must review automated changes and fix what the tool cannot handle
+- The `javax.*` → `jakarta.*` namespace change in Spring Boot 3
 
 ## Suggested `modernize plan create` Goal
 
@@ -57,7 +57,7 @@ photo storage from Oracle BLOBs to Azure Blob Storage
 
 ## Success Criteria Notes
 
-- `mvn clean package` must succeed — this is binary (pass/fail)
+- `mvn clean package` must succeed
 - Functional verification happens after deployment to Azure in Challenge 03 — there is no local PostgreSQL container (PostgreSQL runs on Azure)
 - A fresh assessment on the updated codebase should show no remaining **mandatory blockers** for the Spring Boot 2→3 / Java 8→25 migration — potential and optional issues are acceptable
 - Remind teams **not** to modify `docker-compose.yml` — the Oracle container must stay intact for the data migration in Challenge 04

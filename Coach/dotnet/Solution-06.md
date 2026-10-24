@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This is the **stretch AI-infusion challenge** for the .NET track (optional, attempt only if the team finishes Challenge 05 with time to spare). The team takes the modernized application and adds an Azure OpenAI vision call into the course-authoring flow. End-to-end: Terraform (Azure OpenAI account + model deployment + RBAC), .NET service code (`Azure.AI.OpenAI`, `DefaultAzureCredential`, structured JSON), Razor view updates, and verification in Azure.
+Attempt this optional challenge only after completing Challenge 05 with time to spare. Teams add an Azure OpenAI vision call to the modernized course-authoring flow. The work covers Terraform (Azure OpenAI account, model deployment, and RBAC), .NET service code (`Azure.AI.OpenAI`, `DefaultAzureCredential`, structured JSON), Razor updates, and verification in Azure.
 
 A working reference implementation lives under `Coach/Solutions/dotnet/dotnet-migration-copilot-samples/ContosoUniversity/` and `Coach/Solutions/dotnet/infra/`. Use it to diff against student work, not as a hand-out.
 
@@ -12,11 +12,11 @@ A working reference implementation lives under `Coach/Solutions/dotnet/dotnet-mi
 
 Cover:
 
-- **Why Managed Identity beats API keys** for Azure OpenAI: no secrets in env vars, role-based revocation, audit trail.
+- **Managed Identity for Azure OpenAI**: no secrets in environment variables, role-based revocation, audit trail.
 - **Vision chat completions structure**: `messages[]` with two content parts — `text` (the prompt/instructions) and `image_url` (a base64 `data:` URI built from the just-uploaded blob bytes).
 - **Structured outputs** via `ChatResponseFormat.CreateJsonObjectFormat()` and an explicit JSON schema described in the system prompt. Why JSON mode prevents parse errors when the model wants to add prose.
 - **Graceful degradation**: the AI call is a non-essential side effect — the upload must succeed regardless. The AI service returns `null` on failure; the controller continues without prefilling.
-- **Cost & model choice rationale**: `gpt-4.1-mini` is vision-capable, cheap, and quick — good for a hack. Mention the regions where it is available (e.g. Sweden Central, East US 2 at time of writing).
+- **Cost and model choice**: `gpt-4.1-mini` supports vision and is cheap and quick. Mention available regions (e.g. Sweden Central, East US 2 at time of writing).
 
 ## Pinned SDK & model versions
 
@@ -164,7 +164,7 @@ Award full credit when all five conditions hold:
 4. Uploading a course image visibly prefills the Review panel with description + ≥3 objectives + alt text.
 5. Killing the Azure OpenAI account (or temporarily removing the role) still allows the admin to save a course — only the AI fields are missing.
 
-Partial credit is fine for time-boxed teams — the priority is **Managed Identity + a working vision call + graceful degradation**. The Regenerate button is nice-to-have.
+Allow partial credit when time is limited. Prioritize Managed Identity, a working vision call, and graceful degradation. The Regenerate button is optional.
 
 ## Time budget
 

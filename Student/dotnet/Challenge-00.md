@@ -1,18 +1,18 @@
 **[Home](../../README.md)** — [Next Challenge >](./Challenge-01.md)
 
-# Challenge 00 — Prerequisites: Ready, Set, GO! (.NET Track)
+# Challenge 00 — Prerequisites (.NET Track)
 
 ## Introduction
 
-Before starting the **.NET track**, set up a working local environment with all required tools installed and authenticated. Everyone on your team needs this baseline.
+Before starting the **.NET track**, everyone on your team must install and authenticate the required tools.
 
-The repository uses **Git submodules** to include the sample applications. You must initialise the submodules before the source code of the legacy apps is available on your machine.
+The sample applications are **Git submodules**. Initialise them to download the legacy source code.
 
 If you prefer a container-based environment, open the repository in VS Code with the Dev Containers extension. The **Dev Container** definition (`.devcontainer/`) pre-installs most dependencies inside a Docker container.
 
 ## Description
 
-Set up your local development environment so you are ready to work with the .NET sample application:
+Set up your environment for the .NET sample application:
 
 - Install and verify all required tools listed in the [Prerequisites](../../README.md#prerequisites) section of the hack README
 - Clone the repository **with submodules** so that `Student/Resources/dotnet/dotnet-migration-copilot-samples/` is populated
@@ -46,9 +46,9 @@ modernize --version  # confirm the CLI is on your PATH
 
 ### Optional: Deploy the Legacy .NET Application to an Azure VM
 
-The provided Terraform configuration provisions and automatically configures a dedicated Azure VM so you can run the application in its **original, unmodified state** before modernization.
+The provided Terraform configuration creates and configures a dedicated Azure VM to run the application in its **original, unmodified state**.
 
-We recommend this step to give your team a concrete "before" picture and validate that the original app works end-to-end.
+We recommend this step to establish a "before" picture and validate that the original app works end-to-end.
 
 **.NET app (ContosoUniversity — Windows Server + IIS + SQL Express + MSMQ):**
 - Follow the steps in [`../Resources/dotnet/infra/README.md`](../Resources/dotnet/infra/README.md)

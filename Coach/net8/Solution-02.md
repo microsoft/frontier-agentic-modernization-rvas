@@ -4,10 +4,10 @@
 
 ## Purpose
 
-This is the most technically demanding challenge in the net8 track. Focus on:
-1. How Central Package Management simplifies (and amplifies) a Target Framework Moniker migration
+This is the net8 track's most technically demanding challenge. Focus on:
+1. How Central Package Management simplifies a Target Framework Moniker migration while increasing the impact of version errors
 2. The Swashbuckle → `Microsoft.AspNetCore.OpenApi` transition
-3. Incremental build-fix cycles as a best practice
+3. Building and fixing errors incrementally
 
 ## Suggested `modernize plan create` Goal
 
@@ -91,7 +91,7 @@ app.MapScalarApiReference(); // requires Scalar.AspNetCore
 
 ## Success Criteria Notes
 
-- `dotnet build eShopOnWeb.sln` with zero errors is the binary pass/fail bar
+- `dotnet build eShopOnWeb.sln` must finish with zero errors
 - Teams running low on time: BlazorAdmin not loading is acceptable if Web + PublicApi both work — mark as stretch
 - Swashbuckle removal verification: `grep -r Swashbuckle src/` returning empty is the clean pass
 

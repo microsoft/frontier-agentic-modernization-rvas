@@ -1,18 +1,18 @@
 **[Home](../../README.md)** — [Next Challenge >](./Challenge-01.md)
 
-# Challenge 00 — Prerequisites: Ready, Set, GO! (.NET 8 → .NET 10 Track)
+# Challenge 00 — Prerequisites (.NET 8 → .NET 10 Track)
 
 ## Introduction
 
-Before starting the **.NET 8 → .NET 10 track**, set up a working local environment with all required tools installed and authenticated. Everyone on your team needs this baseline.
+Before starting the **.NET 8 → .NET 10 track**, everyone on your team must install and authenticate the required tools.
 
-The repository uses **Git submodules** to include the eShopOnWeb sample application. You must initialise the submodule before the source code is available on your machine.
+The eShopOnWeb sample application is a **Git submodule**. Initialise it to download the source code.
 
 If you prefer a container-based environment, open the repository in VS Code with the Dev Containers extension. The **Dev Container** definition (`.devcontainer/`) pre-installs most dependencies inside a Docker container.
 
 ## Description
 
-Set up your local development environment so you are ready to work with the eShopOnWeb sample application:
+Set up your environment for the eShopOnWeb sample application:
 
 - Install and verify all required tools listed in the [Prerequisites](../../README.md#prerequisites) section of the hack README
 - Clone the repository **with submodules** so that `Student/Resources/net8/eShopOnWeb/` is populated

@@ -1,7 +1,7 @@
 # Agentic Modernization plugin
 
-For existing applications whose challenges go beyond an isolated runtime upgrade.
-Use the [participant setup guide](../../Student/rebuild/setup.md) in the
+Use this plugin for changes to existing applications that go beyond a runtime upgrade.
+Follow the [participant setup guide](../../Student/rebuild/setup.md) in the
 **application repository**, not this tooling repository.
 
 | Skill | Scope | End state |
@@ -16,29 +16,29 @@ Planning produces `assessment.md`, `specification.md`, `strategy-matrix.md`,
 An existing UI can also require `PRODUCT.md`, `DESIGN.md`, and
 `.impeccable/design.json`. Framework replacement does not authorize UI redesign.
 
-Baseline confirmation and target selection are decision gates. Final package
-acceptance is only a gate when requested by the user or their governance process.
-Planning completion, acceptance, or "continue" does not invoke implementation.
-The user starts `azure-app-rebuild` separately with a bounded scope.
+Confirm the baseline and choose a target before proceeding. Final package
+acceptance is required only when the user or their governance process requests it.
+Completing or accepting the plan, or saying "continue", does not start implementation.
+Start `azure-app-rebuild` separately with a defined scope.
 
-In the participant route, Challenge 01 covers the full interactive planning
-workflow and complete package handoff. Challenge 02 reviews and corrects that
-output; Challenge 03 prepares a bounded implementation handoff. These are not
-three separate document-generation invocations.
+Challenge 01 covers the full planning workflow and package handoff.
+Challenge 02 reviews and corrects that output; Challenge 03 prepares the
+implementation handoff. Do not run planning three times to generate separate
+parts of the package.
 
 The bundled Microsoft Learn MCP server retrieves public documentation; it grants
 no Azure access. Supporting skills are installed separately from their public
 upstream repositories. See the [profile inventory](../../scripts/supporting-skills.json)
 and [generated commands](../../Student/rebuild/supporting-skills.md).
-Missing tools, pricing evidence, rendering, or independent review must be reported
-honestly; installation is not evidence that those operations succeeded.
+Report missing tools, pricing evidence, rendering, or independent review.
+Installation alone does not show that these operations succeeded.
 
 The [source snapshot](source-snapshot.json) records the planning and diagram origins.
 The diagram skill is bundled for distribution with its scripts, assets, tests,
 and [source/asset terms](skills/cloud-architecture-diagram/references/REFERENCE.md).
 The repository MIT license does not replace those asset terms. Other upstream
-supporting skills are not bundled. Evaluation fixtures are synthetic, coach/maintainer
-test inputs, not substitutes for the customer application.
+supporting skills are not bundled. Evaluation fixtures are synthetic test inputs
+for coaches and maintainers, not substitutes for the customer application.
 
 Maintainers: see [Contributing](../../CONTRIBUTING.md). Do not copy the
 accelerator's installed third-party skills or ignored evaluation workspaces here.

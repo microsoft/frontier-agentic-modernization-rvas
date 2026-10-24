@@ -8,10 +8,10 @@ With eShopOnWeb running on .NET 10, replace its remaining local infrastructure d
 
 Address two gaps before deployment:
 
-1. **Product images**: currently embedded in the project. These need to move to **Azure Blob Storage** so the stateless container can serve them via SAS URLs.
-2. **Order events**: checkout currently creates orders synchronously with no downstream notification. Add an **Azure Service Bus** message published on every successful order so downstream services can subscribe asynchronously.
+1. **Product images**: move them from the project to **Azure Blob Storage** so the stateless container can serve them via SAS URLs.
+2. **Order events**: checkout creates orders synchronously with no downstream notification. Publish an **Azure Service Bus** message on every successful order so downstream services can subscribe asynchronously.
 
-The `Student/Resources/net8/infra/` directory contains a skeleton Terraform configuration. Your task is to complete it and deploy.
+Complete the skeleton Terraform configuration in `Student/Resources/net8/infra/` and deploy.
 
 ## Description
 

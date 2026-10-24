@@ -16,7 +16,7 @@ Cover:
 
 ## Terraform Resource Checklist – .NET
 
-A valid Terraform deployment for the .NET track must provision at minimum:
+The .NET deployment must provision at least these resources:
 
 | Resource | Terraform resource type |
 |---|---|
@@ -57,8 +57,8 @@ ca-contoso-<team>
 
 ## Success Criteria Notes
 
-- `terraform apply` completing without error is binary
+- `terraform apply` must complete without error
 - The app must respond to HTTP requests via the Container Apps FQDN
 - Uploading a teaching material must store it in Blob Storage (not in-container filesystem)
 - Sending a notification must enqueue a message in Azure Service Bus (verify in portal or CLI)
-- Basic SQL data persistence across restarts verifies the managed database is wired correctly
+- Verify that SQL data persists across restarts

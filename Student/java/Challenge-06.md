@@ -14,9 +14,9 @@ The application calls **Azure OpenAI `gpt-4.1-mini` (vision)** using **Managed I
 
 ## Description
 
-Extend PhotoAlbum end-to-end with vision-assisted metadata. Use a clear prompt to have **GitHub Copilot** generate and execute an implementation plan, rather than following a prescribed implementation.
+Ask **GitHub Copilot** to plan and implement vision-assisted metadata across PhotoAlbum.
 
-Start by asking Copilot to inspect the workspace and produce a plan. A good starting prompt looks like this:
+Start with a prompt such as:
 
 ```text
 Infuse Azure OpenAI vision into the PhotoAlbum Spring Boot app. Inspect the
@@ -35,7 +35,7 @@ Hard requirements:
 3. The AI call must not be critical: a failure must never block a photo upload.
 ```
 
-Review the generated plan with your team before executing it. Discuss the infrastructure changes needed (Azure OpenAI resource, role assignment, Container App configuration) and the application changes (new service layer, entity fields, UI updates). Once you're satisfied, ask Copilot to execute the plan.
+Review the plan with your team. Check the infrastructure changes (Azure OpenAI resource, role assignment, Container App configuration) and application changes (new service layer, entity fields, UI updates). Once you're satisfied, ask Copilot to execute the plan.
 
 ## Success Criteria
 
@@ -61,5 +61,5 @@ To complete this challenge, demonstrate:
 ## Tips
 
 - State the feature requirements and hard constraints clearly so Copilot can produce a better plan. Refine the prompt if the initial plan misses something.
-- When reviewing the plan, pay attention to how Copilot proposes to handle the AI call failure case. The upload flow must remain resilient.
-- The AI enrichment runs at upload time, but you may also want to consider a way to re-analyze existing photos that were uploaded before the feature was added.
+- Check how the plan handles AI call failures. They must not block uploads.
+- AI enrichment runs at upload time. Consider how to re-analyze photos uploaded before the feature was added.

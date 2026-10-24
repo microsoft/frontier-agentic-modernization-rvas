@@ -2,8 +2,8 @@
 
 # Coach Troubleshooting Guide
 
-Track-specific pitfalls stay in each challenge's own coach notes. This page is for issues that
-can show up in **any** track, or that need a longer fix than fits inline.
+Use this page for cross-track issues and detailed fixes. Track-specific pitfalls
+are in each challenge's coach notes.
 
 ---
 
@@ -50,9 +50,8 @@ az provider register --namespace Microsoft.Network
 terraform apply
 ```
 
-**Workaround (no time to wait for registration):** If a team is blocked, skip the optional VM
-deployment in Challenge 00 — it isn't required for the core modernization track — and revisit
-it later once the feature is registered.
+**Workaround:** Skip the optional VM deployment in Challenge 00 if registration would
+block progress. The core modernization track does not require it. Retry after registration.
 
 ---
 
@@ -103,4 +102,4 @@ this is a device/network policy difference, not a bug in `modernize` or AppCat i
 
 ---
 
-*Found a new cross-cutting issue during an event? Add it to this file so future coaches benefit.*
+Add new cross-track issues and fixes here.

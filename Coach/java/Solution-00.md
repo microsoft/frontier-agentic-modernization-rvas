@@ -16,7 +16,7 @@ Briefly explain:
 ## Common Issues and Hints
 
 ### Submodule folder is empty
-The most common issue. After cloning, attendees must run:
+After cloning, attendees must run:
 ```bash
 git submodule update --init --recursive
 ```

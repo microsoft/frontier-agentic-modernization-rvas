@@ -5,10 +5,10 @@
 
 ## Event overview and agenda
 
-This route is architecture-first work on a real customer-owned application.
-Do not teach it as "the CLI upgrade workflow with a different app". The customer
-brings a business/architectural challenge; a rebuild is a possible strategy, not
-a foregone conclusion. Java/.NET are not prerequisites.
+Use this route for architecture-first work on a customer-owned application.
+Do not teach it as "the CLI upgrade workflow with a different app". Start with
+the customer's business or architectural challenge; do not assume it needs a
+rebuild. Java/.NET are not prerequisites.
 
 Use two days for all seven milestones. Suggested active challenge time is
 525 minutes, including package/implementation review challenges, plus breaks,
@@ -45,7 +45,7 @@ invalid; ownership and authorized use matter, not repository visibility.
 
 ## Challenge 01: Complete discovery and planning (150 minutes)
 
-The team starts `azure-app-modernization` once. Its analysis, interview rounds,
+Start `azure-app-modernization` once. Its analysis, interview rounds,
 baseline confirmation, strategy comparison/selection, and eight-document package
 are one interactive workflow. Documents can appear progressively; do not ask
 teams to stop after assessment or invoke the skill again for each document.
@@ -67,14 +67,14 @@ even when the original request said "implement".
 
 ## Challenge 02: Review and challenge the package (45 minutes)
 
-Review the already generated package, not another generation stage. Trace a
+Review the generated package; do not generate it again. Trace a
 critical journey from source through requirements, architecture, and migration
 waves. Challenge unjustified microservices, Kubernetes, engine swaps, or UI
 redesign. Check lower-change options, official target evidence, cost assumptions,
 write ownership, coexistence, and recovery.
 
-A concrete pricing-tool blocker is an honest limitation; skipping the pricing
-attempt is not. Request targeted corrections in the existing planning workflow
+Record specific pricing-tool blockers, but do not skip the pricing attempt.
+Request targeted corrections in the existing planning workflow
 and reconcile affected artifacts. Reopen only material decisions affected by new
 evidence, with their owners, rather than restarting discovery unnecessarily.
 Record the reviewed revision and each finding's disposition/owner.
@@ -92,11 +92,11 @@ Check the existing safe build/test baseline, fixtures, tools, access, and
 pre-existing failures. A planning evidence gap can become a delivery blocker.
 Do not fix code or provision resources as a readiness shortcut.
 
-Require a handoff that another team member can understand without guessing:
+Require a handoff another team member can use without guessing:
 package revision, selected slice, acceptance/validation evidence, prerequisites,
 UI/domain authority, delivery owner, and excluded actions. Keep unresolved
-blockers visible. No new document-generation phase or automatic implementation
-is needed here.
+blockers visible. Do not start another document-generation phase or implement
+automatically.
 
 Challenge 04 starts a separate delivery session with `azure-app-rebuild`.
 
