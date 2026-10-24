@@ -97,7 +97,7 @@ class IntegrationTests(unittest.TestCase):
                 minutes = int(re.search(r"\*\*Estimated Time:\*\* (\d+) minutes", text)[1])
                 total_minutes += minutes
                 card = re.search(
-                    rf'<a\b[^>]*href="{re.escape(str(path.relative_to(ROOT)))}"[^>]*>(.*?)</a>',
+                    rf'<a\b[^>]*class="[^"]*\bchallenge-card\b[^"]*"[^>]*href="{re.escape(str(path.relative_to(ROOT)))}"[^>]*>(.*?)</a>',
                     html, re.S,
                 )[1]
                 self.assertIn(f"{minutes} min &middot;", card)

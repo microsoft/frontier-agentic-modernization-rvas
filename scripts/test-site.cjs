@@ -168,6 +168,21 @@ test('sample navigation dismisses outside, restores focus on Escape, and resets 
     assert.equal(nav.primary.classList.contains('open'), false);
 });
 
+test('homepage route actions open the first customer challenge directly', async () => {
+    const routes = html.match(/<section id="routes"[^>]*>([\s\S]*?)<\/section>/)[1];
+    const starts = [...routes.matchAll(/<a class="btn btn-primary" href="([^"]+)"/g)]
+        .map(match => match[1]);
+    assert.deepEqual(starts, ['Student/customer/Challenge-00.md', 'Student/rebuild/Challenge-00.md']);
+    const site = workspace();
+    for (const file of starts) {
+        assert.equal(site.clickDocument(file), true);
+        await site.settle();
+        assert.equal(site.current(), file);
+        assert.match(site.content.innerHTML, /# Challenge 00/);
+        assert.doesNotMatch(site.content.innerHTML, /Failed to load/);
+    }
+});
+
 test('all seven rebuild milestones navigate without crossing into the CLI route', async () => {
     const site = workspace();
     await site.open('Student/rebuild/Challenge-00.md');
