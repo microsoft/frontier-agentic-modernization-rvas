@@ -131,6 +131,17 @@ It prompts for the password; do not put it on the command line. `-C` trusts the 
 
 **This is a second, required deployment.** The Coach stack provisions Container Apps, Azure SQL, Service Bus, private Blob Storage, Key Vault, Log Analytics, Azure OpenAI, and the pre-built modern app. Student VM/DMS outputs do not mean the Coach app is deployed. Reuse original state/variables if it already exists.
 
+On the **presenter machine**, install **go-sqlcmd** before applying this stack:
+
+```powershell
+winget install --id Microsoft.Sqlcmd --exact
+```
+
+Reopen PowerShell 7 if installation changed PATH. Check `sqlcmd --version` and
+that `sqlcmd --help` lists `--authentication-method`; the older ODBC sqlcmd does
+not support this option. The SQL-user provisioner uses `pwsh` and
+`ActiveDirectoryDefault`; keep Azure CLI signed in as the deploying identity.
+
 ```powershell
 Set-Location "$env:REPO_ROOT\Coach\Solutions\dotnet\infra"
 if (-not (Test-Path terraform.tfvars)) {
@@ -161,6 +172,12 @@ terraform "-chdir=$acaInfra" output -raw resource_group_name
 ```
 
 If outputs are missing, check `terraform workspace show` and `terraform state list` against the original directory/backend. Do not substitute the Student resource group or blindly refresh/redeploy from empty state.
+
+If an earlier apply failed with `exec: "/bin/bash": executable file not found`,
+use the updated Coach infrastructure files, including `setup-sql-user.ps1`,
+in the **original deployment directory**. Install go-sqlcmd as above, then run
+`terraform plan` and `terraform apply` with the same state and variables. Review
+the plan before applying; do not destroy the resources already created.
 
 **Two databases:** Student/DMS and Coach/app create separate Azure SQL databases. The live migration targets the **Student** database; cutover points the Container App at it.
 
