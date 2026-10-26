@@ -55,9 +55,25 @@ terraform output
 
 Record the outputs in the quick reference below. The VM Run Commands install the app and prepare SQL Express for DMS on TCP **1433**.
 
+### Open the legacy app in your browser first
+
+Before connecting over RDP or setting up SSMS, open the deployed app from the
+**presenter machine**, in the same PowerShell terminal:
+
+```powershell
+$legacyUrl = terraform output -raw app_url
+Start-Process $legacyUrl
+```
+
+Confirm the ContosoUniversity home page loads, then visit **Students**,
+**Courses**, and **Departments** to initialize the database and check the pages
+load. If any page fails, resolve the app startup issue before continuing to A2.
+
 ## A2 - Stage the Legacy App and SSMS
 
-Connect using `rdp_command` and your VM credentials. Open the VM's `app_url`; visit **Students**, **Courses**, and **Departments** to initialize the database. Create a recognizable student, upload a teaching-material image to an existing course, and leave both ready to show.
+In the browser, create a recognizable student, upload a teaching-material image
+to an existing course, and leave both ready to show. Then connect using
+`rdp_command` and your VM credentials.
 
 Copy `C:\inetpub\wwwroot\ContosoUniversity\Uploads\TeachingMaterials` from the VM to `$HOME\contoso-demo-materials` on the presenter machine. Preserve filenames for the later Blob Storage upload.
 
