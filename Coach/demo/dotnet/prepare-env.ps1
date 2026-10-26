@@ -8,6 +8,9 @@
 
 & {
     $ErrorActionPreference = 'Stop'
+    if ($PSVersionTable.PSVersion.Major -lt 7) {
+        throw "This helper requires PowerShell 7; this terminal is running $($PSVersionTable.PSVersion). Run pwsh, then dot-source the helper again in that terminal. Do not redeploy Terraform resources."
+    }
     'MIGRATION_SQL_HOST', 'ACA_RG', 'ACA_APP', 'APP_IDENTITY_NAME', 'APP_CLIENT_ID', 'BLOB_ACCOUNT' |
         ForEach-Object { Remove-Item "Env:$_" -ErrorAction SilentlyContinue }
 
@@ -24,11 +27,6 @@
         param([string] $Directory, [string] $Name)
         try {
             $json = Invoke-ContosoCommand terraform @("-chdir=$Directory", 'output', '-json', $Name)
-            $value = ConvertFrom-Json -InputObject $json -NoEnumerate
-            if ($value -isnot [string] -or [string]::IsNullOrEmpty($value) -or $value -match '[\s\p{Cc}]') {
-                throw 'Expected a nonempty Terraform string output without whitespace.'
-            }
-            return $value
         }
         catch {
             throw @"
@@ -41,6 +39,16 @@ If not deployed, complete A1 (Student) and A3 (Coach) first.
 $($_.Exception.Message)
 "@
         }
+        try {
+            $value = ConvertFrom-Json -InputObject $json -NoEnumerate
+        }
+        catch {
+            throw "Cannot parse JSON for Terraform output `"$Name`" from ${Directory}: $($_.Exception.Message)"
+        }
+        if ($value -isnot [string] -or [string]::IsNullOrEmpty($value) -or $value -match '[\s\p{Cc}]') {
+            throw "Terraform output `"$Name`" from $Directory must be a nonempty JSON string without whitespace."
+        }
+        return $value
     }
 
     foreach ($tool in 'terraform', 'az') {
