@@ -28,17 +28,6 @@ Start with the package, handoff, review results, and infrastructure files:
 Prepare the reviewed rebuild slice for Azure deployment. Read
 docs/modernization/delivery-slice.md, target-architecture.md, cost-estimate.md,
 migration-plan.md, and the provided infrastructure/runbook at [path, revision].
-
-Build, test, and run the app locally with sanitized data. Exercise the agreed
-journey and relevant failure paths. Compare app requirements with the provided
-infrastructure: artifact/runtime, startup command, ports, health probes, config
-names, identity/roles, data services, networking, and infrastructure outputs.
-
-Fix in-scope application packaging/configuration mismatches and rerun checks.
-If the infrastructure contradicts the selected target, report the mismatch for
-a targeted correction rather than inventing another platform. Show exact
-deployment commands, parameters, cost implications, and recovery limits from
-the runbook. Do not execute cloud changes until we confirm the environment.
 ```
 
 Use coach-provided infrastructure for the selected target, not the Java/.NET
@@ -54,32 +43,7 @@ Deploy this reviewed slice using the provided infrastructure and runbook.
 Authorized scope: subscription [ID], resource group [name], region [region],
 non-production environment [name]. Use parameters [reviewed file/path] and
 artifact [revision/tag]. Execute only the reviewed commands for that scope.
-
-Use the selected architecture's identity and secret-handling approach. Do not
-embed credentials in source or logs, alter unrelated resources, or migrate
-production data. Record actual command results and deployed artifact revision.
-If a command fails, diagnose it and propose the smallest correction; do not
-switch platforms or widen permissions to make deployment pass.
 ```
-
-### Verify the deployed journey and hand off
-
-```text
-Verify the deployed slice at [Azure endpoint]. Check health/readiness, the
-critical business journey, relevant denied/error paths, data persistence,
-service connectivity, and telemetry with sanitized data.
-Show actual request/test output and relevant logs without exposing secrets.
-Demonstrate the runbook's non-production rollback/recovery check where safe;
-distinguish routing rollback from reconciling target-only writes.
-
-Record endpoint, artifact revision, environment, acceptance evidence, review
-dispositions, cost assumptions, known limits, remaining waves, and operations
-owner. State the exact cleanup procedure and owner; do not delete resources
-without a separate explicit request.
-```
-
-Completion requires a live non-production deployment, not a tabletop exercise.
-Production cutover and data migration are out of scope.
 
 ## Success Criteria
 

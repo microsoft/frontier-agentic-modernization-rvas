@@ -22,23 +22,10 @@ what is missing.
 In Copilot CLI, run:
 
 ```text
-/review
-```
-
-Include the full slice diff, even if already committed. Then check specification
-coverage with this prompt:
-
-```text
-Review the implemented slice against docs/modernization/delivery-slice.md,
+/review the implemented slice against docs/modernization/delivery-slice.md,
 the reviewed specification and architecture, and [framework spec/tickets/tasks,
 if used]. Cover the full slice diff from [base revision] to [current revision],
 plus uncommitted changes, not just the last edit.
-
-Trace every acceptance ID to code, actual test output, and the running journey.
-Find missing business rules, permissions, failure handling, compatibility,
-data/UI behavior, and integration work. Do not count mocks or scaffolding as a
-working capability. Return findings with requirement IDs, evidence, and impact.
-Keep this review read-only; identify checks that could not run.
 ```
 
 If `/review` is unavailable in VS Code, use code review and a separate read-only
