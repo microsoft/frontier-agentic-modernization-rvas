@@ -61,6 +61,23 @@ Keep application code unchanged.
 - [ ] Diagram reviews distinguish structural, rendered, and independent checks.
 - [ ] Corrections are consistent across files; the reviewed revision and unresolved findings have named owners. Obtain formal acceptance only if required.
 
+## Hints
+
+<details><summary>Hint 1: Follow one journey across the package</summary>
+Trace source evidence through requirements, architecture responsibilities,
+migration waves, and validation to find gaps.
+</details>
+
+<details><summary>Hint 2: Challenge complexity</summary>
+Compare the selected target with a lower-change option and check whether the
+extra services address an evidenced need.
+</details>
+
+<details><summary>Hint 3: Reconcile corrections</summary>
+Return agreed findings to the planning conversation and update affected files
+together. Keep application code unchanged.
+</details>
+
 ## Learning Resources
 
 - [Azure Architecture Center](https://learn.microsoft.com/azure/architecture/)

@@ -26,6 +26,17 @@ Choose a smaller app if necessary rather than quietly dropping functionality.
 Write a short brief: what the app does, why you want to rebuild it, its users
 and workflows, integrations and data, what must stay or change, and who decides.
 Include any reasons to change the stack, but leave the target choice to planning.
+Use this prompt to structure the brief:
+
+```text
+Help me prepare a rebuild brief for [application]. Use the source and evidence
+I provide to summarize its users, workflows, integrations, data, required
+functionality, desired changes, constraints, and decision-makers.
+Ask about missing business context and record build/run gaps.
+Keep stack preferences as inputs to planning, not target decisions.
+Do not edit application code or begin implementation.
+```
+
 For a runtime-only change, use the
 [upgrade route](../customer/Challenge-00.md).
 
@@ -47,6 +58,21 @@ This route does not require the Modernization CLI, Java, or .NET.
 - [ ] The app is small enough for the event; any stack preferences are inputs to planning, not assumed decisions.
 - [ ] The host finds `azure-app-modernization`, `azure-app-rebuild`, `cloud-architecture-diagram`, and selected supporting skills.
 - [ ] Evidence and build/run gaps are noted; inputs contain no secrets or production rows.
+
+## Hints
+
+<details><summary>Hint 1: Choose an app that fits</summary>
+Use a smaller complete application rather than silently dropping functionality.
+</details>
+
+<details><summary>Hint 2: Bring evidence, not assumptions</summary>
+Bring source, run notes, contracts, and sanitized database/UI evidence. Record
+what is missing.
+</details>
+
+<details><summary>Hint 3: Leave target selection to planning</summary>
+Explain why you might change the stack without deciding the target in advance.
+</details>
 
 ## Learning Resources
 
