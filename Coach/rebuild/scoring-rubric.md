@@ -5,19 +5,20 @@
 ## Evaluation criteria
 
 Score each milestone **Done (2)**, **Partially Done (1)**, or **Not Done (0)**.
-Done requires observable evidence for every applicable participant criterion.
-Named blockers count as partial outcomes, not automatic passes.
-Each spot check below should take under two minutes once the evidence is open.
+Done requires evidence for all applicable criteria; a named blocker is not a pass.
+Each spot check should take under two minutes with the evidence open.
 
 | Challenge | Verification | Expected evidence |
 | --- | --- | --- |
 | 00 | Read the brief and inspect host skills | Customer journey, decision owners, route rationale, three bundled skills and chosen supporting profiles |
 | 01 | List `docs/modernization/` and inspect the conversation/handoff | Complete eight-artifact package from one planning workflow, stakeholder decisions, pricing/review statuses, explicit planning stop |
 | 02 | Trace one journey across the package and inspect review findings | Evidence/requirement/wave links, challenged strategy/cost/recovery assumptions, targeted corrections, reviewed revision |
-| 03 | Ask a teammate to explain the prepared delivery handoff | Bounded slice, acceptance IDs, dependencies, preserved contracts/UI/data, safe baseline output, prerequisites/owners and excluded actions |
-| 04 | Run the documented targeted build/test command and demonstrate one journey | Current-source reconciliation, bounded slice, passing relevant checks, compatibility evidence |
-| 05 | Read acceptance ledger and both review records | Actual pass/fail/blocked output, distinct completeness/security findings and disposition |
-| 06 | Inspect rehearsal record and next-wave handoff | Live environment/result or explicit tabletop limitation, recovery boundaries and owners |
+| 03 | Ask a teammate to explain the chosen workflow and handoff | Opus 5.5, bounded slice, baseline, acceptance IDs, framework artifacts derived from the package, infrastructure contract/gaps |
+| 04 | Run the documented build/test command and demonstrate one journey | Chosen path, current-source reconciliation, passing checks; Matt's path stays within two concurrent subagents |
+| 05 | Inspect `/review`, completeness findings, and fix output | Full slice diff, acceptance ledger, missing behavior implemented, regression checks and re-review |
+| 06 | Inspect confirmed brief and rendered before/after views | Shape followed by implementation, layout/colorize, responsive/state checks, functional regression evidence; N/A only for no UI |
+| 07 | Inspect security findings, fixes, and re-review | Full slice scope, dispositions, regression evidence, no deployment blockers |
+| 08 | Exercise Azure endpoint and inspect deployment/handoff | Actual non-production release using provided infrastructure, journey/health/telemetry evidence, recovery and cleanup owners |
 
 ## Verification examples
 
@@ -28,32 +29,25 @@ ls docs/modernization/
 git diff --stat
 ```
 
-Expect `assessment.md`, `specification.md`, `strategy-matrix.md`,
+Look for `assessment.md`, `specification.md`, `strategy-matrix.md`,
 `target-architecture.md`, `cost-estimate.md`, `current-state.drawio`,
-`target-architecture.drawio`, and `migration-plan.md`. UI authority can live
-outside that directory. A filename check alone does not establish content quality.
-During planning, diff changes should stay within the planning skill's artifact
-boundary. During delivery, changes should map to the requested slice.
+`target-architecture.drawio`, and `migration-plan.md`. UI context may live elsewhere.
+Check content, not just filenames. Planning changes stay within the skill's
+document scope; implementation changes stay within the chosen slice.
 
-Challenge 01 produces the full package; do not score assessment, strategy,
-and architecture as three separate skill runs. Challenge 02 scores critical
-review and correction of that output. Challenge 03 scores a usable, bounded
-delivery handoff. A documented unresolved prerequisite is honest handoff evidence,
-but the team must not claim the slice is ready to implement while it remains blocked.
-
-Use the customer's documented test command rather than inventing a universal
-build command. Require actual output and environment details. Do not run unknown
-scripts or production migrations as a scoring shortcut.
+Use the application's documented test commands and actual output. Do not run
+unknown scripts or production migrations to score a challenge.
+For a headless slice, mark 06 **not applicable** and exclude it from the denominator.
 
 ## Overall scoring
 
-- **12-14:** Strong bounded modernization delivery with explicit remaining work.
-- **8-11:** Useful progress; identify incomplete acceptance and operating evidence.
-- **0-7:** Planning or delivery remains substantially incomplete; hand off blockers.
+With a UI, the maximum is **18 points**; without a UI it is **16 points**.
+Report earned/applicable points. Completed delivery requires acceptance criteria,
+app/security reviews, and a working Azure deployment, regardless of score.
 
-Planning-only attendance is evaluated against 00-03, with a maximum of 8 points,
-and must not be described as a completed rebuild. A tabletop-only 06 is partial
-for operational validation even when its documentation is strong.
+Planning-only attendance covers 00-02, with a maximum of 6 points.
+Including delivery preparation in 03 raises that maximum to 8.
+Neither is a completed rebuild. A tabletop-only 08 is at most partial, not deployed.
 
 ## Advanced challenges
 

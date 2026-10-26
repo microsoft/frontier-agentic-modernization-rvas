@@ -2,7 +2,7 @@
   "installer": "skills@1.7.1",
   "minimumNode": "22.20.0",
   "agent": "github-copilot",
-  "verifiedOn": "2026-10-23",
+  "verifiedOn": "2026-10-26",
   "profiles": [
     {
       "id": "planning",
@@ -45,7 +45,7 @@
     {
       "id": "implementation",
       "title": "Implementation support",
-      "when": "Install before a separately requested rebuild slice. Our azure-app-rebuild skill controls delivery; upstream implement is deliberately excluded because it includes an automatic commit step.",
+      "when": "Install before a separately requested rebuild slice. Choose one delivery workflow in Challenge 03: direct with azure-app-rebuild, Matt Pocock, or Spec Kit. Upstream implement is excluded; the optional Matt profile uses implement-spec with explicit local Git scope.",
       "sources": [
         {
           "repository": "mattpocock/skills",
@@ -63,6 +63,24 @@
           "revision": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
           "path": "skills/productivity/handoff",
           "skills": { "handoff": "Preserve package, scope, and validation context for another session." }
+        }
+      ]
+    },
+    {
+      "id": "matt-workflow",
+      "title": "Matt Pocock workflow",
+      "when": "Optional: install only for the Matt Pocock path in Challenges 03-04, alongside Implementation support. Configure local Markdown tracking, elaborate the reviewed modernization package with to-spec and to-tickets, then use implement-spec with the workshop's two-concurrent-subagent cap. Its worktrees use local commits/merges; remote publication is not authorized.",
+      "sources": [
+        {
+          "repository": "mattpocock/skills",
+          "revision": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
+          "path": "skills/engineering",
+          "skills": {
+            "setup-matt-pocock-skills": "Configure the application's tracker and domain-document conventions.",
+            "to-spec": "Elaborate only the selected modernization slice into a local delivery spec.",
+            "to-tickets": "Break the spec into acceptance-linked tickets with blocking dependencies.",
+            "implement-spec": "Implement the bounded spec/ticket graph on an integration branch."
+          }
         }
       ]
     },

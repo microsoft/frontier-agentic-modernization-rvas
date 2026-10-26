@@ -7,54 +7,46 @@
 
 ## Introduction
 
-Start with the application's business or architecture problem, not a predetermined
-replacement architecture. An old runtime may not be the main issue: the application
-might be hard to change, tightly coupled to another system, or unable to support
-a new business workflow.
+Bring an application you own and want to rearchitect and rebuild completely.
+The rebuilt app may use a different language, framework, or technology stack.
+Start by understanding the existing app; choose the target during planning.
 
 ## Prerequisites
 
-- Customer-owned source and permission to work with it in the chosen workspace.
+- An application your team or organization owns, with source access and permission to rebuild it.
 - A business/product stakeholder and someone who understands the application.
 - The tools and profile selections in the [setup guide](setup.md).
 
 ## Description
 
-Choose one customer application and a business journey you can reasonably improve
-in the available time. Explain the desired outcome, current friction, known
-constraints, and who decides what must be preserved. Establish that this is
-architecture-first work, not merely a runtime upgrade. Use the [upgrade route](../customer/Challenge-00.md)
-if that better fits.
+Choose an application small enough to rebuild and validate within the event.
+The goal is the complete application, not a single improved user journey.
+Choose a smaller app if necessary rather than quietly dropping functionality.
 
-Work in the application repository. Make the plugin's three bundled skills and
-the relevant [supporting skills](supporting-skills.md) discoverable. Prepare source,
-operating notes, contracts, and sanitized database/UI evidence. Record missing
-evidence. You can continue static planning, but do not claim the evidence is complete.
+Write a short brief: what the app does, why you want to rebuild it, its users
+and workflows, integrations and data, what must stay or change, and who decides.
+Include any reasons to change the stack, but leave the target choice to planning.
+For a runtime-only change, use the
+[upgrade route](../customer/Challenge-00.md).
 
-Do not install the Modernization CLI solely for this route. A rebuild may target
-any application stack supported by the evidence; Java/.NET are not entry requirements.
+Work in the application repository. Follow the [setup guide](setup.md) to install
+the plugin and relevant [supporting skills](supporting-skills.md).
+Bring source, run notes, contracts, and sanitized database/UI evidence.
+Note missing evidence and build/run gaps.
+
+Confirm **Claude Opus 5.5** access for implementation and non-production Azure
+access for deployment. After target selection, the coach provides matching
+infrastructure and a runbook for Challenge 08; the upgrade samples may not fit.
+
+This route does not require the Modernization CLI, Java, or .NET.
 
 ## Success Criteria
 
-- [ ] A short brief names the customer challenge, bounded journey, desired outcome, and decision owners.
-- [ ] The team explains why it selected rebuild discovery rather than a CLI-only upgrade.
-- [ ] The host discovers `azure-app-modernization`, `azure-app-rebuild`, and `cloud-architecture-diagram`, plus the selected supporting skills.
-- [ ] Evidence availability and build/run gaps are recorded; no secrets or production rows are included.
-
-## Hints
-
-<details><summary>Hint 1: Start with value</summary>
-Ask which user outcome is difficult today and what would prove it improved.
-</details>
-
-<details><summary>Hint 2: Bound the work</summary>
-One end-to-end journey is more useful than a promise to replace the entire estate.
-</details>
-
-<details><summary>Hint 3: Check the workspace</summary>
-The plugin is tooling. The source and generated modernization package belong in
-the customer's application repository. Use the setup guide's discovery checks.
-</details>
+- [ ] The team owns the application and can access its source and explain its behavior.
+- [ ] The brief defines the complete app to rebuild, required functionality, desired changes, constraints, and decision-makers.
+- [ ] The app is small enough for the event; any stack preferences are inputs to planning, not assumed decisions.
+- [ ] The host finds `azure-app-modernization`, `azure-app-rebuild`, `cloud-architecture-diagram`, and selected supporting skills.
+- [ ] Evidence and build/run gaps are noted; inputs contain no secrets or production rows.
 
 ## Learning Resources
 
@@ -63,5 +55,5 @@ the customer's application repository. Use the setup guide's discovery checks.
 
 ## Advanced Challenge (Optional)
 
-Identify an adjacent journey that must remain unchanged and a stakeholder who can
-verify it throughout the event.
+Identify the business rule or integration most likely to be lost in a rewrite
+and how you will verify it in the rebuilt app.

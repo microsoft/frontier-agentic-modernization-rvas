@@ -23,7 +23,7 @@ needs, then complete an evidence-backed workflow:
   Azure application.
 - **Rearchitect & rebuild:** address business workflows, architecture, coupling,
   or technology changes beyond a runtime upgrade. Success is one validated
-  end-to-end slice, not an entire application rewrite.
+  end-to-end slice deployed to non-production Azure, not an entire application rewrite.
 
 ## Positioning
 
@@ -40,7 +40,10 @@ facilitation guidance support review; presenter demos use the same drawer.
 
 The upgrade route uses GitHub Copilot Modernization tooling. The rebuild route
 uses the Agentic Modernization plugin for discovery and planning, followed by a
-separate bounded delivery session, validation, and operational handoff.
+separate bounded delivery workflow chosen from direct implementation, Matt Pocock
+skills, or Spec Kit. Student material supplies explicit prompts for discovery,
+package analysis, implementation, app review, applicable frontend refinement,
+security fixes, and deployment with provided target-specific Azure infrastructure.
 
 Customer application work belongs in the customer's own application repository,
 not this tooling repository. Access and ownership must be authorized. The full
