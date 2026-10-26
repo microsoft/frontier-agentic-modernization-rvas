@@ -19,12 +19,16 @@ An existing UI can also require `PRODUCT.md`, `DESIGN.md`, and
 Confirm the baseline and choose a target before proceeding. Final package
 acceptance is required only when the user or their governance process requests it.
 Completing or accepting the plan, or saying "continue", does not start implementation.
-Start `azure-app-rebuild` separately with a defined scope.
+Start delivery separately with a defined scope: `azure-app-rebuild` for direct
+implementation, or the participant guide's Matt Pocock or Spec Kit alternative.
 
 Challenge 01 covers the full planning workflow and package handoff.
 Challenge 02 reviews and corrects that output; Challenge 03 prepares the
-implementation handoff. Do not run planning three times to generate separate
-parts of the package.
+implementation handoff and chosen framework's artifacts. Do not run planning
+three times to generate separate parts of the package. Challenge 04 implements
+one slice; 05 reviews the app and fixes missing behavior; 06 refines an applicable
+frontend with Impeccable; 07 reviews/fixes security; 08 deploys with the provided
+target-specific Azure infrastructure. The student guides contain explicit prompts.
 
 The bundled Microsoft Learn MCP server retrieves public documentation; it grants
 no Azure access. Supporting skills are installed separately from their public

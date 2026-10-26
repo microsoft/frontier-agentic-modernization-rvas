@@ -7,10 +7,8 @@
 
 ## Introduction
 
-An AI-generated package can look coherent while missing an important rule,
-overstating evidence, or recommending unnecessary complexity. Your task is to
-challenge the completed output against the real application before treating it
-as a delivery contract.
+Check the generated package against the real application before using it to
+build. Look for missing rules, unsupported assumptions, and unnecessary complexity.
 
 ## Prerequisites
 
@@ -19,51 +17,49 @@ as a delivery contract.
 
 ## Description
 
-Review the package generated in Challenge 01; this is not another generation
-phase. Trace critical journeys from source evidence through requirements,
-component/UI dispositions, the selected architecture, and migration waves.
-Check that preserved contracts and intentional changes match stakeholder answers.
+### Analyze the complete package
 
-Challenge the strategy comparison, including a lower-change option where feasible.
-Check official evidence for target-dependent claims. Review cost assumptions,
-pricing status, integration and data ownership, coexistence, and recovery limits.
-Open the editable diagrams and distinguish structural checks, rendered checks,
-and independent review.
+Open the eight files alongside the source. Send this in a review conversation:
 
-Record discrepancies and request targeted corrections in the existing planning
-workflow. Material new evidence reopens only the affected baseline or target
-decision; it does not justify silently replacing the architecture or rerunning
-everything from scratch. Reconcile changed artifacts before handing off a
-specific reviewed revision.
+```text
+Analyze docs/modernization/ against the source and stakeholder decisions from
+Challenge 01. This is a package review, not implementation.
 
-Formal package acceptance is only required when your governance requests it.
-An unresolved blocker or missing review must remain visible with an owner; do
-not label the package implementation-ready merely because all files exist.
+Trace our critical journey from source evidence through requirement/acceptance
+IDs, preserve/change/retire decisions, architecture responsibilities, migration
+waves, and validation. Find missing functionality, contradictions, unsupported
+service claims, unnecessary complexity, and data/UI compatibility gaps.
+
+Challenge the architecture alternatives and explain why the selected target
+fits better than a lower-change option. Check cost drivers, load assumptions,
+pricing evidence/status, migration/coexistence costs, and recovery limits.
+Inspect both editable diagrams; distinguish structural from rendered review.
+
+Return a findings table with artifact/section, evidence, impact, proposed
+correction, and decision owner. Do not change files yet. Recommend one
+demonstrable implementation slice and identify prerequisites that could block it.
+```
+
+### Correct and reconcile
+
+Discuss the findings with the team, then return to the planning conversation:
+
+```text
+Apply these package-review corrections: [findings and agreed decisions].
+Use this evidence: [source references or stakeholder answers].
+Reconcile affected requirements, architecture, diagrams, costs, and migration
+waves. Preserve settled decisions. If a correction changes the baseline or
+target materially, ask only for that affected decision before proceeding.
+Report the reviewed package revision and remaining blockers with owners.
+Keep application code unchanged.
+```
 
 ## Success Criteria
 
-- [ ] A reviewed journey traces source evidence through stable requirement/acceptance IDs, architecture responsibilities, and migration waves.
-- [ ] Review findings cover behavior/UI preservation, strategy alternatives, official target evidence, costs, and recovery assumptions.
-- [ ] Both editable diagrams have honest structural, rendered, and independent review statuses.
-- [ ] Findings are corrected or have a recorded decision and owner; affected artifacts and decision records are consistent.
-- [ ] The reviewed package revision and any required acceptance are recorded, with remaining delivery blockers visible.
-
-## Hints
-
-<details><summary>Hint 1: Challenge a real promise</summary>
-Choose an important business rule and verify that the package preserves or
-intentionally changes it, rather than reviewing prose in isolation.
-</details>
-
-<details><summary>Hint 2: Test assumptions</summary>
-Ask what proves a service is compatible, a cost is priced, or a rollback can
-reconcile writes. Missing evidence is not a verified answer.
-</details>
-
-<details><summary>Hint 3: Request bounded corrections</summary>
-Give the planning workflow the finding and evidence. Reopen material decisions
-with their owners, then reconcile the affected documents instead of regenerating blindly.
-</details>
+- [ ] One journey links source evidence to requirements, architecture, and migration waves.
+- [ ] The review covers behavior/UI, alternatives, Azure evidence, costs, and recovery.
+- [ ] Diagram reviews distinguish structural, rendered, and independent checks.
+- [ ] Corrections are consistent across files; the reviewed revision and unresolved findings have named owners. Obtain formal acceptance only if required.
 
 ## Learning Resources
 

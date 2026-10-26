@@ -5,133 +5,143 @@
 
 ## Event overview and agenda
 
-Use this route for architecture-first work on a customer-owned application.
-Do not teach it as "the CLI upgrade workflow with a different app". Start with
-the customer's business or architectural challenge; do not assume it needs a
-rebuild. Java/.NET are not prerequisites.
+Start with the customer's business or architecture problem, not a preferred
+rewrite or stack. Java/.NET are not prerequisites.
 
-Use two days for all seven milestones. Suggested active challenge time is
-525 minutes, including package/implementation review challenges, plus breaks,
-discussion, and environment troubleshooting.
-A four-hour session can aim for setup, the complete planning conversation, and
-an initial package review if scope and tools are ready. This is a timebox, not
-a guarantee: record incomplete planning honestly and continue later. It is not
-a completed rebuild.
-Confirm the format and slice with the customer before the event.
+Allow two days: **645 minutes** of challenges plus breaks and troubleshooting.
+A prepared four-hour session can aim for planning and an initial package review,
+not a completed rebuild. Agree the format and one achievable journey beforehand.
 
 | Day | Focus | Pacing |
 | --- | --- | --- |
 | 1 morning | 00 preparation, 01 complete discovery/planning workflow | Stakeholders attend questions and baseline/target decisions |
-| 1 afternoon | 02 package review, 03 implementation handoff | Break after planning; challenge the output before scoping delivery |
-| 2 morning | 04 bounded slice | Working journey rather than whole-estate scaffolding |
-| 2 afternoon | 05 reviews, 06 rehearsal and handoff | Break before independent review; end with evidence demo |
+| 1 afternoon | 02 package review, 03 workflow choice and handoff | Challenge the output; select Opus 5.5 and elaborate only the chosen slice |
+| 2 morning | 04 bounded slice, 05 app review and fixes | Working journey, acceptance checks, then missing behavior |
+| 2 afternoon | 06 frontend, 07 security fixes, 08 Azure deployment | Skip 06 only for headless slices; end with the deployed journey |
 
 Use the [participant setup guide](../../Student/rebuild/setup.md) before the event.
-The provided plugin bundles three skills, including the complete diagram package.
-Install supporting profiles in the application repository, not the workshop repo.
-Do not install duplicate diagram copies. Check renderer availability separately.
+Confirm skills, diagram rendering, Opus 5.5, and the chosen framework in the
+application repository. The plugin already bundles the diagram skill.
+Students use the supplied prompts and make the scope, architecture, and product
+decisions themselves.
+
+After target selection, provide matching infrastructure and a runbook before 08.
+Include location/revision, Azure scope, parameters, runtime/configuration,
+identity, outputs, deploy/test/recovery commands, and cleanup ownership.
+Check the app contract in 03-04. Sample-track Terraform is not a universal
+rebuild module.
 
 ## Challenge 00: Preparation (30 minutes)
 
-Coach toward a business outcome and one tractable journey. Confirm repository
-access, evidence owners, scope, and stakeholder attendance. Missing build access
-can be a planning gap but must be resolved before executable slice validation.
-If the challenge is only an isolated runtime upgrade, redirect to
+Confirm the journey, repository access, evidence, and stakeholder attendance.
+Missing build tools may wait during planning, but must be resolved before coding.
+For runtime-only work, redirect to
 [Upgrade your application](../../Student/customer/Challenge-00.md).
 
-Watch for copying customer code into this tooling repo or installing every Azure
-skill indiscriminately. A customer-owned public repository is not inherently
-invalid; ownership and authorized use matter, not repository visibility.
+Keep application work in its own repo. Authorized customer ownership matters,
+not whether that repo is public or private.
 
 ## Challenge 01: Complete discovery and planning (150 minutes)
 
-Start `azure-app-modernization` once. Its analysis, interview rounds,
-baseline confirmation, strategy comparison/selection, and eight-document package
-are one interactive workflow. Documents can appear progressively; do not ask
-teams to stop after assessment or invoke the skill again for each document.
+Run `azure-app-modernization` once through discovery, stakeholder questions,
+baseline confirmation, target selection, and the eight-file package. It consults
+diagram and cost skills itself; do not restart it for each file.
 
-Coach participants on supplying evidence and making decisions, not manually
-orchestrating internal phases. Trace permissions, side effects, failures, and
-UI authority. Do not accept absent evidence as proof of no dependency. Confirm
-the baseline before selecting a target, and record selection or bounded delegation.
+Check permissions, failures, side effects, and existing UI behavior. Missing
+evidence is a gap, not proof of no dependency. Confirm the baseline before
+choosing or delegating the target.
 
-The skill also consults the diagram and cost specialists within this workflow.
-Check that handoff includes all eight artifacts, pricing status/attempted-source
-blockers, diagrams/review limitations, and migration waves. Ordinary completion is
-`Ready for review`; do not add an unsolicited final approval gate.
-
-If the timebox expires, record the current phase and unresolved decisions.
-Narrow scope only with stakeholder agreement; do not skip decision gates or
-claim complete coverage. The planning skill stops after its package handoff,
-even when the original request said "implement".
+Require a pricing attempt, diagram review status, and migration waves.
+Completion is `Ready for review`; no extra approval gate unless required.
+The skill stops before implementation. If time runs out, save the phase and
+open decisions; change scope only with the stakeholder.
 
 ## Challenge 02: Review and challenge the package (45 minutes)
 
-Review the generated package; do not generate it again. Trace a
-critical journey from source through requirements, architecture, and migration
-waves. Challenge unjustified microservices, Kubernetes, engine swaps, or UI
-redesign. Check lower-change options, official target evidence, cost assumptions,
-write ownership, coexistence, and recovery.
+Trace one journey from source through requirements, architecture, and migration
+waves. Challenge unnecessary services or redesign, and check lower-change
+options, official Azure evidence, costs, write ownership, and recovery.
 
-Record specific pricing-tool blockers, but do not skip the pricing attempt.
-Request targeted corrections in the existing planning workflow
-and reconcile affected artifacts. Reopen only material decisions affected by new
-evidence, with their owners, rather than restarting discovery unnecessarily.
-Record the reviewed revision and each finding's disposition/owner.
+Correct affected files without restarting discovery. Reopen decisions only
+when new evidence changes them. Save the reviewed revision and unresolved findings
+with owners. Diagram tests prove structure/assets, not visual quality; render
+and independently review where possible, noting missing checks. Obtain formal
+acceptance or exceptions only when the customer's governance requires them.
 
-The bundled diagram offline tests validate structure/assets, not visual approval.
-Render and independently review when tooling is available. Record any missing
-review and required governance exception. Formal package acceptance applies only
-when required by the customer's governance.
+## Challenge 03: Choose the implementation workflow (45 minutes)
 
-## Challenge 03: Prepare the implementation handoff (30 minutes)
+Use **Claude Opus 5.5** via `/model` or the VS Code picker. Choose one path;
+all use the reviewed package, and direct delivery is a valid choice.
 
-Use the reviewed package to bound one end-to-end slice, acceptance IDs,
-dependencies, preserve/change commitments, write ownership, and recovery limits.
-Check the existing safe build/test baseline, fixtures, tools, access, and
-pre-existing failures. A planning evidence gap can become a delivery blocker.
-Do not fix code or provision resources as a readiness shortcut.
+| Path | Check before implementation |
+| --- | --- |
+| Direct | `azure-app-rebuild` prompt and slice handoff |
+| Matt Pocock | Local Markdown setup, `to-spec`, `to-tickets`, acceptance-ID links, and real dependencies |
+| Spec Kit | Constitution, spec, plan, tasks; clarify as needed and optionally analyze. Implement/converge in 04 until `Converged` |
 
-Require a handoff another team member can use without guessing:
-package revision, selected slice, acceptance/validation evidence, prerequisites,
-UI/domain authority, delivery owner, and excluded actions. Keep unresolved
-blockers visible. Do not start another document-generation phase or implement
-automatically.
+Check baseline output, fixtures, access, existing failures, and blockers without
+editing application code or provisioning resources. The 45 minutes assumes
+tools are installed.
 
-Challenge 04 starts a separate delivery session with `azure-app-rebuild`.
+In `docs/modernization/delivery-slice.md`, capture revision, scope, acceptance IDs,
+dependencies, preserved behavior/UI, write ownership, recovery limits, generated
+artifact paths, delivery owner, and excluded actions. Another teammate should
+be able to start from it.
 
 ## Challenge 04: Slice (150 minutes)
 
-Require package revision, scope, acceptance IDs, and a safe runnable baseline.
-Forbid accidental expansion to "finish the entire application". Check preserved
-business/UI contracts. Data adapters or routing seams need clear write ownership.
+Start a new session, reselect Opus 5.5, and use the matching A/B/C prompt.
+Do not stack `azure-app-rebuild` over Matt/Spec Kit. Keep the agreed slice and
+preserved business/UI behavior; adapters need clear write ownership.
 
-Do not invoke upstream `implement` unattended; it includes a commit step.
-Our delivery skill does not commit or operate cloud resources by default.
-For a blocked team, reduce the slice only with explicit scope/acceptance changes.
-If a team is ahead of schedule, strengthen its failure-path and compatibility
-evidence before starting another wave.
+Matt's `implement-spec` permits local commits/worktree merges, not pushes or
+remote issues/PRs. Enforce **two concurrent subagents total**, including merge,
+exploration, review, and fix agents. Implementation subagents use Opus 5.5.
+Respect dependencies and existing user work. Direct/Spec Kit do not authorize
+commits; cloud execution waits until 08.
 
-## Challenge 05: Reviews (60 minutes)
+For blocked teams, renegotiate the slice explicitly. For teams ahead, strengthen
+failure-path and compatibility tests before adding work.
 
-Completeness first, security separately. Require actual validation output and
-finding dispositions. Missing independent tooling gets a named human owner,
-not a pass. Resolve defects and rerun affected tests. Keep accepted risks distinct
-from fixed findings.
+## Challenge 05: App review and missing behavior (60 minutes)
 
-## Challenge 06: Operations (60 minutes)
+Run `/review` and the completeness prompt against the full slice, including
+committed changes. Compare the running journey with the specification, fix
+omissions, rerun checks, and review fixes. Framework reviews do not replace this.
 
-Only perform authorized non-production actions. Without an environment, score a
-clearly labeled tabletop result separately from a live rehearsal. Ask how target
-writes are reconciled during rollback; "switch DNS back" is not sufficient.
-End with the slice demo, acceptance ledger, next-wave prerequisites, and owners.
+## Challenge 06: Frontend refinement (60 minutes)
+
+Skip as N/A for headless slices. Otherwise start a frontend session with the
+running route, surface IDs, and product/design context. Use `/impeccable shape`,
+confirm the brief, and request implementation; shape writes no UI code.
+Run `/impeccable layout` and `/impeccable colorize`, then inspect rendered states.
+Preserve business rules, permissions, brand, and unchanged surfaces.
+Use audit/polish as needed and review the UI diff.
+
+## Challenge 07: Security review and fixes (45 minutes)
+
+Run `/security-review` after frontend changes, including committed work.
+Check fixes, regression results, and re-review. If tooling is missing, use a named
+reviewer. Resolve deployment blockers before 08.
+
+## Challenge 08: Run and deploy to Azure (60 minutes)
+
+Check local execution and infrastructure compatibility, then use the deployment
+prompt to authorize the agreed non-production scope. Require a working Azure
+endpoint, persistence/integrations, telemetry, and recovery checks.
+A tabletop is not a completed deployment. Ask how recovery handles target-only
+writes, and end with the demo, results, remaining work, operations and cleanup owners.
 
 ## Common stuck points and pivots
 
 | Stuck point | Coaching response |
 | --- | --- |
 | Team expects planning to edit source | Point to the explicit planning stop and separate delivery skill |
-| Team restarts the skill for each document | Challenge 01 generates the full package in one workflow; 02 reviews it and 03 prepares delivery |
+| Team restarts discovery for the delivery framework | Challenge 01 generates the package; 02 reviews it; 03 elaborates only the selected slice |
+| Matt's path starts too many agents | Use the explicit two-concurrent-subagent cap, including merger/review agents |
+| Impeccable shape stops without code | Confirm the brief, then send the separate implementation request |
+| Security review sees an empty working tree | Request the full committed base-to-head slice diff too |
+| Infrastructure does not match the chosen target | Resolve the provided infrastructure contract; do not switch platforms or claim deployment |
 | Legacy app will not run | Continue bounded static discovery; resolve or own the runtime blocker before delivery |
 | Existing UI is replaced with generic screens | Return to product/design authority and approved surface dispositions |
 | Diagram XML passes but no rendering exists | Record structural pass only; assign visual review |
