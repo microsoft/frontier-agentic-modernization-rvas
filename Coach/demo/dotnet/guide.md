@@ -187,6 +187,27 @@ the plan before applying; do not destroy the resources already created.
 
 Prepare DMS against the source and empty Student target, including an integration runtime if the portal flow requires one. Sign Docker into your image registry; the Coach stack does not create ACR.
 
+Use **PowerShell 7** (`pwsh`), not Windows PowerShell 5.1. Check the version
+and execution policies in the terminal you will use live:
+
+```powershell
+$PSVersionTable.PSVersion
+Get-ExecutionPolicy -List
+Get-ExecutionPolicy
+```
+
+If the effective policy is `Restricted`, `MachinePolicy` and `UserPolicy` are
+both `Undefined`, and your organization permits local scripts, allow them for
+this terminal session only:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
+```
+
+Do not override managed restrictions or an `AllSigned` requirement; obtain an
+approved signed helper or ask your administrator. The helper does not change
+execution policy. See [PowerShell execution policies](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_execution_policies).
+
 Dot-source the read-only helper in the **same Windows PowerShell 7 terminal** used live:
 
 ```powershell
