@@ -29,7 +29,7 @@ For each intended file, name its future path, component/workdir, dependencies (`
 
 An illustrative logical split is future `ci.yml` for PR checks, `release.yml` for a trusted build/publish, and `deploy.yml` for promotion of a named artifact. Consolidate jobs or use reusable workflows when that fits the estate; verify cross-workflow trust and permissions rather than treating a filename as an isolation boundary.
 
-Record unresolved platform, runner, or approval decisions with owner, decision point, and impact. Keep the package at eight artifacts; the blueprint is an input to a separate workflow-authoring task.
+Record unresolved platform, runner, or approval decisions with owner, decision point, and impact. Keep the package at nine artifacts; the blueprint is an input to a separate workflow-authoring task.
 
 ## Testing and build patterns
 

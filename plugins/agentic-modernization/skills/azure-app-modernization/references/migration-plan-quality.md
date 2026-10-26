@@ -24,7 +24,7 @@ Read before writing `migration-plan.md`. Describe the future delivery path; do n
 
 ## Prerequisites and waves
 
-List landing-zone/identity/network/security prerequisites, traced `CR-` runtime/code compatibility remediation, owner approvals, tooling/access, test data, operational skills, delivery-automation readiness, capacity/region evidence, and delivery responsibilities. Explicitly distinguish existing estate from net-new requirements.
+List landing-zone/identity/network/security prerequisites, the infrastructure deployment order from `infrastructure-plan.md` (`IAC-` IDs per wave), traced `CR-` runtime/code compatibility remediation, owner approvals, tooling/access, test data, operational skills, delivery-automation readiness, capacity/region evidence, and delivery responsibilities. Explicitly distinguish existing estate from net-new requirements.
 
 | Wave | Components / strategies | Prerequisites | Contract/data transition | Acceptance gate | Owner / rollback boundary |
 |---|---|---|---|---|---|
@@ -77,6 +77,6 @@ For every selected target, apply [cost-estimation-handoff.md](cost-estimation-ha
 
 Every component and UI-surface disposition has a delivery/retention/decommission path. Every wave has prerequisites, owner, validation, and rollback/reconciliation rules. Critical unknowns block a firm execution recommendation; accepted deferrals identify the future decision gate.
 
-Record the package revision and status `Ready for review`, or explicit acceptance when the user or governance process requested it, with scope `architecture and migration planning only; implementation not started`. Name downstream delivery owners and their required inputs without invoking execution. Do not require a confirmation turn merely to finish the requested planning package.
+Record the package revision and status `Ready for review`, or explicit acceptance when the user or governance process requested it, with scope `architecture and migration planning only; implementation not started`. Name downstream delivery owners (application and infrastructure-as-code) and their required inputs without invoking execution. Do not require a confirmation turn merely to finish the requested planning package.
 
 Do not use `Awaiting approval`, `Ready for approval`, or an approval checklist as the default terminal state. Those labels imply a blocked interaction and are reserved for a genuinely requested formal acceptance process.

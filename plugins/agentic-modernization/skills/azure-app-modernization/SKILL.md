@@ -1,11 +1,11 @@
 ---
 name: azure-app-modernization
-description: "Architecture-first Azure modernization for existing applications supplied as source code, documentation, UI assets, or database artifacts. Use for recovering functional requirements, incumbent product and visual-design authority, user-interface surfaces, current architecture and integrations, interviewing stakeholders, comparing Azure-native target architectures, estimating target and migration costs, and planning a migration before implementation, including on-premises, cross-cloud, and already-Azure estates. Produces an assessment, specification, editable diagrams, target architecture, cost estimate, migration plan, and conditional product/design context for existing UIs. Ends with a reconciled planning-package handoff; isolated SDK/SKU upgrades, deployment, troubleshooting, greenfield design, and standalone AI-feature design use other workflows."
+description: "Architecture-first Azure modernization for existing applications supplied as source code, documentation, UI assets, or database artifacts. Use for recovering functional requirements, incumbent product and visual-design authority, user-interface surfaces, current architecture and integrations, interviewing stakeholders, suggesting proven Azure reference architectures for the user to choose, blueprinting infrastructure-as-code in the user's choice of Terraform or Bicep, estimating target and migration costs, and planning a migration before implementation, including on-premises, cross-cloud, and already-Azure estates. Produces an assessment, specification, editable diagrams, target architecture, infrastructure plan, cost estimate, migration plan, and conditional product/design context for existing UIs. Ends with a reconciled planning-package handoff; isolated SDK/SKU upgrades, deployment, troubleshooting, greenfield design, and standalone AI-feature design use other workflows."
 ---
 
 # Azure App Modernization
 
-Recover what the application does before deciding how to modernize it. Treat the current behavior, stakeholder intent, target architecture, and migration path as distinct decisions.
+Recover what the application does before deciding how to modernize it. Treat the current behavior, stakeholder intent, target architecture, and migration path as distinct decisions. The package must let a later delivery phase build both the application and its infrastructure.
 
 ## Package and boundary
 
@@ -14,7 +14,8 @@ Create these files under `docs/modernization/`:
 - `assessment.md` — evidence, current behavior, integrations, data, and coverage gaps.
 - `specification.md` — confirmed requirements, intentional changes, and acceptance criteria.
 - `strategy-matrix.md` — component dispositions and architecture alternatives.
-- `target-architecture.md` — selected Azure design, decisions, and capability evidence.
+- `target-architecture.md` — user-selected Azure design, its reference architecture and deviations, decisions, and capability evidence.
+- `infrastructure-plan.md` — infrastructure blueprint (resource inventory, layout, identity, networking, state/scopes, ordering) for delivery to render in the user's chosen IaC tool, Terraform or Bicep.
 - `cost-estimate.md` — mandatory target, migration, coexistence, and steady-state cost model with assumptions and pricing status.
 - `current-state.drawio` — current context, components, and data/integration flows.
 - `target-architecture.drawio` — target components, deployment boundaries, and migration/coexistence flow.
@@ -37,13 +38,13 @@ Write in clear technical English. Reuse the project's domain vocabulary and dist
 |---|---|
 | Inputs/scope unclear, assessment gaps open, or baseline confirmation missing | Discover and interview |
 | A later user turn confirmed the baseline and architecture-changing constraints | Compare strategies and target options |
-| Options exist but target selection/delegation is unresolved | Present the answerable decision frontier and wait |
-| Target selected or explicitly delegated within confirmed constraints | Specify the architecture and migration plan |
+| Options exist but the user has not selected the target | Present the recommended option with its reference architecture, the alternatives, and the IaC tool recommendation; wait |
+| A later user turn selected the target | Specify the architecture, infrastructure, and migration plan |
 | Package ready but bounded pricing has not run | Run the cost-estimation consultation, reconcile, and complete the package |
 | Reconciled package complete | Hand off and stop; request acceptance only when the user or governance process explicitly requires it |
 | Material evidence, scope, requirement, or target changed | Preserve decision history; return to the affected gate |
 
-The initial request, silence, batch execution, and the agent's own summary are not confirmation of an unresolved baseline or target decision. Record each decision gate's status and the exact baseline/revision it covers. Do not turn ordinary package completion into a confirmation gate.
+The initial request, silence, batch execution, and the agent's own summary are not confirmation of an unresolved baseline or target decision. Target selection and the IaC tool are always the user's choice: recommend, never choose. A request to "just pick for us" gets the recommendation and a request to confirm it. Record each decision gate's status and the exact baseline/revision it covers. Do not turn ordinary package completion into a confirmation gate.
 
 Use `Ready for review` as the reconciled package status unless explicit acceptance was requested and obtained. `Awaiting approval`, `ready for approval`, and equivalent blocking states are inappropriate for ordinary completion because they recreate a confirmation gate the user did not ask for.
 
@@ -63,29 +64,30 @@ Read [discovery-quality.md](references/discovery-quality.md) before inspecting t
 
 ## 2. Compare modernization strategies
 
-Read [modernization-patterns/README.md](references/modernization-patterns/README.md) before classifying components or proposing Azure targets.
+Read [modernization-patterns/README.md](references/modernization-patterns/README.md) before classifying components or proposing Azure targets, and [azure-reference-architectures.md](references/modernization-patterns/azure-reference-architectures.md) before composing options.
 
 1. **Disposition:** evaluate retain, retire, replace, rehost, replatform, refactor, rearchitect, and rebuild per workload/component and UI surface. Separate migration strategy from compute/data-service selection. For UI, distinguish preservation/replatforming from intentional refinement, redesign, replacement, or retirement.
-2. **Compose:** present a recommended target and meaningful alternatives as coherent whole-system options. Include a lower-change option when feasible. A monolith with managed services is a valid candidate; a diagram of microservices is not proof of independent ownership.
+2. **Compose:** anchor each coherent whole-system option to a reference architecture and list its deviations; mark one as recommended and show meaningful alternatives. Include a lower-change option when feasible. A monolith with managed services is a valid candidate; a diagram of microservices is not proof of independent ownership.
 3. **Verify:** read [microsoft-learn-evidence.md](references/microsoft-learn-evidence.md) before asserting runtime support, compatibility, availability, cost, networking, identity, or recovery capabilities. Mark unverified choices provisional.
-4. **Select:** record the comparison in `strategy-matrix.md`; ask for target selection unless the user explicitly delegated that choice within the confirmed constraints. Return trade-offs outside that delegation to the interview.
+4. **Select:** record the comparison in `strategy-matrix.md`. In one decision round, ask the user to select the target option and the IaC tool (Terraform or Bicep), giving a recommendation for each per [infrastructure-plan-quality.md](references/infrastructure-plan-quality.md). Wait for the answer.
 
-**Complete when:** every in-scope component and every `SURF-` entry has an applicable disposition, each viable option accounts for its dependencies and NFRs, and the target choice is confirmed or explicitly delegated. Block a firm selection when an unknown could make it infeasible.
+**Complete when:** every in-scope component and every `SURF-` entry has an applicable disposition, each viable option is anchored to a reference architecture and accounts for its dependencies and NFRs, and a later user turn selected the target. Block a firm selection when an unknown could make it infeasible.
 
 ## 3. Specify architecture and migration
 
 1. **Specify:** read [specification-quality.md](references/specification-quality.md). Write `specification.md` with stable requirement/acceptance/surface IDs and explicit preserve/change/retire decisions. Use Impeccable `shape` only for selected surfaces whose approved strategy intentionally changes their experience; a technical replatform inherits the incumbent product and design authority.
 2. **Architect:** read [architecture-quality.md](references/architecture-quality.md). Write `target-architecture.md`, including identities, trust boundaries, ingress/egress, data ownership, operations, rejected alternatives, and the mandatory cost-estimation handoff.
 3. **Plan:** read [migration-plan-quality.md](references/migration-plan-quality.md). Write `migration-plan.md` with waves, prerequisites, coexistence, data transition, validation, cutover, rollback limits, and handoff owners.
-4. **Estimate:** read [cost-estimation-handoff.md](references/cost-estimation-handoff.md), then load `cost-estimation` as a bounded pricing consultation. Write `cost-estimate.md` for every selected target and execute the applicable retail or negotiated pricing steps before final reconciliation. The modernization document contract remains authoritative: merge specialist pricing evidence and calculations into its required sections rather than substituting a shorter specialist report. Ask only for the minimum missing details needed to disambiguate meters, preferably in one consolidated cost-input round. Preserve measured, confirmed, and assumed values separately; show verified scenario totals when pricing succeeds and explicit attempted-source/tool blockers instead of zeroes or invented totals when it does not.
-5. **Delivery automation:** when GitHub Actions is selected or proposed, read [github-actions-quality.md](references/github-actions-quality.md). Record the test/build/deploy blueprint in `migration-plan.md` and identity/trust boundaries in `target-architecture.md`; leave workflow authoring to delivery.
-6. **Diagram:** load `cloud-architecture-diagram` to author the editable current/target views. Apply the structural and rendered review contract in the architecture reference; disclose missing review evidence.
-7. **Reconcile:** check all package files against the confirmed baseline and selected target, including cost calculations and pricing evidence. Read [specialist-routing.md](references/specialist-routing.md) for bounded design consultations or later delivery owners. Mark the package exactly `Ready for review` and hand it off without asking for confirmation unless the user explicitly requested an approval decision or an unresolved material decision truly requires their choice. Do not describe ordinary completion as `Awaiting approval` or `Ready for approval`. If explicit package acceptance is required, ask once after all eight artifacts are complete; never reopen approval merely because pricing was deferred until after handoff.
+4. **Infrastructure:** read [infrastructure-plan-quality.md](references/infrastructure-plan-quality.md). Write `infrastructure-plan.md` for the user's chosen IaC tool, or tool-neutral with the choice pending, tracing every resource to a component and wave.
+5. **Estimate:** read [cost-estimation-handoff.md](references/cost-estimation-handoff.md), then load `cost-estimation` as a bounded pricing consultation. Write `cost-estimate.md` for every selected target and execute the applicable retail or negotiated pricing steps before final reconciliation. The modernization document contract remains authoritative: merge specialist pricing evidence and calculations into its required sections rather than substituting a shorter specialist report. Ask only for the minimum missing details needed to disambiguate meters, preferably in one consolidated cost-input round. Preserve measured, confirmed, and assumed values separately; show verified scenario totals when pricing succeeds and explicit attempted-source/tool blockers instead of zeroes or invented totals when it does not.
+6. **Delivery automation:** when GitHub Actions is selected or proposed, read [github-actions-quality.md](references/github-actions-quality.md). Record the test/build/deploy blueprint in `migration-plan.md` and identity/trust boundaries in `target-architecture.md`; leave workflow authoring to delivery.
+7. **Diagram:** load `cloud-architecture-diagram` to author the editable current/target views. Apply the structural and rendered review contract in the architecture reference; disclose missing review evidence.
+8. **Reconcile:** check all package files against the confirmed baseline and selected target, including the infrastructure resource inventory, cost calculations, and pricing evidence. Read [specialist-routing.md](references/specialist-routing.md) for bounded design consultations or later delivery owners. Mark the package exactly `Ready for review` and hand it off without asking for confirmation unless the user explicitly requested an approval decision or an unresolved material decision truly requires their choice. Do not describe ordinary completion as `Awaiting approval` or `Ready for approval`. If explicit package acceptance is required, ask once after all nine artifacts are complete; never reopen approval merely because pricing was deferred until after handoff.
 
 **Complete when:** the package passes its reference checklists, stable IDs link evidence through requirements to components/waves/validation, the bounded pricing consultation has completed or recorded a concrete blocker, and package status is `Ready for review` or explicitly accepted.
 
 ## 4. Hand off and stop
 
-Record the package revision, any explicit acceptance, and unresolved non-blocking decisions. Report artifact paths, review limitations, prerequisites, and the next delivery owners without invoking their execution workflows. Always report `cost-estimate.md`, its pricing status, pricing evidence or attempted-tool blocker, and unresolved measurement or commercial inputs; name `cost-estimation` as the owner for future refreshes or negotiated-rate completion, not as a substitute for the pricing attempt required during package construction.
+Record the package revision, any explicit acceptance, and unresolved non-blocking decisions. Report artifact paths, review limitations, prerequisites, and the next delivery owners without invoking their execution workflows. Always report `infrastructure-plan.md` with the IaC tool status (user-chosen, or pending with your recommendation and the question repeated), and `cost-estimate.md`, its pricing status, pricing evidence or attempted-tool blocker, and unresolved measurement or commercial inputs; name `cost-estimation` as the owner for future refreshes or negotiated-rate completion, not as a substitute for the pricing attempt required during package construction.
 
 **Complete when:** the handoff states `architecture and migration planning only; implementation not started`. Approval, "continue", or an original request to implement does not start code changes, execution-ready ticket generation, resource provisioning, or migration within this skill.

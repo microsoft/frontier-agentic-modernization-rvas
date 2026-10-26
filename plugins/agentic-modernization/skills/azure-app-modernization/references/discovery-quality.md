@@ -50,6 +50,8 @@ When a user interface exists, read [ui-design-recovery.md](ui-design-recovery.md
 
 For delivery evidence, inspect current workflow/pipeline files and invoked scripts. Record actual build/test commands, triggers, required checks, artifacts, runner/environment access, identities, and approval gates. Distinguish absent automation from uninspected scope; GitHub Actions adoption is a decision, not a default.
 
+For existing infrastructure-as-code, record the tool (Terraform, Bicep, ARM, other), version constraints, module sources, state/back-end location, which resources it covers, and who owns it (platform or application team). This evidence seeds the IaC tool recommendation; the user still makes the choice.
+
 Use an evidence ledger:
 
 | ID | Component/journey | Evidence location | Observation | Confidence | Limitation |
@@ -88,7 +90,7 @@ Map integration contracts: producer/consumer, protocol, authentication, data sha
 
 ## Code readiness and remediation findings
 
-Record source-level findings that could change a target choice or migration wave in `assessment.md`, keeping the package at eight artifacts.
+Record source-level findings that could change a target choice or migration wave in `assessment.md`, keeping the package at nine artifacts.
 
 | ID | Component / evidence | Finding | Candidate target affected | Disposition / remediation | Effort confidence | Validation / owner |
 |---|---|---|---|---|---|---|
@@ -128,7 +130,7 @@ Work outward from:
 
 Do not ask for facts already established from evidence. Ask whether observed settings meet the desired outcome when that intent remains unknown.
 
-Give a recommended answer with rationale and alternatives. Avoid forcing an architecture through a binary question such as "do you want microservices?" Capture explicit delegation scope; recommendations are not consent.
+Give a recommended answer with rationale and alternatives. Avoid forcing an architecture through a binary question such as "do you want microservices?" Capture explicit delegation scope; recommendations are not consent. Target selection and the IaC tool are never delegated: the user chooses them at the selection gate.
 
 When a target-relevant metric is missing, obtain a bounded accepted assumption or defer measurement with an owner. A deferral that could invalidate the target blocks firm selection.
 

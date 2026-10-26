@@ -7,6 +7,7 @@ Read before writing `target-architecture.md` or authoring diagrams.
 ```markdown
 # Azure target architecture
 ## Status, scope, and selected option
+## Reference architecture and deviations
 ## Current-to-target component map
 ## Azure components and responsibilities
 ## Integration and data flow
@@ -22,7 +23,7 @@ Read before writing `target-architecture.md` or authoring diagrams.
 
 Identify every retained, replaced, retired, or changed component. Map source responsibility, target responsibility, strategy, requirements, owner, and migration wave. Distinguish application resources from platform prerequisites and externally owned systems.
 
-For each major choice, record rationale and a meaningful rejected alternative; link authoritative ADRs rather than duplicating their narratives. Document selected-option confirmation/delegation and provisional decisions.
+For each major choice, record rationale and a meaningful rejected alternative; link authoritative ADRs rather than duplicating their narratives. Document the user's selection evidence, the selected reference architecture with each deviation and its reason, and provisional decisions. Link `infrastructure-plan.md` from the deployment-topology section; keep resource-level detail there.
 
 ## Design coverage
 
