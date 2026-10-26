@@ -191,10 +191,17 @@ Use **PowerShell 7** (`pwsh`), not Windows PowerShell 5.1. Check the version
 and execution policies in the terminal you will use live:
 
 ```powershell
+pwsh
 $PSVersionTable.PSVersion
 Get-ExecutionPolicy -List
 Get-ExecutionPolicy
 ```
+
+The version must show **7.x**. Installing PowerShell 7 does not switch an
+already-open Windows PowerShell terminal. If you see
+`A parameter cannot be found that matches parameter name 'NoEnumerate'`,
+start `pwsh` and dot-source the helper there; that error is not evidence of
+missing Terraform state.
 
 If the effective policy is `Restricted`, `MachinePolicy` and `UserPolicy` are
 both `Undefined`, and your organization permits local scripts, allow them for
