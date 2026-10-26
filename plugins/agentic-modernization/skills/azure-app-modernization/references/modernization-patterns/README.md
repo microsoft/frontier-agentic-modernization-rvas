@@ -29,7 +29,8 @@ Write `strategy-matrix.md` with:
 ## Component dispositions
 ## Whole-system target options
 ## Trade-offs and rejected alternatives
-## Selected target and delegation evidence
+## Reference architectures and deviations
+## Selected target and user-selection evidence
 ## Prerequisites, uncertainties, and validation
 ```
 
@@ -37,7 +38,7 @@ Each component row includes source evidence, relevant `CR-` code-readiness findi
 
 Apply hard feasibility constraints before rankings. An unsupported runtime, missing residency requirement, or unresolved data dependency is not offset by a high cost score. Use qualitative trade-offs unless stakeholder-approved weights and evidenced metrics justify scoring; avoid invented precision.
 
-Compare two or more feasible whole-system options when they differ materially. If only one is feasible, explain the rejected paths instead of manufacturing an alternative. Include a lower-change option when feasible and show why the recommendation earns its added migration/operating cost.
+Anchor each option to a reference architecture from [azure-reference-architectures.md](azure-reference-architectures.md) and list its deviations. Compare two or more feasible whole-system options when they differ materially. If only one is feasible, explain the rejected paths instead of manufacturing an alternative. Include a lower-change option when feasible and show why the recommendation earns its added migration/operating cost.
 
 Evaluate every option on business outcomes, functional parity, NFRs, support/compatibility, integrations/data, security/residency, operating model, migration risk/reversibility, skills, and cost assumptions.
 
@@ -81,4 +82,4 @@ Prefer the simplest pattern meeting confirmed outcomes. A dual-write or multi-ma
 
 ## Selection gate
 
-Present the recommended coherent option, alternatives, changed behavior, trade-offs, evidence gaps, and costs as assumptions/ranges. Ask for selection or bounded delegation. Record accepted constraints and blockers. Unresolved feasibility blockers prevent a firm selected-target claim.
+Present the recommended coherent option with its reference architecture, the alternatives, changed behavior, trade-offs, evidence gaps, and costs as assumptions/ranges, together with the IaC tool recommendation. The user selects the target; record their choice, the turn that made it, accepted constraints, and blockers. When the user asks you to choose, restate the recommendation and ask them to confirm it. Unresolved feasibility blockers prevent a firm selected-target claim.

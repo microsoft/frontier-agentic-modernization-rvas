@@ -20,7 +20,7 @@ Do not redirect a whole-estate plan merely because a component comes from AWS, a
 
 | Branch | Available specialist to check |
 |---|---|
-| Enterprise identity/network/landing zone | `azure-enterprise-infra-planner` |
+| Enterprise identity/network/landing zone, platform-layer IaC conventions | `azure-enterprise-infra-planner` (design only; it would otherwise generate Bicep/Terraform) |
 | Kubernetes target requirements and operations | `azure-kubernetes` |
 | Application OAuth/Entra design | `entra-app-registration` |
 | Price scenarios for candidate resources or a selected target | Maintain mandatory `cost-estimate.md` through the [cost estimate contract](cost-estimation-handoff.md) and invoke `cost-estimation` as a bounded consultation before final package handoff |
@@ -34,13 +34,7 @@ AppCAT, Azure Migrate, and existing modernization assessment reports can provide
 
 ## Handoff
 
-For a separately requested application rebuild wave, name the plugin's
-`azure-app-rebuild` skill as the delivery entry point. Do not invoke it from this
-planning workflow. The user opens a separate delivery session and identifies a
-reviewed package revision and bounded wave or vertical slice. Formal package
-acceptance is required only when the user or governance process requires it.
-
-Name delivery owners/workflows and the approved inputs they need: specification, target architecture, strategy, migration plan, unresolved prerequisites, and review evidence.
+Name delivery owners/workflows and the approved inputs they need: specification, target architecture, strategy, infrastructure plan, migration plan, unresolved prerequisites, and review evidence. The infrastructure-as-code owner renders `infrastructure-plan.md` in the user's chosen tool; when the choice is still pending, the handoff repeats the question instead of assuming a tool.
 
 For future target-cost refreshes, hand off `cost-estimate.md`, the package revision, meter-ready resource/usage model, migration phase overlap, existing pricing evidence, and unresolved measurement owners. The initial bounded pricing attempt already occurs during package construction. An undeployed target uses hypothetical pricing; existing Azure spend forecasting is a separate comparison.
 

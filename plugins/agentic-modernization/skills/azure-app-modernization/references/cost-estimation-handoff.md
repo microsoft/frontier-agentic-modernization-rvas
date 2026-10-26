@@ -42,7 +42,7 @@ Record:
 | Estimate period | Monthly/annual or another requested planning period |
 | Price evidence | Source, retrieval date, price type, and verification status; otherwise `Pending` |
 
-Inventory each billable target or platform prerequisite:
+Inventory each billable target or platform prerequisite, using the same component IDs and resource list as the `IAC-` inventory in `infrastructure-plan.md`:
 
 | Architecture ID | Azure service / pricing model | Region | Environment / quantity | Low / expected / high usage | Unit price / source | Period cost / status | Evidence / owner |
 |---|---|---|---|---|---|---|---|
