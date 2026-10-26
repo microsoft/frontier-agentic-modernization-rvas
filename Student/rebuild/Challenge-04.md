@@ -7,52 +7,115 @@
 
 ## Introduction
 
-The first rebuild milestone is a small, working end-to-end capability, not a
-repository full of generated scaffolding. The reviewed package is the contract.
+Build and test one end-to-end journey from the reviewed package.
 
 ## Prerequisites
 
-- Challenge 03 completed with the reviewed package, bounded-slice handoff, and readiness evidence.
+- Challenge 03 completed with the reviewed package and slice handoff.
 - Any required governance acceptance is recorded.
-- A repeatable safe build/test baseline and implementation supporting skills.
+- A working build/test baseline and the chosen workflow's skills.
 
 ## Description
 
-Start a **new delivery session** and explicitly select `azure-app-rebuild` using
-the handoff in the [setup guide](setup.md). Identify the package revision, bounded
-slice, and acceptance IDs. Compare the source with the plan before editing.
-Revisit the affected planning decision if they differ materially.
+Start a **new delivery session** in the application repository using `/clear`.
+Reselect **Claude Opus 5.5** with `/model`. Attach
+`docs/modernization/delivery-slice.md`, the eight planning files, source/tests,
+UI/domain context, and framework artifacts. Run only your chosen path below.
 
-Implement the slice in dependency order. Preserve external behavior, contracts,
-data ownership, and UI surfaces unless the specification intentionally changes
-them. Validate the changed journey and important failure paths with synthetic or
-sanitized data. Keep unrelated application areas untouched.
+### A. Direct implementation from the documents
 
-No automatic commits, resource provisioning, deployment, or production migration
-are part of this challenge. A partial or blocked slice must be reported as such.
+Select `azure-app-rebuild` explicitly, then send:
+
+```text
+Use azure-app-rebuild to implement only the slice in
+docs/modernization/delivery-slice.md from package revision [revision].
+Acceptance IDs: [IDs]. Read the entire reviewed modernization package and
+current source/tests before editing; report material drift.
+
+Implement this end-to-end journey using the chosen target stack, not a new
+architecture. Preserve behavior, permissions, external contracts, write
+ownership, and UI surfaces not explicitly changed. Include focused tests for
+acceptance, failure, and compatibility paths. Build and run with sanitized data.
+Fix failures caused by this work and report actual pass/fail/blocked evidence.
+Do not start another wave, commit, provision, deploy, or migrate production data.
+```
+
+### B. Matt Pocock: implement the spec and tickets
+
+Use the local spec and ticket paths prepared in Challenge 03:
+
+```text
+/implement-spec
+Implement [local spec path] and its tickets at [ticket directory], bounded by
+docs/modernization/delivery-slice.md and reviewed package revision [revision].
+Reconcile them with current source. Keep original acceptance IDs, architecture,
+UI commitments, data ownership, and cost constraints authoritative.
+
+Use Claude Opus 5.5 for implementation subagents too.
+At every scheduling round, spin up up to 2 subagents for ready work; never exceed
+2 concurrently active subagents in total, including exploration, merge, review,
+and fix agents. Use two when tickets are independent, one when dependencies or
+shared-file conflicts require it, and wait when none are ready. Refill slots
+as tickets complete without running blocked tickets.
+
+Use isolated worktrees based on the current integration branch. Do not reset
+or discard existing user work. Integrate completed tickets in dependency order,
+run focused checks and the combined build/tests, and fix integration failures.
+Verify every in-scope acceptance ID with actual output before marking it done.
+
+Local branch/worktree commits and merges are allowed for this workflow.
+Do not push, open a PR, publish remote issues, provision, deploy, migrate
+production data, or start another spec. Close only completed local tickets
+with validation evidence. Report the integration branch and remaining work.
+```
+
+Unlike the direct path, this prompt permits local Git commits and merges.
+Review that permission before sending.
+
+### C. Spec Kit: implement the prepared tasks
+
+Confirm the active feature directory is the one recorded in the handoff:
+
+```text
+/speckit-implement
+Implement only this feature's reviewed tasks, using the docs/modernization/
+package at [revision] and delivery-slice.md as the authority. Preserve original
+acceptance IDs, chosen target stack, contracts, data ownership, and UI scope.
+Run the documented build/tests with sanitized data. Fix related failures and
+record actual evidence. Do not commit, deploy, provision, migrate production
+data, or implement later waves.
+```
+
+```text
+/speckit-converge
+Compare the implementation with the feature spec, plan, tasks, and original
+modernization acceptance IDs. Record remaining in-scope gaps as tasks;
+do not broaden the feature or claim checks passed without execution.
+```
+
+Repeat `/speckit-implement` and `/speckit-converge` until **`Converged`**, or
+record what blocks completion. All paths still need the app review in Challenge
+05. Deployment comes later.
 
 ## Success Criteria
 
-- [ ] The delivery session identifies the package revision, slice, and acceptance IDs.
-- [ ] Source/plan reconciliation and pre-existing failures are recorded.
-- [ ] One end-to-end slice builds and runs in the agreed safe environment.
-- [ ] Focused tests demonstrate its acceptance and relevant failure/compatibility paths.
-- [ ] Preserved contracts and UI behavior have evidence, or named validation gaps.
-- [ ] Remaining work is explicit; no broader migration or operational action is implied.
+- [ ] The chosen workflow uses the reviewed package and Claude Opus 5.5; Matt's path stays within two concurrent subagents.
+- [ ] The slice builds and runs, with tests for acceptance, failure, and compatibility paths.
+- [ ] Required contracts and UI behavior still work; drift and existing failures are recorded.
+- [ ] Results distinguish completed work from gaps or blockers.
 
 ## Hints
 
 <details><summary>Hint 1: Make it end to end</summary>
-Choose a journey whose outcome can be observed, not just a layer or a directory.
+Demonstrate the user's outcome, not just generated files.
 </details>
 
 <details><summary>Hint 2: Guard existing behavior</summary>
-A new framework or service is not permission to change business semantics.
+A new framework does not change the business rules.
 </details>
 
 <details><summary>Hint 3: Keep scope controlled</summary>
-Use the plugin's rebuild entry point rather than an unattended generic
-implementation skill. Resolve a material plan contradiction before coding around it.
+Resolve plan contradictions before coding; tickets do not override the package.
 </details>
 
 ## Learning Resources

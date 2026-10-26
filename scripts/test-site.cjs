@@ -183,19 +183,17 @@ test('homepage route actions open the first customer challenge directly', async 
     }
 });
 
-test('all seven rebuild milestones navigate without crossing into the CLI route', async () => {
+test('all nine rebuild milestones navigate without crossing into the CLI route', async () => {
     const site = workspace();
     await site.open('Student/rebuild/Challenge-00.md');
     assert.equal(site.elements.get('drawer-prev').disabled, true);
-    for (let index = 1; index <= 6; index++) {
+    for (let index = 1; index <= 8; index++) {
         site.elements.get('drawer-next').listeners.click();
         await site.settle();
         assert.equal(site.current(), `Student/rebuild/Challenge-0${index}.md`);
         assert.doesNotMatch(site.content.innerHTML, /Failed to load/);
-        if (index <= 3) {
-            const heading = site.content.innerHTML.match(/^# Challenge \d+: (.+)$/m)[1];
-            assert.equal(site.elements.get('drawer-title').textContent, `Rebuild - ${heading}`);
-        }
+        const heading = site.content.innerHTML.match(/^# Challenge \d+: (.+)$/m)[1];
+        assert.equal(site.elements.get('drawer-title').textContent, `Rebuild - ${heading}`);
     }
     assert.equal(site.elements.get('drawer-next').disabled, true);
 });

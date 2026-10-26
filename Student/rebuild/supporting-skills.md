@@ -11,7 +11,7 @@ These project-local copies are separate from the Agentic Modernization plugin.
 Review existing skills first: installation can overwrite selected copies.
 Stop on errors and inspect partial skill files and `skills-lock.json` before retrying.
 
-Sources and paths verified on 2026-10-23; commands pin source
+Sources and paths verified on 2026-10-26; commands pin source
 commits and the installer version. Review upstream licenses and skill behavior.
 Pins make installation reproducible, not a claim of completed behavioral evaluation.
 Review and commit skill copies/lockfiles only according to your repository policy.
@@ -63,7 +63,7 @@ npx --yes skills@1.7.1 add https://github.com/pbakaus/impeccable/tree/5cb95eea9c
 
 ## Implementation support
 
-Install before a separately requested rebuild slice. Our azure-app-rebuild skill controls delivery; upstream implement is deliberately excluded because it includes an automatic commit step.
+Install before a separately requested rebuild slice. Choose one delivery workflow in Challenge 03: direct with azure-app-rebuild, Matt Pocock, or Spec Kit. Upstream implement is excluded; the optional Matt profile uses implement-spec with explicit local Git scope.
 
 Source: [mattpocock/skills](https://github.com/mattpocock/skills/tree/5beb35b040e3de97e54fa9e386d7e42d15c295c2/skills/engineering).
 
@@ -82,6 +82,21 @@ Source: [mattpocock/skills](https://github.com/mattpocock/skills/tree/5beb35b040
 
 ```bash
 npx --yes skills@1.7.1 add https://github.com/mattpocock/skills/tree/5beb35b040e3de97e54fa9e386d7e42d15c295c2/skills/productivity/handoff --skill handoff --agent github-copilot --copy --yes
+```
+
+## Matt Pocock workflow
+
+Optional: install only for the Matt Pocock path in Challenges 03-04, alongside Implementation support. Configure local Markdown tracking, elaborate the reviewed modernization package with to-spec and to-tickets, then use implement-spec with the workshop's two-concurrent-subagent cap. Its worktrees use local commits/merges; remote publication is not authorized.
+
+Source: [mattpocock/skills](https://github.com/mattpocock/skills/tree/5beb35b040e3de97e54fa9e386d7e42d15c295c2/skills/engineering).
+
+- **`setup-matt-pocock-skills`**: Configure the application's tracker and domain-document conventions.
+- **`to-spec`**: Elaborate only the selected modernization slice into a local delivery spec.
+- **`to-tickets`**: Break the spec into acceptance-linked tickets with blocking dependencies.
+- **`implement-spec`**: Implement the bounded spec/ticket graph on an integration branch.
+
+```bash
+npx --yes skills@1.7.1 add https://github.com/mattpocock/skills/tree/5beb35b040e3de97e54fa9e386d7e42d15c295c2/skills/engineering --skill setup-matt-pocock-skills to-spec to-tickets implement-spec --agent github-copilot --copy --yes
 ```
 
 ## Target-specific specialists

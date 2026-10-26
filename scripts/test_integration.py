@@ -78,7 +78,7 @@ class IntegrationTests(unittest.TestCase):
 
     def test_rebuild_milestones_and_navigation(self):
         files = sorted((ROOT / "Student/rebuild").glob("Challenge-*.md"))
-        self.assertEqual([path.stem for path in files], [f"Challenge-{i:02}" for i in range(7)])
+        self.assertEqual([path.stem for path in files], [f"Challenge-{i:02}" for i in range(9)])
         html = (ROOT / "web/index.html").read_text()
         total_minutes = 0
         for path in files:
@@ -92,6 +92,7 @@ class IntegrationTests(unittest.TestCase):
                 self.assertEqual(text.count("<details>"), 3)
                 self.assertGreaterEqual(text.count("- [ ]"), 4)
                 self.assertNotRegex(text, r"\b(TODO|TBD|FIXME|PLACEHOLDER)\b")
+                self.assertIn("```text\n", text)
                 self.assertIn(f'href="{path.relative_to(ROOT)}"', html)
                 self.assertIn(f"file: '{path.relative_to(ROOT)}'", html)
                 minutes = int(re.search(r"\*\*Estimated Time:\*\* (\d+) minutes", text)[1])
@@ -101,6 +102,11 @@ class IntegrationTests(unittest.TestCase):
                     html, re.S,
                 )[1]
                 self.assertIn(f"{minutes} min &middot;", card)
+                index = int(path.stem.split("-")[1])
+                if index:
+                    self.assertIn(f"[Previous](Challenge-{index - 1:02}.md)", text)
+                if index < len(files) - 1:
+                    self.assertIn(f"[Next](Challenge-{index + 1:02}.md)", text)
         coach = (ROOT / "Coach/rebuild/facilitation-guide.md").read_text()
         self.assertIn(f"{total_minutes} minutes", coach)
         links = Links(html)

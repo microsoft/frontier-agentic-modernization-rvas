@@ -1328,7 +1328,7 @@
             <article class="route-option" data-route="rebuild" aria-labelledby="rebuild-route-heading">
                 <h3 id="rebuild-route-heading">Rearchitect / rebuild</h3>
                 <p>Change business workflows or architecture when a runtime upgrade alone is not enough.</p>
-                <p>Deliver a reviewed architecture and one validated end-to-end slice, not a full application rewrite.</p>
+                <p>Deliver a reviewed architecture and one validated slice on Azure, not a full application rewrite.</p>
                 <p class="route-tool">Agentic Modernization plugin</p>
                 <div class="route-actions">
                     <a class="btn btn-primary" href="Student/rebuild/Challenge-00.md" aria-haspopup="dialog" aria-controls="drawer">Start a rebuild</a>
@@ -2097,8 +2097,9 @@
     <section id="rebuild-challenges" aria-labelledby="rebuild-heading" data-route="rebuild">
         <h2 id="rebuild-heading" class="section-title display reveal">Rearchitect / rebuild</h2>
         <p class="section-desc reveal">
-            One planning conversation produces the complete package. Review it, scope one slice,
-            then start a separate implementation session. Allow two days for the route, not a whole-application rewrite.
+            Follow explicit prompts from discovery to Azure deployment. Review the package, choose direct,
+            Matt Pocock, or Spec Kit delivery, then review, refine, and secure one slice.
+            Allow two days for the route, not a whole-application rewrite.
             Discovery may favor a smaller refactor.
         </p>
         <div class="hero-actions">
@@ -2122,7 +2123,7 @@
             <a class="challenge-card half" data-phase="01" href="Student/rebuild/Challenge-01.md">
                 <div class="card-top"><span class="card-phase-badge">Plan</span><span class="card-num mono">REBUILD &middot; 01</span></div>
                 <h3 class="card-title display">Assess the app and plan the changes</h3>
-                <p class="card-desc">Analyze the application, answer questions, confirm how it works today, and choose a target. One planning workflow produces all eight planning artifacts.</p>
+                <p class="card-desc">Use the provided skill prompt to recover functional specs, choose an Azure architecture, and estimate costs. One planning workflow produces all eight artifacts.</p>
                 <div class="card-footer"><span class="card-tag">150 min &middot; planning</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
             </a>
             <a class="challenge-card half" data-phase="02" href="Student/rebuild/Challenge-02.md">
@@ -2132,28 +2133,40 @@
                 <div class="card-footer"><span class="card-tag">45 min &middot; package review</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
             </a>
             <a class="challenge-card half" data-phase="03" href="Student/rebuild/Challenge-03.md">
-                <div class="card-top"><span class="card-phase-badge">Handoff</span><span class="card-num mono">REBUILD &middot; 03</span></div>
-                <h3 class="card-title display">Choose what to build first</h3>
-                <p class="card-desc">Choose one slice from the reviewed package. Identify its acceptance criteria IDs, dependencies, and what you need to build it. Confirm you can test it safely before starting a separate implementation session.</p>
-                <div class="card-footer"><span class="card-tag">30 min &middot; handoff</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
+                <div class="card-top"><span class="card-phase-badge">Choose</span><span class="card-num mono">REBUILD &middot; 03</span></div>
+                <h3 class="card-title display">Choose the implementation workflow</h3>
+                <p class="card-desc">Switch to Opus 5.5. Choose direct implementation, Matt Pocock skills, or Spec Kit. Reuse the reviewed package to scope one slice and prepare its spec, tickets, or tasks.</p>
+                <div class="card-footer"><span class="card-tag">45 min &middot; workflow</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
             </a>
             <a class="challenge-card half" data-phase="04" href="Student/rebuild/Challenge-04.md">
                 <div class="card-top"><span class="card-phase-badge">Rebuild</span><span class="card-num mono">REBUILD &middot; 04</span></div>
                 <h3 class="card-title display">Build one end-to-end workflow</h3>
-                <p class="card-desc">Start a separate delivery session with the reviewed package. Build and test one end-to-end journey. Preserve contracts outside the agreed changes.</p>
+                <p class="card-desc">Run the explicit prompt for your chosen workflow on Opus 5.5. Build and test one journey; Matt's implementation path uses up to two concurrent subagents.</p>
                 <div class="card-footer"><span class="card-tag">150 min &middot; delivery</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
             </a>
             <a class="challenge-card half" data-phase="05" href="Student/rebuild/Challenge-05.md">
-                <div class="card-top"><span class="card-phase-badge">Validate</span><span class="card-num mono">REBUILD &middot; 05</span></div>
-                <h3 class="card-title display">Test the workflow and review security</h3>
-                <p class="card-desc">Check that the implementation is complete, then review security. Resolve findings and show evidence of what passed, failed, or remains blocked.</p>
+                <div class="card-top"><span class="card-phase-badge">Review</span><span class="card-num mono">REBUILD &middot; 05</span></div>
+                <h3 class="card-title display">Review the app and fill the gaps</h3>
+                <p class="card-desc">Run /review and check the running journey against its acceptance criteria. Implement missing behavior, add regression checks, and review the fixes.</p>
                 <div class="card-footer"><span class="card-tag">60 min &middot; review</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
             </a>
             <a class="challenge-card half" data-phase="06" href="Student/rebuild/Challenge-06.md">
-                <div class="card-top"><span class="card-phase-badge">Operationalize</span><span class="card-num mono">REBUILD &middot; 06</span></div>
-                <h3 class="card-title display">Rehearse deployment and recovery</h3>
-                <p class="card-desc">Rehearse operations in an authorized non-production environment. For a tabletop exercise, state what was not tested. Show what recovery covers and who owns the next delivery wave.</p>
-                <div class="card-footer"><span class="card-tag">60 min &middot; operations</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
+                <div class="card-top"><span class="card-phase-badge">Frontend</span><span class="card-num mono">REBUILD &middot; 06</span></div>
+                <h3 class="card-title display">Refine the frontend with Impeccable</h3>
+                <p class="card-desc">Shape the scoped improvement, implement the brief, then refine layout and color. Inspect rendered states and preserve working behavior. Skip only when the slice has no UI.</p>
+                <div class="card-footer"><span class="card-tag">60 min &middot; frontend</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
+            </a>
+            <a class="challenge-card half" data-phase="07" href="Student/rebuild/Challenge-07.md">
+                <div class="card-top"><span class="card-phase-badge">Secure</span><span class="card-num mono">REBUILD &middot; 07</span></div>
+                <h3 class="card-title display">Review security and fix findings</h3>
+                <p class="card-desc">Run /security-review over the complete slice, including frontend changes. Fix confirmed findings, rerun regression checks, and re-review before deployment.</p>
+                <div class="card-footer"><span class="card-tag">45 min &middot; security</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
+            </a>
+            <a class="challenge-card half" data-phase="08" href="Student/rebuild/Challenge-08.md">
+                <div class="card-top"><span class="card-phase-badge">Deploy</span><span class="card-num mono">REBUILD &middot; 08</span></div>
+                <h3 class="card-title display">Run and deploy to Azure</h3>
+                <p class="card-desc">Run locally, deploy with the provided target-specific infrastructure, and validate the Azure endpoint, integrations, and telemetry. Hand off recovery and cleanup responsibilities.</p>
+                <div class="card-footer"><span class="card-tag">60 min &middot; deployment</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
             </a>
         </div>
     </section>
@@ -2181,7 +2194,7 @@
                 </a>
                 <a class="challenge-card half" href="Coach/rebuild/scoring-rubric.md">
                     <h3 class="card-title display">Score observable evidence</h3>
-                    <p class="card-desc">Check the evidence for each milestone. Distinguish a reviewed plan, a working slice, and a live rehearsal from partial results or tabletop exercises.</p>
+                    <p class="card-desc">Check the evidence for each milestone. Distinguish a reviewed plan, a working slice, and an Azure deployment from partial results.</p>
                     <div class="card-arrow mono">Open rubric <span aria-hidden="true">&rarr;</span></div>
                 </a>
             </div>
@@ -2869,10 +2882,12 @@
             { file: 'Student/rebuild/Challenge-00.md', title: 'Rebuild - Prepare' },
             { file: 'Student/rebuild/Challenge-01.md', title: 'Rebuild - Run Discovery and Modernization Planning' },
             { file: 'Student/rebuild/Challenge-02.md', title: 'Rebuild - Review and Challenge the Modernization Package' },
-            { file: 'Student/rebuild/Challenge-03.md', title: 'Rebuild - Prepare the Implementation Handoff' },
-            { file: 'Student/rebuild/Challenge-04.md', title: 'Rebuild - Implement One Slice' },
-            { file: 'Student/rebuild/Challenge-05.md', title: 'Rebuild - Validate' },
-            { file: 'Student/rebuild/Challenge-06.md', title: 'Rebuild - Operationalize' },
+            { file: 'Student/rebuild/Challenge-03.md', title: 'Rebuild - Choose the Implementation Workflow' },
+            { file: 'Student/rebuild/Challenge-04.md', title: 'Rebuild - Rebuild One Working Slice' },
+            { file: 'Student/rebuild/Challenge-05.md', title: 'Rebuild - Review the App and Implement Missing Behavior' },
+            { file: 'Student/rebuild/Challenge-06.md', title: 'Rebuild - Refine the Frontend with Impeccable' },
+            { file: 'Student/rebuild/Challenge-07.md', title: 'Rebuild - Review Security and Fix Findings' },
+            { file: 'Student/rebuild/Challenge-08.md', title: 'Rebuild - Run and Deploy the App to Azure' },
         ];
 
         const GUIDE_FILES = [

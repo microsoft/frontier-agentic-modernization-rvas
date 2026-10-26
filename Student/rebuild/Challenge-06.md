@@ -1,64 +1,122 @@
-**[Home](../../README.md)** | [Previous](Challenge-05.md)
+**[Home](../../README.md)** | [Previous](Challenge-05.md) | [Next](Challenge-07.md)
 
-# Challenge 06: Rehearse Operations and Hand Off
+# Challenge 06: Refine the Frontend with Impeccable
 
 **Estimated Time:** 60 minutes
-**Difficulty:** Expert
+**Difficulty:** Hard
 
 ## Introduction
 
-A safe modernization needs a plan for operation and recovery. The event can
-validate that plan for a bounded slice without promising a production cutover.
+Improve the frontend without changing its business behavior. If the slice has
+no UI, record **not applicable: no UI** and continue to Challenge 07.
 
 ## Prerequisites
 
-- Challenge 05 results and unresolved prerequisites are visible.
-- An authorized non-production environment, or an explicitly limited tabletop scope.
+- Challenge 05 completed with a working, reviewed journey.
+- The Existing UI supporting profile is installed and `/impeccable` is discoverable.
+- A running local app with sanitized content, relevant routes/files,
+  `PRODUCT.md`, `DESIGN.md`, and agreed UI changes.
 
 ## Description
 
-Establish the slice's build/test/deploy blueprint, observability, identities,
-artifact promotion, and recovery responsibilities. Use the chosen Azure target,
-not a mandatory container platform.
+### Shape the scoped improvement
 
-If environment access and explicit operational authorization are available,
-rehearse deployment and rollback with safe data. Otherwise conduct a tabletop
-exercise and identify the missing live checks; do not claim a deployment passed.
-Production data migration is outside this event's default scope.
+Open a new frontend session with the handoff, requirements, design context, and
+target route. Run these commands in agent chat, using the installed names.
 
-Hand off the implemented slice, acceptance evidence, review decisions, cost
-assumptions, remaining waves, and owners. Distinguish routing rollback from data
-reconciliation when the new system has accepted writes.
+```text
+/impeccable shape
+Shape a frontend refinement for [route/surface ID] in our rebuilt journey.
+Read PRODUCT.md, DESIGN.md, the reviewed modernization specification,
+target architecture, and delivery-slice.md. Inspect the running screen and
+current components. Primary user/task: [user and task].
+
+Improve hierarchy, task clarity, responsive behavior, and visual coherence.
+Preserve business rules, permissions, content, working interactions, and brand.
+Stay within approved changeable surfaces; ask before changing a preserved
+surface's disposition or replacing its visual identity.
+Cover loading, empty, error, success, permission-denied, and long-content states.
+Return a design brief for confirmation; do not write application code yet.
+```
+
+Answer the design questions and confirm the brief. **Shape does not write UI
+code.** Request implementation separately:
+
+```text
+Implement the confirmed Impeccable brief for [route/surface ID].
+Keep the established design system and functional acceptance criteria.
+Use existing components/tokens where appropriate. Run the app and inspect
+the rendered result at narrow and wide viewports and relevant UI states.
+Run the affected tests/build and report actual checks and remaining gaps.
+```
+
+### Improve layout, then color
+
+Run each pass separately. Inspect the rendered result before moving on:
+
+```text
+/impeccable layout
+Refine [route and source files] using the confirmed brief. Make the primary
+task obvious, group related controls, improve spacing rhythm and density,
+and make the layout work at narrow, intermediate, and wide sizes.
+Preserve identity, behavior, semantic reading order, and keyboard focus order.
+Check realistic long content, empty/error states, overflow, and zoom.
+Implement the scoped improvements and verify the rendered result.
+```
+
+```text
+/impeccable colorize
+Refine [route and source files] within our confirmed brand and DESIGN.md.
+Use color deliberately for primary actions, selection, focus, status, and
+hierarchy, not arbitrary decoration. Preserve semantic meanings and themes.
+Check contrast and provide non-color cues for important states. Implement
+the improvements and verify the rendered states; do not replace the brand.
+```
+
+Favor clear tasks over decoration; colorize need not add more color.
+Use other commands for specific problems:
+
+| Problem or goal | Command | Guidance |
+| --- | --- | --- |
+| Unclear hierarchy or task flow | `/impeccable critique` | Review before choosing a fix |
+| Accessibility, responsive, or performance gaps | `/impeccable audit` | Find and fix defects |
+| Weak typography | `/impeccable typeset` | Improve hierarchy and reading comfort |
+| Confusing labels or errors | `/impeccable clarify` | Improve copy without changing meaning |
+| Fragile error/empty states | `/impeccable harden` | Handle edge cases |
+| Small-screen problems | `/impeccable adapt` | Test the task at target sizes |
+| Final inconsistencies | `/impeccable polish` | Finish after layout and color are settled |
+
+Finish with `/impeccable audit` and `/impeccable polish`, fix findings, and rerun
+functional checks. Save before/after views and inspected states/sizes.
+Run `/review` on frontend changes before the security session.
 
 ## Success Criteria
 
-- [ ] Build/test/deploy responsibilities and observability signals are documented for the slice.
-- [ ] Rehearsal evidence identifies environment, authorization, result, and recovery limits, or explicitly states tabletop-only.
-- [ ] Data/write ownership and rollback/reconciliation boundaries are explained.
-- [ ] Outstanding checks and subsequent waves have prerequisites and owners.
-- [ ] The team demonstrates the completed slice and honestly reports remaining work.
+- [ ] The brief defines the surface, task, design context, and changes, or the team records that no UI applies.
+- [ ] Shape is followed by implementation, layout, and colorize, with before/after views.
+- [ ] Narrow/wide layouts, relevant states, keyboard use, and contrast are checked; gaps are noted.
+- [ ] Functional tests still pass and frontend changes are reviewed.
 
 ## Hints
 
-<details><summary>Hint 1: Focus on the operator</summary>
-Describe how someone detects a failed journey and decides whether to recover.
+<details><summary>Hint 1: Name the surface</summary>
+Name the route, component files, user task, and surface ID.
 </details>
 
-<details><summary>Hint 2: Separate artifact from execution</summary>
-A workflow file or deployment manifest is not a successful release.
+<details><summary>Hint 2: Preserve what users rely on</summary>
+Keep permissions, validation, error states, and brand commitments.
 </details>
 
-<details><summary>Hint 3: Check writes during coexistence</summary>
-Explain what happens to writes accepted only by the target before proposing
-traffic reversal as rollback.
+<details><summary>Hint 3: Look at the app</summary>
+Inspect rendered states at the sizes users will use.
 </details>
 
 ## Learning Resources
 
-- [Safe deployment practices](https://learn.microsoft.com/azure/well-architected/operational-excellence/safe-deployments)
-- [Disaster recovery strategy](https://learn.microsoft.com/azure/well-architected/reliability/disaster-recovery)
+- [Impeccable commands and skill](https://github.com/pbakaus/impeccable)
+- [Impeccable shape reference](https://github.com/pbakaus/impeccable/blob/5cb95eea9c96479f57afe0732a45470d30183326/.github/skills/impeccable/reference/shape.md)
 
 ## Advanced Challenge (Optional)
 
-Run a non-production failure rehearsal and use telemetry to demonstrate the
-recovery decision, not just the healthy path.
+Use `/impeccable extract` to consolidate repeated tokens/components after the
+refinement, without changing unrelated surfaces.

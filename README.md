@@ -149,10 +149,12 @@ alone cannot solve. Use the **Agentic Modernization** plugin, not the `modernize
 | [00: Prepare](Student/rebuild/Challenge-00.md) | A clearly scoped journey, customer challenge, decision owners, and workspace |
 | [01: Discover & plan](Student/rebuild/Challenge-01.md) | One interactive skill workflow: analysis, questions, decisions, and the complete eight-artifact package |
 | [02: Review the package](Student/rebuild/Challenge-02.md) | Evidence checks, challenged assumptions, targeted corrections, and a reviewed revision |
-| [03: Prepare the handoff](Student/rebuild/Challenge-03.md) | One slice, acceptance IDs, validation readiness, prerequisites, and delivery inputs |
-| [04: Rebuild](Student/rebuild/Challenge-04.md) | One working, tested end-to-end slice in a separate delivery session |
-| [05: Validate](Student/rebuild/Challenge-05.md) | Acceptance evidence and separate completeness/security reviews |
-| [06: Operationalize](Student/rebuild/Challenge-06.md) | Non-production rehearsal or explicitly limited tabletop, recovery, and handoff |
+| [03: Choose the workflow](Student/rebuild/Challenge-03.md) | Opus 5.5, one bounded slice, and direct, Matt Pocock, or Spec Kit delivery inputs |
+| [04: Rebuild](Student/rebuild/Challenge-04.md) | Explicit implementation prompts for the chosen path; Matt's path uses up to two concurrent subagents |
+| [05: Review the app](Student/rebuild/Challenge-05.md) | `/review`, acceptance coverage, and implementation of missing behavior |
+| [06: Refine the frontend](Student/rebuild/Challenge-06.md) | Impeccable shape, explicit UI implementation, layout, and colorize, when a UI applies |
+| [07: Fix security findings](Student/rebuild/Challenge-07.md) | `/security-review`, fixes, regression checks, and re-review |
+| [08: Run and deploy](Student/rebuild/Challenge-08.md) | Local validation, deployment with provided Azure infrastructure, deployed journey evidence, and handoff |
 
 Allow two days for the full path and agree the slice before the event.
 A shorter planning-only session is useful but is not a completed rebuild.
@@ -162,6 +164,10 @@ See the [setup and usage guide](Student/rebuild/setup.md) and
 Challenge 01 handles discovery, stakeholder questions, target selection, and
 the complete planning package. Challenges 02 and 03 review that package and
 prepare delivery; they do not generate separate parts of it.
+Every activity includes copyable prompts. Matt Pocock and Spec Kit elaborate
+the reviewed discovery outputs rather than starting from a new application brief.
+The final activity requires a running non-production Azure deployment; arrange
+target-matched infrastructure and access with the coach before delivery.
 
 ### Install the Agentic Modernization plugin
 
@@ -186,7 +192,8 @@ second diagram copy.
 Planning produces eight artifacts under `docs/modernization/`, including
 `cost-estimate.md`, and stops at **Ready for review**. Formal package acceptance
 is required only by your governance process. Start implementation separately
-with `azure-app-rebuild`, the reviewed package revision, and one scoped slice.
+with the chosen workflow, reviewed package revision, and one scoped slice.
+`azure-app-rebuild` is the direct path; Matt Pocock and Spec Kit are alternatives.
 Neither planning completion nor plugin installation authorizes commits,
 provisioning, deployment, or production migration.
 
@@ -267,7 +274,7 @@ modernize   # launch interactive TUI
 │   ├── java/                ← Challenge-00..06 for the Java track
 │   ├── net8/                ← Challenge-00..06 for the .NET 8 → .NET 10 track
 │   ├── customer/            ← CLI upgrade challenge for a customer application
-│   ├── rebuild/             ← Seven rebuild milestones, setup, and supporting skills
+│   ├── rebuild/             ← Nine rebuild milestones, setup, and supporting skills
 │   └── Resources/           ← Sample apps + helper scripts per track
 ├── Coach/
 │   ├── README.md            ← Coach guide and event logistics
