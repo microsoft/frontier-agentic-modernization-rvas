@@ -55,9 +55,25 @@ terraform output
 
 Record the outputs in the quick reference below. The VM Run Commands install the app and prepare SQL Express for DMS on TCP **1433**.
 
+### Open the legacy app in your browser first
+
+Before connecting over RDP or setting up SSMS, open the deployed app from the
+**presenter machine**, in the same PowerShell terminal:
+
+```powershell
+$legacyUrl = terraform output -raw app_url
+Start-Process $legacyUrl
+```
+
+Confirm the ContosoUniversity home page loads, then visit **Students**,
+**Courses**, and **Departments** to initialize the database and check the pages
+load. If any page fails, resolve the app startup issue before continuing to A2.
+
 ## A2 - Stage the Legacy App and SSMS
 
-Connect using `rdp_command` and your VM credentials. Open the VM's `app_url`; visit **Students**, **Courses**, and **Departments** to initialize the database. Create a recognizable student, upload a teaching-material image to an existing course, and leave both ready to show.
+In the browser, create a recognizable student, upload a teaching-material image
+to an existing course, and leave both ready to show. Then connect using
+`rdp_command` and your VM credentials.
 
 Copy `C:\inetpub\wwwroot\ContosoUniversity\Uploads\TeachingMaterials` from the VM to `$HOME\contoso-demo-materials` on the presenter machine. Preserve filenames for the later Blob Storage upload.
 
@@ -115,6 +131,17 @@ It prompts for the password; do not put it on the command line. `-C` trusts the 
 
 **This is a second, required deployment.** The Coach stack provisions Container Apps, Azure SQL, Service Bus, private Blob Storage, Key Vault, Log Analytics, Azure OpenAI, and the pre-built modern app. Student VM/DMS outputs do not mean the Coach app is deployed. Reuse original state/variables if it already exists.
 
+On the **presenter machine**, install **go-sqlcmd** before applying this stack:
+
+```powershell
+winget install --id Microsoft.Sqlcmd --exact
+```
+
+Reopen PowerShell 7 if installation changed PATH. Check `sqlcmd --version` and
+that `sqlcmd --help` lists `--authentication-method`; the older ODBC sqlcmd does
+not support this option. The SQL-user provisioner uses `pwsh` and
+`ActiveDirectoryDefault`; keep Azure CLI signed in as the deploying identity.
+
 ```powershell
 Set-Location "$env:REPO_ROOT\Coach\Solutions\dotnet\infra"
 if (-not (Test-Path terraform.tfvars)) {
@@ -145,6 +172,12 @@ terraform "-chdir=$acaInfra" output -raw resource_group_name
 ```
 
 If outputs are missing, check `terraform workspace show` and `terraform state list` against the original directory/backend. Do not substitute the Student resource group or blindly refresh/redeploy from empty state.
+
+If an earlier apply failed with `exec: "/bin/bash": executable file not found`,
+use the updated Coach infrastructure files, including `setup-sql-user.ps1`,
+in the **original deployment directory**. Install go-sqlcmd as above, then run
+`terraform plan` and `terraform apply` with the same state and variables. Review
+the plan before applying; do not destroy the resources already created.
 
 **Two databases:** Student/DMS and Coach/app create separate Azure SQL databases. The live migration targets the **Student** database; cutover points the Container App at it.
 
