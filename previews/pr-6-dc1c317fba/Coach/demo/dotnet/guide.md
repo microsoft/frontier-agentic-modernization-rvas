@@ -129,7 +129,7 @@ It prompts for the password; do not put it on the command line. `-C` trusts the 
 
 ## A3 - Deploy the Modern App
 
-**This is a second, required deployment.** The Coach stack provisions Container Apps, Azure SQL, Service Bus, private Blob Storage, Key Vault, Log Analytics, Azure OpenAI, and the pre-built modern app. Student VM/DMS outputs do not mean the Coach app is deployed. Reuse original state/variables if it already exists.
+**This is a second, required deployment.** The Coach stack provisions Container Apps, Azure Container Registry, Azure SQL, Service Bus, private Blob Storage, Key Vault, Log Analytics, Azure OpenAI, and the pre-built modern app. Student VM/DMS outputs do not mean the Coach app is deployed. Reuse original state/variables if it already exists.
 
 On the **presenter machine**, install **go-sqlcmd** before applying this stack:
 
@@ -164,6 +164,10 @@ terraform apply
 terraform output
 ```
 
+If the Coach stack was deployed before ACR was added, run `terraform plan` and
+apply the reviewed in-place update using the original state. The plan should add
+ACR and its role assignments without replacing the existing Container App.
+
 Open `app_url` and test a course-image upload with AI enrichment. Check that this returns the **Coach** resource group, not `No outputs found`:
 
 ```powershell
@@ -185,7 +189,7 @@ the plan before applying; do not destroy the resources already created.
 
 ## A4 - Prepare the Live Terminal
 
-Prepare DMS against the source and empty Student target, including an integration runtime if the portal flow requires one. Sign Docker into your image registry; the Coach stack does not create ACR.
+Prepare DMS against the source and empty Student target, including an integration runtime if the portal flow requires one. The Coach stack creates ACR and grants the deploying identity permission to push images.
 
 Use **PowerShell 7** (`pwsh`), not Windows PowerShell 5.1. Check the version
 and execution policies in the terminal you will use live:
@@ -223,7 +227,7 @@ Dot-source the read-only helper in the **same Windows PowerShell 7 terminal** us
 
 **Continue only after `Ready:`.** The helper checks named Terraform outputs as JSON, clears stale derived variables, and checks the deployed app, its attached identity, and storage. It uses actual deployment outputs, not assumed prefixes or the first storage account in a resource group. It needs no jq and does not deploy or alter state.
 
-Enter the full image reference, including registry/repository and a unique tag, when prompted. Set `$env:DEMO_IMAGE` beforehand to skip the prompt. Do not use the Bash helper or `pwsh -File`: the exported `$env:` values must remain in your live terminal.
+The helper reads the deployed ACR outputs and sets `ACR_NAME`, `ACR_LOGIN_SERVER`, and a unique `DEMO_IMAGE` tag automatically. Do not use the Bash helper or `pwsh -File`: the exported `$env:` values must remain in your live terminal.
 
 ## A5 - Stage the Screens
 
@@ -301,7 +305,7 @@ if (-not (Test-Path $helper)) { throw 'Start in the hackathon repository root.' 
 . $helper
 ```
 
-**Continue only after `Ready:`.** `REPO_ROOT` is the repository path; the helper reads both deployments and sets `MIGRATION_SQL_HOST`, `ACA_RG`, `ACA_APP`, `APP_IDENTITY_NAME`, `APP_CLIENT_ID`, and `BLOB_ACCOUNT`. It prompts for `DEMO_IMAGE`, the full registry/repository and unique tag to build and push. These are not values to guess.
+**Continue only after `Ready:`.** `REPO_ROOT` is the repository path; the helper reads both deployments and sets `MIGRATION_SQL_HOST`, `ACA_RG`, `ACA_APP`, `APP_IDENTITY_NAME`, `APP_CLIENT_ID`, `BLOB_ACCOUNT`, `ACR_NAME`, `ACR_LOGIN_SERVER`, and a unique `DEMO_IMAGE` tag. These values come from the deployed resources and are not values to guess.
 
 If Terraform state lives elsewhere, set `LEGACY_INFRA` and `ACA_INFRA` to those deployment directories before running the helper. Keep this terminal open: all live commands use its environment unless marked **VM PowerShell** or **SQL**. In a new terminal, rerun this preflight.
 
@@ -451,6 +455,7 @@ Apply schema changes as administrator; do not grant the runtime identity DDL per
 
 ```powershell
 dotnet build ContosoUniversity.csproj -c Release
+az acr login --name "$env:ACR_NAME"
 docker build -t "$env:DEMO_IMAGE" .
 docker push "$env:DEMO_IMAGE"
 
