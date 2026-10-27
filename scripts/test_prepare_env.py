@@ -29,6 +29,8 @@ function terraform {
         'resource_group_name' { '"coach-rg"' }
         'container_app_fqdn' { '"contoso.example.com"' }
         'storage_account_blob_endpoint' { '"https://demostorage.blob.core.windows.net/"' }
+        'container_registry_name' { '"acrdemo123"' }
+        'container_registry_login_server' { '"acrdemo123.azurecr.io"' }
         default { throw "Unexpected Terraform command: $args" }
     }
 }
@@ -38,6 +40,7 @@ function az {
         return '[{"name":"contoso","properties":{"configuration":{"ingress":{"fqdn":"contoso.example.com"}}},"identity":{"userAssignedIdentities":{"/identities/demo-id":{"clientId":"demo-client"}}}}]'
     }
     if ($args[0] -eq 'storage') { return 'demostorage' }
+    if ($args[0] -eq 'acr') { return 'acrdemo123.azurecr.io' }
     throw "Unexpected Azure command: $args"
 }
 if ($env:TEST_SCENARIO -eq 'old-powershell') {
@@ -56,6 +59,9 @@ catch { $failed = $true; $message = $_.Exception.Message }
     identity = $env:APP_IDENTITY_NAME
     client = $env:APP_CLIENT_ID
     storage = $env:BLOB_ACCOUNT
+    acrName = $env:ACR_NAME
+    acrLoginServer = $env:ACR_LOGIN_SERVER
+    image = $env:DEMO_IMAGE
 } | ConvertTo-Json -Compress
 if ($failed) { exit 1 }
 """
@@ -110,6 +116,12 @@ if ($failed) { exit 1 }
         self.assertEqual(data["identity"], "demo-id")
         self.assertEqual(data["client"], "demo-client")
         self.assertEqual(data["storage"], "demostorage")
+        self.assertEqual(data["acrName"], "acrdemo123")
+        self.assertEqual(data["acrLoginServer"], "acrdemo123.azurecr.io")
+        self.assertRegex(
+            data["image"],
+            r"^acrdemo123\.azurecr\.io/contoso-university:demo-\d{8}-\d{6}$",
+        )
         self.assertIn("Ready:", result.stdout)
 
 
