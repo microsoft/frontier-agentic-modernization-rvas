@@ -38,6 +38,16 @@ output "resource_group_name" {
   value       = azurerm_resource_group.rg.name
 }
 
+output "container_registry_name" {
+  description = "Name of the Azure Container Registry used for live demo builds."
+  value       = azurerm_container_registry.acr.name
+}
+
+output "container_registry_login_server" {
+  description = "Login server of the Azure Container Registry used for live demo builds."
+  value       = azurerm_container_registry.acr.login_server
+}
+
 output "openai_endpoint" {
   description = "Endpoint of the Azure OpenAI account (used as AzureOpenAI__Endpoint)."
   value       = azurerm_cognitive_account.openai.endpoint

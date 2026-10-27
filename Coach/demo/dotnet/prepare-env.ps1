@@ -3,7 +3,7 @@
 # Optional: $env:LEGACY_INFRA and $env:ACA_INFRA select existing deployment directories.
 # Read-only: does not deploy resources, change Terraform state, or create files.
 # Cleanup of exported values, if needed:
-# 'MIGRATION_SQL_HOST','ACA_RG','ACA_APP','APP_IDENTITY_NAME','APP_CLIENT_ID','BLOB_ACCOUNT','DEMO_IMAGE' |
+# 'MIGRATION_SQL_HOST','ACA_RG','ACA_APP','APP_IDENTITY_NAME','APP_CLIENT_ID','BLOB_ACCOUNT','ACR_NAME','ACR_LOGIN_SERVER','DEMO_IMAGE' |
 #     ForEach-Object { Remove-Item "Env:$_" -ErrorAction SilentlyContinue }
 
 & {
@@ -11,7 +11,8 @@
     if ($PSVersionTable.PSVersion.Major -lt 7) {
         throw "This helper requires PowerShell 7; this terminal is running $($PSVersionTable.PSVersion). Run pwsh, then dot-source the helper again in that terminal. Do not redeploy Terraform resources."
     }
-    'MIGRATION_SQL_HOST', 'ACA_RG', 'ACA_APP', 'APP_IDENTITY_NAME', 'APP_CLIENT_ID', 'BLOB_ACCOUNT' |
+    'MIGRATION_SQL_HOST', 'ACA_RG', 'ACA_APP', 'APP_IDENTITY_NAME', 'APP_CLIENT_ID', 'BLOB_ACCOUNT',
+        'ACR_NAME', 'ACR_LOGIN_SERVER', 'DEMO_IMAGE' |
         ForEach-Object { Remove-Item "Env:$_" -ErrorAction SilentlyContinue }
 
     function Invoke-ContosoCommand {
@@ -71,10 +72,15 @@ $($_.Exception.Message)
     $acaRg = Get-ContosoOutput $acaInfra 'resource_group_name'
     $acaFqdn = Get-ContosoOutput $acaInfra 'container_app_fqdn'
     $blobEndpoint = Get-ContosoOutput $acaInfra 'storage_account_blob_endpoint'
+    $acrName = Get-ContosoOutput $acaInfra 'container_registry_name'
+    $acrLoginServer = Get-ContosoOutput $acaInfra 'container_registry_login_server'
     if ($blobEndpoint -cnotmatch '^https://([a-z0-9]{3,24})\.blob\.[^/\s]+/?$') {
         throw 'Invalid storage account endpoint in Coach Terraform outputs.'
     }
     $blobAccount = $Matches[1]
+    if ($acrName -cnotmatch '^[a-z0-9]{5,50}$' -or $acrLoginServer -cne "$acrName.azurecr.io") {
+        throw 'Invalid Azure Container Registry outputs from the Coach deployment.'
+    }
 
     Write-Host 'Checking the deployed Container App and its managed identity...'
     $appsJson = Invoke-ContosoCommand az @('containerapp', 'list', '-g', $acaRg, '-o', 'json')
@@ -104,14 +110,13 @@ $($_.Exception.Message)
     $null = Invoke-ContosoCommand az @(
         'storage', 'account', 'show', '-g', $acaRg, '-n', $blobAccount, '--query', 'name', '-o', 'tsv'
     )
-
-    $demoImage = $env:DEMO_IMAGE
-    if (-not $demoImage) {
-        $demoImage = Read-Host 'Container image tag to build and deploy (including registry/repository)'
+    $deployedAcrLoginServer = Invoke-ContosoCommand az @(
+        'acr', 'show', '-g', $acaRg, '-n', $acrName, '--query', 'loginServer', '-o', 'tsv'
+    )
+    if ($deployedAcrLoginServer -cne $acrLoginServer) {
+        throw "Azure Container Registry $acrName does not match the Coach Terraform outputs."
     }
-    if ([string]::IsNullOrEmpty($demoImage) -or $demoImage -match '[\s\p{Cc}]') {
-        throw 'Provide a nonempty container image reference without whitespace.'
-    }
+    $demoImage = "$acrLoginServer/contoso-university:demo-$([DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss'))"
 
     $env:LEGACY_INFRA = $legacyInfra
     $env:ACA_INFRA = $acaInfra
@@ -121,6 +126,8 @@ $($_.Exception.Message)
     $env:APP_IDENTITY_NAME = $appIdentityName
     $env:APP_CLIENT_ID = $appClientId
     $env:BLOB_ACCOUNT = $blobAccount
+    $env:ACR_NAME = $acrName
+    $env:ACR_LOGIN_SERVER = $acrLoginServer
     $env:DEMO_IMAGE = $demoImage
-    Write-Host "Ready: app=$acaApp, resource group=$acaRg, identity=$appIdentityName, storage=$blobAccount"
+    Write-Host "Ready: app=$acaApp, resource group=$acaRg, registry=$acrName, image=$demoImage"
 }

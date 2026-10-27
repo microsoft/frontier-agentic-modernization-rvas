@@ -46,6 +46,7 @@ resource "random_string" "suffix" {
 locals {
   suffix             = random_string.suffix.result
   container_app_name = "${var.prefix}-contoso"
+  acr_name           = substr("acr${replace(lower(var.prefix), "/[^0-9a-z]/", "")}${local.suffix}", 0, 50)
 }
 
 # ── Resource Group ────────────────────────────────────────────────────────────
@@ -56,6 +57,15 @@ resource "azurerm_resource_group" "rg" {
   tags = {
     SecurityControl = "Ignore"
   }
+}
+
+# ── Azure Container Registry ──────────────────────────────────────────────────
+resource "azurerm_container_registry" "acr" {
+  name                = local.acr_name
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+  sku                 = "Basic"
+  admin_enabled       = false
 }
 
 # ── Log Analytics Workspace (required by Container Apps) ─────────────────────
@@ -184,6 +194,19 @@ resource "azurerm_user_assigned_identity" "app" {
   location            = azurerm_resource_group.rg.location
 }
 
+# ── RBAC: ACR push for deployer and pull for Container App ────────────────────
+resource "azurerm_role_assignment" "acr_push_deployer" {
+  scope                = azurerm_container_registry.acr.id
+  role_definition_name = "AcrPush"
+  principal_id         = data.azurerm_client_config.current.object_id
+}
+
+resource "azurerm_role_assignment" "acr_pull_app" {
+  scope                = azurerm_container_registry.acr.id
+  role_definition_name = "AcrPull"
+  principal_id         = azurerm_user_assigned_identity.app.principal_id
+}
+
 # ── Container App ─────────────────────────────────────────────────────────────
 resource "azurerm_container_app" "contoso" {
   name                         = local.container_app_name
@@ -195,6 +218,11 @@ resource "azurerm_container_app" "contoso" {
   identity {
     type         = "UserAssigned"
     identity_ids = [azurerm_user_assigned_identity.app.id]
+  }
+
+  registry {
+    server   = azurerm_container_registry.acr.login_server
+    identity = azurerm_user_assigned_identity.app.id
   }
 
   template {
@@ -277,6 +305,7 @@ resource "azurerm_container_app" "contoso" {
     azurerm_mssql_server.sql,
     azurerm_mssql_database.contoso,
     azurerm_key_vault_access_policy.deployer,
+    azurerm_role_assignment.acr_pull_app,
     null_resource.sql_mi_user,
   ]
 }
