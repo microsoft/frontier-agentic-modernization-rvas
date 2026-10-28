@@ -3,7 +3,6 @@
 # Challenge 07: Review Security and Fix Findings
 
 **Estimated Time:** 45 minutes
-**Difficulty:** Hard
 
 ## Introduction
 
@@ -13,7 +12,7 @@ security findings before deployment.
 ## Prerequisites
 
 - Challenge 05 complete and Challenge 06 complete or recorded as not applicable.
-- The full slice diff, reviewed architecture/trust boundaries, tests, and safe data.
+- The full app rebuild diff, reviewed architecture/trust boundaries, tests, and safe data.
 - Copilot CLI `/security-review`, or an equivalent independent security reviewer.
 
 ## Description
@@ -23,9 +22,9 @@ security findings before deployment.
 In Copilot CLI, run:
 
 ```text
-/security-review the complete rebuilt slice from [base
+/security-review the complete rebuilt application from [base
 revision] through [current revision], including uncommitted frontend changes
-and related configuration. Read docs/modernization/delivery-slice.md and the
+and related configuration. Read docs/modernization/rebuild-handoff.md and the
 target architecture's identities, trust boundaries, and data ownership.
 ```
 
@@ -37,18 +36,20 @@ Select **Fix all issues** when the review offers follow-up actions, or send:
 
 ```text
 Fix all confirmed security findings from this review, highest severity first.
-Keep fixes scoped to the rebuilt slice and preserve functional/UI behavior.
+Keep fixes scoped to the agreed app and preserve functional/UI behavior.
 Do not deploy yet.
 ```
 
-Rerun `/security-review`, verify the original findings, and recheck the journey.
-Assign unresolved findings to an owner. Resolve deployment blockers before 08.
+Rerun `/security-review`, verify the original findings, and recheck affected
+workflows. Agree with the coach which confirmed findings block deployment.
+Record the decision and owner for unresolved findings; resolve blockers before
+08. An assigned owner alone does not make a finding acceptable.
 
 ## Success Criteria
 
-- [ ] Review covers the full slice, including frontend and configuration.
+- [ ] Review covers the complete app rebuild, including frontend and configuration.
 - [ ] Findings include severity, location, evidence, and fix status; unresolved items have owners.
-- [ ] Fixes are rechecked, and relevant tests/build and the journey pass.
+- [ ] Fixes are rechecked, and relevant tests/build and affected workflows pass.
 - [ ] No deployment blocker remains; unavailable checks are listed.
 
 ## Hints

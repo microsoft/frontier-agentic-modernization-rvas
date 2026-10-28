@@ -3,16 +3,15 @@
 # Challenge 06: Refine the Frontend with Impeccable
 
 **Estimated Time:** 60 minutes
-**Difficulty:** Hard
 
 ## Introduction
 
-Improve the frontend without changing its business behavior. If the slice has
+Improve the frontend without changing its business behavior. If the app has
 no UI, record **not applicable: no UI** and continue to Challenge 07.
 
 ## Prerequisites
 
-- Challenge 05 completed with a working, reviewed journey.
+- Challenge 05 completed with a working, reviewed application.
 - The Existing UI supporting profile is installed and `/impeccable` is discoverable.
 - A running local app with sanitized content, relevant routes/files,
   `PRODUCT.md`, `DESIGN.md`, and agreed UI changes.
@@ -26,15 +25,15 @@ target route. Run these commands in agent chat, using the installed names.
 
 ```text
 /impeccable shape
-Shape a frontend refinement for [route/surface ID] in our rebuilt journey.
+Shape a frontend refinement for [route/surface ID] in our rebuilt application.
 Read PRODUCT.md, DESIGN.md, the reviewed modernization specification,
-target architecture, and delivery-slice.md. Inspect the running screen and
+target architecture, and rebuild-handoff.md. Inspect the running screen and
 current components. Primary user/task: [user and task].
 
 Improve hierarchy, task clarity, responsive behavior, and visual coherence.
 Preserve business rules, permissions, content, working interactions, and brand.
-Stay within approved changeable surfaces; ask before changing a preserved
-surface's disposition or replacing its visual identity.
+Change only the screens approved for refinement; ask before changing a screen
+marked for preservation or replacing its visual identity.
 Cover loading, empty, error, success, permission-denied, and long-content states.
 Return a design brief for confirmation; do not write application code yet.
 ```
@@ -50,9 +49,11 @@ the rendered result at narrow and wide viewports and relevant UI states.
 Run the affected tests/build and report actual checks and remaining gaps.
 ```
 
-### Improve layout, then color
+### Check layout, then color
 
-Run each pass separately. Inspect the rendered result before moving on:
+Use these passes for layout or color issues identified in the brief. Run them
+separately and inspect the result before moving on. If a pass finds no issue,
+record that result; do not make cosmetic changes just to complete a command.
 
 ```text
 /impeccable layout
@@ -86,14 +87,15 @@ Use other commands for specific problems:
 | Small-screen problems | `/impeccable adapt` | Test the task at target sizes |
 | Final inconsistencies | `/impeccable polish` | Finish after layout and color are settled |
 
-Finish with `/impeccable audit` and `/impeccable polish`, fix findings, and rerun
-functional checks. Save before/after views and inspected states/sizes.
+Finish with `/impeccable audit`; use `/impeccable polish` for remaining
+inconsistencies. Fix findings and rerun functional checks. Save before/after
+views and inspected states/sizes, including evidence for any no-change decision.
 Run `/review` on frontend changes before the security session.
 
 ## Success Criteria
 
 - [ ] The brief defines the surface, task, design context, and changes, or the team records that no UI applies.
-- [ ] Shape is followed by implementation, layout, and colorize, with before/after views.
+- [ ] Confirmed improvements are implemented; layout/color findings are resolved or a no-change decision is supported by rendered evidence.
 - [ ] Narrow/wide layouts, relevant states, keyboard use, and contrast are checked; gaps are noted.
 - [ ] Functional tests still pass and frontend changes are reviewed.
 

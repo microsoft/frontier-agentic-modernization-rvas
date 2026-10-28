@@ -22,8 +22,9 @@ needs, then complete an evidence-backed workflow:
   platforms while preserving core behavior. Success is a running modernized
   Azure application.
 - **Rearchitect & rebuild:** address business workflows, architecture, coupling,
-  or technology changes beyond a runtime upgrade. Success is one validated
-  end-to-end slice deployed to non-production Azure, not an entire application rewrite.
+  or technology changes beyond a runtime upgrade. Success is a complete rebuilt
+  application validated and deployed to non-production Azure. Choose an app
+  small enough for the event rather than dropping required functionality.
 
 ## Positioning
 
@@ -130,8 +131,8 @@ are not evidence of customer outcomes or guaranteed modernization results.
    tool.
 2. Preserve observed behavior where required, and validate intentional changes
    with explicit acceptance evidence.
-3. Keep scope achievable: one validated rebuild slice is more valuable than an
-   unverified promise of a complete rewrite.
+3. Keep scope achievable: choose a complete app small enough to rebuild and
+   validate within the event; a partial journey is not a completed rebuild.
 4. Keep participant, presenter, and coach material connected while preserving
    their distinct jobs.
 5. Favor technically credible, reusable delivery guidance over unsupported

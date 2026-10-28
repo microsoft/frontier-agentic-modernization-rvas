@@ -1,6 +1,7 @@
 import importlib.util
 import json
 import re
+import shlex
 import unittest
 from html.parser import HTMLParser
 from pathlib import Path
@@ -65,6 +66,29 @@ class IntegrationTests(unittest.TestCase):
                 for fixture in case.get("files", []):
                     with self.subTest(evaluation=case["id"], fixture=fixture):
                         self.assertTrue((ROOT / fixture).is_file())
+
+    def test_specialist_installs_are_individually_selectable(self):
+        inventory = json.loads(supporting.INVENTORY.read_text())
+        rendered = supporting.render(inventory)
+        target = next(profile for profile in inventory["profiles"] if profile["id"] == "target")
+        section = rendered.split(f"## {target['title']}\n", 1)[1].split("\n## ", 1)[0]
+        commands = re.findall(r"```bash\n([^\n]+)\n```", section)
+        selections = []
+        for command in commands:
+            args = shlex.split(command)
+            selections.append(args[args.index("--skill") + 1:args.index("--agent")])
+            self.assertEqual(args[2], inventory["installer"])
+        expected = [[name] for source in target["sources"] for name in source["skills"]]
+        self.assertEqual(selections, expected)
+
+        shared = next(profile for profile in inventory["profiles"] if profile["id"] == "implementation")
+        section = rendered.split(f"## {shared['title']}\n", 1)[1].split("\n## ", 1)[0]
+        commands = re.findall(r"```bash\n([^\n]+)\n```", section)
+        selections = []
+        for command in commands:
+            args = shlex.split(command)
+            selections.append(args[args.index("--skill") + 1:args.index("--agent")])
+        self.assertEqual(selections, [list(source["skills"]) for source in shared["sources"]])
 
     def test_both_delivery_paths_and_customer_track_are_reachable_from_navigation(self):
         html = (ROOT / "web/index.html").read_text()

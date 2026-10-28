@@ -3,13 +3,11 @@
 # Challenge 00: Prepare Your Application and Challenge
 
 **Estimated Time:** 30 minutes
-**Difficulty:** Easy
 
 ## Introduction
 
-Bring an application you own and want to rearchitect and rebuild completely.
-The rebuilt app may use a different language, framework, or technology stack.
-Start by understanding the existing app; choose the target during planning.
+Prepare an application your team owns for a complete rebuild. The target
+language, framework, or stack may change after discovery.
 
 ## Prerequisites
 
@@ -23,14 +21,11 @@ Choose an application small enough to rebuild and validate within the event.
 The goal is the complete application, not a single improved user journey.
 Choose a smaller app if necessary rather than quietly dropping functionality.
 
-Write a short brief: what the app does, why you want to rebuild it, its users
-and workflows, integrations and data, what must stay or change, and who decides.
-Include any reasons to change the stack, but leave the target choice to planning.
-Use this prompt to structure the brief:
+Work in the application repository. Use this prompt to write the rebuild brief:
 
 ```text
-Help me prepare a rebuild brief for [application]. Use the source and evidence
-I provide to summarize its users, workflows, integrations, data, required
+Help me prepare a complete-app rebuild brief for [application]. Use the source
+and evidence I provide to summarize its users, workflows, integrations, data, required
 functionality, desired changes, constraints, and decision-makers.
 Ask about missing business context and record build/run gaps.
 Keep stack preferences as inputs to planning, not target decisions.
@@ -40,10 +35,10 @@ Do not edit application code or begin implementation.
 For a runtime-only change, use the
 [upgrade route](../customer/Challenge-00.md).
 
-Work in the application repository. Follow the [setup guide](setup.md) to install
+Follow the [setup guide](setup.md) to install
 the plugin and relevant [supporting skills](supporting-skills.md).
-Bring source, run notes, contracts, and sanitized database/UI evidence.
-Note missing evidence and build/run gaps.
+Supply source, run notes, contracts, and sanitized database/UI evidence;
+record anything unavailable.
 
 Confirm **Claude Opus 5.5** access for implementation and non-production Azure
 access for deployment. After target selection, the coach provides matching

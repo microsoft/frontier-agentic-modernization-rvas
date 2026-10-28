@@ -25,16 +25,6 @@ def render(inventory):
         "Review existing skills first: installation can overwrite selected copies.",
         "Stop on errors and inspect partial skill files and `skills-lock.json` before retrying.",
         "",
-        f"Sources and paths verified on {inventory['verifiedOn']}; commands pin source",
-        "commits and the installer version. Review upstream licenses and skill behavior.",
-        "Pins make installation reproducible, not a claim of completed behavioral evaluation.",
-        "Review and commit skill copies/lockfiles only according to your repository policy.",
-        "",
-        "Use `/skills` in Copilot CLI or **Chat: Configure Skills** in VS Code to",
-        "verify discovery. Reload the host if needed. Select the name shown by your",
-        "host rather than guessing a plugin prefix. Do not install duplicate global",
-        "and workspace copies of the same skill without reviewing precedence.",
-        "",
     ]
     for profile in inventory["profiles"]:
         lines.extend([f"## {profile['title']}", "", profile["when"], ""])
@@ -44,20 +34,34 @@ def render(inventory):
                 f"{source['revision']}/{source['path']}"
             )
             lines.extend([f"Source: [{source['repository']}]({url}).", ""])
-            lines.extend(
-                f"- **`{name}`**: {description}"
-                for name, description in source["skills"].items()
+            selections = (
+                [[name] for name in source["skills"]]
+                if profile.get("individualInstall")
+                else [list(source["skills"])]
             )
-            names = " ".join(source["skills"])
-            lines.extend([
-                "",
-                "```bash",
-                f"npx --yes {inventory['installer']} add {url} "
-                f"--skill {names} --agent {inventory['agent']} --copy --yes",
-                "```",
-                "",
-            ])
+            for selection in selections:
+                lines.extend(
+                    f"- **`{name}`**: {source['skills'][name]}"
+                    for name in selection
+                )
+                names = " ".join(selection)
+                lines.extend([
+                    "",
+                    "```bash",
+                    f"npx --yes {inventory['installer']} add {url} "
+                    f"--skill {names} --agent {inventory['agent']} --copy --yes",
+                    "```",
+                    "",
+                ])
     lines.extend([
+        "## Verify installed skills",
+        "",
+        "Use `/skills` in Copilot CLI or **Chat: Configure Skills** in VS Code.",
+        "Reload if needed and use the name shown by your host. Avoid duplicate",
+        "global/workspace copies unless you have checked which one takes precedence.",
+        "The direct rebuild skill can consult implementation helpers when installed;",
+        "Matt and Spec Kit use the explicit commands in Challenges 03-04.",
+        "",
         "## Runtime prerequisites and updates",
         "",
         "Diagram authoring/rendering has its own Python packages and renderer",
@@ -76,6 +80,13 @@ def render(inventory):
         "Plugin updates do not update these copies. Maintainers review source",
         "revisions and regenerate these commands; participants review changes",
         "before reinstalling. Preserve local customizations and inspect the diff.",
+        "",
+        "## Source pins and repository policy",
+        "",
+        f"Sources and paths were verified on {inventory['verifiedOn']}. Commands pin source",
+        "commits and the installer version for reproducibility, not as evidence of",
+        "completed behavioral evaluation. Review upstream licenses and skill behavior.",
+        "Review and commit skill copies/lockfiles according to your repository policy.",
         "",
     ])
     return "\n".join(lines)
