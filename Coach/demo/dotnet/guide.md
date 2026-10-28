@@ -353,7 +353,7 @@ Alternatively, use **Recommended Assessment** in the extension. Open the report;
 1. Generate a plan, or use **Create Plan** in the report with the same goal:
 
 ```powershell
-modernize plan create "Create the full Azure modernization plan to Azure Container Apps" --source .
+modernize plan create "Create the full Azure modernization plan to Azure Container Apps: migrate ContosoUniversity from ASP.NET MVC 5 / System.Web on .NET Framework 4.8 to ASP.NET Core MVC on .NET 10. Include the test project and upgrade incompatible dependencies. Preserve existing behavior and the Azure Service Bus, Entra ID, Blob Storage, and passwordless Azure SQL integrations. Finish with successful Release builds and tests. Do not provision infrastructure or deploy containers" --source .
 ```
 
 2. Review .NET 10/ASP.NET Core migration, EF Core schema compatibility, Service Bus, private Blob Storage, managed identity, and Linux container configuration. Preserve existing records, CRUD, and notifications; keep database/file migration separate. Execute the reviewed plan:
@@ -379,16 +379,22 @@ dotnet build ContosoUniversity.csproj -c Release --no-restore
 **Say:**
 > We are moving SQL Express to Azure SQL during a maintenance window, not doing zero-downtime replication. The Student DMS target and Coach app database are separate.
 
-1. Finish legacy edits. Stop source writes in **VM PowerShell**:
+**1. Stop source writes.** Finish legacy edits, then run in **Windows PowerShell as Administrator inside the legacy VM (over RDP)**:
 
 ```powershell
 Import-Module WebAdministration
 Stop-Website -Name ContosoUniversity
 ```
 
-In **Tab 2**, use the prepared DMS offline flow: source `source_sql_private_ip`, port **1433**, SQL login `dms_migration`, database `ContosoUniversity`. Select the **Student** `target_sql_server_for_wizard`, its empty `ContosoUniversity` database, and the private target SQL login. Include schema migration if tables are absent; select all application tables and start. **Do not select the seeded Coach database.**
+**2. Migrate the database.** In **Azure Portal, Tab 2 > DMS > the prepared migration project**, run the offline migration:
 
-2. After completion, compare counts on source (SSMS) and target (Azure SQL Query editor, configured Entra administrator). Find the prepared student:
+- **Source:** `source_sql_private_ip`, port **1433**, SQL login `dms_migration`, database `ContosoUniversity`.
+- **Target:** the **Student** `target_sql_server_for_wizard`, its empty `ContosoUniversity` database, and the private target SQL login. **Do not select the seeded Coach database.**
+- Include schema migration if tables are absent, select all application tables, and start. Wait for completion before continuing.
+
+Terraform prepared DMS and the empty target; this is the step that copies the database schema and rows.
+
+**3. Verify the migrated data.** Run this query twice: in **VM SSMS against the source**, then in **Azure Portal > Student target SQL database > Query editor**, signed in as the configured Entra administrator. Compare counts and find the prepared student in `dbo.Person`:
 
 ```sql
 SELECT 'Person' AS [Table], COUNT(*) AS [Rows] FROM dbo.Person
@@ -397,7 +403,7 @@ UNION ALL SELECT 'Enrollment', COUNT(*) FROM dbo.Enrollment
 UNION ALL SELECT 'Department', COUNT(*) FROM dbo.Department;
 ```
 
-Upload the copied files from the presenter terminal:
+**4. Move the teaching-material files.** In the **presenter's original PowerShell 7 terminal** (where the environment helper ran), upload the files copied from the VM during setup:
 
 ```powershell
 az storage blob upload-batch --account-name "$env:BLOB_ACCOUNT" `
@@ -405,7 +411,7 @@ az storage blob upload-batch --account-name "$env:BLOB_ACCOUNT" `
   --auth-mode login
 ```
 
-After upload succeeds, update paths on the **migrated target**:
+After upload succeeds, run this in the **same Student target database's Query editor** used for verification. It changes stored image paths to blob names; leave the source and Coach databases unchanged:
 
 ```sql
 UPDATE dbo.Course
@@ -417,7 +423,7 @@ WHERE TeachingMaterialImagePath LIKE '~/Uploads/TeachingMaterials/%';
 **Say:**
 > DMS moved rows, not files or queued MSMQ messages. We copied teaching materials separately; new notifications use Service Bus.
 
-3. If time permits, give the plan agent this AI prompt. Otherwise, review the rehearsed implementation:
+**5. Add AI enrichment.** If time permits, give the plan agent this AI prompt. Otherwise, review the rehearsed implementation:
 
 ```text
 Add Azure OpenAI vision enrichment to the modernized ContosoUniversity course
@@ -438,12 +444,12 @@ Bound the AI request duration, log failures, and allow saving the course/image
 when AI is unavailable. Build and test successful and failed enrichment.
 ```
 
-Review/execute the plan and apply reviewed schema changes **before deploying**. The reference needs nullable `dbo.Course` columns: `Description` and `LearningObjectives` (`nvarchar(2000)`), `AltText` (`nvarchar(500)`). Never drop/recreate the populated database.
+Review/execute the plan and apply reviewed schema changes in the **Student target database's Query editor before deploying**. The reference needs nullable `dbo.Course` columns: `Description` and `LearningObjectives` (`nvarchar(2000)`), `AltText` (`nvarchar(500)`). Never drop/recreate the populated database.
 
 **Say:**
 > AI adds descriptions, learning objectives, and alt text, but it must not prevent saving a course when the model fails.
 
-4. Only after migration/schema checks succeed, grant the app identity access in the **target SQL Query editor**. Replace `demo-contoso-id` with `$env:APP_IDENTITY_NAME` if different; create the user only if absent:
+**6. Cut over the modern app.** Only after migration/schema checks succeed, grant the app identity access in the **Student target database's Query editor**. Replace `demo-contoso-id` with `$env:APP_IDENTITY_NAME` if different; create the user only if absent:
 
 ```sql
 CREATE USER [demo-contoso-id] FROM EXTERNAL PROVIDER;
