@@ -29,9 +29,9 @@ Run this readiness check before authorizing deployment:
 
 ```text
 Check deployment readiness for the complete rebuilt application. Read
-docs/modernization/rebuild-handoff.md, target-architecture.md,
-infrastructure-plan.md, cost-estimate.md, migration-plan.md, and the provided
-infrastructure/runbook at [path, revision].
+docs/modernization/specification.md, target-architecture.md, infrastructure-plan.md,
+cost-estimate.md, migration-plan.md, and the provided infrastructure/runbook
+at [path, revision].
 Run the reviewed local build/test/start commands with sanitized fixtures.
 Check every required workflow. Compare the app's ports, configuration,
 health probes, identities, and dependency endpoints with the infrastructure.

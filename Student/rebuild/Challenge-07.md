@@ -24,8 +24,8 @@ In Copilot CLI, run:
 ```text
 /security-review the complete rebuilt application from [base
 revision] through [current revision], including uncommitted frontend changes
-and related configuration. Read docs/modernization/rebuild-handoff.md and the
-target architecture's identities, trust boundaries, and data ownership.
+and related configuration. Read the reviewed docs/modernization/ specification
+and target architecture's identities, trust boundaries, and data ownership.
 ```
 
 In VS Code, use security review or a named independent reviewer with the same scope.

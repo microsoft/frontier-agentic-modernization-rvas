@@ -21,8 +21,8 @@ what is missing.
 In Copilot CLI, run:
 
 ```text
-/review the complete rebuilt application against docs/modernization/rebuild-handoff.md,
-the reviewed specification and architecture, and [framework spec/tickets/tasks,
+/review the complete rebuilt application against the reviewed
+docs/modernization/ specification and architecture, and [framework spec/tickets/tasks,
 if used]. Cover all rebuild changes from [base revision] to [current revision],
 plus uncommitted changes, not just the last edit. Identify required workflows
 that are missing entirely, not only defects in changed files.

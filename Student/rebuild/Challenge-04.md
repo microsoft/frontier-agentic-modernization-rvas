@@ -10,24 +10,25 @@ Build and test the complete application from the reviewed package.
 
 ## Prerequisites
 
-- Challenge 03 completed with the reviewed package and rebuild handoff.
+- Challenge 03 completed with a reviewed package and chosen workflow.
 - Any required governance acceptance is recorded.
 - A working build/test baseline and the chosen workflow's skills.
 
 ## Description
 
 Start a **new delivery session** in the application repository using `/clear`.
-Reselect **Claude Opus 5.5** with `/model`. Attach
-`docs/modernization/rebuild-handoff.md`, the nine planning files, source/tests,
-UI/domain context, and framework artifacts. Run only your chosen path below.
+Reselect **Claude Opus 5.5** with `/model`. Attach the nine planning files,
+source/tests, UI/domain context, and any framework artifacts. Provide the
+package revision, chosen workflow, and baseline commands/results from 03.
+Run only your chosen path below.
 
 ### A. Direct implementation from the documents
 
 Select `azure-app-rebuild` explicitly, then send:
 
 ```text
-Use azure-app-rebuild to implement the complete application defined in
-docs/modernization/rebuild-handoff.md from package revision [revision].
+Use azure-app-rebuild to implement the complete application defined by the
+reviewed docs/modernization/ package at [revision].
 Delivery scope: complete application, covering all required workflows and
 acceptance IDs [IDs]. Implement in dependency-ordered increments and keep
 coverage of every required workflow. Read the reviewed package and current
@@ -41,8 +42,8 @@ Use the local spec and ticket paths prepared in Challenge 03:
 
 ```text
 /implement-spec
-Implement [local spec path] and its tickets at [ticket directory], bounded by
-docs/modernization/rebuild-handoff.md and reviewed package revision [revision].
+Implement [local spec path] and its tickets at [ticket directory], using the
+reviewed docs/modernization/ package at [revision] as the scope and authority.
 Cover all required workflows; completing one ticket is not a completed rebuild.
 Reconcile them with current source. Keep original acceptance IDs, architecture,
 UI commitments, data ownership, and cost constraints authoritative.
@@ -56,12 +57,12 @@ Review that permission before sending.
 
 ### C. Spec Kit: implement the prepared tasks
 
-Confirm the active feature directory is the one recorded in the handoff:
+Confirm the active feature directory is the one prepared in Challenge 03:
 
 ```text
 /speckit-implement
 Implement only this feature's reviewed tasks, using the docs/modernization/
-package at [revision] and rebuild-handoff.md as the authority. Implement all
+package at [revision] as the authority. Implement all
 required workflows in the agreed app. Preserve original
 acceptance IDs, chosen target stack, contracts, data ownership, and UI scope.
 Run the documented build/tests with sanitized data. Fix related failures and

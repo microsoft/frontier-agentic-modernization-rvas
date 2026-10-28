@@ -16,7 +16,7 @@ before the event; completing one journey is not completion.
 | Day | Focus | Pacing |
 | --- | --- | --- |
 | 1 morning | 00 preparation, 01 complete discovery/planning workflow | Stakeholders attend questions and baseline/target decisions |
-| 1 afternoon | 02 package review, 03 workflow choice and handoff | Challenge the output; select Opus 5.5 and prepare the complete-app implementation |
+| 1 afternoon | 02 package review, 03 workflow choice and readiness | Challenge the output; select Opus 5.5 and prepare the complete-app implementation |
 | 2 morning | 04 complete-app rebuild, 05 app review and fixes | All required workflows, acceptance checks, then missing behavior |
 | 2 afternoon | 06 frontend, 07 security fixes, 08 Azure deployment | Skip 06 only for headless apps; end with the deployed application |
 
@@ -76,7 +76,7 @@ all use the reviewed package, and direct delivery is a valid choice.
 
 | Path | Check before implementation |
 | --- | --- |
-| Direct | `azure-app-rebuild` prompt and explicit complete-app handoff, implemented incrementally |
+| Direct | Reviewed package, explicit complete-app prompt, and working baseline |
 | Matt Pocock | Local Markdown setup, `to-spec`, `to-tickets`, acceptance-ID links, and real dependencies |
 | Spec Kit | Constitution, spec, plan, tasks; clarify as needed and optionally analyze. Implement/converge in 04 until `Converged` |
 
@@ -84,10 +84,10 @@ Check baseline output, fixtures, access, existing failures, and blockers without
 editing application code or provisioning resources. The 45 minutes assumes
 tools are installed.
 
-In `docs/modernization/rebuild-handoff.md`, capture revision, complete-app scope, acceptance IDs,
-dependencies, preserved behavior/UI, write ownership, recovery limits, generated
-artifact paths, delivery owner, and excluded actions. Another teammate should
-be able to start from it.
+Use the reviewed package as the authority for scope, acceptance, architecture,
+and data/recovery decisions. Pass its revision, baseline commands/results, and any
+framework artifact paths into the implementation session; no additional summary
+document is needed.
 
 ## Challenge 04: Rebuild the app (150 minutes)
 

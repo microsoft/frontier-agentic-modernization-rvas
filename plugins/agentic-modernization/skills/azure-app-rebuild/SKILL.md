@@ -23,17 +23,18 @@ UI authority. Discover available supporting skills instead of assuming installat
 
 Require an explicit delivery scope: **complete application**, **migration wave**,
 or **vertical slice**, with its boundary, acceptance IDs, preserve/change/retire
-decisions, prerequisites, and expected validation evidence. Read the supplied
-delivery handoff, such as `docs/modernization/rebuild-handoff.md`, alongside the
-package. If scope is missing or ambiguous, obtain a decision before editing;
+decisions, prerequisites, and expected validation evidence. Use the reviewed
+package and explicit delivery request directly; do not require another summary
+or handoff document. If scope is missing or ambiguous, obtain a decision before editing;
 do not assume either an unrestricted rewrite or a single-slice outcome.
 A reviewed package need not carry formal approval unless the customer's
 governance requires it. Check any required acceptance record.
 
 For complete-app scope, account for every required workflow, integration, and
-applicable UI surface in the reviewed specification. Build a coverage ledger
-linking them to acceptance IDs, implementation work, tests/checks, and
-pass/fail/blocked evidence. Resolve gaps in required behavior or acceptance
+applicable UI surface in the reviewed specification. Track coverage in existing
+task/test records or the response, linking workflows to acceptance IDs,
+implementation work, tests/checks, and pass/fail/blocked evidence.
+Resolve gaps in required behavior or acceptance
 criteria with the decision owner rather than inventing criteria or silently
 dropping workflows. An intentional retirement needs a recorded package decision.
 
@@ -88,7 +89,7 @@ compatibility paths. Run the smallest relevant existing checks, expanding to
 integration/build checks as needed. Verify every in-scope acceptance criterion
 with actual output; a generated test or workflow file is not a passed check.
 
-For complete-app scope, reconcile the coverage ledger against the full reviewed
+For complete-app scope, reconcile workflow coverage against the full reviewed
 specification, including workflows absent from the implementation diff. Exercise
 the app's required workflows and integrations with safe fixtures; record
 unavailable checks as blocked. Passing one journey, a build, or an increment's
@@ -101,7 +102,7 @@ checks. Run a separate security review after completeness findings are resolved
 or explicitly accepted. If independent review or runtime tooling is unavailable,
 name the missing review/check and its owner; do not claim it passed.
 
-## 4. Hand off and stop
+## 4. Report results and stop
 
 Report the package revision, requested delivery scope, completed increments,
 changed files, acceptance IDs with pass/fail/blocked evidence, review findings
@@ -114,6 +115,5 @@ incomplete or explicitly partial, not done. For a complete-app request, report
 remaining workflows and blockers even when several increments are finished.
 Do not silently relabel partial delivery as a smaller successful scope.
 Stop at the agreed app/wave/slice boundary; do not advance to an unrequested wave
-or expand the application. Use `handoff` when available to preserve context for
-the next session. Leave commits and operational execution to separately
-authorized actions.
+or expand the application. Leave commits and operational execution to
+separately authorized actions.

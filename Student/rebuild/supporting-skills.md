@@ -53,7 +53,7 @@ npx --yes skills@1.7.1 add https://github.com/pbakaus/impeccable/tree/5cb95eea9c
 
 ## Implementation support
 
-Install before Challenge 03 for implementation, debugging, review, and handoff. These support your chosen workflow; they are not another implementation orchestrator.
+Install before Challenge 03 for implementation, debugging, and review. These support your chosen workflow; they are not another implementation orchestrator.
 
 Source: [mattpocock/skills](https://github.com/mattpocock/skills/tree/5beb35b040e3de97e54fa9e386d7e42d15c295c2/skills/engineering).
 
@@ -64,14 +64,6 @@ Source: [mattpocock/skills](https://github.com/mattpocock/skills/tree/5beb35b040
 
 ```bash
 npx --yes skills@1.7.1 add https://github.com/mattpocock/skills/tree/5beb35b040e3de97e54fa9e386d7e42d15c295c2/skills/engineering --skill codebase-design tdd diagnosing-bugs code-review --agent github-copilot --copy --yes
-```
-
-Source: [mattpocock/skills](https://github.com/mattpocock/skills/tree/5beb35b040e3de97e54fa9e386d7e42d15c295c2/skills/productivity/handoff).
-
-- **`handoff`**: Preserve package, scope, and validation context for another session.
-
-```bash
-npx --yes skills@1.7.1 add https://github.com/mattpocock/skills/tree/5beb35b040e3de97e54fa9e386d7e42d15c295c2/skills/productivity/handoff --skill handoff --agent github-copilot --copy --yes
 ```
 
 ## Matt Pocock workflow

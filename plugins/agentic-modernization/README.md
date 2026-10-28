@@ -24,7 +24,7 @@ implementation, or the participant guide's Matt Pocock or Spec Kit alternative.
 
 Challenge 01 covers the full planning workflow and package handoff.
 Challenge 02 reviews and corrects that output; Challenge 03 prepares the
-implementation handoff and chosen framework's artifacts. Do not run planning
+implementation readiness and chosen framework's artifacts. Do not run planning
 three times to generate separate parts of the package. The student route chooses
 a small app to rebuild completely; the direct path explicitly requests complete-app
 scope and implements it in increments, validating every required workflow.

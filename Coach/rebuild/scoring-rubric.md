@@ -13,7 +13,7 @@ Each spot check should take under two minutes with the evidence open.
 | 00 | Read the brief and inspect host skills | Complete app small enough for the event, decision owners, route rationale, three bundled skills and chosen supporting profiles |
 | 01 | List `docs/modernization/` and inspect the conversation/handoff | Complete nine-artifact package from one planning workflow, stakeholder decisions, pricing/review statuses, explicit planning stop |
 | 02 | Inspect workflow coverage, trace a critical journey, and read review findings | Evidence/requirement/wave links, challenged strategy/cost/recovery assumptions, targeted corrections, reviewed revision |
-| 03 | Ask a teammate to explain the chosen workflow and handoff | Opus 5.5, complete-app scope, baseline, acceptance IDs, framework artifacts derived from the package, infrastructure contract/gaps |
+| 03 | Ask a teammate to identify the chosen workflow and implementation starting point | Opus 5.5, reviewed package revision, complete-app scope, baseline, acceptance IDs, framework artifacts derived from the package, infrastructure contract/gaps |
 | 04 | Run documented checks and inspect evidence for all required workflows | Chosen path, complete application, current-source reconciliation, passing checks; Matt's path stays within two concurrent subagents |
 | 05 | Inspect `/review`, completeness findings, and fix output | Full rebuild diff, acceptance ledger, missing behavior implemented, regression checks and re-review |
 | 06 | Inspect confirmed brief and rendered before/after views | Approved improvements, layout/color findings resolved or justified no-change result, responsive/state checks, functional regression evidence; N/A only for no UI |
