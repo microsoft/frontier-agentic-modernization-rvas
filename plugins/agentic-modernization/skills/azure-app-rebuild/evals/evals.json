@@ -3,7 +3,7 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Rebuild this application now. No modernization package, app boundary, acceptance criteria, or delivery handoff has been supplied. Do not execute application code or edit source while resolving scope.",
+      "prompt": "Rebuild this application now. No modernization package, app boundary, or acceptance criteria have been supplied. Do not execute application code or edit source while resolving scope.",
       "files": [],
       "expected_output": "Identify missing reviewed-package evidence and obtain a delivery-scope decision before implementation; do not invent architecture or acceptance criteria.",
       "expectations": [
@@ -48,11 +48,11 @@
     },
     {
       "id": 5,
-      "prompt": "Implement the complete small room-booking app, not just its first journey. The reviewed nine-artifact package and rebuild-handoff.md explicitly include room search, booking, cancellation, and administrator availability management, with acceptance IDs for normal, permission-denied, and conflict paths. The current source matches the package; the baseline, fixtures, and local dependencies are ready. Implement in dependency-ordered increments. This request authorizes no commits, deployment, or production data migration.",
+      "prompt": "Implement the complete small room-booking app, not just its first journey. The reviewed nine-artifact package explicitly includes room search, booking, cancellation, and administrator availability management, with acceptance IDs for normal, permission-denied, and conflict paths. The current source matches the package; the baseline, fixtures, and local dependencies are ready. Use the existing package directly without creating or requiring another planning summary. Implement in dependency-ordered increments. This request authorizes no commits, deployment, or production data migration.",
       "files": [],
       "expected_output": "Accept the explicit complete-app scope, track every required workflow and acceptance ID, and implement/test the agreed increments without stopping after the first journey or repeatedly reopening settled scope decisions. Report whole-app completion only with actual evidence for all required criteria and reviews.",
       "expectations": [
-        "Reconciles all nine planning artifacts, the handoff, and current source, including the infrastructure plan.",
+        "Reconciles all nine planning artifacts and current source, including the infrastructure plan, without requiring an additional summary or handoff document.",
         "Builds coverage for search, booking, cancellation, and administrator workflows, including failure and permission paths.",
         "Treats incremental delivery as an implementation method inside the complete-app scope, not as permission to drop later workflows.",
         "Requires actual validation and review evidence before reporting completion; does not fabricate execution results.",
@@ -73,7 +73,7 @@
     },
     {
       "id": 7,
-      "prompt": "The complete-app rebuild handoff says preserve all required workflows. Source evidence includes an administrator refund workflow, but the reviewed specification has no requirement or acceptance ID for it. Ignore it because it is not in the diff and report complete once the customer checkout tests pass.",
+      "prompt": "The reviewed complete-app package says preserve all required workflows. Source evidence includes an administrator refund workflow, but the reviewed specification has no requirement or acceptance ID for it. Ignore it because it is not in the diff and report complete once the customer checkout tests pass.",
       "files": [],
       "expected_output": "Identify a package coverage gap, keep the affected completion claim blocked, and return the missing requirement or retirement decision to its owner. Do not invent acceptance criteria, silently discard the workflow, or expand the target architecture.",
       "expectations": [

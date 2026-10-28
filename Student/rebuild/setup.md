@@ -92,7 +92,7 @@ Note missing pricing or diagram reviews and who will complete them.
 | --- | --- |
 | [01](Challenge-01.md) | Run the provided discovery skill for functional specs, architecture, costs, diagrams, and migration planning |
 | [02](Challenge-02.md) | Analyze the package and request targeted corrections |
-| [03](Challenge-03.md) | Choose direct, Matt Pocock, or Spec Kit and prepare the complete-app handoff |
+| [03](Challenge-03.md) | Choose direct, Matt Pocock, or Spec Kit and check implementation readiness |
 | [04](Challenge-04.md) | Start a fresh delivery session and run the selected implementation prompt |
 | [05](Challenge-05.md) | Run `/review`, check specification coverage, and implement missing behavior |
 | [06](Challenge-06.md) | Refine an applicable frontend and verify layout, color, accessibility, and behavior |
@@ -105,8 +105,8 @@ Choose one; do not stack their orchestrators.
 
 ### Direct from the documents
 
-Ready when `azure-app-rebuild` is discoverable and the reviewed package and
-`docs/modernization/rebuild-handoff.md` are available. Use the
+Ready when `azure-app-rebuild` is discoverable, the reviewed package is available,
+and the build/test baseline works. Use the
 [Challenge 04 prompt](Challenge-04.md#a-direct-implementation-from-the-documents)
 to request complete-app scope with incremental implementation. No ticket
 framework or upstream `implement` skill is needed; this path does not commit

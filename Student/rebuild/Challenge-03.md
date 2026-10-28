@@ -27,7 +27,7 @@ Choose **one** workflow. All three use the reviewed package:
 
 | Workflow | Choose it when | Prepare now | Implement in Challenge 04 |
 | --- | --- | --- | --- |
-| Direct from the documents | The small app needs little extra coordination | Package and rebuild handoff | Explicit prompt with `azure-app-rebuild` |
+| Direct from the documents | The small app needs little extra coordination | Reviewed package and working baseline | Explicit prompt with `azure-app-rebuild` |
 | Matt Pocock skills | You want a spec and dependency-linked tickets with bounded parallel delivery | `/setup-matt-pocock-skills`, `/to-spec`, `/to-tickets` | `/implement-spec`, with up to two concurrent subagents |
 | Spec Kit | You want constitution, feature specification, plan, and task artifacts | Constitution, specify, clarify as needed, plan, tasks; optional analyze | `/speckit-implement`, then `/speckit-converge` until `Converged` |
 
@@ -35,29 +35,24 @@ Install your choice using the [setup guide](setup.md) and
 [supporting profiles](supporting-skills.md). Use Matt or Spec Kit directly,
 not inside `azure-app-rebuild`.
 
-### Prepare the shared handoff
+### Check implementation readiness
 
-Capture the complete app's scope and build/test baseline in
-`docs/modernization/rebuild-handoff.md`:
+Use the reviewed package directly. Check that implementation can start:
 
 ```text
 Read the reviewed docs/modernization/ package at [revision] and current source.
-Prepare rebuild-handoff.md for the complete application [name], covering all
-required workflows and acceptance IDs [IDs].
-Organize the handoff into:
-- Scope: workflow [direct / Matt Pocock / Spec Kit], target stack, dependencies,
-  preserved contracts/UI, and intentional changes.
-- Validation: source/test paths, exact build/run/test commands, safe fixtures,
-  actual baseline output, and pre-existing failures.
-- Data and recovery: write ownership and recovery limits.
-- Deployment: provided infrastructure location/revision and required inputs/
-  outputs, or the missing handoff and owner.
-List unresolved prerequisites and owners. Do not change application code or
-run cloud operations.
+Delivery scope: complete application [name]. Selected workflow:
+[direct / Matt Pocock / Spec Kit]. Use the package's acceptance criteria,
+target stack, preserved behavior, data ownership, and recovery limits.
+Check the reviewed build/run/test commands with safe fixtures. Report commands,
+actual output, pre-existing failures, and blocking prerequisites with owners.
+Identify the provided Azure infrastructure location/revision and required
+inputs/outputs, or report what is missing.
+Do not create another planning summary, change app code, or run cloud operations.
 ```
 
-Include relevant source/tests, UI/domain context, and any required acceptance
-record. Resolve blocking prerequisites before coding.
+Resolve blocking prerequisites before coding. Keep the commands/results and
+chosen workflow available for the new session in Challenge 04.
 
 ### Prepare your chosen workflow
 
@@ -74,8 +69,8 @@ domain records and repository instructions. Do not create remote issues or PRs.
 
 ```text
 /to-spec
-Read all nine reviewed artifacts in docs/modernization/ and rebuild-handoff.md
-at [revision]. Elaborate the complete agreed application into the local spec.
+Read all nine reviewed artifacts in docs/modernization/ at [revision].
+Elaborate the complete agreed application into the local spec.
 Reuse the recovered requirements and acceptance IDs, selected architecture,
 cost constraints, migration dependencies, and agreed UI behavior/design.
 Do not rediscover the application or invent a replacement architecture. Include
@@ -86,7 +81,8 @@ Do not implement yet.
 
 ```text
 /to-tickets
-Read [generated local spec path] and docs/modernization/rebuild-handoff.md.
+Read [generated local spec path] and the reviewed docs/modernization/ package
+at [revision].
 Create demonstrable end-to-end tickets covering the complete app. Record which
 tickets must finish before others and link original acceptance IDs. Include
 tests and integration validation. Show the breakdown for our review before
@@ -104,14 +100,14 @@ Finish with implement and converge in [Challenge 04](Challenge-04.md).
 Read repository instructions and the reviewed docs/modernization/ package.
 Capture agreed principles: preserve in-scope requirements and public contracts,
 honor the chosen architecture and data ownership, use sanitized fixtures,
-validate acceptance with tests, and stay within rebuild-handoff.md.
+validate acceptance with tests, and stay within the package's agreed app scope.
 Do not invent standards or change settled architecture decisions.
 ```
 
 ```text
 /speckit-specify
-Read docs/modernization/specification.md, assessment.md, migration-plan.md,
-and rebuild-handoff.md at [revision]. Specify the complete agreed application
+Read docs/modernization/specification.md, assessment.md, and migration-plan.md
+at [revision]. Specify the complete agreed application
 for this rebuild feature, retaining original requirement and acceptance IDs.
 Use existing discovery evidence and stakeholder answers, not a new greenfield
 brief. Preserve permissions, failure paths, contracts, and approved UI scope.
@@ -128,8 +124,7 @@ silently overriding the package.
 ```text
 /speckit-plan
 Read target-architecture.md, infrastructure-plan.md, strategy-matrix.md,
-cost-estimate.md, both diagrams, migration-plan.md, and rebuild-handoff.md
-in docs/modernization/.
+cost-estimate.md, both diagrams, and migration-plan.md in docs/modernization/.
 Elaborate the selected target stack [stack] into an implementation plan for
 this feature. Preserve Azure service choices, identity and data boundaries,
 cost constraints, agreed UI behavior/design, and the provided infrastructure
@@ -150,18 +145,17 @@ Optional consistency check:
 ```text
 /speckit-analyze
 Check feature spec, plan, and tasks against each other AND the reviewed
-docs/modernization/ package and rebuild-handoff.md. Report scope drift, missing
+docs/modernization/ package. Report scope drift, missing
 acceptance coverage, contradictions, and unsafe dependency ordering.
 ```
 
-Correct inconsistencies and add generated spec/ticket paths or the active
-Spec Kit feature directory to `rebuild-handoff.md`. Take these into a new
-delivery session in Challenge 04.
+Correct inconsistencies. Provide the generated spec/ticket paths or active
+Spec Kit feature directory when starting Challenge 04.
 
 ## Success Criteria
 
 - [ ] Claude Opus 5.5 and one workflow are selected.
-- [ ] The handoff covers the complete app, package revision, acceptance IDs, dependencies, preservation decisions, and data/recovery limits.
+- [ ] Implementation uses the reviewed package revision and its complete-app scope, acceptance criteria, dependencies, and preservation decisions.
 - [ ] Baseline results, safe fixtures, existing failures, and blockers are recorded; implementation has not started.
 - [ ] Generated specs/tickets/tasks use the reviewed package and retain acceptance-ID links.
 
@@ -172,5 +166,6 @@ delivery session in Challenge 04.
 
 ## Advanced Challenge (Optional)
 
-Have another team member explain the app's rebuild and validation approach using
-only the prepared handoff. Resolve any ambiguity they find.
+Have another team member identify the app's scope, acceptance checks, and
+implementation starting point from the reviewed package and chosen workflow.
+Resolve any ambiguity they find.

@@ -149,7 +149,7 @@ alone cannot solve. Use the **Agentic Modernization** plugin, not the `modernize
 | [00: Prepare](Student/rebuild/Challenge-00.md) | A complete app small enough for the event, rebuild brief, decision owners, and workspace |
 | [01: Discover & plan](Student/rebuild/Challenge-01.md) | One interactive skill workflow: analysis, questions, decisions, and the complete nine-artifact package |
 | [02: Review the package](Student/rebuild/Challenge-02.md) | Evidence checks, challenged assumptions, targeted corrections, and a reviewed revision |
-| [03: Choose the workflow](Student/rebuild/Challenge-03.md) | Opus 5.5, complete-app handoff, and direct, Matt Pocock, or Spec Kit delivery inputs |
+| [03: Choose the workflow](Student/rebuild/Challenge-03.md) | Opus 5.5, implementation readiness, and direct, Matt Pocock, or Spec Kit delivery inputs |
 | [04: Rebuild](Student/rebuild/Challenge-04.md) | Explicit implementation prompts for the chosen path; Matt's path uses up to two concurrent subagents |
 | [05: Review the app](Student/rebuild/Challenge-05.md) | `/review`, acceptance coverage, and implementation of missing behavior |
 | [06: Refine the frontend](Student/rebuild/Challenge-06.md) | Scoped UI improvements, rendered layout/color checks, and preserved behavior, when a UI applies |
@@ -192,7 +192,7 @@ second diagram copy.
 Planning produces nine artifacts under `docs/modernization/`, including
 `infrastructure-plan.md` and `cost-estimate.md`, and stops at **Ready for review**. Formal package acceptance
 is required only by your governance process. Start implementation separately
-with the chosen workflow, reviewed package revision, and complete-app handoff.
+with the chosen workflow, reviewed package revision, and explicit complete-app scope.
 `azure-app-rebuild` is the direct path; Matt Pocock and Spec Kit are alternatives.
 Neither planning completion nor plugin installation authorizes commits,
 provisioning, deployment, or production migration.

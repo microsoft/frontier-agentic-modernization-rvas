@@ -20,14 +20,14 @@ no UI, record **not applicable: no UI** and continue to Challenge 07.
 
 ### Shape the scoped improvement
 
-Open a new frontend session with the handoff, requirements, design context, and
+Open a new frontend session with the reviewed package, design context, and
 target route. Run these commands in agent chat, using the installed names.
 
 ```text
 /impeccable shape
 Shape a frontend refinement for [route/surface ID] in our rebuilt application.
 Read PRODUCT.md, DESIGN.md, the reviewed modernization specification,
-target architecture, and rebuild-handoff.md. Inspect the running screen and
+and target architecture. Inspect the running screen and
 current components. Primary user/task: [user and task].
 
 Improve hierarchy, task clarity, responsive behavior, and visual coherence.
