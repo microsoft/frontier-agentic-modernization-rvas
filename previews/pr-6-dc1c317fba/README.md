@@ -31,8 +31,8 @@ For **Replatform & refactor**, use the **GitHub Copilot Modernization** tools ac
 
 The upgrade tracks target .NET 10 and Java 25,
 Azure services, and Azure Container Apps. The rebuild route targets an
-architecture supported by evidence and **one validated end-to-end slice**,
-not a whole-application rewrite during the event.
+architecture supported by evidence and a **complete rebuilt application**.
+Choose an app small enough to implement and validate during the event.
 
 ## Learning Objectives
 
@@ -46,7 +46,7 @@ Across the routes, you can learn to:
 6. Replace an Oracle Database with Azure Database for PostgreSQL and Azure Blob Storage
 7. Containerize both modernized applications and deploy them to Azure Container Apps using Terraform
 8. Apply the same workflow to a **real customer application** from your own portfolio
-9. Recover application behavior, compare architecture strategies, and deliver one end-to-end slice using the plugin route
+9. Recover application behavior, compare architecture strategies, and rebuild and validate a complete small application using the plugin route
 
 ## Demos
 
@@ -146,17 +146,17 @@ alone cannot solve. Use the **Agentic Modernization** plugin, not the `modernize
 
 | Challenge | Outcome |
 | --- | --- |
-| [00: Prepare](Student/rebuild/Challenge-00.md) | A clearly scoped journey, customer challenge, decision owners, and workspace |
-| [01: Discover & plan](Student/rebuild/Challenge-01.md) | One interactive skill workflow: analysis, questions, decisions, and the complete eight-artifact package |
+| [00: Prepare](Student/rebuild/Challenge-00.md) | A complete app small enough for the event, rebuild brief, decision owners, and workspace |
+| [01: Discover & plan](Student/rebuild/Challenge-01.md) | One interactive skill workflow: analysis, questions, decisions, and the complete nine-artifact package |
 | [02: Review the package](Student/rebuild/Challenge-02.md) | Evidence checks, challenged assumptions, targeted corrections, and a reviewed revision |
-| [03: Choose the workflow](Student/rebuild/Challenge-03.md) | Opus 5.5, one bounded slice, and direct, Matt Pocock, or Spec Kit delivery inputs |
+| [03: Choose the workflow](Student/rebuild/Challenge-03.md) | Opus 5.5, implementation readiness, and direct, Matt Pocock, or Spec Kit delivery inputs |
 | [04: Rebuild](Student/rebuild/Challenge-04.md) | Explicit implementation prompts for the chosen path; Matt's path uses up to two concurrent subagents |
 | [05: Review the app](Student/rebuild/Challenge-05.md) | `/review`, acceptance coverage, and implementation of missing behavior |
-| [06: Refine the frontend](Student/rebuild/Challenge-06.md) | Impeccable shape, explicit UI implementation, layout, and colorize, when a UI applies |
+| [06: Refine the frontend](Student/rebuild/Challenge-06.md) | Scoped UI improvements, rendered layout/color checks, and preserved behavior, when a UI applies |
 | [07: Fix security findings](Student/rebuild/Challenge-07.md) | `/security-review`, fixes, regression checks, and re-review |
-| [08: Run and deploy](Student/rebuild/Challenge-08.md) | Local validation, deployment with provided Azure infrastructure, deployed journey evidence, and handoff |
+| [08: Run and deploy](Student/rebuild/Challenge-08.md) | Complete-app validation, deployment with provided Azure infrastructure, and operational handoff |
 
-Allow two days for the full path and agree the slice before the event.
+Allow two days for the full path and choose a suitably small app before the event.
 A shorter planning-only session is useful but is not a completed rebuild.
 See the [setup and usage guide](Student/rebuild/setup.md) and
 [supporting-skill profiles](Student/rebuild/supporting-skills.md).
@@ -189,10 +189,10 @@ Microsoft Learn documentation MCP. Install other supporting skills separately
 in the application repository using the selected profiles; do not install a
 second diagram copy.
 
-Planning produces eight artifacts under `docs/modernization/`, including
-`cost-estimate.md`, and stops at **Ready for review**. Formal package acceptance
+Planning produces nine artifacts under `docs/modernization/`, including
+`infrastructure-plan.md` and `cost-estimate.md`, and stops at **Ready for review**. Formal package acceptance
 is required only by your governance process. Start implementation separately
-with the chosen workflow, reviewed package revision, and one scoped slice.
+with the chosen workflow, reviewed package revision, and explicit complete-app scope.
 `azure-app-rebuild` is the direct path; Matt Pocock and Spec Kit are alternatives.
 Neither planning completion nor plugin installation authorizes commits,
 provisioning, deployment, or production migration.

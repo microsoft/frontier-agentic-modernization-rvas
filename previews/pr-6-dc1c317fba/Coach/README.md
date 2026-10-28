@@ -10,7 +10,8 @@ architecture and business challenges. Do not route solely by language.
 
 The [rebuild facilitation guide](rebuild/facilitation-guide.md) and
 [scoring rubric](rebuild/scoring-rubric.md) cover the separate plugin route.
-Its target is a reviewed plan and one validated slice, not a whole-app rewrite.
+Its target is a reviewed plan and a complete rebuilt app, chosen small enough
+to implement and validate during the event.
 Use the [customer CLI challenge](customer/Solution-00.md) for customer application upgrades.
 
 The upgrade route covers three parallel sample tracks:

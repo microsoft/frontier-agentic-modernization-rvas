@@ -1,36 +1,39 @@
 **[Home](../../README.md)** | [Previous](Challenge-03.md) | [Next](Challenge-05.md)
 
-# Challenge 04: Rebuild One Working Slice
+# Challenge 04: Rebuild the Application
 
 **Estimated Time:** 150 minutes
-**Difficulty:** Hard
 
 ## Introduction
 
-Build and test one end-to-end journey from the reviewed package.
+Build and test the complete application from the reviewed package.
 
 ## Prerequisites
 
-- Challenge 03 completed with the reviewed package and slice handoff.
+- Challenge 03 completed with a reviewed package and chosen workflow.
 - Any required governance acceptance is recorded.
 - A working build/test baseline and the chosen workflow's skills.
 
 ## Description
 
 Start a **new delivery session** in the application repository using `/clear`.
-Reselect **Claude Opus 5.5** with `/model`. Attach
-`docs/modernization/delivery-slice.md`, the eight planning files, source/tests,
-UI/domain context, and framework artifacts. Run only your chosen path below.
+Reselect **Claude Opus 5.5** with `/model`. Attach the nine planning files,
+source/tests, UI/domain context, and any framework artifacts. Provide the
+package revision, chosen workflow, and baseline commands/results from 03.
+Run only your chosen path below.
 
 ### A. Direct implementation from the documents
 
 Select `azure-app-rebuild` explicitly, then send:
 
 ```text
-Use azure-app-rebuild to implement only the slice in
-docs/modernization/delivery-slice.md from package revision [revision].
-Acceptance IDs: [IDs]. Read the entire reviewed modernization package and
-current source/tests before editing; report material drift.
+Use azure-app-rebuild to implement the complete application defined by the
+reviewed docs/modernization/ package at [revision].
+Delivery scope: complete application, covering all required workflows and
+acceptance IDs [IDs]. Implement in dependency-ordered increments and keep
+coverage of every required workflow. Read the reviewed package and current
+source/tests before editing; report material drift. Do not mark the rebuild
+complete after implementing only one journey.
 ```
 
 ### B. Matt Pocock: implement the spec and tickets
@@ -39,14 +42,14 @@ Use the local spec and ticket paths prepared in Challenge 03:
 
 ```text
 /implement-spec
-Implement [local spec path] and its tickets at [ticket directory], bounded by
-docs/modernization/delivery-slice.md and reviewed package revision [revision].
+Implement [local spec path] and its tickets at [ticket directory], using the
+reviewed docs/modernization/ package at [revision] as the scope and authority.
+Cover all required workflows; completing one ticket is not a completed rebuild.
 Reconcile them with current source. Keep original acceptance IDs, architecture,
 UI commitments, data ownership, and cost constraints authoritative.
 
 Use Claude Opus 5.5 for implementation subagents too.
-At every scheduling round, spin up up to 2 subagents for ready work; never exceed
-2 concurrently active subagents in total.
+Use at most 2 concurrently active subagents in total, scheduling only ready work.
 ```
 
 Unlike the direct path, this prompt permits local Git commits and merges.
@@ -54,16 +57,17 @@ Review that permission before sending.
 
 ### C. Spec Kit: implement the prepared tasks
 
-Confirm the active feature directory is the one recorded in the handoff:
+Confirm the active feature directory is the one prepared in Challenge 03:
 
 ```text
 /speckit-implement
 Implement only this feature's reviewed tasks, using the docs/modernization/
-package at [revision] and delivery-slice.md as the authority. Preserve original
+package at [revision] as the authority. Implement all
+required workflows in the agreed app. Preserve original
 acceptance IDs, chosen target stack, contracts, data ownership, and UI scope.
 Run the documented build/tests with sanitized data. Fix related failures and
 record actual evidence. Do not commit, deploy, provision, migrate production
-data, or implement later waves.
+data, or add features outside the agreed app.
 ```
 
 ```text
@@ -80,7 +84,7 @@ record what blocks completion. All paths still need the app review in Challenge
 ## Success Criteria
 
 - [ ] The chosen workflow uses the reviewed package and Claude Opus 5.5; Matt's path stays within two concurrent subagents.
-- [ ] The slice builds and runs, with tests for acceptance, failure, and compatibility paths.
+- [ ] The complete app builds and runs, with tests for all required workflows and important failure/compatibility paths.
 - [ ] Required contracts and UI behavior still work; drift and existing failures are recorded.
 - [ ] Results distinguish completed work from gaps or blockers.
 
@@ -91,5 +95,5 @@ record what blocks completion. All paths still need the app review in Challenge
 
 ## Advanced Challenge (Optional)
 
-Demonstrate the slice coexisting with the incumbent implementation without
-ambiguous write ownership.
+If the migration plan requires coexistence, demonstrate the rebuilt app
+running alongside the incumbent without ambiguous write ownership.
