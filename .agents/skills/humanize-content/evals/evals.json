@@ -138,6 +138,7 @@
         "States that preview access ends on Friday at 17:00 UTC and asks users to export needed reports before then.",
         "Preserves that already-exported reports remain available locally.",
         "States each fact or action once and removes generic communication framing and the recap.",
+        "Every retained sentence contributes a needed fact, action, or clarification for preview users; removes whole sentences that add no reader value rather than merely rephrasing them.",
         "Returns only the update, without invented commitments, extra deliverables, or an explanation of the edits."
       ]
     },
@@ -153,7 +154,8 @@
         "Includes CSV availability now, paid-plan eligibility, and the Settings > Export path.",
         "Keeps the active-record-only scope, archived-record exclusion, and optional nature of the action.",
         "Omits Cedar, planning meetings, and office chairs; adds no unsupported benefit, support promise, or follow-up task.",
-        "Returns only the email without repeating the announcement in a recap."
+        "Returns only the email without repeating the announcement in a recap.",
+        "Every drafted sentence serves the admins' stated purpose through useful information, action, clarification, or appropriate tone; adds no generic scene-setting or empty benefit sentence."
       ]
     },
     {

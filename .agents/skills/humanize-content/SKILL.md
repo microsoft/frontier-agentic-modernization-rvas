@@ -67,7 +67,7 @@ Apply user refinements to the preset. Writing samples guide cadence and word cho
 
 Use only source-supported facts, opinions, and experiences. For a new draft, build from the necessary facts and ask for missing information only when it blocks a useful, accurate result. Keep anecdotes, emotions, measurements, and commitments grounded in the source.
 
-Apply the **reader-need test**: what would the reader lose if this passage disappeared? Delete material whose loss would not matter to the purpose. Lead with the point and keep enough explanation for the reader to understand or act.
+Apply the **reader-need test** to every sentence: what would this reader lose if it disappeared? Each sentence must earn its place by adding useful information, explaining a relationship, guiding action, or serving a purpose through context, emphasis, or tone. If removing it leaves the reader equally informed and able to follow the message, cut it or merge its useful part into another sentence. A sentence need not introduce a new fact to provide value; judge its contribution in context. Lead with the point and keep enough explanation for the reader to understand or act.
 
 Scan all prose against these checks. Fix concrete problems; keep already-effective wording, natural rhythm, and the author's distinctive voice. These are contextual checks, not word bans or punctuation quotas.
 
@@ -88,7 +88,7 @@ Scan all prose against these checks. Fix concrete problems; keep already-effecti
 | Needless process | Cut invented prerequisites, review rituals, checklists, deliverables, and follow-up work. Keep the steps and safeguards the task actually requires. |
 | Obsolete material | Delete superseded examples and historical residue, including archival disclaimers. Retain history only when it serves the reader's purpose, such as migration or an audit record. |
 
-**Gate:** the result covers the reader's need in the chosen voice; every edit improves the source, and every drafted claim is grounded in the brief.
+**Gate:** the result covers the reader's need in the chosen voice; every sentence passes the reader-need test, every edit improves the source, and every drafted claim is grounded in the brief.
 
 ### 4. Audit preservation
 
@@ -101,7 +101,7 @@ Compare every target against the source or brief, checking omissions as well as 
 
 Recheck **sufficiency**: what would the reader still have to guess to understand or act correctly? Restore necessary source-supported context. Ask about essential gaps or factual errors; cut irrelevant content without researching or reconciling it. New factual research or corrections require a separate request.
 
-Apply the reader-need test once more to catch new caveats, process commentary, or explanations of the edit. Repair failures and repeat the affected checks.
+Apply the reader-need test once more to every sentence in the final prose, including any new caveats, process commentary, or explanations of the edit. Repair failures and repeat the affected checks.
 
 **Gate:** every source claim is accounted for as retained, consolidated, or outside the confirmed purpose; all necessary information is understandable without unresolved essential gaps, every assertion is source-supported, and every retained protected span is unchanged. Accounting is an internal check, not a change log to append to the prose.
 
