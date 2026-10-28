@@ -86,10 +86,9 @@ class IntegrationTests(unittest.TestCase):
             with self.subTest(file=path.name):
                 for heading in [
                     "Introduction", "Prerequisites", "Description",
-                    "Success Criteria", "Hints", "Learning Resources",
+                    "Success Criteria", "Learning Resources",
                 ]:
                     self.assertIn(f"## {heading}", text)
-                self.assertEqual(text.count("<details>"), 3)
                 self.assertGreaterEqual(text.count("- [ ]"), 4)
                 self.assertNotRegex(text, r"\b(TODO|TBD|FIXME|PLACEHOLDER)\b")
                 self.assertIn("```text\n", text)

@@ -61,10 +61,6 @@ Include committed work from Matt's integration branch, not just uncommitted edit
 Use synthetic identities to test relevant denied paths.
 </details>
 
-<details><summary>Hint 3: Verify the original issue</summary>
-Rerun the check that exposed each finding.
-</details>
-
 ## Learning Resources
 
 - [Security design review](https://learn.microsoft.com/azure/well-architected/security/design-review)

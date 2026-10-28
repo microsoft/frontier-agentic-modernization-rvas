@@ -53,23 +53,6 @@ runs out, save the current phase and open decisions.
 - [ ] Costs include a pricing attempt/status; diagrams identify completed reviews; migration waves follow dependencies.
 - [ ] The package is **Ready for review** and states "architecture and migration planning only; implementation not started".
 
-## Hints
-
-<details><summary>Hint 1: Stay in the planning conversation</summary>
-Run the skill once through discovery, decisions, and package generation rather
-than restarting it for each document.
-</details>
-
-<details><summary>Hint 2: Resolve conflicting evidence</summary>
-Ask stakeholders to settle differences between source behavior and expectations
-before confirming the baseline.
-</details>
-
-<details><summary>Hint 3: Record unavailable checks</summary>
-Keep pricing failures, missing evidence, and unperformed diagram checks visible.
-Static inspection is not runtime validation.
-</details>
-
 ## Learning Resources
 
 - [Azure architecture design principles](https://learn.microsoft.com/azure/architecture/guide/design-principles/)
