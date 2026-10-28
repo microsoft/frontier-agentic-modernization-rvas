@@ -157,20 +157,6 @@ delivery session in Challenge 04.
 - [ ] Baseline results, safe fixtures, existing failures, and blockers are recorded; implementation has not started.
 - [ ] Generated specs/tickets/tasks use the reviewed package and retain acceptance-ID links.
 
-## Hints
-
-<details><summary>Hint 1: Choose a demonstrable outcome</summary>
-Choose a complete user journey, not a layer to scaffold.
-</details>
-
-<details><summary>Hint 2: Check the slice's prerequisites</summary>
-Check access, test data, runtime tools, and write ownership before coding.
-</details>
-
-<details><summary>Hint 3: Make the next session self-contained</summary>
-Include artifact paths and excluded actions so the next session need not guess.
-</details>
-
 ## Learning Resources
 
 - [Azure pricing overview](https://azure.microsoft.com/pricing/)

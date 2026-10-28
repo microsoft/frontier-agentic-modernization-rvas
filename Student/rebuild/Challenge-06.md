@@ -97,20 +97,6 @@ Run `/review` on frontend changes before the security session.
 - [ ] Narrow/wide layouts, relevant states, keyboard use, and contrast are checked; gaps are noted.
 - [ ] Functional tests still pass and frontend changes are reviewed.
 
-## Hints
-
-<details><summary>Hint 1: Name the surface</summary>
-Name the route, component files, user task, and surface ID.
-</details>
-
-<details><summary>Hint 2: Preserve what users rely on</summary>
-Keep permissions, validation, error states, and brand commitments.
-</details>
-
-<details><summary>Hint 3: Look at the app</summary>
-Inspect rendered states at the sizes users will use.
-</details>
-
 ## Learning Resources
 
 - [Impeccable commands and skill](https://github.com/pbakaus/impeccable)

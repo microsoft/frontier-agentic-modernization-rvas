@@ -84,20 +84,6 @@ record what blocks completion. All paths still need the app review in Challenge
 - [ ] Required contracts and UI behavior still work; drift and existing failures are recorded.
 - [ ] Results distinguish completed work from gaps or blockers.
 
-## Hints
-
-<details><summary>Hint 1: Make it end to end</summary>
-Demonstrate the user's outcome, not just generated files.
-</details>
-
-<details><summary>Hint 2: Guard existing behavior</summary>
-A new framework does not change the business rules.
-</details>
-
-<details><summary>Hint 3: Keep scope controlled</summary>
-Resolve plan contradictions before coding; tickets do not override the package.
-</details>
-
 ## Learning Resources
 
 - [Testing in the Well-Architected Framework](https://learn.microsoft.com/azure/well-architected/operational-excellence/testing-strategy)

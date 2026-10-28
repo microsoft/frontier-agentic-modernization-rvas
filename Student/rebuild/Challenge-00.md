@@ -59,21 +59,6 @@ This route does not require the Modernization CLI, Java, or .NET.
 - [ ] The host finds `azure-app-modernization`, `azure-app-rebuild`, `cloud-architecture-diagram`, and selected supporting skills.
 - [ ] Evidence and build/run gaps are noted; inputs contain no secrets or production rows.
 
-## Hints
-
-<details><summary>Hint 1: Choose an app that fits</summary>
-Use a smaller complete application rather than silently dropping functionality.
-</details>
-
-<details><summary>Hint 2: Bring evidence, not assumptions</summary>
-Bring source, run notes, contracts, and sanitized database/UI evidence. Record
-what is missing.
-</details>
-
-<details><summary>Hint 3: Leave target selection to planning</summary>
-Explain why you might change the stack without deciding the target in advance.
-</details>
-
 ## Learning Resources
 
 - [Copilot CLI plugins](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-plugin-reference)
