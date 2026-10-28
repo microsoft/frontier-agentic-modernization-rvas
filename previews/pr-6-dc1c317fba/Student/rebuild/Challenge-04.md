@@ -31,13 +31,6 @@ Use azure-app-rebuild to implement only the slice in
 docs/modernization/delivery-slice.md from package revision [revision].
 Acceptance IDs: [IDs]. Read the entire reviewed modernization package and
 current source/tests before editing; report material drift.
-
-Implement this end-to-end journey using the chosen target stack, not a new
-architecture. Preserve behavior, permissions, external contracts, write
-ownership, and UI surfaces not explicitly changed. Include focused tests for
-acceptance, failure, and compatibility paths. Build and run with sanitized data.
-Fix failures caused by this work and report actual pass/fail/blocked evidence.
-Do not start another wave, commit, provision, deploy, or migrate production data.
 ```
 
 ### B. Matt Pocock: implement the spec and tickets
@@ -53,20 +46,7 @@ UI commitments, data ownership, and cost constraints authoritative.
 
 Use Claude Opus 5.5 for implementation subagents too.
 At every scheduling round, spin up up to 2 subagents for ready work; never exceed
-2 concurrently active subagents in total, including exploration, merge, review,
-and fix agents. Use two when tickets are independent, one when dependencies or
-shared-file conflicts require it, and wait when none are ready. Refill slots
-as tickets complete without running blocked tickets.
-
-Use isolated worktrees based on the current integration branch. Do not reset
-or discard existing user work. Integrate completed tickets in dependency order,
-run focused checks and the combined build/tests, and fix integration failures.
-Verify every in-scope acceptance ID with actual output before marking it done.
-
-Local branch/worktree commits and merges are allowed for this workflow.
-Do not push, open a PR, publish remote issues, provision, deploy, migrate
-production data, or start another spec. Close only completed local tickets
-with validation evidence. Report the integration branch and remaining work.
+2 concurrently active subagents in total.
 ```
 
 Unlike the direct path, this prompt permits local Git commits and merges.
@@ -103,20 +83,6 @@ record what blocks completion. All paths still need the app review in Challenge
 - [ ] The slice builds and runs, with tests for acceptance, failure, and compatibility paths.
 - [ ] Required contracts and UI behavior still work; drift and existing failures are recorded.
 - [ ] Results distinguish completed work from gaps or blockers.
-
-## Hints
-
-<details><summary>Hint 1: Make it end to end</summary>
-Demonstrate the user's outcome, not just generated files.
-</details>
-
-<details><summary>Hint 2: Guard existing behavior</summary>
-A new framework does not change the business rules.
-</details>
-
-<details><summary>Hint 3: Keep scope controlled</summary>
-Resolve plan contradictions before coding; tickets do not override the package.
-</details>
 
 ## Learning Resources
 

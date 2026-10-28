@@ -34,9 +34,9 @@ Use coach-provided infrastructure for the selected target, not the Java/.NET
 sample Terraform by default. There is no universal rebuild module in this repo.
 Missing infrastructure blocks this activity.
 
-### Deploy to the agreed Azure environment
+### Deploy to Azure
 
-Review the commands and environment, then authorize deployment:
+Review the commands and environment, then start deployment:
 
 ```text
 Deploy this reviewed slice using the provided infrastructure and runbook.
@@ -58,11 +58,7 @@ artifact [revision/tag]. Execute only the reviewed commands for that scope.
 Compare app and infrastructure ports, configuration, probes, and identity.
 </details>
 
-<details><summary>Hint 2: Verify outside the build environment</summary>
-Test the Azure endpoint with its actual dependencies, not only the local app.
-</details>
-
-<details><summary>Hint 3: Check writes during recovery</summary>
+<details><summary>Hint 2: Check writes during recovery</summary>
 Explain how recovery handles writes accepted only by the new system.
 </details>
 

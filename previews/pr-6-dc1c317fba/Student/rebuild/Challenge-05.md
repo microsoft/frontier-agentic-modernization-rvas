@@ -54,20 +54,6 @@ behavior before frontend refinement in 06 and security review in 07.
 - [ ] Missing behavior is implemented, tested, and reviewed.
 - [ ] Remaining risks or unavailable checks have owners; deployment is still pending.
 
-## Hints
-
-<details><summary>Hint 1: Trace the promise</summary>
-Read the specification next to the diff and validation output.
-</details>
-
-<details><summary>Hint 2: Keep reviews distinct</summary>
-Check missing functionality here; security review follows in Challenge 07.
-</details>
-
-<details><summary>Hint 3: Use your host's tools</summary>
-If independent review tools are unavailable, use a named human reviewer.
-</details>
-
 ## Learning Resources
 
 - [Copilot CLI reference](https://docs.github.com/en/copilot/reference/cli-command-reference)
