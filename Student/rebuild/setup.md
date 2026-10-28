@@ -6,6 +6,9 @@
 **Work in your application repository**, not this tooling repo.
 For runtime-only upgrades, use the
 [CLI customer route](../customer/Challenge-00.md) instead.
+Choose an application small enough to rebuild completely during the event.
+Delivery requires target-matched Azure infrastructure and a runbook from the
+coach; the sample-track Terraform may not fit.
 
 ## Prepare the application workspace
 
@@ -20,10 +23,9 @@ a stakeholder who can answer business questions. No production data or credentia
 | Implementation | **Claude Opus 5.5**, target build/run tools, and a working baseline |
 | Deployment | Azure CLI, non-production Azure permissions, and coach-provided target infrastructure/runbook |
 
-Planning needs no Azure access. Note missing build tools, but resolve them before
-implementation. Before Challenge 08, obtain the infrastructure location/revision,
-inputs, outputs, commands, recovery limits, and cleanup owner. The sample-track
-infrastructure may not fit your target.
+Planning needs no Azure access. Resolve missing build tools before implementation.
+During planning, arrange the infrastructure location/revision, inputs, outputs,
+commands, recovery limits, and cleanup owner with the coach.
 
 ## Install provided plugin
 
@@ -71,11 +73,14 @@ Select `azure-app-modernization` using the name shown by your host and send the
 [Challenge 01 prompt](Challenge-01.md). Stay in one conversation through questions,
 baseline confirmation, target selection, and package completion.
 
-The workflow produces eight artifacts under `docs/modernization/`: `assessment.md`,
+The workflow produces nine artifacts under `docs/modernization/`: `assessment.md`,
 `specification.md`, `strategy-matrix.md`, `target-architecture.md`,
-`cost-estimate.md`, `current-state.drawio`, `target-architecture.drawio`, and
-`migration-plan.md`. UI recovery may also write `PRODUCT.md`, `DESIGN.md`, and
-`.impeccable/design.json`.
+`infrastructure-plan.md`, `cost-estimate.md`, `current-state.drawio`,
+`target-architecture.drawio`, and `migration-plan.md`. UI recovery may also write
+`PRODUCT.md`, `DESIGN.md`, and `.impeccable/design.json`.
+
+The infrastructure plan is a blueprint, not executable Terraform/Bicep or
+permission to deploy.
 
 Planning ends at **Ready for review**, with **architecture and migration planning only; implementation
 not started**. Formal acceptance is needed only if your team requires it.
@@ -87,12 +92,12 @@ Note missing pricing or diagram reviews and who will complete them.
 | --- | --- |
 | [01](Challenge-01.md) | Run the provided discovery skill for functional specs, architecture, costs, diagrams, and migration planning |
 | [02](Challenge-02.md) | Analyze the package and request targeted corrections |
-| [03](Challenge-03.md) | Select Opus 5.5, bound one slice, and choose direct, Matt Pocock, or Spec Kit |
+| [03](Challenge-03.md) | Choose direct, Matt Pocock, or Spec Kit and prepare the complete-app handoff |
 | [04](Challenge-04.md) | Start a fresh delivery session and run the selected implementation prompt |
 | [05](Challenge-05.md) | Run `/review`, check specification coverage, and implement missing behavior |
-| [06](Challenge-06.md) | Refine an applicable frontend with Impeccable shape, implementation, layout, and colorize |
+| [06](Challenge-06.md) | Refine an applicable frontend and verify layout, color, accessibility, and behavior |
 | [07](Challenge-07.md) | Run `/security-review`, fix findings, and recheck |
-| [08](Challenge-08.md) | Run locally, deploy with provided Azure infrastructure, and validate the deployed journey |
+| [08](Challenge-08.md) | Run locally, deploy with provided Azure infrastructure, and validate the complete app |
 
 Select **Claude Opus 5.5** with `/model` or the VS Code picker in 03 and again
 in the new delivery session. All three workflows use the reviewed package.
@@ -100,13 +105,18 @@ Choose one; do not stack their orchestrators.
 
 ### Direct from the documents
 
-Use `azure-app-rebuild` and the Challenge 04 prompt. No ticket framework or
-upstream `implement` skill is needed; this path does not commit automatically.
+Ready when `azure-app-rebuild` is discoverable and the reviewed package and
+`docs/modernization/rebuild-handoff.md` are available. Use the
+[Challenge 04 prompt](Challenge-04.md#a-direct-implementation-from-the-documents)
+to request complete-app scope with incremental implementation. No ticket
+framework or upstream `implement` skill is needed; this path does not commit
+automatically.
 
 ### Matt Pocock workflow
 
-Use the Challenge 03 prompts for `/setup-matt-pocock-skills`, `/to-spec`, and
-`/to-tickets`, then `/implement-spec` in 04. Local Markdown tracking stores specs
+Ready when the four skills in the [Matt profile](supporting-skills.md#matt-pocock-workflow)
+are discoverable. Use the Challenge 03 prompts to prepare local specs and tickets,
+then `/implement-spec` in 04. Local Markdown tracking stores specs
 at `.scratch/<feature>/spec.md` and tickets under `.scratch/<feature>/issues/`.
 
 This path uses worktrees, local commits, and merges, but no pushes or remote
@@ -132,25 +142,12 @@ git diff --stat
 ```
 
 Inspect the full diff. Skip initialization if already configured.
-Challenge 03 turns the reviewed package into a constitution, feature spec, plan,
-and tasks; analysis is optional. In 04, repeat `/speckit-implement` and
-`/speckit-converge` until **`Converged`**.
+Ready when initialization is reviewed and the Spec Kit commands are discoverable.
+Use Challenge 03 to prepare the complete-app feature; Challenge 04 implements it.
 
 Copilot skills use names such as `/speckit-specify` and `/speckit-plan`.
 If your host shows dotted names such as `/speckit.specify`, use that equivalent.
 Run each separately in agent chat, not the terminal.
-
-## Continue through the challenges
-
-The challenges contain the prompts and checks. In 03, prepare
-`docs/modernization/delivery-slice.md`; take it, the reviewed package, and relevant
-source/tests and UI/domain context into the new session in 04.
-
-Keep app review, frontend work, and security separate. If `/review` or
-`/security-review` is unavailable, use an equivalent read-only review and a
-named reviewer. Impeccable shape produces a brief; request implementation after
-confirming it. Challenge 08 requires an actual Azure deployment, explicitly
-authorized for the agreed environment.
 
 ## Update or remove
 

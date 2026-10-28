@@ -11,19 +11,9 @@ These project-local copies are separate from the Agentic Modernization plugin.
 Review existing skills first: installation can overwrite selected copies.
 Stop on errors and inspect partial skill files and `skills-lock.json` before retrying.
 
-Sources and paths verified on 2026-10-26; commands pin source
-commits and the installer version. Review upstream licenses and skill behavior.
-Pins make installation reproducible, not a claim of completed behavioral evaluation.
-Review and commit skill copies/lockfiles only according to your repository policy.
-
-Use `/skills` in Copilot CLI or **Chat: Configure Skills** in VS Code to
-verify discovery. Reload the host if needed. Select the name shown by your
-host rather than guessing a plugin prefix. Do not install duplicate global
-and workspace copies of the same skill without reviewing precedence.
-
 ## Planning essentials
 
-Install before architecture-first discovery. These skills are not needed for the CLI upgrade tracks.
+Install before Challenge 01. The planning skill consults these for stakeholder questions, domain decisions, and costs; start with the Challenge 01 prompt rather than running each separately. CLI upgrade tracks do not need this profile.
 
 Source: [mattpocock/skills](https://github.com/mattpocock/skills/tree/5beb35b040e3de97e54fa9e386d7e42d15c295c2/skills/productivity/grilling).
 
@@ -51,11 +41,11 @@ npx --yes skills@1.7.1 add https://github.com/microsoft/azure-skills/tree/3e15eb
 
 ## Existing UI
 
-Install when the application has a user interface. Planning uses bounded init/document discovery, not hooks, live mode, or redesign.
+Install when the app has a UI. Planning uses init/document to record the existing product and design; Challenge 06 provides the refinement commands. Hooks and live mode are not required.
 
 Source: [pbakaus/impeccable](https://github.com/pbakaus/impeccable/tree/5cb95eea9c96479f57afe0732a45470d30183326/.github/skills/impeccable).
 
-- **`impeccable`**: Recover product/design authority and preserve or intentionally change named UI surfaces.
+- **`impeccable`**: Record existing UI behavior/design and refine approved screens.
 
 ```bash
 npx --yes skills@1.7.1 add https://github.com/pbakaus/impeccable/tree/5cb95eea9c96479f57afe0732a45470d30183326/.github/skills/impeccable --skill impeccable --agent github-copilot --copy --yes
@@ -63,7 +53,7 @@ npx --yes skills@1.7.1 add https://github.com/pbakaus/impeccable/tree/5cb95eea9c
 
 ## Implementation support
 
-Install before a separately requested rebuild slice. Choose one delivery workflow in Challenge 03: direct with azure-app-rebuild, Matt Pocock, or Spec Kit. Upstream implement is excluded; the optional Matt profile uses implement-spec with explicit local Git scope.
+Install before Challenge 03 for implementation, debugging, review, and handoff. These support your chosen workflow; they are not another implementation orchestrator.
 
 Source: [mattpocock/skills](https://github.com/mattpocock/skills/tree/5beb35b040e3de97e54fa9e386d7e42d15c295c2/skills/engineering).
 
@@ -86,12 +76,12 @@ npx --yes skills@1.7.1 add https://github.com/mattpocock/skills/tree/5beb35b040e
 
 ## Matt Pocock workflow
 
-Optional: install only for the Matt Pocock path in Challenges 03-04, alongside Implementation support. Configure local Markdown tracking, elaborate the reviewed modernization package with to-spec and to-tickets, then use implement-spec with the workshop's two-concurrent-subagent cap. Its worktrees use local commits/merges; remote publication is not authorized.
+Install only for the Matt Pocock path, alongside Implementation support. Run the commands in Challenges 03-04. This path uses local commits/merges, not remote publication, and at most two concurrent subagents. Do not install the separate upstream implement skill.
 
 Source: [mattpocock/skills](https://github.com/mattpocock/skills/tree/5beb35b040e3de97e54fa9e386d7e42d15c295c2/skills/engineering).
 
 - **`setup-matt-pocock-skills`**: Configure the application's tracker and domain-document conventions.
-- **`to-spec`**: Elaborate only the selected modernization slice into a local delivery spec.
+- **`to-spec`**: Turn the reviewed complete-app scope into a local delivery spec.
 - **`to-tickets`**: Break the spec into acceptance-linked tickets with blocking dependencies.
 - **`implement-spec`**: Implement the bounded spec/ticket graph on an integration branch.
 
@@ -101,19 +91,47 @@ npx --yes skills@1.7.1 add https://github.com/mattpocock/skills/tree/5beb35b040e
 
 ## Target-specific specialists
 
-Optional. Install only the named skills needed by the selected target; the command below lists the available selection and can be narrowed. Specialist installation does not authorize deployment.
+Optional. Run only the individual install commands needed for your selected target. Ask for the named skill when its task arises; installation does not authorize deployment.
 
 Source: [microsoft/azure-skills](https://github.com/microsoft/azure-skills/tree/3e15ebee595bb092949b9e2e70157fef043d0b0e/skills).
 
 - **`discover-azure-skills`**: Find additional Azure specialists.
+
+```bash
+npx --yes skills@1.7.1 add https://github.com/microsoft/azure-skills/tree/3e15ebee595bb092949b9e2e70157fef043d0b0e/skills --skill discover-azure-skills --agent github-copilot --copy --yes
+```
+
 - **`azure-enterprise-infra-planner`**: Consult on enterprise identity, network, and landing-zone constraints.
+
+```bash
+npx --yes skills@1.7.1 add https://github.com/microsoft/azure-skills/tree/3e15ebee595bb092949b9e2e70157fef043d0b0e/skills --skill azure-enterprise-infra-planner --agent github-copilot --copy --yes
+```
+
 - **`entra-app-registration`**: Consult on application OAuth and identity.
+
+```bash
+npx --yes skills@1.7.1 add https://github.com/microsoft/azure-skills/tree/3e15ebee595bb092949b9e2e70157fef043d0b0e/skills --skill entra-app-registration --agent github-copilot --copy --yes
+```
+
 - **`azure-kubernetes`**: Consult when Kubernetes has an evidenced requirement.
+
+```bash
+npx --yes skills@1.7.1 add https://github.com/microsoft/azure-skills/tree/3e15ebee595bb092949b9e2e70157fef043d0b0e/skills --skill azure-kubernetes --agent github-copilot --copy --yes
+```
+
 - **`azure-diagnostics`**: Investigate operational failures in an authorized environment.
 
 ```bash
-npx --yes skills@1.7.1 add https://github.com/microsoft/azure-skills/tree/3e15ebee595bb092949b9e2e70157fef043d0b0e/skills --skill discover-azure-skills azure-enterprise-infra-planner entra-app-registration azure-kubernetes azure-diagnostics --agent github-copilot --copy --yes
+npx --yes skills@1.7.1 add https://github.com/microsoft/azure-skills/tree/3e15ebee595bb092949b9e2e70157fef043d0b0e/skills --skill azure-diagnostics --agent github-copilot --copy --yes
 ```
+
+## Verify installed skills
+
+Use `/skills` in Copilot CLI or **Chat: Configure Skills** in VS Code.
+Reload if needed and use the name shown by your host. Avoid duplicate
+global/workspace copies unless you have checked which one takes precedence.
+The direct rebuild skill can consult implementation helpers when installed;
+Matt and Spec Kit use the explicit commands in Challenges 03-04.
 
 ## Runtime prerequisites and updates
 
@@ -133,3 +151,10 @@ Azure operations require separate access and authorization.
 Plugin updates do not update these copies. Maintainers review source
 revisions and regenerate these commands; participants review changes
 before reinstalling. Preserve local customizations and inspect the diff.
+
+## Source pins and repository policy
+
+Sources and paths were verified on 2026-10-26. Commands pin source
+commits and the installer version for reproducibility, not as evidence of
+completed behavioral evaluation. Review upstream licenses and skill behavior.
+Review and commit skill copies/lockfiles according to your repository policy.

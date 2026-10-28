@@ -6,12 +6,12 @@ Follow the [participant setup guide](../../Student/rebuild/setup.md) in the
 
 | Skill | Scope | End state |
 | --- | --- | --- |
-| `azure-app-modernization` | Recover behavior and constraints, compare strategies, design Azure targets and migration waves | Eight reconciled planning artifacts, `Ready for review`; implementation not started |
-| `azure-app-rebuild` | Separately requested implementation of one reviewed wave or vertical slice | Working changes with acceptance evidence, gaps, and review results |
+| `azure-app-modernization` | Recover behavior and constraints, compare strategies, design Azure targets and migration waves | Nine reconciled planning artifacts, `Ready for review`; implementation not started |
+| `azure-app-rebuild` | Separately requested complete app, migration wave, or vertical slice; incremental implementation within that scope | Requested scope validated with acceptance coverage, gaps, and review results |
 | `cloud-architecture-diagram` | Bundled editable diagram authoring, assets, and review checks | Current/target diagrams with explicit structural, visual, and independent review status |
 
 Planning produces `assessment.md`, `specification.md`, `strategy-matrix.md`,
-`target-architecture.md`, `cost-estimate.md`, `current-state.drawio`,
+`target-architecture.md`, `infrastructure-plan.md`, `cost-estimate.md`, `current-state.drawio`,
 `target-architecture.drawio`, and `migration-plan.md` under `docs/modernization/`.
 An existing UI can also require `PRODUCT.md`, `DESIGN.md`, and
 `.impeccable/design.json`. Framework replacement does not authorize UI redesign.
@@ -25,8 +25,10 @@ implementation, or the participant guide's Matt Pocock or Spec Kit alternative.
 Challenge 01 covers the full planning workflow and package handoff.
 Challenge 02 reviews and corrects that output; Challenge 03 prepares the
 implementation handoff and chosen framework's artifacts. Do not run planning
-three times to generate separate parts of the package. Challenge 04 implements
-one slice; 05 reviews the app and fixes missing behavior; 06 refines an applicable
+three times to generate separate parts of the package. The student route chooses
+a small app to rebuild completely; the direct path explicitly requests complete-app
+scope and implements it in increments, validating every required workflow.
+Challenge 04 implements that app; 05 reviews it and fixes missing behavior; 06 refines an applicable
 frontend with Impeccable; 07 reviews/fixes security; 08 deploys with the provided
 target-specific Azure infrastructure. The student guides contain explicit prompts.
 
