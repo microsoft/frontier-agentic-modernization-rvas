@@ -138,6 +138,96 @@ function navigation() {
     return { sample, primary, toggle, summary, listeners };
 }
 
+function copyWorkspace({ clipboard = true, reject = false, fallback = true } = {}) {
+    const copied = [];
+    const timers = [];
+    const inputs = [];
+    const parent = element();
+    const pre = element();
+    const text = 'dotnet build "Contoso University.csproj"\n  --configuration Release\n';
+    const code = { textContent: text };
+    pre.parentElement = parent;
+    pre.querySelector = () => code;
+    pre.before = box => { pre.parentElement = box; };
+    const focused = { focus() { this.restored = true; } };
+    const document = {
+        activeElement: focused,
+        createElement(tag) {
+            const node = element();
+            node.style = {};
+            node.children = [];
+            node.append = child => node.children.push(child);
+            node.classList.contains = name => node.className === name;
+            node.select = () => { document.selected = node.value; };
+            node.remove = () => { node.removed = true; };
+            if (tag === 'textarea') inputs.push(node);
+            return node;
+        },
+        execCommand(command) {
+            assert.equal(command, 'copy');
+            if (fallback) copied.push(document.selected);
+            return fallback;
+        },
+    };
+    const context = vm.createContext({
+        document,
+        navigator: clipboard ? { clipboard: { async writeText(value) {
+            if (reject) throw new Error('Permission denied');
+            copied.push(value);
+        } } } : {},
+        setTimeout(callback) { timers.push(callback); return timers.length; },
+        clearTimeout() {},
+    });
+    const start = html.indexOf('function addCodeCopyButtons(');
+    vm.runInContext(html.slice(start, html.indexOf('const STUDENT_FILES', start)), context);
+    const container = { querySelectorAll: () => [pre] };
+    context.container = container;
+    vm.runInContext('addCodeCopyButtons(container)', context);
+    return {
+        copied, timers, inputs, focused, text, context,
+        box: pre.parentElement,
+        button: pre.parentElement.children[1],
+    };
+}
+
+test('code boxes copy exact multiline text without their button label and reset feedback', async () => {
+    const site = copyWorkspace();
+    const pending = site.button.listeners.click();
+    assert.equal(site.button.disabled, true);
+    await pending;
+    assert.deepEqual(site.copied, [site.text]);
+    assert.equal(site.button.textContent, 'Copied!');
+    assert.equal(site.button.attrs['aria-label'], 'Code copied');
+    assert.equal(site.button.disabled, false);
+    site.timers[0]();
+    assert.equal(site.button.textContent, 'Copy');
+    vm.runInContext('addCodeCopyButtons(container)', site.context);
+    assert.equal(site.box.children.length, 2);
+});
+
+test('copy falls back when the clipboard is unavailable or rejects access', async () => {
+    for (const options of [{ clipboard: false }, { reject: true }]) {
+        const site = copyWorkspace(options);
+        await site.button.listeners.click();
+        assert.deepEqual(site.copied, [site.text]);
+        assert.equal(site.button.textContent, 'Copied!');
+        assert.equal(site.inputs[0].removed, true);
+        assert.equal(site.focused.restored, true);
+    }
+});
+
+test('failed copy reports the error, cleans up, and allows another attempt', async () => {
+    const site = copyWorkspace({ reject: true, fallback: false });
+    await site.button.listeners.click();
+    assert.deepEqual(site.copied, []);
+    assert.equal(site.button.textContent, 'Copy failed');
+    assert.match(site.button.attrs['aria-label'], /copy manually/);
+    assert.equal(site.button.disabled, false);
+    assert.equal(site.inputs[0].removed, true);
+    await site.button.listeners.click();
+    assert.equal(site.inputs.length, 2);
+});
+
 test('sample selection closes both navigation layers and updates the mobile toggle', () => {
     const nav = navigation();
     nav.sample.open = true;
