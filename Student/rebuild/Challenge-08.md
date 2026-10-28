@@ -34,9 +34,9 @@ Use coach-provided infrastructure for the selected target, not the Java/.NET
 sample Terraform by default. There is no universal rebuild module in this repo.
 Missing infrastructure blocks this activity.
 
-### Deploy to the agreed Azure environment
+### Deploy to Azure
 
-Review the commands and environment, then authorize deployment:
+Review the commands and environment, then start deployment:
 
 ```text
 Deploy this reviewed slice using the provided infrastructure and runbook.

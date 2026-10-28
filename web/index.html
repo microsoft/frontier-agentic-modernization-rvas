@@ -1110,6 +1110,26 @@
             margin-bottom: 1.5rem;
         }
 
+        .scope-warning {
+            margin-block: 1.5rem;
+            padding: 1rem 1.25rem;
+            border: 1px solid #8a6700;
+            border-radius: var(--radius);
+            background: #fff4ce;
+            color: #4a3700;
+            font-size: var(--text-body);
+            line-height: 1.7;
+        }
+
+        .scope-warning strong {
+            display: block;
+            margin-bottom: .25rem;
+        }
+
+        .scope-warning p {
+            max-width: 75ch;
+        }
+
         #rebuild-challenges code {
             overflow-wrap: anywhere;
         }
@@ -1353,6 +1373,11 @@
         <p class="section-desc">
             A Java or .NET app can take either route. Discovery may recommend a smaller refactor.
         </p>
+        <aside class="scope-warning" aria-label="Scope limitation">
+            <strong>Not for mainframe modernization</strong>
+            <p>Both routes are for modern and traditional non-mainframe application languages and architectures,
+                such as .NET and Java web apps, APIs, and services. Do not use them for mainframe applications.</p>
+        </aside>
         <div class="route-options">
             <article class="route-option" data-route="refactor" aria-labelledby="refactor-heading">
                 <h3 id="refactor-heading">Replatform / refactor</h3>
@@ -2141,6 +2166,11 @@
             Allow two days for the route, not a whole-application rewrite.
             Discovery may favor a smaller refactor.
         </p>
+        <aside class="scope-warning" aria-label="Scope limitation">
+            <strong>Not for mainframe modernization</strong>
+            <p>This route is for modern and traditional non-mainframe application languages and architectures,
+                such as .NET and Java web apps, APIs, and services. Do not use it for mainframe applications.</p>
+        </aside>
         <div class="hero-actions">
             <a class="btn btn-primary" href="Student/rebuild/setup.md">Install &amp; use the plugin</a>
             <a class="btn btn-ghost" href="Student/rebuild/supporting-skills.md">Supporting skill profiles</a>
