@@ -10,8 +10,8 @@ rewrite or stack. Java/.NET are not prerequisites.
 
 Allow two days: **645 minutes** of challenges plus breaks and troubleshooting.
 A prepared four-hour session can aim for planning and an initial package review,
-not a completed rebuild. Choose an application small enough to rebuild completely
-before the event; completing one journey is not completion.
+not a completed rebuild. Before the event, choose an application small enough
+to rebuild completely; completing one journey is not a completed rebuild.
 
 | Day | Focus | Pacing |
 | --- | --- | --- |
@@ -92,7 +92,7 @@ document is needed.
 ## Challenge 04: Rebuild the app (150 minutes)
 
 Start a new session, reselect Opus 5.5, and use the matching A/B/C prompt.
-Do not stack `azure-app-rebuild` over Matt/Spec Kit. Keep the agreed app boundary and
+Do not run `azure-app-rebuild` on top of Matt/Spec Kit. Keep the agreed app scope and
 preserved business/UI behavior; adapters need clear write ownership.
 
 Matt's `implement-spec` permits local commits/worktree merges, not pushes or
@@ -132,9 +132,9 @@ reviewer. Resolve deployment blockers before 08.
 Check local execution and infrastructure compatibility, then use the deployment
 prompt to authorize the agreed non-production scope. Require a working Azure
 endpoint, persistence/integrations, telemetry, and recovery checks.
-A tabletop is not a completed deployment. Require evidence for all required
-workflows, not just one happy-path demo. Ask how recovery handles target-only
-writes, and end with the demo, results, remaining work, operations and cleanup owners.
+A discussion alone is not a completed deployment. Check all required workflows,
+not just one successful demo. Ask how recovery handles writes accepted only by
+the new system. Finish with the demo, results, remaining work, and operations and cleanup owners.
 
 ## Common stuck points and pivots
 

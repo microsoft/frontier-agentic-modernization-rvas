@@ -4,7 +4,9 @@
 
 ## Introduction
 
-The **eShopOnWeb** application is a multi-project ASP.NET Core 8.0 reference application. Unlike a .NET Framework 4.8 migration, this is an **in-place runtime upgrade**. It still involves breaking changes: automated tools can resolve some, and GitHub Copilot Chat can help you address the rest.
+Upgrade **eShopOnWeb** from ASP.NET Core 8.0 to .NET 10 in place.
+Use the modernization tools for automated changes and GitHub Copilot Chat for
+remaining fixes.
 
 The five projects in the solution each need attention:
 

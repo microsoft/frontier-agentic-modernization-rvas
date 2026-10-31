@@ -4,7 +4,9 @@
 
 ## Purpose
 
-This challenge demonstrates the zero-secret deployment pattern. Focus on the `DefaultAzureCredential` chain, Managed Identity RBAC, and Application Insights distributed tracing across two separate Container Apps.
+Move application secrets to Key Vault and access them with Managed Identity.
+Cover the `DefaultAzureCredential` chain, RBAC, and Application Insights tracing
+across both Container Apps.
 
 ## Application Insights — Key Code
 

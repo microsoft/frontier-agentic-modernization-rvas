@@ -4,9 +4,9 @@
 
 ## Introduction
 
-Package the modernized .NET application as a container image and deploy it to **Azure Container Apps**, a serverless container hosting platform with automatic scaling, built-in networking, and integration with Azure services.
-
-Complete the skeleton Terraform configuration in `Student/Resources/dotnet/` under `infra/` to provision the required Azure resources and deploy the container.
+Package the modernized .NET application as a container image and deploy it to
+**Azure Container Apps**. Complete the skeleton Terraform configuration in
+`Student/Resources/dotnet/` under `infra/` to provision its Azure resources.
 
 ## Description
 
