@@ -4,17 +4,16 @@
 
 ## Purpose
 
-This challenge takes the team through a production-grade data migration from the Oracle XE database (running as a Docker container in the legacy stack) to the Azure Database for PostgreSQL Flexible Server provisioned in Challenge 03.
+Teams migrate data from Oracle XE in the legacy Docker stack to the Azure Database for PostgreSQL Flexible Server provisioned in Challenge 03.
 
-Use this guidance with two valid migration paths:
+Choose one migration path:
 - Primary path: Ora2Pg export + psql import.
 - Alternative path: VS Code PostgreSQL extension (`ms-ossdata.vscode-pgsql`) with Schema and Application Conversion (Preview).
 
-In environments where Preview capabilities are enabled, the same extension can also drive AI-assisted **Schema Conversion** and **Application Conversion** for Oracle-to-PostgreSQL modernization.
+The Preview path supports AI-assisted schema and application conversion where
+enabled. Validate the migrated data and app before decommissioning Oracle.
 
-This is a critical cutover step: application state moves to managed PostgreSQL so the Oracle container can be decommissioned before post-cutover hardening.
-
-A working reference for the Azure infrastructure already lives in `Coach/Solutions/java/infra/`. The `azurerm_postgresql_flexible_server` resource provisioned there is the migration target.
+The infrastructure reference is in `Coach/Solutions/java/infra/`. Its `azurerm_postgresql_flexible_server` resource is the migration target.
 
 ---
 
@@ -22,14 +21,14 @@ A working reference for the Azure infrastructure already lives in `Coach/Solutio
 
 Cover:
 
-- Why data migration is separate from code modernization. Challenges 02–05 moved runtime and architecture; this challenge moves state.
+- Why data migration is separate from code modernization. Challenges 02–03 changed and deployed the app; this challenge moves its data.
 - Oracle to PostgreSQL differences relevant to this scenario:
   - Sequences and identity semantics
   - Data type mapping (`VARCHAR2`, `NUMBER`, `BLOB`, `CLOB`, `DATE/TIMESTAMP`)
   - Identifier case and quoting behavior
 - Ora2Pg primary path characteristics:
-  - Offline, deterministic approach that is easy to run in a workshop setting
-  - Generates an auditable SQL artifact (`photoalbum.sql`)
+  - Offline export and import
+  - Generates a SQL file (`photoalbum.sql`) that students can inspect
 - Preview conversion characteristics (alternative path, if enabled):
   - AI-assisted schema conversion of tables, views, procedures, functions, and triggers
   - Scratch-database validation of converted objects before deployment

@@ -1,0 +1,2 @@
+# Optional PNG trimming and its tests only; XML generation uses the standard library.
+Pillow>=10.0.0

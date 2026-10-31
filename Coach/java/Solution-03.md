@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This challenge moves the modernized Java app from a local environment to Azure Container Apps using Docker and Terraform. Attendees must deal with multi-container coordination (app + PostgreSQL → managed service) and cloud-specific configuration.
+Attendees deploy the modernized Java app from a local environment to Azure Container Apps using Docker and Terraform. They must coordinate the app with PostgreSQL as a managed service and handle cloud-specific configuration.
 
 ## Mini-Lecture (10 min before challenge)
 
@@ -16,7 +16,7 @@ Cover:
 
 ## Terraform Resource Checklist – Java
 
-A valid Terraform deployment for the Java track must provision at minimum:
+The Java deployment must provision at least these resources:
 
 | Resource | Terraform resource type |
 |---|---|
@@ -54,7 +54,7 @@ ca-photoalbum-<team>
 
 ## Success Criteria Notes
 
-- `terraform apply` completing without error is binary
+- `terraform apply` must complete without error
 - The app must respond to HTTP requests via the Container Apps FQDN
 - Photos must be retrievable from Azure Blob Storage (not from an in-container temp store)
-- Basic PostgreSQL data persistence across restarts verifies the managed DB is wired correctly
+- Verify that PostgreSQL data persists across restarts

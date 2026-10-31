@@ -46,6 +46,7 @@ resource "random_string" "suffix" {
 locals {
   suffix             = random_string.suffix.result
   container_app_name = "${var.prefix}-contoso"
+  acr_name           = substr("acr${replace(lower(var.prefix), "/[^0-9a-z]/", "")}${local.suffix}", 0, 50)
 }
 
 # ── Resource Group ────────────────────────────────────────────────────────────
@@ -56,6 +57,15 @@ resource "azurerm_resource_group" "rg" {
   tags = {
     SecurityControl = "Ignore"
   }
+}
+
+# ── Azure Container Registry ──────────────────────────────────────────────────
+resource "azurerm_container_registry" "acr" {
+  name                = local.acr_name
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+  sku                 = "Basic"
+  admin_enabled       = false
 }
 
 # ── Log Analytics Workspace (required by Container Apps) ─────────────────────
@@ -184,6 +194,19 @@ resource "azurerm_user_assigned_identity" "app" {
   location            = azurerm_resource_group.rg.location
 }
 
+# ── RBAC: ACR push for deployer and pull for Container App ────────────────────
+resource "azurerm_role_assignment" "acr_push_deployer" {
+  scope                = azurerm_container_registry.acr.id
+  role_definition_name = "AcrPush"
+  principal_id         = data.azurerm_client_config.current.object_id
+}
+
+resource "azurerm_role_assignment" "acr_pull_app" {
+  scope                = azurerm_container_registry.acr.id
+  role_definition_name = "AcrPull"
+  principal_id         = azurerm_user_assigned_identity.app.principal_id
+}
+
 # ── Container App ─────────────────────────────────────────────────────────────
 resource "azurerm_container_app" "contoso" {
   name                         = local.container_app_name
@@ -195,6 +218,11 @@ resource "azurerm_container_app" "contoso" {
   identity {
     type         = "UserAssigned"
     identity_ids = [azurerm_user_assigned_identity.app.id]
+  }
+
+  registry {
+    server   = azurerm_container_registry.acr.login_server
+    identity = azurerm_user_assigned_identity.app.id
   }
 
   template {
@@ -277,6 +305,7 @@ resource "azurerm_container_app" "contoso" {
     azurerm_mssql_server.sql,
     azurerm_mssql_database.contoso,
     azurerm_key_vault_access_policy.deployer,
+    azurerm_role_assignment.acr_pull_app,
     null_resource.sql_mi_user,
   ]
 }
@@ -344,63 +373,23 @@ resource "azurerm_key_vault_access_policy" "app" {
 }
 
 # ── Grant Container App managed identity access to the SQL database ───────────
-# Requires go-sqlcmd (v2) on the machine running terraform apply.
+# Requires PowerShell 7 and go-sqlcmd on the machine running terraform apply.
 # Authentication reuses the same identity that authenticated for terraform apply.
 resource "null_resource" "sql_mi_user" {
   triggers = {
     uami_principal_id = azurerm_user_assigned_identity.app.principal_id
     database_id       = azurerm_mssql_database.contoso.id
+    script_hash       = filesha256("${path.module}/setup-sql-user.ps1")
   }
 
   provisioner "local-exec" {
-    interpreter = ["/bin/bash", "-c"]
-    command     = <<-EOT
-      # ── Install go-sqlcmd if not already present ──────────────────────────
-      if ! command -v sqlcmd &>/dev/null; then
-        echo "sqlcmd not found — installing go-sqlcmd..."
-        SQLCMD_VERSION=$(curl -fsSL https://api.github.com/repos/microsoft/go-sqlcmd/releases/latest \
-          | grep '"tag_name"' | sed 's/.*"v\([^"]*\)".*/\1/')
-        ARCH=$(uname -m); [ "$ARCH" = "x86_64" ] && ARCH="amd64" || ARCH="arm64"
-        curl -fsSL "https://github.com/microsoft/go-sqlcmd/releases/latest/download/sqlcmd-linux-$${ARCH}.tar.bz2" \
-          | tar -xj -C /tmp sqlcmd
-        SQLCMD=/tmp/sqlcmd
-      else
-        SQLCMD=sqlcmd
-      fi
-
-      # ── Write the SQL script ──────────────────────────────────────────────
-      SQL_FILE=$(mktemp /tmp/setup_mi_XXXXXX.sql)
-      cat > "$SQL_FILE" << 'SQLEOF'
-IF NOT EXISTS (SELECT 1 FROM sys.database_principals WHERE name = N'${azurerm_user_assigned_identity.app.name}')
-    CREATE USER [${azurerm_user_assigned_identity.app.name}] FROM EXTERNAL PROVIDER;
-ALTER ROLE db_datareader ADD MEMBER [${azurerm_user_assigned_identity.app.name}];
-ALTER ROLE db_datawriter ADD MEMBER [${azurerm_user_assigned_identity.app.name}];
-ALTER ROLE db_ddladmin  ADD MEMBER [${azurerm_user_assigned_identity.app.name}];
-SQLEOF
-
-      # ── Retry loop: Entra ID replication can lag after UAMI creation ─────
-      # -b causes sqlcmd to exit non-zero on SQL errors so failures are visible
-      MAX_ATTEMPTS=10
-      ATTEMPT=0
-      EXIT_CODE=1
-      until [ $EXIT_CODE -eq 0 ] || [ $ATTEMPT -ge $MAX_ATTEMPTS ]; do
-        ATTEMPT=$((ATTEMPT + 1))
-        echo "Attempt $ATTEMPT/$MAX_ATTEMPTS: creating SQL user..."
-        "$SQLCMD" \
-          -S "tcp:${azurerm_mssql_server.sql.fully_qualified_domain_name},1433" \
-          -d "${azurerm_mssql_database.contoso.name}" \
-          --authentication-method=ActiveDirectoryDefault \
-          -b \
-          -i "$SQL_FILE"
-        EXIT_CODE=$?
-        if [ $EXIT_CODE -ne 0 ] && [ $ATTEMPT -lt $MAX_ATTEMPTS ]; then
-          echo "Failed (exit $EXIT_CODE) — waiting 30s for Entra ID propagation..."
-          sleep 30
-        fi
-      done
-      rm -f "$SQL_FILE"
-      exit $EXIT_CODE
-    EOT
+    interpreter = ["pwsh", "-NoProfile", "-NonInteractive", "-Command"]
+    command     = file("${path.module}/setup-sql-user.ps1")
+    environment = {
+      SQL_SERVER   = azurerm_mssql_server.sql.fully_qualified_domain_name
+      SQL_DATABASE = azurerm_mssql_database.contoso.name
+      SQL_IDENTITY = azurerm_user_assigned_identity.app.name
+    }
   }
 
   depends_on = [

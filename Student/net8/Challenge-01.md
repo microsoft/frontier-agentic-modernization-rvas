@@ -4,11 +4,13 @@
 
 ## Introduction
 
-A common misconception is that an application already running on ASP.NET Core does not need a formal assessment before upgrading — "it's already modern, just bump the version." This challenge will prove that assumption wrong.
+Assess **eShopOnWeb** before upgrading from ASP.NET Core 8.0 to .NET 10.
+Its five projects use Central Package Management and include a Blazor WebAssembly
+admin area. Check API breaking changes, package compatibility, and the OpenAPI
+tooling used by PublicApi consumers.
 
-**eShopOnWeb** runs on ASP.NET Core 8.0, uses Central Package Management across five projects, and has a Blazor WebAssembly admin area. Moving to .NET 10 involves breaking API changes, package compatibility issues, and a significant OpenAPI tooling change that affects every consumer of the PublicApi project.
-
-The GitHub Copilot Modernization tool provides an assessment capability (accessible from both the CLI and the VS Code panel) that analyses your codebase and produces a structured report. Understanding this report is the foundation for every subsequent challenge.
+Run the GitHub Copilot Modernization assessment from the CLI or VS Code panel.
+Review the report; you will use it in later challenges.
 
 ## Description
 
@@ -25,10 +27,10 @@ Review the generated assessment report and discuss as a team:
 
 ## Success Criteria
 
-To complete this challenge successfully, demonstrate:
+To complete this challenge, demonstrate:
 
 1. An assessment report exists for the eShopOnWeb application
-2. Your team can articulate the **top issues identified** across the five projects — separating mandatory blockers from potential and optional items
+2. Your team can explain the **top issues identified** across the five projects, separating mandatory blockers from potential and optional items
 3. Your team has identified that **Swashbuckle** must be replaced and can explain why
 4. Your team has confirmed which of the five projects (`Web`, `PublicApi`, `Infrastructure`, `ApplicationCore`, `BlazorAdmin`) require changes and of what kind
 5. **Explain to your coach** — what is `Directory.Packages.props` and why does centralising package versions make the .NET 10 upgrade both easier and potentially more dangerous than upgrading each project individually?
@@ -42,6 +44,6 @@ To complete this challenge successfully, demonstrate:
 
 ## Tips
 
-- The GitHub Copilot Modernization tool can be used from both the terminal and the VS Code extension panel. Explore both interfaces — they produce the same report but may suit different workflows.
+- Try the terminal and VS Code extension panel. They produce the same report but may suit different workflows.
 - Pay special attention to **mandatory blockers** — these will block a successful build after the Target Framework Moniker bump.
 - The `Directory.Packages.props` file is the single source of truth for all package versions in this repo — changing `<TargetFramework>` there affects all five projects simultaneously.

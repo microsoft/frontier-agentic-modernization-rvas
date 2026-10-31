@@ -4,7 +4,9 @@
 
 ## Introduction
 
-The **eShopOnWeb** application is a multi-project ASP.NET Core 8.0 reference application. Unlike the radical .NET Framework 4.8 migrations you may have seen before, this is an **in-place runtime upgrade** — but it still involves real breaking changes that the automated tools can partially resolve and that GitHub Copilot Chat can help you finish.
+Upgrade **eShopOnWeb** from ASP.NET Core 8.0 to .NET 10 in place.
+Use the modernization tools for automated changes and GitHub Copilot Chat for
+remaining fixes.
 
 The five projects in the solution each need attention:
 
@@ -16,7 +18,7 @@ The five projects in the solution each need attention:
 | `PublicApi` | ASP.NET Core Web API | **Swashbuckle removal → OpenAPI replacement** |
 | `BlazorAdmin` | Blazor WebAssembly | Target Framework Moniker bump, WASM package versions |
 
-The most **visible breaking change** in this migration is the removal of Swashbuckle in favour of the new built-in `Microsoft.AspNetCore.OpenApi` package introduced in .NET 9. Every team hits this; it is intentional.
+This migration replaces Swashbuckle with the built-in `Microsoft.AspNetCore.OpenApi` package introduced in .NET 9.
 
 The target state for this challenge is:
 
@@ -35,7 +37,7 @@ Modernize the eShopOnWeb solution to .NET 10:
 
 ### Step 1 — Run the automated migration tools
 
-Use the GitHub Copilot Modernization tool to generate and execute a migration plan. Craft a clear goal describing the upgrade objectives (TFM bump, package updates, Swashbuckle replacement) and review the generated plan before executing it.
+Use the GitHub Copilot Modernization tool to generate a migration plan covering the TFM bump, package updates, and Swashbuckle replacement. Review the plan before executing it.
 
 ### Step 2 — Manual fixes
 
@@ -55,7 +57,7 @@ Build the solution and start both `Web` and `PublicApi` to confirm the migration
 
 ## Success Criteria
 
-To complete this challenge successfully, demonstrate:
+To complete this challenge, demonstrate:
 
 1. The solution builds successfully with zero errors targeting `net10.0`
 2. The `Web` project starts and the store home page loads
@@ -78,8 +80,8 @@ To complete this challenge successfully, demonstrate:
 
 ## Tips
 
-- **Start with `global.json` and `Directory.Packages.props`** — these two files control everything. Update both before touching any individual `.csproj`.
+- **Start with `global.json` and `Directory.Packages.props`**. Update both before touching any individual `.csproj`.
 - **Build incrementally**: build the solution after the Target Framework Moniker change to get the full error list before attempting fixes.
-- **The Swashbuckle error is not subtle** — ask GitHub Copilot Chat to help replace Swashbuckle with `Microsoft.AspNetCore.OpenApi` and Scalar in `Program.cs`.
+- Ask GitHub Copilot Chat to help replace Swashbuckle with `Microsoft.AspNetCore.OpenApi` and Scalar in `Program.cs`.
 - **BlazorAdmin** uses `Microsoft.AspNetCore.Components.WebAssembly.Authentication` — verify the WASM auth flow still works by logging into the admin panel after the package bump.
 - **`System.Text.Json` stricter nulls**: if you see `JsonException` at runtime, check DTO constructors for null property defaults in .NET 10.

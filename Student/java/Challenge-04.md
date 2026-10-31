@@ -4,9 +4,11 @@
 
 ## Introduction
 
-The modernized PhotoAlbum runs on Spring Boot 3 / Java 25 in Azure Container Apps with Azure Database for PostgreSQL Flexible Server, Azure Key Vault, and Azure Blob Storage. However, the **production data** from the legacy application still lives in the Oracle XE database running as a Docker container. Before shutting down that container permanently, the data must be **migrated to Azure Database for PostgreSQL Flexible Server** with full fidelity.
+Migrate the legacy **production data** from the Oracle XE Docker container to **Azure Database for PostgreSQL Flexible Server** before shutting the container down permanently. Preserve all data.
 
-In this challenge you can use two migration paths:
+The modernized PhotoAlbum runs on Spring Boot 3 / Java 25 in Azure Container Apps with Azure Database for PostgreSQL Flexible Server, Azure Key Vault, and Azure Blob Storage.
+
+Choose one of two migration paths:
 
 - **Path 1 (primary): Ora2Pg + psql** for deterministic offline export/import.
 - **Path 2 (alternative): Oracle to Azure Database for PostgreSQL Schema and Application Conversion (Preview)** in [PostgreSQL for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-pgsql), including AI-assisted schema and application conversion.
@@ -24,7 +26,7 @@ Perform a complete offline database migration from the legacy Oracle XE database
 
 Ora2Pg is an open-source Oracle-to-PostgreSQL migration tool. Research how to install it for your OS and verify it is working before proceeding.
 
-A ready-to-use configuration template is provided at [`../Resources/java/ora2pg.conf`](../Resources/java/ora2pg.conf) — copy it, adjust the Oracle connection details to match your running container, and use it to export the schema and data as a PostgreSQL-compatible SQL script.
+Copy the configuration template at [`../Resources/java/ora2pg.conf`](../Resources/java/ora2pg.conf), adjust the Oracle connection details to match your running container, and export the schema and data as a PostgreSQL-compatible SQL script.
 
 Once you have the export, import it into your Azure Database for PostgreSQL Flexible Server using your preferred PostgreSQL client tool. The connection details for the target database are available from the Terraform outputs you produced in Challenge 03.
 
@@ -38,7 +40,9 @@ Install the extension, connect to both your Oracle source and Azure PostgreSQL t
 
 **Critical: protect the migrated data**
 
-The modernized Spring Boot application has a Hibernate setting that controls what happens to the database schema on startup. The wrong value will silently **drop and recreate all tables** the first time the application starts — wiping every migrated row. Identify this setting, understand the difference between its values, and update it appropriately before redeploying the application against the populated PostgreSQL database.
+Before redeploying, check the Hibernate setting that controls the database schema
+on startup. A setting that **drops and recreates tables** will erase migrated
+rows. Choose a value that preserves the data.
 
 **Validate**
 
@@ -76,4 +80,3 @@ To complete this challenge, demonstrate:
 - If you encounter SSL errors connecting to Azure PostgreSQL, check the Connection Security settings in the Azure Portal.
 - Ora2Pg handles the Oracle `BLOB` → PostgreSQL `BYTEA` type conversion automatically — you do not need to change your JPA entity definitions.
 - Hibernate has a setting that controls whether tables are created, updated, or only validated on application start. Review what each value means before redeploying the application against your freshly migrated data.
-

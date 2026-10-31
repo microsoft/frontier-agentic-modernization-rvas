@@ -4,16 +4,14 @@
 
 ## Introduction
 
-A modernized application running in the cloud needs more than just working code. Production-grade applications require **observability** (so you can diagnose issues quickly) and **secret management** (so credentials are never stored in code or environment variables).
-
-This stretch challenge pushes the modernized Java application toward production readiness using two Azure capabilities:
+In this stretch challenge, add **observability** to diagnose issues and **secret management** to keep credentials out of code and environment variables:
 
 - **Azure Application Insights** — distributed tracing, live metrics, and structured logging
 - **Azure Key Vault + Managed Identity** — secrets (connection strings, credentials) retrieved at runtime without any secrets in code or configuration files
 
 ## Description
 
-Apply production hardening to the modernized Java PhotoAlbum application:
+Update the modernized Java PhotoAlbum application:
 
 **Observability:**
 - Integrate the Application Insights SDK into the Java application
@@ -26,7 +24,7 @@ Apply production hardening to the modernized Java PhotoAlbum application:
 
 ## Success Criteria
 
-To complete this challenge successfully, demonstrate:
+To complete this challenge, demonstrate:
 
 1. Application Insights shows live telemetry (requests, dependencies, exceptions) from the Java application
 2. No connection strings or credentials appear in any application config file, environment variable, or Terraform state
@@ -43,5 +41,5 @@ To complete this challenge successfully, demonstrate:
 
 ## Tips
 
-- The Azure SDK for Java supports `DefaultAzureCredential`, which transparently uses Managed Identity when running in Azure and developer credentials locally.
+- The Azure SDK for Java supports `DefaultAzureCredential`, which uses Managed Identity when running in Azure and developer credentials locally.
 - Azure Container Apps natively support Key Vault secret references — you can reference a Key Vault secret directly as a Container App secret without any SDK changes in the application.

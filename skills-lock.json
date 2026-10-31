@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "humanize-content": {
+      "source": "olivomarco/ai-dev-skills",
+      "sourceType": "github",
+      "skillPath": "skills/humanize-content/SKILL.md",
+      "computedHash": "9e447a0797333938b3f755f55aee6db6243459f5bed3d26f838fe26904f2a8b0"
+    }
+  }
+}

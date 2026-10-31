@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The modernized eShopOnWeb now runs on .NET 10 on Azure Container Apps with Azure SQL, Service Bus, Blob Storage, Key Vault, and Application Insights. In this challenge you will **infuse Azure OpenAI** to improve the product catalog experience.
+The modernized eShopOnWeb runs on .NET 10 on Azure Container Apps with Azure SQL, Service Bus, Blob Storage, Key Vault, and Application Insights. Add **Azure OpenAI** to suggest product content from uploaded images.
 
 When an admin uploads a **product image** on the Catalog management page, the application will call **Azure OpenAI (`gpt-4.1-mini`, vision)** and receive structured AI suggestions:
 
@@ -14,13 +14,11 @@ When an admin uploads a **product image** on the Catalog management page, the ap
 
 Authentication to Azure OpenAI uses **Managed Identity** — no API keys anywhere in code, configuration, or environment variables.
 
-> **Stretch note:** As an additional stretch goal, consider migrating the `BlazorAdmin` standalone WebAssembly project to the new **Blazor Web App** interactive model introduced in .NET 8 and refined in .NET 10, enabling server-side pre-rendering and faster initial load.
-
 ## Description
 
-Your goal is to extend the eShopOnWeb Catalog management flow with an AI-assisted product content workflow. Rather than following a prescriptive implementation guide, use **GitHub Copilot** to generate and execute an implementation plan from a clear prompt.
+Ask **GitHub Copilot** to plan and implement AI-assisted product content in the eShopOnWeb Catalog management flow.
 
-Start by asking Copilot to inspect the workspace and produce a plan. A good starting prompt looks like this:
+Start with a prompt such as:
 
 ```text
 Infuse Azure OpenAI vision into the eShopOnWeb ASP.NET Core app. Inspect the
@@ -40,9 +38,11 @@ Hard requirements:
 3. The AI call must not be critical: a failure must never block saving the product.
 ```
 
-Review the generated plan with your team before executing it. Discuss the infrastructure changes (Azure OpenAI resource, role assignment, Container App env vars) and the application changes (service layer, model updates, UI panels). Once you're satisfied, ask Copilot to execute the plan.
+Review the Azure OpenAI resource, role assignment, Container App environment
+variables, service layer, model, and UI changes with your team. Then ask Copilot
+to execute the reviewed plan.
 
-> **Stretch:** As an additional stretch goal, consider migrating the `BlazorAdmin` standalone WebAssembly project to the new **Blazor Web App** interactive model introduced in .NET 8 and refined in .NET 10, enabling server-side pre-rendering and faster initial load.
+> **Stretch:** Consider migrating the `BlazorAdmin` standalone WebAssembly project to the **Blazor Web App** interactive model introduced in .NET 8 and refined in .NET 10 for server-side pre-rendering and faster initial load.
 
 ## Success Criteria
 
@@ -67,6 +67,6 @@ To complete this challenge, demonstrate:
 
 ## Tips
 
-- Craft your prompt carefully — the more clearly you describe the feature requirements and hard constraints, the better the plan Copilot produces. Iterate on the prompt if the initial plan misses something.
-- When reviewing the plan, pay attention to how Copilot proposes to handle the AI call failure case. The product save flow must remain resilient.
+- Check that the plan covers the feature requirements and constraints; correct any omissions before execution.
+- Check how the plan handles AI call failures. They must not block saving a product.
 - Role assignment propagation can take several minutes — if you get `401` immediately after deployment, wait before debugging the code.

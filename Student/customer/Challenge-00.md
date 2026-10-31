@@ -1,24 +1,30 @@
 **[Home](../../README.md)**
 
-# Challenge 00 — Modernize a Customer Application
+# Challenge 00 — Upgrade a Customer Application
+
+**Path: Replatform & refactor, using the Modernization CLI.** If your challenge
+requires substantial architecture or business-workflow changes, use the separate
+[Rearchitect & rebuild route](../rebuild/Challenge-00.md). Do not install the
+rebuild plugin solely to follow this CLI challenge.
 
 ## Introduction
 
-The sample applications used in the .NET and Java tracks are great for learning the tools — but the real value of GitHub Copilot Modernization is realized when you apply it to **your own applications**. In this challenge you shift from a pre-packaged sample to a **customer-owned codebase** and apply the same modernization workflow end-to-end.
+Apply the .NET or Java sample workflow end-to-end to a **customer-owned codebase**.
 
 ## Description
 
 ### Step 1 — Select an Application
 
-Choose **one application** from your customer's portfolio to modernize. The application must be a **real customer-owned codebase** — no sample applications or public repositories. It should be:
+Choose **one application** from your customer's portfolio to upgrade. The application must be a **real customer-owned codebase**, not a sample substituted for customer work. Repository visibility does not determine ownership. It should be:
 
 - **Medium complexity** — multi-layer with an external database and at least one legacy dependency worth replacing (e.g. an old messaging technology, local file storage, end-of-life runtime)
-- **Not the most critical or most complex** application in the portfolio — pick something that is representative enough to be meaningful but realistic to modernize in a focused session
-- **Business and product stakeholder engagement.** Business and product stakeholders need to be part of the decision before any delivery work starts.
+- **Not the most critical or most complex** application in the portfolio — choose a representative application you can realistically modernize in a focused session
+
+Include business and product stakeholders in the selection before delivery starts.
 
 Before committing to your selection, verify:
 
-- [ ] Application is built on .NET, Java, or Python.
+- [ ] The chosen application and upgrade scenario are supported by the installed Modernization tooling.
 - [ ] The source code is available and the repository is accessible to everyone on your team
 - [ ] The application builds locally
 - [ ] Docker and container tooling are available on your workstation
@@ -26,7 +32,7 @@ Before committing to your selection, verify:
 
 ### Step 2 — Assess and Modernize
 
-Once your application is selected and the readiness checks pass, apply the same workflow you used in the .NET or Java track challenges:
+After the readiness checks pass, use the .NET or Java track workflow:
 
 1. Run `modernize assess` on the application folder and review the report
 2. Use `modernize plan create` to generate a migration plan targeting a modern runtime and a container platform (AKS or ACA)
@@ -58,6 +64,6 @@ To complete this challenge, demonstrate:
 
 ## Tips
 
-- Avoid picking the application that everyone is afraid to touch — those are high-risk, high-complexity candidates that will burn your time. Pick something that is representative but tractable.
+- Avoid applications the team considers too risky or complex to change in the available time. Choose one that is representative but tractable.
 - If the application fails to build locally, resolve that blocker before running the assessment. The tool needs a buildable project to produce meaningful results.
-- The same modernization patterns from the .NET and Java tracks apply here — the only difference is the codebase. Lean on what you already know.
+- Use the modernization patterns from the .NET and Java tracks.

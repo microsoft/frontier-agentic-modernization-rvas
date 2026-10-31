@@ -11,7 +11,8 @@ The eShopOnWeb solution uses **two separate EF Core databases**:
 | `CatalogContext` | `Microsoft.eShopOnWebCatalogDb` | Products, catalog types, catalog brands |
 | `AppIdentityDbContext` | `Microsoft.eShopOnWebIdentityDb` | ASP.NET Core Identity users and roles |
 
-In Challenge 03 you provisioned an Azure SQL Database and deployed containers that point at it — but the schema has not been created and no data exists. This challenge completes that work and validates the end-to-end stack.
+Challenge 03 provisioned the Azure SQL databases and connected the containers.
+Apply the schema and seed data for both contexts, then test the application end to end.
 
 ## Description
 
@@ -27,7 +28,7 @@ The application seeds data on first startup when the database is empty. Trigger 
 - Login works with `demouser@microsoft.com` / `Pass@word1`
 - The admin user can access `/admin` and the Blazor admin panel loads
 
-### Step 3 — Row-Parity Check
+### Step 3 — Check Row Counts
 
 Query the Azure SQL Catalog database to verify the seeded row counts match the expected values:
 
@@ -39,14 +40,14 @@ Query the Azure SQL Catalog database to verify the seeded row counts match the e
 
 ### Step 4 — End-to-End Smoke Test
 
-- Browse catalog → all products display with Blob Storage images
-- Add items to basket → basket persists across requests
-- Place an order → order appears in the database + Service Bus message is published
-- Log in as admin → Blazor admin panel shows order history
+- Browse the catalog and confirm all products display with Blob Storage images
+- Add items to the basket and confirm it persists across requests
+- Place an order and confirm it appears in the database and publishes a Service Bus message
+- Log in as admin and confirm the Blazor admin panel shows order history
 
 ## Success Criteria
 
-To complete this challenge successfully, demonstrate:
+To complete this challenge, demonstrate:
 
 1. Both EF Core migration commands complete without errors against Azure SQL
 2. The catalog page shows the seeded products when running fully on Azure

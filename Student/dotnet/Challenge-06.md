@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The modernized ContosoUniversity now runs on .NET 10 with Azure SQL, Service Bus, and Blob Storage. In this challenge you will **infuse Azure OpenAI** into the application so the admin gets meaningful help when authoring courses.
+The modernized ContosoUniversity runs on .NET 10 with Azure SQL, Service Bus, and Blob Storage. Add **Azure OpenAI** to help admins write course content.
 
 When an admin uploads a *teaching-material image* on the Course Create/Edit pages, the application will call **Azure OpenAI (gpt-4.1-mini, vision)** and receive structured suggestions:
 
@@ -16,9 +16,9 @@ Authentication to Azure OpenAI uses **Managed Identity** — no API keys anywher
 
 ## Description
 
-Your goal is to extend the ContosoUniversity application end-to-end with an AI-assisted course content workflow. Rather than following a prescriptive implementation guide, use **GitHub Copilot** to generate and execute an implementation plan from a clear prompt.
+Ask **GitHub Copilot** to plan and implement AI-assisted course content across ContosoUniversity.
 
-Start by asking Copilot to inspect the workspace and produce a plan. A good starting prompt looks like this:
+Start with a prompt such as:
 
 ```text
 Infuse Azure OpenAI vision into the ContosoUniversity ASP.NET Core app. Inspect the
@@ -38,7 +38,9 @@ Hard requirements:
 3. The AI call must not be critical: a failure must never block saving the course.
 ```
 
-Review the generated plan with your team before executing it. Discuss the infrastructure changes needed (Azure OpenAI resource, role assignment, Container App configuration) and the application changes (new service layer, model updates, UI changes). Once you're satisfied, ask Copilot to execute the plan.
+Review the Azure OpenAI resource, role assignment, Container App configuration,
+service layer, model, and UI changes with your team. Then ask Copilot to execute
+the reviewed plan.
 
 ## Success Criteria
 
@@ -63,7 +65,6 @@ To complete this challenge, demonstrate:
 
 ## Tips
 
-- Craft your prompt carefully — the more clearly you describe the feature requirements and hard constraints, the better the plan Copilot produces. Iterate on the prompt if the initial plan misses something.
-- When reviewing the plan, pay attention to how Copilot proposes to handle the AI call failure case. The course save flow must remain resilient.
+- Check that the plan covers the feature requirements and constraints; correct any omissions before execution.
+- Check how the plan handles AI call failures. They must not block saving a course.
 - The AI enrichment runs at upload time, but consider how a coach or admin might re-analyze an existing course image after the feature is added.
-

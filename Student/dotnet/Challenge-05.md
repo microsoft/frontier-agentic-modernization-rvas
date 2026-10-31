@@ -4,16 +4,14 @@
 
 ## Introduction
 
-A modernized application running in the cloud needs more than just working code. Production-grade applications require **observability** (so you can diagnose issues quickly) and **secret management** (so credentials are never stored in code or environment variables).
-
-This stretch challenge pushes the modernized .NET application toward production readiness using two Azure capabilities:
+In this stretch challenge, add **observability** to diagnose issues and **secret management** to keep credentials out of code and environment variables:
 
 - **Azure Application Insights** — distributed tracing, live metrics, and structured logging
 - **Azure Key Vault + Managed Identity** — secrets (connection strings, credentials) retrieved at runtime without any secrets in code or configuration files
 
 ## Description
 
-Apply production hardening to the modernized ContosoUniversity .NET application:
+Update the modernized ContosoUniversity .NET application:
 
 **Observability:**
 - Integrate the Application Insights SDK into the .NET application
@@ -26,7 +24,7 @@ Apply production hardening to the modernized ContosoUniversity .NET application:
 
 ## Success Criteria
 
-To complete this challenge successfully, demonstrate:
+To complete this challenge, demonstrate:
 
 1. Application Insights shows live telemetry (requests, dependencies, exceptions) from the .NET application
 2. No connection strings or credentials appear in any application config file, environment variable, or Terraform state
@@ -43,5 +41,5 @@ To complete this challenge successfully, demonstrate:
 
 ## Tips
 
-- The Azure SDK for .NET supports `DefaultAzureCredential`, which transparently uses Managed Identity when running in Azure and developer credentials locally.
+- The Azure SDK for .NET supports `DefaultAzureCredential`, which uses Managed Identity when running in Azure and developer credentials locally.
 - Azure Container Apps natively support Key Vault secret references — you can reference a Key Vault secret directly as a Container App secret without any SDK changes in the application.

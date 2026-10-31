@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This is the core production-readiness challenge for the .NET track. It covers: telemetry with Application Insights, secrets management with Key Vault, and Managed Identity for passwordless auth.
+Attendees add Application Insights telemetry, manage secrets with Key Vault, and use Managed Identity for passwordless authentication.
 
 ## Mini-Lecture (10 min before challenge)
 

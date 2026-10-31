@@ -4,9 +4,8 @@
 
 ## Introduction
 
-The eShopOnWeb application is now running on .NET 10 in Azure Container Apps, connected to Azure SQL, Service Bus, and Blob Storage. But connection strings are still plain-text environment variables, and there is no observability into the running system.
-
-This challenge closes both gaps:
+Add telemetry to the deployed eShopOnWeb app and move connection strings out
+of plaintext environment variables:
 
 - **Observability**: integrate Application Insights for distributed tracing across `Web` and `PublicApi`
 - **Secret management**: move all connection strings to Azure Key Vault, accessed via **Managed Identity** — no credentials in environment variables or configuration files
@@ -37,11 +36,11 @@ Move all secrets into Azure Key Vault:
 
 ### Verify
 
-Confirm that no plaintext connection strings appear in the Container App environment configuration (check via the Azure Portal or the Azure CLI). Then browse the store and place an order, and verify telemetry appears in Application Insights → Transaction Search.
+Check via the Azure Portal or Azure CLI that no plaintext connection strings remain in the Container App environment configuration. Then browse the store, place an order, and verify telemetry appears in Application Insights → Transaction Search.
 
 ## Success Criteria
 
-To complete this challenge successfully, demonstrate:
+To complete this challenge, demonstrate:
 
 1. Application Insights **Live Metrics** shows active requests when browsing the store
 2. A distributed trace for an order placement spans both `Web` and `PublicApi` and is visible in **Transaction Search**

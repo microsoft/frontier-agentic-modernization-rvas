@@ -1,18 +1,18 @@
 **[Home](../../README.md)** — [Next Challenge >](./Challenge-01.md)
 
-# Challenge 00 — Prerequisites: Ready, Set, GO! (Java Track)
+# Challenge 00 — Prerequisites (Java Track)
 
 ## Introduction
 
-Before diving into application modernization, you need a working local environment with all required tools installed and authenticated. This challenge ensures everyone on your team starts from the same baseline for the **Java track**.
+Before starting the **Java track**, everyone on your team must install and authenticate the required tools.
 
-The repository uses **Git submodules** to include the sample applications. You must initialise the submodules before the source code of the legacy apps is available on your machine.
+The sample applications are **Git submodules**. Initialise them to download the legacy source code.
 
-This repo also provides a **Dev Container** definition (`.devcontainer/`) that pre-installs most dependencies inside a Docker container — if you prefer that approach, opening the repo in VS Code with the Dev Containers extension will get you up and running quickly.
+If you prefer a container-based environment, open the repository in VS Code with the Dev Containers extension. The **Dev Container** definition (`.devcontainer/`) pre-installs most dependencies inside a Docker container.
 
 ## Description
 
-Set up your local development environment so you are ready to work with the Java sample application:
+Set up your environment for the Java sample application:
 
 - Install and verify all required tools listed in the [Prerequisites](../../README.md#prerequisites) section of the hack README
 - Clone the repository **with submodules** so that `Student/Resources/java/PhotoAlbum-Java/` is populated
@@ -42,9 +42,8 @@ modernize --version  # confirm the CLI is on your PATH
 
 ### Optional: Deploy the Legacy Java Application to an Azure VM
 
-To see the application running in its **original, unmodified state** before starting the modernization, a Terraform configuration is provided that provisions a dedicated Azure VM and configures everything automatically.
-
-This is recommended — it gives your team a concrete "before" picture and validates that the original app works end-to-end.
+The provided Terraform configuration runs the **unmodified application** on a
+dedicated Azure VM. Use this optional step to test its behavior before modernization.
 
 **Java app (PhotoAlbum — Ubuntu + Docker + Oracle):**
 - Follow the steps in [`../Resources/java/infra/README.md`](../Resources/java/infra/README.md)
@@ -83,7 +82,7 @@ docker info --format "Docker version: {{.ServerVersion}}" 2>/dev/null \
 
 ## Success Criteria
 
-To complete this challenge successfully, demonstrate:
+To complete this challenge, demonstrate:
 
 1. `modernize --version` (CLI) or the GitHub Copilot Modernization extension shows as active in VS Code
 2. `gh auth status` returns your authenticated GitHub account

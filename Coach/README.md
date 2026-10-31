@@ -1,10 +1,20 @@
 # Coach Guide: Agentic Modernization
 
-> ⚠️ **COACHES ONLY — Do not share this folder with attendees during the event.** Content here contains solutions, hints, and coaching notes.
+> **Coaches only.** Do not share this folder with attendees during the event; it contains solutions, hints, and coaching notes.
 
 ## Overview
 
-This hack is designed for teams of 3–5 people. It covers three parallel modernization tracks:
+Use teams of 3–5 people. Choose **Replatform & refactor** for
+compatibility-first CLI work, or **Rearchitect & rebuild** for application
+architecture and business challenges. Do not route solely by language.
+
+The [rebuild facilitation guide](rebuild/facilitation-guide.md) and
+[scoring rubric](rebuild/scoring-rubric.md) cover the separate plugin route.
+Its target is a reviewed plan and a complete rebuilt app, chosen small enough
+to implement and validate during the event.
+Use the [customer CLI challenge](customer/Solution-00.md) for customer application upgrades.
+
+The upgrade route covers three parallel sample tracks:
 
 | Track | Application | Legacy Stack | Target Stack |
 |---|---|---|---|
@@ -12,18 +22,20 @@ This hack is designed for teams of 3–5 people. It covers three parallel modern
 | .NET | ContosoUniversity | .NET Framework 4.8 / ASP.NET MVC 5 / MSMQ | .NET 10 / ASP.NET Core / Azure Service Bus + Blob |
 | .NET 8 | eShopOnWeb | ASP.NET Core 8.0 / EF Core 8 / Swashbuckle | .NET 10 / Microsoft.AspNetCore.OpenApi / Azure Service Bus + Blob |
 
-Challenges 02 and 03 are designed to be parallelized within a team — members can split across any combination of the three tracks.
+For Challenges 02 and 03, team members can work in parallel across the three tracks.
+
+Presenter-led demo speaker guides: [Java](./demo/java/guide.md) and [.NET / ContosoUniversity](./demo/dotnet/guide.md).
 
 ---
 
 ## Coach Notes Index
 
-Per-challenge coach notes (hints, common pitfalls, mini-lecture talking points) live in
-per-track subfolders. Use these during the event — **do not share with attendees**.
+Use the per-track notes for hints, common pitfalls, and mini-lecture talking points.
+Do not share them with attendees.
 
-> 🛠️ **[Troubleshooting Guide](./TROUBLESHOOTING.md)** — cross-track issues and fixes (Terraform
-> feature-registration errors, NuGet/AppCat network-policy blocks, etc.), linked from every
-> `Solution-*.md` file below.
+See the [Troubleshooting Guide](./TROUBLESHOOTING.md) for Terraform
+feature-registration errors and NuGet/AppCat network-policy blocks.
+Each `Solution-*.md` below links to it.
 
 ### .NET Track
 
@@ -117,8 +129,7 @@ done
 | Day 2 | AM | Ch 03–04 | Containerize & Deploy, Database Migration |
 | Day 2 | PM | Ch 05–06 | Observe & Secure, AI stretch *(optional)* |
 
-> **Tip:** The 2-day format gives teams breathing room on Challenge 02, which is the
-> most complex and often needs more time than a full-day event allows.
+The 2-day format gives teams more time for Challenge 02, the most complex challenge.
 
 ### Half-Day Event (4 hours — abbreviated)
 
@@ -176,16 +187,14 @@ Focus on Challenges 00–02 only. Challenges 03–05 become homework or async ex
 | `modernize assess` hangs | Check `gh auth status` — the tool requires an active GitHub session |
 | Terraform fails on `az login` | Ensure `ARM_USE_CLI=true` is set or run `az login` before `terraform apply` |
 
-For longer-form fixes to cross-track issues (e.g. Terraform feature-registration errors,
-NuGet/AppCat network-policy blocks), see the full **[Troubleshooting Guide](./TROUBLESHOOTING.md)** —
-linked from every `Solution-*.md` file as well.
+See the [Troubleshooting Guide](./TROUBLESHOOTING.md) for detailed fixes.
 
 ---
 
 ## Student Resources & Fallback Guidance
 
-Attendees receive the sample applications via Git submodules. If submodule initialisation
-fails or is taking too long, coaches can provide the apps directly:
+Attendees receive the sample applications via Git submodules. If initialisation
+fails or takes too long, use these recovery and verification commands:
 
 ```bash
 # Recover a broken or missing submodule

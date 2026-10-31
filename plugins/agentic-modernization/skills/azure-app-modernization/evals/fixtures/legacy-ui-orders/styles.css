@@ -1,0 +1,79 @@
+:root {
+  --color-ink: #172033;
+  --color-muted: #62708a;
+  --color-surface: #ffffff;
+  --color-canvas: #f3f6fa;
+  --color-accent: #2158d5;
+  --color-danger: #b42318;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --radius-card: 0.75rem;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  color: var(--color-ink);
+  background: var(--color-canvas);
+}
+
+.app-shell {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.page-header,
+.order-card {
+  display: grid;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.page-header {
+  grid-template-columns: 1fr auto;
+  margin-bottom: 2rem;
+}
+
+.order-list {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.order-card {
+  grid-template-columns: minmax(14rem, 1fr) 12rem 8rem auto;
+  padding: var(--space-lg);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.eyebrow,
+.order-id,
+.status {
+  color: var(--color-muted);
+}
+
+.primary-action {
+  min-height: 2.75rem;
+  padding: 0.75rem 1rem;
+  border: 0;
+  border-radius: 0.5rem;
+  color: white;
+  background: var(--color-accent);
+}
+
+.error {
+  color: var(--color-danger);
+}
+
+@media (max-width: 48rem) {
+  .app-shell {
+    padding: var(--space-md);
+  }
+
+  .page-header,
+  .order-card {
+    grid-template-columns: 1fr;
+  }
+}

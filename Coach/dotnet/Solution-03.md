@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This challenge moves the modernized .NET app from a local environment to Azure Container Apps using Docker and Terraform. Attendees must deal with the multi-service nature of the app (SQL Server, Service Bus, Blob Storage) and cloud-specific configuration.
+Attendees deploy the modernized .NET app from a local environment to Azure Container Apps using Docker and Terraform. They must configure its connections to SQL Server, Service Bus, and Blob Storage, along with the cloud-specific settings.
 
 ## Mini-Lecture (10 min before challenge)
 
@@ -16,7 +16,7 @@ Cover:
 
 ## Terraform Resource Checklist – .NET
 
-A valid Terraform deployment for the .NET track must provision at minimum:
+The .NET deployment must provision at least these resources:
 
 | Resource | Terraform resource type |
 |---|---|
@@ -57,8 +57,8 @@ ca-contoso-<team>
 
 ## Success Criteria Notes
 
-- `terraform apply` completing without error is binary
+- `terraform apply` must complete without error
 - The app must respond to HTTP requests via the Container Apps FQDN
 - Uploading a teaching material must store it in Blob Storage (not in-container filesystem)
 - Sending a notification must enqueue a message in Azure Service Bus (verify in portal or CLI)
-- Basic SQL data persistence across restarts verifies the managed database is wired correctly
+- Verify that SQL data persists across restarts

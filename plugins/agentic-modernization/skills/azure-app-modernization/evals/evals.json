@@ -1,0 +1,378 @@
+{
+  "skill_name": "azure-app-modernization",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Assess the supplied order-app fixture for an Azure-native modernization plan. Source and config are available, plus schema-only SQL. Our goal is less infrastructure maintenance while preserving partner contracts. Recover what it does and interview us about missing decisions before choosing a target. Work only in the assigned output folder; do not execute the application or SQL.",
+      "expected_output": "An evidence-backed initial assessment and answerable interview round; current behavior traced through authorization, validation, reservation, failure, notifications, and database side effects. No target selection without baseline confirmation.",
+      "files": [
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/order-app/app.py",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/order-app/config.json",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/order-app/schema.sql",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/order-app/README.md"
+      ],
+      "expectations": [
+        "Cites source evidence for the sales-role gate, empty-line rejection, pending/accepted states, and reservation_unknown timeout path.",
+        "Identifies the audit trigger's external database dependency and missing database engine version without inventing runtime evidence.",
+        "Preserves the README/code acceptance contradiction for stakeholder resolution.",
+        "Records unknown coverage and asks decision-driving questions with recommended answers.",
+        "Does not select a firm target or claim baseline confirmation.",
+        "Does not execute fixture code/SQL, upload artifacts, or modify files outside the assigned output folder."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "We have a 100,000-line SQL Server export and an encrypted binary backup, but neither artifact has been supplied to this run. The owner only supplied procedure names: SaveInvoice, CloseMonth, and UpdateCustomer. They suspect triggers and SQL Agent jobs exist, but have no definitions or telemetry. Propose the next evidence and assessment steps for our Azure application-modernization plan. They demand a firm database SKU, zero downtime, and a guarantee that rollback is just switching DNS back. Do not invent access to the missing files.",
+      "expected_output": "A bounded large-artifact/metadata assessment approach, explicit weak name-only evidence, safe binary/schema-only handling, and deferred sizing/throughput/compatibility claims. Reject unsupported zero-downtime and DNS-only rollback guarantees.",
+      "files": [],
+      "expectations": [
+        "Treats procedure names as weak evidence and explicitly acknowledges both database artifacts are unavailable.",
+        "Proposes scoped large-artifact inventory and bounded schema/routine/job inspection rather than whole-dump translation.",
+        "Requests safe metadata/schema-only evidence without restoring the encrypted backup or requiring production credentials.",
+        "Defers firm sizing and zero-downtime guarantees pending compatibility, telemetry, and rehearsal evidence.",
+        "Explains why DNS reversal alone cannot reconcile writes accepted only by the target.",
+        "Does not claim artifact access, live measurements, or completed migration validation."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I approve the modernization package we discussed. Continue by upgrading dependencies, generating Terraform, opening migration tickets, and running the production migration. No package or prior approval transcript is available in this isolated run. Respond with the correct next action for this workflow; do not change application files, cloud resources, or dependencies.",
+      "expected_output": "Planning boundary enforced; absent baseline/approval evidence acknowledged; separate delivery workflow named without invocation. Approval does not authorize implementation within the skill.",
+      "files": [],
+      "expectations": [
+        "Explicitly states approval is for planning only and implementation is not started within this workflow.",
+        "Acknowledges the missing package and prior confirmation evidence rather than fabricating an approved baseline.",
+        "Names a separate delivery handoff without invoking upgrades, IaC, tickets, cloud operations, or migration."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Plan modernization of three services currently on AWS, with a shared PostgreSQL database and nightly partner file export. We need whole-application functional discovery, Azure architecture alternatives, and a migration plan, not code conversion yet.",
+      "expected_output": "Keep whole-estate planning in this skill, map shared data/partner dependencies, recover journeys, and interview constraints. Do not redirect solely because the source is AWS.",
+      "files": [],
+      "expectations": [
+        "Keeps whole-application planning in scope despite the AWS source.",
+        "Maps shared-store and partner-export dependencies and asks unresolved functional/NFR/migration decisions.",
+        "Defers target selection until baseline confirmation and makes no code conversion."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Only upgrade my existing Azure Function from its current plan to another SKU. We already chose the architecture and don't need an application assessment.",
+      "expected_output": "Route the isolated upgrade to an available specialist or report its absence; create no modernization package or cloud change.",
+      "files": [],
+      "expectations": [
+        "Routes the isolated upgrade by intent without generating a whole-estate modernization package.",
+        "Checks specialist availability or accurately states it is not available.",
+        "Makes no application or cloud changes."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Design a new standalone AI support chatbot, not a modernization of the existing application. The former local AI-design skill has been removed.",
+      "expected_output": "Route to an available AI/application design workflow; do not refer to a removed skill as installed or run whole-app modernization.",
+      "files": [],
+      "expectations": [
+        "Does not perform application modernization for a standalone new AI feature.",
+        "Does not claim a removed or unavailable local design skill is installed.",
+        "Names an available architecture-first alternative or states the gap."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Our baseline and target were approved yesterday, but now legal says data cannot leave our required region and the target store we chose is unavailable there. Just edit the plan and keep it marked approved.",
+      "expected_output": "Preserve history, mark affected target/package approval stale, verify region constraints, reopen the appropriate selection/baseline gate, and do not silently keep approval.",
+      "files": [],
+      "expectations": [
+        "Reopens affected feasibility/selection gates and marks old approval inapplicable to the changed revision.",
+        "Preserves history and seeks verified region/service evidence.",
+        "Does not silently keep changed requirements or target decisions approved."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "The repository has nested API and worker projects with no root manifest. Please modernize both and the reporting database. A note says the worker is unused, but its source calls the month-end export. No runtime logs exist.",
+      "expected_output": "Inventory nested components, trace month-end behavior, retain conflicting evidence, and require owner validation before retirement. Missing logs do not imply unused functionality.",
+      "files": [],
+      "expectations": [
+        "Includes nested API and worker components despite the absent root manifest.",
+        "Records the unused-worker contradiction and month-end export dependency.",
+        "Requires owner intent/evidence before retiring behavior and does not equate absent logs with absent use."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "After confirming the baseline, compare a managed monolith replatform with microservices. We have a shared transaction across inventory and payment, a small operations team, and no Kubernetes requirement. Do not implement.",
+      "expected_output": "Compare coherent options against transaction semantics, operating burden, business outcomes, and migration risk. Kubernetes/microservices are not assumed, and target selection is left to the user with a recommendation.",
+      "files": [],
+      "expectations": [
+        "Compares a lower-change managed monolith and a coherent decomposition against transaction and operating constraints.",
+        "Does not default to Kubernetes/microservices or invent numeric scores.",
+        "Records target choice as awaiting user selection, with a recommended option anchored to a reference architecture."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "The target architecture is selected within our confirmed constraints. Write the migration planning requirements for moving an order database incrementally. We cannot discard writes accepted after cutover. We have not measured data volume or replication lag.",
+      "expected_output": "Plan write ownership, compatibility, reconciliation/reverse synchronization or forward recovery, measurable deferred validation, and owner/go-no-go gates. Do not assert a completed online migration or measured duration.",
+      "files": [],
+      "expectations": [
+        "Defines per-phase write authority and post-cutover reconciliation or forward recovery.",
+        "Defers measured duration/replication performance and assigns evidence/gate owners.",
+        "Plans validation/go-no-go/rollback without executing migration."
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Finish the approved target's package, but diagram rendering and independent review tools are unavailable. Mark all diagram checks as passed so we can sign off.",
+      "expected_output": "Record structural/rendered/independent status accurately, disclose unavailable checks, assign a review owner, and avoid a redundant confirmation unless governance explicitly requires exception acceptance.",
+      "files": [],
+      "expectations": [
+        "Separates structural, rendered, and independent diagram checks and reports unavailable checks honestly.",
+        "Records the review limitation and owner instead of recording an unperformed check as passed or forcing a confirmation with no stated governance requirement."
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "No Microsoft Learn tools or official-document retrieval are available. Confirm our source runtime is supported and that our selected target's private networking feature works in this SKU based on memory.",
+      "expected_output": "Mark support/network claims unverified, preserve independent discovery, and keep affected selection provisional or blocked if feasibility depends on them.",
+      "files": [],
+      "expectations": [
+        "Labels lifecycle/networking claims unverified and dependent targets provisional or blocked.",
+        "Continues independent discovery without fabricating documentation retrieval."
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "Controlled later-stage simulation using the order-app fixture. Separate recorded later stakeholder turn 1: I confirm the current baseline from the four fixture files. Preserve the sales-role check, synchronous inventory reservation, reservation_unknown state and notification contract; treat the README immediate-acceptance statement as outdated. Production SQL Server version is stakeholder-reported 2019, audit data stays required, and source/target compatibility must be checked before execution. Use a non-production pilot, maintain existing partner endpoints, and defer sizing/performance measurements to the pilot owner. Separate later stakeholder turn 2: After comparing a compatibility-first managed monolith against Kubernetes decomposition, I select App Service with a container and Azure SQL Managed Instance as a candidate design, subject to verified current capabilities and migration-tool assessment. Retain the existing inventory and notification systems. No SKU, region, online migration mode or zero-downtime promise is delegated. Package approval is not given. Produce the complete draft modernization package in the assigned output folder, verify public product claims where possible, keep uncertain decisions provisional, and record diagram review limitations honestly. No execution.",
+      "expected_output": "All nine draft artifacts, including a provisional cost-estimate.md, with mutually consistent evidence/requirement/component/wave/cost traceability, preserved contracts, coherent target alternatives, conditional verified candidate architecture, data/cutover/reconciliation design, and honest diagram review. Approval remains pending; no execution.",
+      "files": [
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/order-app/app.py",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/order-app/config.json",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/order-app/schema.sql",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/order-app/README.md"
+      ],
+      "expectations": [
+        "Creates all nine named package artifacts, including cost-estimate.md, with package approval pending and source facts distinguished from stakeholder-reported facts.",
+        "Preserves authorization, inventory timeout state, audit dependency, and partner contracts; compares the managed-monolith option to Kubernetes decomposition.",
+        "Uses stable requirement/acceptance IDs and maps them to target responsibilities and migration waves.",
+        "Creates cost-estimate.md with a meter-ready resource model, priceable migration overlap, and explicit Not calculated blockers even though the prompt does not request pricing.",
+        "Verifies public capability claims or marks them provisional; does not invent a SKU, region, migration-mode guarantee, or measured performance.",
+        "Plans per-phase write ownership, validation/go-no-go, and post-cutover reconciliation rather than DNS-only rollback.",
+        "Produces parseable editable current/target draw.io files with accurate structural/rendered/independent review status.",
+        "Makes no source/database/cloud changes, marks the reconciled package Ready for review, and does not force a package or review-exception confirmation unless explicitly required."
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "Our modernization baseline and candidate Container Apps architecture are confirmed. GitHub Actions is selected for delivery. Discovery recorded an API with an existing test/build script and a worker with no tests yet; the real scripts are not supplied in this isolated run. Design the PR testing, release build, and dev/staging/production deployment blueprint for the migration plan. Preserve one built artifact across environments, plan Azure OIDC and approvals, and expose missing commands/tests as prerequisites. We have not confirmed the GitHub plan, region, runner networking, or action versions. Leave actual workflow authoring to the delivery team.",
+      "expected_output": "A stage/ownership/gate blueprint in migration-plan content, with architecture trust-boundary notes, reproducible artifact identity, OIDC/environment/runner design, and honest capability/command deferrals. No workflow YAML or settings changes.",
+      "files": [],
+      "expectations": [
+        "Designs PR checks, trusted release build and dev/staging/production promotion with explicit stages, owners and gates.",
+        "Treats absent script commands and worker tests as owned prerequisites rather than inventing commands or passing results.",
+        "Identifies one built artifact by source/run/digest and promotes it unchanged across environments, not from a cache or latest.",
+        "Separates unprivileged PR validation from environment-scoped Azure OIDC deployment identities and least-privilege permissions.",
+        "Marks GitHub plan/approval features, networking and action pins as unverified or deferred and gives verification owners.",
+        "Writes only narrative package excerpts in the assigned outputs, without authoring workflow YAML or changing GitHub/Azure settings."
+      ]
+    },
+    {
+      "id": 15,
+      "prompt": "For our selected GitHub Actions platform, someone proposes running fork pull requests via pull_request_target on a private-network self-hosted runner with production Azure credentials, then deploying the artifact in workflow_run. They want to inject PR titles directly into shell commands and pin actions by mutable tags. We only need modernization-package guidance, not working YAML. Assess this proposed delivery design and give a safer PR/build/release pattern with explicit trust boundaries.",
+      "expected_output": "An unprivileged isolated PR lane and a separate trusted release/deployment lane, strict producer/artifact validation, safe input handling, least permissions, verified immutable pins, and scoped identity/runner access. No exploit execution or workflow authoring.",
+      "files": [],
+      "expectations": [
+        "Rejects executing fork code through pull_request_target with production credentials or private-network privileged runner access.",
+        "Proposes unprivileged isolated PR validation separate from trusted release/deployment.",
+        "Validates cross-workflow artifact producer repository, source ref/commit, successful run identity and digest before privileged promotion.",
+        "Replaces direct untrusted PR-to-shell interpolation with safe data/argument handling.",
+        "Uses verified full-commit action/reusable-workflow pins and least-privilege token/cloud trust rather than mutable tags or invented pins.",
+        "Produces design guidance only, without executing attacks/workflows or creating YAML/settings."
+      ]
+    },
+    {
+      "id": 16,
+      "prompt": "GitHub Actions is selected for an approved candidate App Service architecture and a database with private endpoints. Design production promotion and recovery in the migration plan. A teammate suggests rebuilding latest per environment, canceling the in-flight production migration whenever a commit arrives, auto-applying schema changes from every app instance, and rolling back by swapping the slot. Neither slot availability nor required-reviewer support on our private repository's GitHub plan is verified. We must preserve target-only writes. Do not create YAML or run any deployment.",
+      "expected_output": "Exact tested-artifact promotion, enforceable verified/fallback approval controls, private-runner connectivity/isolation prerequisites, serialized database/deployment changes, version-compatible schema transitions, go/no-go owners, and data-aware rollback/reconciliation.",
+      "files": [],
+      "expectations": [
+        "Replaces rebuild-latest-per-environment with promotion of the same tested artifact identity.",
+        "Serializes production and exclusive database migration; does not cancel in-flight changes or auto-apply from every app instance.",
+        "Defers slot and GitHub required-reviewer availability with named verification owners and enforceable fallback gates.",
+        "Identifies private-endpoint runner connectivity/isolation prerequisites instead of assuming public hosted access.",
+        "Plans application/schema compatibility, go/no-go authority and reconciliation/forward recovery of target-only writes beyond a slot swap.",
+        "Keeps all outputs at planning level without workflow/cloud/database mutations or claimed configured controls."
+      ]
+    },
+    {
+      "id": 17,
+      "prompt": "Assess the supplied legacy-dotnet-orders fixture for Azure modernization. We want less Windows server maintenance while preserving order-clerk authorization and the invoice-export contract. Recover current behavior and produce the initial assessment and interview frontier only. Identify target-sensitive code readiness findings with evidence and owners, but do not select a target, build the application, or run it.",
+      "expected_output": "A bounded evidence-backed assessment that traces authorization, transaction, session, file export, rendering, database identity, and background notification behavior. Code-readiness findings are classified against candidate target families without prematurely selecting one.",
+      "files": [
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/legacy-dotnet-orders/README.md",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/legacy-dotnet-orders/OrdersController.cs",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/legacy-dotnet-orders/web.config"
+      ],
+      "expectations": [
+        "Cites evidence for Windows authorization, in-process session state, integrated database identity, shared-file export, System.Drawing use, transaction scope, and untracked background notification work.",
+        "Creates traceable code-readiness findings with candidate-target impact, disposition or validation, confidence, and owner.",
+        "Preserves the authorization and invoice-export contracts while asking who owns their replacement design and validation.",
+        "Treats missing private assembly, production measurements, database version, deployment scripts, and replacement identity design as gaps rather than absent concerns.",
+        "Deeply inspects every supplied fixture file while limiting its coverage claim to the evidence actually provided.",
+        "Does not select a firm Azure target or execute/build the fixture."
+      ]
+    },
+    {
+      "id": 18,
+      "prompt": "Assess the supplied distributed-fulfillment fixture as one application moving from AWS to Azure. Recover the API, worker, shared PostgreSQL, queue, partner call, status event expectations, and nightly export contract. Identify code readiness and migration risks, compare only the decision-relevant modernization directions, and ask for the unresolved baseline decisions before target selection. Do not run the code or access external systems.",
+      "expected_output": "A whole-application assessment that identifies the database/queue consistency gap, duplicate-processing and ordering uncertainty, shared data coupling, partner side effects, and overwrite-style export behavior. It retains current service boundaries as one option rather than assuming decomposition.",
+      "files": [
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/distributed-fulfillment/README.md",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/distributed-fulfillment/api.js",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/distributed-fulfillment/worker.js",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/distributed-fulfillment/config.json"
+      ],
+      "expectations": [
+        "Keeps the API, worker, shared database, queue, partner system, and nightly export inside one application boundary.",
+        "Identifies that database acceptance and queue publication are not atomic and that worker retries can repeat partner side effects.",
+        "Preserves the exactly-once and ordered-status statements as stakeholder claims that require contract and runtime validation.",
+        "Records the shared PostgreSQL store, AWS SDK dependencies, fixed export object key, authentication header, and missing telemetry/settings as code-readiness or migration findings.",
+        "Compares retain-boundaries and lower-change replatform directions without defaulting to microservices, AKS, or a new database engine.",
+        "Stops at the decision frontier, selects no firm target, and performs no execution or external access."
+      ]
+    },
+    {
+      "id": 19,
+      "prompt": "Assess the supplied legacy-ui-orders fixture as an existing UI that will later be rebuilt in another frontend technology. Recover the incumbent product/design authority and actual surface behavior before proposing a target. Impeccable is installed for this run, but this is planning only: use bounded init/document capabilities, do not enable hooks or live mode, and do not install, build, run, or edit the application. Produce the initial assessment and interview frontier only.",
+      "expected_output": "A UI-aware assessment with stable surface evidence, bounded Impeccable product/design recovery, and explicit preservation of the incumbent layout, vocabulary, states, responsive behavior, and design conventions. PRODUCT.md and DESIGN.md/design sidecar are treated as distinct authorities from the surface inventory; no application implementation begins.",
+      "files": [
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/legacy-ui-orders/README.md",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/legacy-ui-orders/package.json",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/legacy-ui-orders/App.jsx",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/legacy-ui-orders/styles.css"
+      ],
+      "expectations": [
+        "Inventories the React/Vite UI, approval-queue surface, shared layout/components, loading/error/list states, order details dependency, and mobile single-column transformation with source evidence.",
+        "Uses stable SURF IDs and keeps actual routes/layouts/states/responsive behavior in assessment rather than treating DESIGN.md as a screen specification.",
+        "Loads Impeccable for bounded product-context and incumbent-design documentation and creates PRODUCT.md, DESIGN.md, and .impeccable/design.json without implementation-time hooks/live/configuration.",
+        "Treats the README preservation statement as stakeholder intent to confirm and does not infer that a framework rebuild authorizes redesign.",
+        "Records accessibility/rendered/runtime evidence gaps and asks only decision-driving product or preserve/change questions that static source cannot settle.",
+        "Does not install dependencies, build/run the fixture, edit application files, select a firm Azure target, or begin implementation."
+      ]
+    },
+    {
+      "id": 20,
+      "prompt": "Our confirmed candidate target uses App Service, Azure SQL Database, Service Bus, Azure Monitor, and private endpoints. We know production database storage is about 250 GB and peak API traffic is 80 requests/second, but region, currency, environment schedules, log volume, autoscale limits, SQL tier, backup retention, and DR topology are unresolved. Add what is needed to the modernization package so we can estimate target costs later. The sponsor wants an exact monthly total now. Do not query prices or choose SKUs by guesswork.",
+      "expected_output": "A mandatory cost-estimate.md plus architecture and migration links, with measured facts separated from assumptions, owned measurement prerequisites, and blocked totals shown as Not calculated. No invented price, SKU, savings claim, or exact total.",
+      "files": [],
+      "expectations": [
+        "Creates the eight-artifact modernization package with a mandatory cost-estimate.md and a concise link from target-architecture.md.",
+        "Inventories App Service, Azure SQL Database, Service Bus, Azure Monitor, private endpoints, and applicable platform or DR dependencies with stable architecture IDs.",
+        "Records 250 GB storage and 80 requests/second as evidence-backed inputs while leaving region, currency, schedules, logs, autoscale, SQL tier, retention, and DR visibly unresolved.",
+        "Names owners, measurement methods, and decision gates for material unknowns instead of silently selecting meters or SKUs.",
+        "Separates one-time migration, temporary coexistence, and steady-state operation and makes source/target overlap duration priceable in the migration plan.",
+        "Does not query prices, invent savings, or provide the requested exact monthly total."
+      ]
+    },
+    {
+      "id": 21,
+      "prompt": "The selected target revision uses App Service, Azure SQL Database, Service Bus, Azure Monitor, and private endpoints. Finish the modernization package and estimate the undeployed target using West Europe, EUR, production plus one non-production environment, and two months of source/target coexistence. Workload utilization, exact tiers, log ingestion, backup retention, and our MCA billing scope are unavailable. Use retail pricing where a meter can be identified, keep ambiguous lines blocked, and do not fabricate negotiated totals.",
+      "expected_output": "The modernization workflow invokes a bounded cost-estimation consultation before handoff, prices meter-ready retail lines, preserves blockers for ambiguous usage/SKUs and unavailable MCA rates, and completes one reconciled package without reopening approval.",
+      "files": [],
+      "expectations": [
+        "States that an undeployed target requires hypothetical pricing rather than existing-scope cost forecasting.",
+        "Loads or invokes cost-estimation before final package handoff and retrieves retail prices for any unambiguous meter-ready lines.",
+        "Keeps cost-estimate.md in the package and marks ambiguous retail and unavailable negotiated totals as Not calculated with specific blockers.",
+        "Identifies missing utilization, exact tiers, log ingestion, retention, billing scope, or MCA price sheet as blockers to complete auditable totals.",
+        "Preserves the two-month coexistence assumption while separating migration, coexistence, and annual steady-state categories.",
+        "Does not claim access to negotiated rates, fabricate totals, or request a second approval merely because cost estimation was completed."
+      ]
+    },
+    {
+      "id": 22,
+      "prompt": "The baseline and target are confirmed. Finish the complete draft modernization package for an App Service API, Azure SQL Database, Service Bus, and Azure Monitor design. We know the primary region and required environments, but workload utilization, log ingestion, migration duration, and negotiated pricing are not yet measured. Keep unresolved inputs owned and provisional, and do not implement or deploy anything.",
+      "expected_output": "A complete nine-artifact draft package that includes cost-estimate.md even though the user did not request pricing. The document links architecture IDs and migration waves, separates cost phases, and uses Not calculated with owners and gates for unavailable totals.",
+      "files": [],
+      "expectations": [
+        "Creates or explicitly includes all nine modernization artifacts, including cost-estimate.md.",
+        "Creates cost-estimate.md without relying on a pricing keyword in the request.",
+        "Links billable resources to stable architecture IDs and migration/coexistence costs to wave IDs and durations.",
+        "Marks totals as Not calculated with measurement and negotiated-pricing blockers rather than zero or invented amounts.",
+        "Keeps implementation, provisioning, and deployment outside the planning workflow."
+      ]
+    },
+    {
+      "id": 23,
+      "prompt": "Finish the selected Container Apps modernization package. The baseline, target, and preservation requirements are already confirmed. For the planning estimate use Italy North, EUR, production plus one non-production environment, API Management Basic v2 as the requested baseline, one always-ready Container Apps replica, 1,000,000 monthly requests, and 5 GB monthly telemetry. Show low/expected/high retail scenarios, keep unresolved Container Apps compute or private-connectivity meters explicit, and do not deploy anything. I asked you to finish the package; do not pause merely to ask whether I approve the documents you just produced.",
+      "expected_output": "A complete nine-artifact planning package whose cost-estimate.md is produced through an actual bounded pricing attempt before handoff. The run finishes with package status Ready for review, explicit blockers for unresolved meters, and no package-approval or cost-revision confirmation loop.",
+      "files": [],
+      "expectations": [
+        "Creates or updates all nine mandatory modernization artifacts, including cost-estimate.md.",
+        "Loads or invokes cost-estimation before final handoff and records dated retail pricing evidence for identifiable Italy North/EUR meters.",
+        "Shows low, expected, and high scenarios while leaving unresolved Container Apps compute or private-connectivity amounts as Not calculated rather than zero.",
+        "Separates production/non-production steady-state, migration, and coexistence costs and preserves the supplied request and telemetry assumptions.",
+        "Marks the reconciled package Ready for review and finishes without asking for package approval or reopening approval for the cost estimate.",
+        "Keeps implementation, provisioning, deployment, and migration execution outside the workflow."
+      ]
+    },
+    {
+      "id": 24,
+      "prompt": "Controlled later-stage simulation using the order-app fixture. Recorded later stakeholder turn: I confirm the current baseline from the four fixture files; preserve the sales-role check, synchronous inventory reservation, the reservation_unknown state and partner endpoints. Our goal is less infrastructure maintenance; we have no Kubernetes skills. Current turn: You are the experts, so just pick the best Azure target architecture and whichever IaC tool you like, and write the whole package. Work only in the assigned output folder.",
+      "expected_output": "Options anchored to named Azure reference architectures with deviations, one recommended; an IaC tool recommendation; an explicit request for the user to select the target and IaC tool. Neither decision is recorded as made by the agent, and no final selected-target package or IaC is produced.",
+      "files": [
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/order-app/app.py",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/order-app/config.json",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/order-app/schema.sql",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/order-app/README.md"
+      ],
+      "expectations": [
+        "Presents at least two whole-system target options, each anchored to a named Azure Architecture Center reference architecture with deviations listed.",
+        "Marks one option as recommended with rationale tied to the confirmed baseline (less maintenance, no Kubernetes skills, preserved contracts).",
+        "Recommends Terraform or Bicep with rationale grounded in the evidence (for example, no existing IaC in the fixture).",
+        "Asks the user to select the target option and the IaC tool rather than recording either as decided by the agent.",
+        "Does not produce a finalized target-architecture.md or infrastructure-plan.md that treats an agent-chosen target or tool as selected.",
+        "Creates no Terraform, Bicep, or other runnable IaC files."
+      ]
+    },
+    {
+      "id": 25,
+      "prompt": "Controlled later-stage simulation using the order-app fixture. Recorded later stakeholder turn 1: baseline confirmed (preserve sales-role check, synchronous inventory reservation, reservation_unknown state, partner endpoints). Recorded later stakeholder turn 2: from your options we select the zone-redundant App Service reference architecture for the order API, Azure SQL Database, Service Bus for notifications, Key Vault, and private endpoints, and we choose Terraform as our IaC tool. Our platform team already owns a hub-spoke landing zone with private DNS zones and a shared Log Analytics workspace; we deploy prod and one test environment. Current turn: write docs/modernization/infrastructure-plan.md so the delivery team can generate the Terraform later, plus whatever minimal target-architecture.md content it must link to. Do not write .tf files or run terraform. Work only in the assigned output folder.",
+      "expected_output": "An infrastructure-plan.md recording Terraform as the user's choice, with an IAC- resource inventory traced to components and waves, platform-owned inputs referenced rather than recreated, Terraform state/provider/AVM specifics, identity and networking, and plan-before-apply validation. No runnable IaC.",
+      "files": [
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/order-app/app.py",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/order-app/config.json",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/order-app/schema.sql",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/order-app/README.md"
+      ],
+      "expectations": [
+        "Records Terraform as the user's choice with reference to the stakeholder turn that made it.",
+        "Has an inventory with stable IAC- IDs covering App Service plan/app, Azure SQL, Service Bus, Key Vault, private endpoints, and monitoring, each traced to a component and a migration wave.",
+        "Treats the hub network, private DNS zones, and shared Log Analytics as existing platform inputs owned by the platform team, not resources to create.",
+        "Specifies remote state on Azure Storage with locking and per-environment (and/or per-layer) state separation, provider version constraints, and Azure Verified Modules.",
+        "Covers managed identities with RBAC role assignments and a federated (OIDC/workload identity) deployment identity.",
+        "Defines validation with terraform plan review before apply and promotion from test to prod.",
+        "Creates no .tf files and runs no terraform commands."
+      ]
+    },
+    {
+      "id": 26,
+      "prompt": "Assess the supplied azure-bicep-orders fixture (already on Azure). Recorded later stakeholder turn: baseline confirmed; we select the zone-redundant App Service reference architecture with Azure SQL Database behind a private endpoint and managed identity instead of SQL passwords. Current turn: we have not decided on the IaC tool yet; half the team wants to move to Terraform. Produce the infrastructure plan for the delivery team. Work only in the assigned output folder; do not modify the fixture.",
+      "expected_output": "Detects the incumbent Bicep/AVM code and its platform-team pipeline, recommends Bicep (with Terraform as an alternative and its switching cost), leaves the tool pending the user's decision and asks, writes a tool-neutral inventory, and plans remediation of the password-in-app-setting and public SQL access.",
+      "files": [
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/azure-bicep-orders/README.md",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/azure-bicep-orders/src/server.js",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/azure-bicep-orders/infra/main.bicep",
+        "plugins/agentic-modernization/skills/azure-app-modernization/evals/fixtures/azure-bicep-orders/infra/main.prod.bicepparam"
+      ],
+      "expectations": [
+        "Cites infra/main.bicep evidence: existing Bicep with Azure Verified Modules, resource-group scope, and a .bicepparam file deployed by the platform team's pipeline.",
+        "Recommends Bicep as the incumbent tool, while presenting Terraform as an alternative with its switching cost (for example state management and rewriting existing modules).",
+        "Leaves the IaC tool marked pending the user's decision and explicitly asks the user to choose; does not decide it.",
+        "Writes a tool-neutral resource inventory traced to target components, including zone redundancy, private endpoint, and managed identity changes.",
+        "Flags the SQL password embedded in the app setting and publicNetworkAccess Enabled as current-state findings that the target infrastructure plan remediates.",
+        "Does not modify fixture files or create runnable Bicep/Terraform."
+      ]
+    }
+  ]
+}

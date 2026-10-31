@@ -1,0 +1,5 @@
+{
+  "awsRegion": "us-east-1",
+  "queueUrl": "https://sqs.us-east-1.amazonaws.com/example/fulfillment",
+  "exportBucket": "partner-fulfillment-export"
+}

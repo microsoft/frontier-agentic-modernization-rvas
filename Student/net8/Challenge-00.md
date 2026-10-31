@@ -1,18 +1,18 @@
 **[Home](../../README.md)** — [Next Challenge >](./Challenge-01.md)
 
-# Challenge 00 — Prerequisites: Ready, Set, GO! (.NET 8 → .NET 10 Track)
+# Challenge 00 — Prerequisites (.NET 8 → .NET 10 Track)
 
 ## Introduction
 
-Before diving into application modernization, you need a working local environment with all required tools installed and authenticated. This challenge ensures everyone on your team starts from the same baseline for the **.NET 8 → .NET 10 track**.
+Before starting the **.NET 8 → .NET 10 track**, everyone on your team must install and authenticate the required tools.
 
-The repository uses **Git submodules** to include the eShopOnWeb sample application. You must initialise the submodule before the source code is available on your machine.
+The eShopOnWeb sample application is a **Git submodule**. Initialise it to download the source code.
 
-This repo also provides a **Dev Container** definition (`.devcontainer/`) that pre-installs most dependencies inside a Docker container — if you prefer that approach, opening the repo in VS Code with the Dev Containers extension will get you up and running quickly.
+If you prefer a container-based environment, open the repository in VS Code with the Dev Containers extension. The **Dev Container** definition (`.devcontainer/`) pre-installs most dependencies inside a Docker container.
 
 ## Description
 
-Set up your local development environment so you are ready to work with the eShopOnWeb sample application:
+Set up your environment for the eShopOnWeb sample application:
 
 - Install and verify all required tools listed in the [Prerequisites](../../README.md#prerequisites) section of the hack README
 - Clone the repository **with submodules** so that `Student/Resources/net8/eShopOnWeb/` is populated
@@ -100,7 +100,7 @@ docker info --format "Docker version: {{.ServerVersion}}" 2>/dev/null \
 
 ## Success Criteria
 
-To complete this challenge successfully, demonstrate:
+To complete this challenge, demonstrate:
 
 1. `modernize --version` (CLI) or the GitHub Copilot Modernization extension shows as active in VS Code
 2. `gh auth status` returns your authenticated GitHub account

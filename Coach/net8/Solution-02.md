@@ -4,10 +4,10 @@
 
 ## Purpose
 
-This is the most technically dense challenge in the net8 track. The main teaching moments are:
-1. How Central Package Management simplifies (and amplifies) a Target Framework Moniker migration
+This is the net8 track's most technically demanding challenge. Focus on:
+1. How Central Package Management simplifies a Target Framework Moniker migration while increasing the impact of version errors
 2. The Swashbuckle → `Microsoft.AspNetCore.OpenApi` transition
-3. Incremental build-fix cycles as a best practice
+3. Building and fixing errors incrementally
 
 ## Suggested `modernize plan create` Goal
 
@@ -91,14 +91,16 @@ app.MapScalarApiReference(); // requires Scalar.AspNetCore
 
 ## Success Criteria Notes
 
-- `dotnet build eShopOnWeb.sln` with zero errors is the binary pass/fail bar
+- `dotnet build eShopOnWeb.sln` must finish with zero errors
 - Teams running low on time: BlazorAdmin not loading is acceptable if Web + PublicApi both work — mark as stretch
 - Swashbuckle removal verification: `grep -r Swashbuckle src/` returning empty is the clean pass
 
 ## Coach Discussion Points
 
 **"Why was Swashbuckle removed?"**
-Microsoft wanted to ship a first-party, leaner OpenAPI document generator that doesn't carry Swashbuckle's dependency chain. `MapOpenApi()` generates the OpenAPI JSON document; UI (Scalar, swagger-ui) is a separate opt-in.
+The default templates use the first-party OpenAPI document generator.
+`MapOpenApi()` exposes the OpenAPI JSON document; UI (Scalar, swagger-ui) is a
+separate opt-in.
 
 **"What does `ManagePackageVersionsCentrally` mean and why is it risky?"**
 Central Package Management means all `<PackageReference>` elements in any `.csproj` get their version from `Directory.Packages.props`. No version attribute is allowed in individual `.csproj` files. Benefit: consistency. Risk: one bad version entry breaks all projects without a clear per-project error.
