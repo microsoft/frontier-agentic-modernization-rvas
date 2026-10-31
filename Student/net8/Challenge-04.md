@@ -11,7 +11,8 @@ The eShopOnWeb solution uses **two separate EF Core databases**:
 | `CatalogContext` | `Microsoft.eShopOnWebCatalogDb` | Products, catalog types, catalog brands |
 | `AppIdentityDbContext` | `Microsoft.eShopOnWebIdentityDb` | ASP.NET Core Identity users and roles |
 
-In Challenge 03 you provisioned an Azure SQL Database and deployed containers that point at it. The database still needs its schema and data. In this challenge, create them and validate the end-to-end stack.
+Challenge 03 provisioned the Azure SQL databases and connected the containers.
+Apply the schema and seed data for both contexts, then test the application end to end.
 
 ## Description
 

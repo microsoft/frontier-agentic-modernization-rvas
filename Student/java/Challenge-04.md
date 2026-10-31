@@ -40,7 +40,9 @@ Install the extension, connect to both your Oracle source and Azure PostgreSQL t
 
 **Critical: protect the migrated data**
 
-Before redeploying, identify and update the Hibernate setting that controls the database schema on startup. Understand what each value does: the wrong value will silently **drop and recreate all tables** on the application's first startup, wiping every migrated row.
+Before redeploying, check the Hibernate setting that controls the database schema
+on startup. A setting that **drops and recreates tables** will erase migrated
+rows. Choose a value that preserves the data.
 
 **Validate**
 

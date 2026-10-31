@@ -42,9 +42,8 @@ modernize --version  # confirm the CLI is on your PATH
 
 ### Optional: Deploy the Legacy Java Application to an Azure VM
 
-The provided Terraform configuration creates and configures a dedicated Azure VM to run the application in its **original, unmodified state**.
-
-We recommend this step to establish a "before" picture and validate that the original app works end-to-end.
+The provided Terraform configuration runs the **unmodified application** on a
+dedicated Azure VM. Use this optional step to test its behavior before modernization.
 
 **Java app (PhotoAlbum — Ubuntu + Docker + Oracle):**
 - Follow the steps in [`../Resources/java/infra/README.md`](../Resources/java/infra/README.md)

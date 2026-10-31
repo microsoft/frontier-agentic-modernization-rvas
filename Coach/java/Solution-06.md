@@ -16,7 +16,7 @@ Cover:
 - **Vision chat completions structure**: a single user message whose content is a `List<ChatMessageContentItem>` with a `ChatMessageTextContentItem` (instructions) and a `ChatMessageImageContentItem` whose `imageUrl` is a base64 `data:` URI.
 - **Structured outputs** via `ChatCompletionsJsonResponseFormat`. Stress that the system prompt must contain the literal word "JSON" or the service refuses.
 - **Graceful degradation**: the AI call is non-critical. `Optional.empty()` on failure; `try/catch` around the call; `WARN` log; the upload completes.
-- **Cost & model choice**: `gpt-4.1-mini` is vision-capable, fast, cheap. Available in Sweden Central and East US 2 — match Challenge-03's region.
+- **Cost & model choice**: `gpt-4.1-mini` supports vision. Check pricing, quota, and availability in Challenge-03's region (e.g. Sweden Central or East US 2).
 
 ## Pinned SDK & model versions
 
@@ -165,7 +165,7 @@ azure.openai.deployment=${AZURE_OPENAI_DEPLOYMENT:gpt-4.1-mini}
 | `gpt-4.1-mini` quota is 0 in this region | Switch region in `variables.tf` (Sweden Central / East US 2) or request quota in the portal. Coach has a fallback subscription. |
 | Hibernate doesn't add the new columns | Confirm `spring.jpa.hibernate.ddl-auto=update` (or `create`) in `application.properties` and the app was restarted. |
 | Thymeleaf error `EL1008E` on `${photo.tags}` | The getter must be `getTags()` and the field must be a real JPA column — not `@Transient`. |
-| Upload latency jumps from 200 ms to 8 s | This is expected — the AI call is synchronous. Discuss async/background queue as a future improvement, not a fix for the hack. |
+| Upload latency increases after adding AI | The synchronous AI call adds latency. Discuss async/background processing as a future improvement, not required workshop work. |
 | `MalformedJsonException` reading `caption` field | Model occasionally returns `null` for fields. Make sure the DTO uses object (`String`) types, not primitives, and that `setCaption(null)` is acceptable. |
 
 ## Success Criteria Notes

@@ -6,13 +6,12 @@
 
 Teams migrate data from Oracle XE in the legacy Docker stack to the Azure Database for PostgreSQL Flexible Server provisioned in Challenge 03.
 
-Use this guidance with two valid migration paths:
+Choose one migration path:
 - Primary path: Ora2Pg export + psql import.
 - Alternative path: VS Code PostgreSQL extension (`ms-ossdata.vscode-pgsql`) with Schema and Application Conversion (Preview).
 
-Where Preview capabilities are enabled, the extension supports AI-assisted schema and application conversion.
-
-Validate the migrated application state before decommissioning Oracle and starting post-cutover hardening.
+The Preview path supports AI-assisted schema and application conversion where
+enabled. Validate the migrated data and app before decommissioning Oracle.
 
 The infrastructure reference is in `Coach/Solutions/java/infra/`. Its `azurerm_postgresql_flexible_server` resource is the migration target.
 
@@ -22,14 +21,14 @@ The infrastructure reference is in `Coach/Solutions/java/infra/`. Its `azurerm_p
 
 Cover:
 
-- Why data migration is separate from code modernization. Challenges 02–05 moved runtime and architecture; this challenge moves state.
+- Why data migration is separate from code modernization. Challenges 02–03 changed and deployed the app; this challenge moves its data.
 - Oracle to PostgreSQL differences relevant to this scenario:
   - Sequences and identity semantics
   - Data type mapping (`VARCHAR2`, `NUMBER`, `BLOB`, `CLOB`, `DATE/TIMESTAMP`)
   - Identifier case and quoting behavior
 - Ora2Pg primary path characteristics:
-  - Offline, deterministic approach that is easy to run in a workshop setting
-  - Generates an auditable SQL artifact (`photoalbum.sql`)
+  - Offline export and import
+  - Generates a SQL file (`photoalbum.sql`) that students can inspect
 - Preview conversion characteristics (alternative path, if enabled):
   - AI-assisted schema conversion of tables, views, procedures, functions, and triggers
   - Scratch-database validation of converted objects before deployment

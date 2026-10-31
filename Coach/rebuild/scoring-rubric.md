@@ -5,7 +5,7 @@
 ## Evaluation criteria
 
 Score each milestone **Done (2)**, **Partially Done (1)**, or **Not Done (0)**.
-Done requires evidence for all applicable criteria; a named blocker is not a pass.
+Done requires evidence for all applicable criteria; recording a blocker is not a pass.
 Each spot check should take under two minutes with the evidence open.
 
 | Challenge | Verification | Expected evidence |
@@ -47,7 +47,8 @@ app/security reviews, and a working Azure deployment, regardless of score.
 
 Planning-only attendance covers 00-02, with a maximum of 6 points.
 Including delivery preparation in 03 raises that maximum to 8.
-Neither is a completed rebuild. A tabletop-only 08 is at most partial, not deployed.
+Neither is a completed rebuild. Discussing deployment in 08 without executing it
+earns at most partial credit.
 
 ## Advanced challenges
 

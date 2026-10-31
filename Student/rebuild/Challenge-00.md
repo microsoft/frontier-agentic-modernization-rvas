@@ -18,8 +18,8 @@ language, framework, or stack may change after discovery.
 ## Description
 
 Choose an application small enough to rebuild and validate within the event.
-The goal is the complete application, not a single improved user journey.
-Choose a smaller app if necessary rather than quietly dropping functionality.
+Rebuild all required functionality. If the app is too large, choose a smaller
+one rather than dropping required workflows.
 
 Work in the application repository. Use this prompt to write the rebuild brief:
 
