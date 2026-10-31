@@ -1400,8 +1400,8 @@
     <!-- Prerequisites -->
     <section id="prerequisites">
         <h2 class="section-title display reveal">Prerequisites</h2>
-        <p class="section-desc">The tools below support the upgrade tracks. For architecture-first work, use the
-            <a href="Student/rebuild/setup.md">rebuild plugin setup</a>; the Modernization CLI is not a rebuild prerequisite.</p>
+        <p class="section-desc">These tools support the upgrade tracks. For a rebuild, follow the
+            <a href="Student/rebuild/setup.md">plugin setup guide</a>; you do not need the Modernization CLI.</p>
         <div class="prereq-layout">
             <div class="prereq-list reveal">
                 <div class="prereq-item">
@@ -1427,7 +1427,8 @@
                     </div>
                     <div>
                         <div class="prereq-name">Docker Desktop</div>
-                        <div class="prereq-note">Required by Dev Containers and for building container images</div>
+                        <div class="prereq-note">Required for Dev Containers, local image builds, or running Oracle locally.
+                            Use Azure Container Registry for cloud image builds instead.</div>
                     </div>
                 </div>
                 <div class="prereq-item">
@@ -1441,9 +1442,8 @@
                     </div>
                     <div>
                         <div class="prereq-name">GitHub Copilot Modernization</div>
-                        <div class="prereq-note">VS Code extension + <code class="mono"
-                                style="color:var(--cyan);font-size:.85em">modernize</code> CLI — install from the VS
-                            Code Marketplace</div>
+                        <div class="prereq-note">Install the VS Code extension from the Marketplace, or use the
+                            <code class="mono" style="color:var(--cyan);font-size:.85em">modernize</code> CLI below</div>
                     </div>
                 </div>
                 <div class="prereq-item">
@@ -2156,15 +2156,14 @@
     <section id="rebuild-challenges" aria-labelledby="rebuild-heading" data-route="rebuild">
         <h2 id="rebuild-heading" class="section-title display reveal">Rearchitect / rebuild</h2>
         <p class="section-desc reveal">
-            Follow explicit prompts from discovery to Azure deployment. Review the package, choose direct,
+            Follow the prompts from discovery to Azure deployment. Review the package, choose direct,
             Matt Pocock, or Spec Kit delivery, then rebuild, review, and secure the complete app.
             Allow two days and choose an app small enough to finish and validate.
             Discovery may favor a smaller refactor.
         </p>
         <aside class="scope-warning" aria-label="Scope limitation">
             <strong>Not for mainframe modernization</strong>
-            <p>This route is for modern and traditional non-mainframe application languages and architectures.
-                Do not use it for mainframe applications.</p>
+            <p>Use this route only for non-mainframe applications.</p>
         </aside>
         <div class="hero-actions">
             <a class="btn btn-primary" href="Student/rebuild/setup.md">Install &amp; use the plugin</a>

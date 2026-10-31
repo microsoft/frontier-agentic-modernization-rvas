@@ -4,9 +4,8 @@
 
 ## Introduction
 
-The eShopOnWeb application now runs on .NET 10 in Azure Container Apps, connected to Azure SQL, Service Bus, and Blob Storage. Connection strings are still stored as plain-text environment variables, and the running system has no observability.
-
-Add observability and move secrets out of environment variables:
+Add telemetry to the deployed eShopOnWeb app and move connection strings out
+of plaintext environment variables:
 
 - **Observability**: integrate Application Insights for distributed tracing across `Web` and `PublicApi`
 - **Secret management**: move all connection strings to Azure Key Vault, accessed via **Managed Identity** — no credentials in environment variables or configuration files

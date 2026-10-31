@@ -35,7 +35,9 @@ Hard requirements:
 3. The AI call must not be critical: a failure must never block a photo upload.
 ```
 
-Review the plan with your team. Check the infrastructure changes (Azure OpenAI resource, role assignment, Container App configuration) and application changes (new service layer, entity fields, UI updates). Once you're satisfied, ask Copilot to execute the plan.
+Review the Azure OpenAI resource, role assignment, Container App configuration,
+service layer, entity fields, and UI changes with your team. Then ask Copilot to
+execute the reviewed plan.
 
 ## Success Criteria
 
@@ -60,6 +62,6 @@ To complete this challenge, demonstrate:
 
 ## Tips
 
-- State the feature requirements and hard constraints clearly so Copilot can produce a better plan. Refine the prompt if the initial plan misses something.
+- Check that the plan covers the feature requirements and constraints; correct any omissions before execution.
 - Check how the plan handles AI call failures. They must not block uploads.
 - AI enrichment runs at upload time. Consider how to re-analyze photos uploaded before the feature was added.

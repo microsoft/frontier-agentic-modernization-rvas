@@ -1,6 +1,6 @@
 # Coach Guide: Agentic Modernization
 
-> ⚠️ **COACHES ONLY — Do not share this folder with attendees during the event.** Content here contains solutions, hints, and coaching notes.
+> **Coaches only.** Do not share this folder with attendees during the event; it contains solutions, hints, and coaching notes.
 
 ## Overview
 
@@ -22,7 +22,7 @@ The upgrade route covers three parallel sample tracks:
 | .NET | ContosoUniversity | .NET Framework 4.8 / ASP.NET MVC 5 / MSMQ | .NET 10 / ASP.NET Core / Azure Service Bus + Blob |
 | .NET 8 | eShopOnWeb | ASP.NET Core 8.0 / EF Core 8 / Swashbuckle | .NET 10 / Microsoft.AspNetCore.OpenApi / Azure Service Bus + Blob |
 
-Challenges 02 and 03 are designed to be parallelized within a team — members can split across any combination of the three tracks.
+For Challenges 02 and 03, team members can work in parallel across the three tracks.
 
 Presenter-led demo speaker guides: [Java](./demo/java/guide.md) and [.NET / ContosoUniversity](./demo/dotnet/guide.md).
 
@@ -33,9 +33,9 @@ Presenter-led demo speaker guides: [Java](./demo/java/guide.md) and [.NET / Cont
 Use the per-track notes for hints, common pitfalls, and mini-lecture talking points.
 Do not share them with attendees.
 
-> 🛠️ **[Troubleshooting Guide](./TROUBLESHOOTING.md)** — cross-track issues and fixes (Terraform
-> feature-registration errors, NuGet/AppCat network-policy blocks, etc.), linked from every
-> `Solution-*.md` file below.
+See the [Troubleshooting Guide](./TROUBLESHOOTING.md) for Terraform
+feature-registration errors and NuGet/AppCat network-policy blocks.
+Each `Solution-*.md` below links to it.
 
 ### .NET Track
 
@@ -129,8 +129,7 @@ done
 | Day 2 | AM | Ch 03–04 | Containerize & Deploy, Database Migration |
 | Day 2 | PM | Ch 05–06 | Observe & Secure, AI stretch *(optional)* |
 
-> **Tip:** The 2-day format gives teams breathing room on Challenge 02, which is the
-> most complex and often needs more time than a full-day event allows.
+The 2-day format gives teams more time for Challenge 02, the most complex challenge.
 
 ### Half-Day Event (4 hours — abbreviated)
 
@@ -188,9 +187,7 @@ Focus on Challenges 00–02 only. Challenges 03–05 become homework or async ex
 | `modernize assess` hangs | Check `gh auth status` — the tool requires an active GitHub session |
 | Terraform fails on `az login` | Ensure `ARM_USE_CLI=true` is set or run `az login` before `terraform apply` |
 
-For detailed fixes to Terraform feature-registration errors and NuGet/AppCat
-network-policy blocks, see the [Troubleshooting Guide](./TROUBLESHOOTING.md),
-also linked from every `Solution-*.md` file.
+See the [Troubleshooting Guide](./TROUBLESHOOTING.md) for detailed fixes.
 
 ---
 

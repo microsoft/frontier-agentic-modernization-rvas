@@ -98,7 +98,9 @@ app.MapScalarApiReference(); // requires Scalar.AspNetCore
 ## Coach Discussion Points
 
 **"Why was Swashbuckle removed?"**
-Microsoft wanted to ship a first-party, leaner OpenAPI document generator that doesn't carry Swashbuckle's dependency chain. `MapOpenApi()` generates the OpenAPI JSON document; UI (Scalar, swagger-ui) is a separate opt-in.
+The default templates use the first-party OpenAPI document generator.
+`MapOpenApi()` exposes the OpenAPI JSON document; UI (Scalar, swagger-ui) is a
+separate opt-in.
 
 **"What does `ManagePackageVersionsCentrally` mean and why is it risky?"**
 Central Package Management means all `<PackageReference>` elements in any `.csproj` get their version from `Directory.Packages.props`. No version attribute is allowed in individual `.csproj` files. Benefit: consistency. Risk: one bad version entry breaks all projects without a clear per-project error.

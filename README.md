@@ -2,10 +2,8 @@
 
 ## Introduction
 
-Use GitHub Copilot and Azure to modernize an existing application. Choose a
-runtime and platform upgrade or a broader architecture change.
-
-Choose the route that matches the change your application needs:
+Use GitHub Copilot and Azure to modernize an existing application.
+Choose the route that matches the change you need:
 
 | Route | Choose it when | Start here |
 | --- | --- | --- |
@@ -29,9 +27,9 @@ For **Replatform & refactor**, use the **GitHub Copilot Modernization** tools ac
 - **PhotoAlbum** (Java track) — a Spring Boot 2.7 application running on Java 8, backed by Oracle Database with photo BLOBs
 - **Upgrade your application** (Customer track) — a real customer-owned legacy codebase, upgraded using the same CLI workflow
 
-The upgrade tracks target .NET 10 and Java 25,
-Azure services, and Azure Container Apps. The rebuild route targets an
-architecture supported by evidence and a **complete rebuilt application**.
+The upgrade tracks target .NET 10 or Java 25, Azure services, and Azure Container
+Apps. The rebuild route uses discovery evidence to choose an architecture and
+deliver a **complete rebuilt application**.
 Choose an app small enough to implement and validate during the event.
 
 ## Learning Objectives
@@ -50,8 +48,7 @@ Across the routes, you can learn to:
 
 ## Demos
 
-The site's **Demo** menu opens two presenter-led walkthroughs. Their speaker
-guides use the same side drawer as the challenges, with previous/next navigation.
+The site's **Demo** menu opens two presenter-led walkthroughs and their speaker guides.
 
 - [PhotoAlbum Java demo](Coach/demo/java/guide.md): Java 8 / Oracle to Java 25 / Azure PostgreSQL and Container Apps.
 - [ContosoUniversity .NET demo](Coach/demo/dotnet/guide.md): .NET Framework 4.8 / SQL Express to .NET 10 / Azure SQL and Container Apps. Run the presenter tools on **Windows with PowerShell 7**, not Linux/WSL.
@@ -164,8 +161,8 @@ See the [setup and usage guide](Student/rebuild/setup.md) and
 Challenge 01 handles discovery, stakeholder questions, target selection, and
 the complete planning package. Challenges 02 and 03 review that package and
 prepare delivery; they do not generate separate parts of it.
-Every activity includes copyable prompts. Matt Pocock and Spec Kit elaborate
-the reviewed discovery outputs rather than starting from a new application brief.
+Every activity includes copyable prompts. Matt Pocock and Spec Kit turn
+the reviewed package into delivery inputs rather than starting discovery again.
 The final activity requires a running non-production Azure deployment; arrange
 target-matched infrastructure and access with the coach before delivery.
 

@@ -15,8 +15,7 @@ observable evidence.
 
 ## Product Purpose
 
-Help teams choose the right modernization route for the change their application
-needs, then complete an evidence-backed workflow:
+Help teams choose a modernization route, complete the work, and validate the result:
 
 - **Replatform & refactor:** modernize existing code and move to managed Azure
   platforms while preserving core behavior. Success is a running modernized
@@ -28,8 +27,8 @@ needs, then complete an evidence-backed workflow:
 
 ## Positioning
 
-Combine guided sample tracks, customer-owned application workflows, presenter
-demos, and coach guidance in one hackathon resource. Route by the intended
+Provide sample tracks, customer application workflows, presenter demos, and
+coach guidance in one hackathon resource. Route by the intended
 change, not by programming language. Discovery can recommend a smaller refactor
 instead of a rebuild; strategies may differ by component or delivery wave.
 
@@ -41,7 +40,7 @@ facilitation guidance support review; presenter demos use the same drawer.
 
 The upgrade route uses GitHub Copilot Modernization tooling. The rebuild route
 uses the Agentic Modernization plugin for discovery and planning, followed by a
-separate bounded delivery workflow chosen from direct implementation, Matt Pocock
+separate, scoped delivery workflow chosen from direct implementation, Matt Pocock
 skills, or Spec Kit. Student material supplies explicit prompts for discovery,
 package analysis, implementation, app review, applicable frontend refinement,
 security fixes, and deployment with provided target-specific Azure infrastructure.
@@ -99,11 +98,11 @@ Brand authority and implementation references:
 - `web/index.html` and `web/assets/img/`: current site-specific presentation and
   deployed logo assets.
 
-Use practical, technically credible, outcome-oriented language. Preserve the
+Use direct language grounded in technical facts and observed results. Preserve the
 distinctions between Build, Innovate, and Scale, and between an observed result
 and a proposed outcome. Any conflict between kit guidance and the current
-implementation remains a decision for explicitly scoped visual work; init does
-not silently reconcile it.
+implementation must be resolved through explicitly scoped visual work, not
+silently during initialization.
 
 ## Evidence on Hand
 

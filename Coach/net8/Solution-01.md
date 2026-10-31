@@ -4,7 +4,8 @@
 
 ## Purpose
 
-Assess even a "modern" ASP.NET Core 8 application before upgrading its runtime. Focus on the Swashbuckle → OpenAPI transition, which affects nearly every API project migrating past .NET 8.
+Assess eShopOnWeb before upgrading its runtime. Focus on this track's
+Swashbuckle → OpenAPI transition.
 
 ## Expected Top Assessment Findings
 
@@ -21,7 +22,7 @@ Assess even a "modern" ASP.NET Core 8 application before upgrading its runtime. 
 
 1. **Why assess a "modern" app?** .NET has two-year LTS cadence; 8.0 → 10.0 spans two major releases, each with breaking changes.
 2. **Central Package Management risk**: one file controls all five projects. An untested bump can break the app in subtle ways (serialization, EF conventions, WASM auth).
-3. **Swashbuckle removal**: Microsoft's stated reason was to reduce the default template footprint and avoid shipping a third-party library by default. The new `Microsoft.AspNetCore.OpenApi` is a first-party, slimmer alternative; UI is decoupled (Scalar, RapiDoc, swagger-ui CDN).
+3. **OpenAPI tooling**: this track replaces Swashbuckle with the first-party `Microsoft.AspNetCore.OpenApi` document generator. The UI is a separate choice (Scalar, RapiDoc, swagger-ui CDN).
 
 ## Coach Discussion Point
 

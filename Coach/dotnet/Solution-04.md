@@ -4,7 +4,10 @@
 
 ## Purpose
 
-Teams migrate data from on-premises SQL Server (LocalDB / SQL Express) to the Azure SQL Database provisioned in Challenge 03. Students use Azure Database Migration Service (DMS) in the Azure Portal to assess compatibility, migrate the schema, copy data, and validate cutover. This moves application data into a managed, geo-redundant cloud database before post-cutover hardening.
+Teams use Azure Database Migration Service (DMS) in the Azure Portal to migrate
+LocalDB / SQL Express data to the Azure SQL Database from Challenge 03.
+Assess compatibility, migrate the schema and rows, and validate the app before
+decommissioning the source.
 
 The infrastructure reference is in `Coach/Solutions/dotnet/infra/`. Its Azure SQL Database resource (`azurerm_mssql_database.contoso`) is the migration target.
 
@@ -14,7 +17,7 @@ The infrastructure reference is in `Coach/Solutions/dotnet/infra/`. Its Azure SQ
 
 Cover:
 
-- **Why data migration is a separate concern from code modernisation.** Challenges 02–05 moved the application; this challenge moves the *data*. Both steps are required before decommissioning the legacy system.
+- **Separate code and data migration.** Challenges 02–03 modernized and deployed the application; this challenge moves its data. Validate both before decommissioning the legacy system.
 - **Azure Database Migration Service (DMS) overview:** Managed service that orchestrates source assessment, schema conversion, bulk data copy, and optional CDC-based continuous sync. Operated directly from the **Azure Portal** — no additional tooling required beyond the Azure CLI for validation queries.
 - **Offline vs online migration:**
   - *Offline* – source is quiesced, bulk data is copied, application is pointed at target. Suitable for dev/test or short maintenance windows.

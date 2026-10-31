@@ -28,12 +28,15 @@ Cover two points:
 
 ### Step 1 — Application Selection
 
-This challenge requires a **real customer-owned codebase**. Samples are not acceptable substitutes; a customer-owned public repository is valid with authorized access. If the team does not have a customer application ready, **stop and work with the customer to identify and prepare one before proceeding** — repo access, build instructions, and Docker tooling should all be confirmed before the session starts.
+Use a **real customer-owned codebase**, not a sample. A public customer repository
+is valid with authorized access. If no application is ready, **stop and prepare
+one with the customer**. Confirm repository access, build instructions, and
+Docker tooling before the session.
 
 **Push back if the team selects:**
 - A greenfield or already-modern app (no meaningful migration work)
 - A microservices platform with 15+ services (too complex for a single session)
-- An app that nobody on the team can explain (no domain context = blocked on every decision)
+- An app that nobody on the team can explain (business decisions will be blocked)
 
 ### Step 2 — Readiness Checks
 

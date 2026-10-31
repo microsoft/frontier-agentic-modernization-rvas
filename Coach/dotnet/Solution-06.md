@@ -14,9 +14,9 @@ Cover:
 
 - **Managed Identity for Azure OpenAI**: no secrets in environment variables, role-based revocation, audit trail.
 - **Vision chat completions structure**: `messages[]` with two content parts — `text` (the prompt/instructions) and `image_url` (a base64 `data:` URI built from the just-uploaded blob bytes).
-- **Structured outputs** via `ChatResponseFormat.CreateJsonObjectFormat()` and an explicit JSON schema described in the system prompt. Why JSON mode prevents parse errors when the model wants to add prose.
+- **JSON output** via `ChatResponseFormat.CreateJsonObjectFormat()`, with the expected fields described in the system prompt. JSON mode requests a JSON object; validate its fields before using it.
 - **Graceful degradation**: the AI call is a non-essential side effect — the upload must succeed regardless. The AI service returns `null` on failure; the controller continues without prefilling.
-- **Cost and model choice**: `gpt-4.1-mini` supports vision and is cheap and quick. Mention available regions (e.g. Sweden Central, East US 2 at time of writing).
+- **Cost and model choice**: `gpt-4.1-mini` supports vision. Check pricing, quota, and availability in the intended region (e.g. Sweden Central or East US 2).
 
 ## Pinned SDK & model versions
 

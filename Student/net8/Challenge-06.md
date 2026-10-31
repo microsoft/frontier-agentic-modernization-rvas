@@ -38,7 +38,9 @@ Hard requirements:
 3. The AI call must not be critical: a failure must never block saving the product.
 ```
 
-Review the plan with your team. Check the infrastructure changes (Azure OpenAI resource, role assignment, Container App environment variables) and application changes (service layer, model updates, UI panels). Once you're satisfied, ask Copilot to execute the plan.
+Review the Azure OpenAI resource, role assignment, Container App environment
+variables, service layer, model, and UI changes with your team. Then ask Copilot
+to execute the reviewed plan.
 
 > **Stretch:** Consider migrating the `BlazorAdmin` standalone WebAssembly project to the **Blazor Web App** interactive model introduced in .NET 8 and refined in .NET 10 for server-side pre-rendering and faster initial load.
 
@@ -65,6 +67,6 @@ To complete this challenge, demonstrate:
 
 ## Tips
 
-- State the feature requirements and hard constraints clearly so Copilot can produce a better plan. Refine the prompt if the initial plan misses something.
+- Check that the plan covers the feature requirements and constraints; correct any omissions before execution.
 - Check how the plan handles AI call failures. They must not block saving a product.
 - Role assignment propagation can take several minutes — if you get `401` immediately after deployment, wait before debugging the code.

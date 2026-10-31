@@ -4,11 +4,13 @@
 
 ## Introduction
 
-A common misconception is that an application already running on ASP.NET Core does not need a formal assessment before upgrading — "it's already modern, just bump the version."
+Assess **eShopOnWeb** before upgrading from ASP.NET Core 8.0 to .NET 10.
+Its five projects use Central Package Management and include a Blazor WebAssembly
+admin area. Check API breaking changes, package compatibility, and the OpenAPI
+tooling used by PublicApi consumers.
 
-**eShopOnWeb** runs on ASP.NET Core 8.0, uses Central Package Management across five projects, and has a Blazor WebAssembly admin area. Moving to .NET 10 involves breaking API changes, package compatibility issues, and an OpenAPI tooling change that affects every consumer of the PublicApi project.
-
-The GitHub Copilot Modernization tool analyses your codebase and produces a structured assessment report from either the CLI or the VS Code panel. You will use this report in every subsequent challenge.
+Run the GitHub Copilot Modernization assessment from the CLI or VS Code panel.
+Review the report; you will use it in later challenges.
 
 ## Description
 

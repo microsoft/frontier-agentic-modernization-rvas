@@ -19,7 +19,8 @@ Choose **one application** from your customer's portfolio to upgrade. The applic
 
 - **Medium complexity** — multi-layer with an external database and at least one legacy dependency worth replacing (e.g. an old messaging technology, local file storage, end-of-life runtime)
 - **Not the most critical or most complex** application in the portfolio — choose a representative application you can realistically modernize in a focused session
-- **Business and product stakeholder engagement** — include these stakeholders in the decision before any delivery work starts
+
+Include business and product stakeholders in the selection before delivery starts.
 
 Before committing to your selection, verify:
 
@@ -31,7 +32,7 @@ Before committing to your selection, verify:
 
 ### Step 2 — Assess and Modernize
 
-Once your application is selected and the readiness checks pass, apply the same workflow you used in the .NET or Java track challenges:
+After the readiness checks pass, use the .NET or Java track workflow:
 
 1. Run `modernize assess` on the application folder and review the report
 2. Use `modernize plan create` to generate a migration plan targeting a modern runtime and a container platform (AKS or ACA)

@@ -22,7 +22,7 @@ Modernize the ContosoUniversity .NET application to:
 - **Azure Blob Storage** for teaching material uploads (replacing local file system)
 - **Latest EF Core** with Azure SQL Database
 
-Your approach should include:
+Create and execute the migration plan:
 
 - Use the GitHub Copilot Modernization tool to generate a plan with a goal covering all migration objectives above
 - Review the generated migration plan before executing it

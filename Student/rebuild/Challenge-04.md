@@ -79,7 +79,7 @@ do not broaden the feature or claim checks passed without execution.
 
 Repeat `/speckit-implement` and `/speckit-converge` until **`Converged`**, or
 record what blocks completion. All paths still need the app review in Challenge
-05. Deployment comes later.
+05. Deploy in Challenge 08.
 
 ## Success Criteria
 
