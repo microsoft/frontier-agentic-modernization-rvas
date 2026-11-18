@@ -2461,10 +2461,15 @@
             });
         }
 
+        // Linked from Module 00; opened on demand, outside the module sequence.
+        const RESOURCE_FILES = [
+            { label: 'JAVA-INFRA', file: 'labs/01-java/resources/infra/README.md', title: 'Java – Deploy PhotoAlbum to Azure VM' },
+            { label: 'NET-INFRA', file: 'labs/02-dotnet/resources/infra/README.md', title: '.NET – Deploy ContosoUniversity to Azure VM' },
+        ];
+
         const LAB_FILES = [
             { label: 'README', file: 'README.md', title: 'README' },
             { label: 'JAVA-00', file: 'labs/01-java/challenges/00-prerequisites-and-setup.md', title: 'Java – Prerequisites' },
-            { label: 'JAVA-00-INFRA', file: 'labs/01-java/resources/infra/README.md', title: 'Java – Deploy PhotoAlbum to Azure VM' },
             { label: 'JAVA-01', file: 'labs/01-java/challenges/01-assess-the-legacy-app.md', title: 'Java – Assess' },
             { label: 'JAVA-02', file: 'labs/01-java/challenges/02-modernize-the-app.md', title: 'Java – Modernize' },
             { label: 'JAVA-03', file: 'labs/01-java/challenges/03-containerize-and-deploy.md', title: 'Java – Deploy' },
@@ -2472,7 +2477,6 @@
             { label: 'JAVA-05', file: 'labs/01-java/challenges/05-observe-and-secure.md', title: 'Java – Observe & Secure' },
             { label: 'JAVA-06', file: 'labs/01-java/challenges/06-infuse-ai.md', title: 'Java – AI Assist' },
             { label: 'NET-00', file: 'labs/02-dotnet/challenges/00-prerequisites.md', title: '.NET – Prerequisites' },
-            { label: 'NET-00-INFRA', file: 'labs/02-dotnet/resources/infra/README.md', title: '.NET – Deploy ContosoUniversity to Azure VM' },
             { label: 'NET-01', file: 'labs/02-dotnet/challenges/01-assess-the-legacy-app.md', title: '.NET – Assess' },
             { label: 'NET-02', file: 'labs/02-dotnet/challenges/02-modernize-the-app.md', title: '.NET – Modernize' },
             { label: 'NET-03', file: 'labs/02-dotnet/challenges/03-containerize-and-deploy.md', title: '.NET – Deploy' },
@@ -2522,12 +2526,12 @@
         let renderRequest = 0;
 
         function openDrawer(mdFile, fragment = '') {
-            const groups = [LAB_FILES, REBUILD_FILES, GUIDE_FILES, TROUBLESHOOTING_FILES, DEMO_FILES];
+            const groups = [LAB_FILES, REBUILD_FILES, GUIDE_FILES, TROUBLESHOOTING_FILES, DEMO_FILES, RESOURCE_FILES];
             activeFiles = groups.find(files => files.some(entry => entry.file === mdFile))
                 || [{ file: mdFile, title: mdFile.split('/').pop() }];
             currentIdx = activeFiles.findIndex(entry => entry.file === mdFile);
             const kind = activeFiles === DEMO_FILES ? 'demo'
-                : activeFiles === GUIDE_FILES ? 'guide' : 'module';
+                : activeFiles === GUIDE_FILES || activeFiles === RESOURCE_FILES ? 'guide' : 'module';
             drawerKind.textContent = kind.toUpperCase();
             drawer.setAttribute('aria-label', `${kind === 'module' ? 'Module content' : `${kind} guide`}`);
             drawerPrev.title = `Previous ${kind}`;
