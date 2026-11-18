@@ -1,0 +1,130 @@
+/* Delivery-route colors belong here, not in the shared RVAS shell. */
+:root {
+  --route-refactor-color: var(--color-ms-blue);
+  --route-refactor-tint: var(--color-navy-light);
+  --route-rebuild-color: var(--color-purple);
+  --route-rebuild-tint: #EDE9F7;
+}
+
+[data-route="refactor"] {
+  --route-color: var(--route-refactor-color);
+  --route-tint: var(--route-refactor-tint);
+  --route-ink: var(--color-deep-navy);
+}
+
+[data-route="rebuild"] {
+  --route-color: var(--route-rebuild-color);
+  --route-tint: var(--route-rebuild-tint);
+  --route-ink: var(--route-rebuild-color);
+}
+
+[data-route="refactor"],
+[data-route="rebuild"] {
+  --cyan: var(--route-color);
+  --cyan-dim: var(--route-tint);
+  --amber: var(--route-color);
+  --amber-dim: var(--route-tint);
+  --c-accent: var(--route-color);
+}
+
+.challenge-card[data-route],
+[data-route] .challenge-card {
+  --c-color: var(--route-color);
+}
+
+.challenge-card[data-route]:hover,
+[data-route] .challenge-card:hover {
+  background: var(--color-white);
+  border-color: var(--route-color);
+  box-shadow: var(--shadow-card);
+}
+
+[data-route] .card-phase-badge {
+  color: var(--color-white);
+  background: var(--route-color);
+  border-color: var(--route-color);
+}
+
+[data-route] .section-title {
+  color: var(--route-color);
+}
+
+[data-route] .section-label {
+  color: var(--route-ink);
+}
+
+[data-route] .track-label {
+  width: fit-content;
+  padding: .5rem .75rem;
+  border-radius: var(--radius-sm);
+  color: var(--route-color);
+  background: var(--color-white);
+}
+
+[data-route] .track-label::before {
+  background: var(--route-color);
+}
+
+[data-route] .btn-primary {
+  color: var(--color-white);
+  background: var(--route-color);
+}
+
+[data-route] .btn-primary:hover {
+  opacity: 1;
+  box-shadow: var(--shadow-card);
+}
+
+[data-route] .btn-ghost {
+  color: var(--route-ink);
+  border-color: var(--route-color);
+}
+
+.path-nav[data-route] > a,
+.path-nav[data-route] .sample-nav-panel a,
+.path-nav[data-route] .sample-nav > summary,
+.nav-links > a[data-route] {
+  color: var(--route-color);
+  background: var(--color-white);
+}
+
+.path-nav[data-route] > a:hover,
+.path-nav[data-route] > a.active,
+.path-nav[data-route]:has(.sample-nav a.active) > a,
+.path-nav[data-route] .sample-nav-panel a:hover,
+.path-nav[data-route] .sample-nav-panel a.active,
+.path-nav[data-route] .sample-nav[open] > summary,
+.nav-links > a[data-route]:hover,
+.nav-links > a[data-route].active {
+  color: var(--route-color);
+  background: var(--color-white);
+  box-shadow: inset 0 -2px var(--route-color);
+}
+
+[data-route] a:focus-visible,
+a[data-route]:focus-visible {
+  outline: 3px solid var(--route-color);
+  outline-offset: 3px;
+}
+
+#drawer[data-route] .drawer-header {
+  box-shadow: inset 0 3px var(--route-color);
+}
+
+#drawer[data-route] .drawer-breadcrumb span,
+#drawer[data-route] .drawer-nav-btn:hover {
+  color: var(--route-ink);
+}
+
+#drawer[data-route] .md-content a {
+  border-bottom-color: var(--route-color);
+}
+
+#drawer[data-route] .md-content blockquote {
+  border-color: var(--route-color);
+}
+
+[data-route] ::selection {
+  color: var(--route-ink);
+  background: var(--route-tint);
+}

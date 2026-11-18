@@ -1,0 +1,170 @@
+/**
+ * RVAP Brand Tokens — Real Value Acceleration Program
+ * Apply via: <link rel="stylesheet" href="<path>/brand.css">
+ * Or copy :root block into your existing stylesheet.
+ */
+
+/* ── Google Fonts (web fallback when Aptos isn't installed) ───────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap');
+
+/* ── Font face references: Aptos preferred, Inter/Outfit as web fallback ─ */
+:root {
+  /* Typography */
+  --font-display:  "Aptos Display", "Outfit", "Segoe UI", system-ui, sans-serif;
+  --font-body:     "Aptos", "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-mono:     "Cascadia Code", "JetBrains Mono", "Fira Code", monospace;
+
+  /* Core palette — from RVAP Brand Kit (slide 5) */
+  --color-rvap-blue:       #1A77E3;   /* primary: RVAP Blue */
+  --color-ms-blue:         #0078D4;   /* Microsoft Blue */
+  --color-deep-navy:       #032254;   /* emphasis, technical depth */
+  --color-charcoal:        #47494E;   /* primary text/body */
+  --color-teal:            #14868A;   /* Scale accent */
+  --color-purple:          #504092;   /* Innovate accent */
+  --color-light-neutral:   #E3E6ED;   /* light backgrounds, dividers */
+  --color-white:           #FFFFFF;
+
+  /* Supporting shades (appear in layouts on slides) */
+  --color-surface:         #F5F8FE;   /* page surface, very light blue-white */
+  --color-surface-alt:     #FAFBFD;
+  --color-navy-light:      #DDE6F7;   /* subtle tinted backgrounds */
+  --color-teal-light:      #DDE3EF;   /* scale tinted surfaces */
+  --color-text-primary:    #111827;   /* dark text, near-black */
+  --color-text-secondary:  #47494E;   /* charcoal — secondary copy */
+  --color-text-muted:      #6B7280;   /* muted labels, captions */
+
+  /* Semantic aliases */
+  --color-primary:         var(--color-rvap-blue);
+  --color-accent-build:    var(--color-ms-blue);
+  --color-accent-innovate: var(--color-purple);
+  --color-accent-scale:    var(--color-teal);
+  --color-bg:              var(--color-white);
+  --color-bg-surface:      var(--color-surface);
+
+  /* Border radius — clean, professional, not rounded */
+  --radius-sm:  4px;
+  --radius-md:  6px;
+  --radius-lg:  10px;
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px rgba(3, 34, 84, 0.08), 0 4px 12px rgba(3, 34, 84, 0.06);
+}
+
+/* ── Base resets ─────────────────────────────────────────────────────── */
+body {
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+  background: var(--color-bg);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--color-deep-navy);
+}
+
+a {
+  color: var(--color-rvap-blue);
+}
+
+a:hover {
+  color: var(--color-ms-blue);
+}
+
+/* ── Utility classes ─────────────────────────────────────────────────── */
+.rvap-primary    { color: var(--color-rvap-blue); }
+.rvap-navy       { color: var(--color-deep-navy); }
+.rvap-charcoal   { color: var(--color-charcoal); }
+.rvap-teal       { color: var(--color-teal); }
+.rvap-purple     { color: var(--color-purple); }
+
+.bg-rvap-blue    { background-color: var(--color-rvap-blue); color: #fff; }
+.bg-deep-navy    { background-color: var(--color-deep-navy); color: #fff; }
+.bg-surface      { background-color: var(--color-surface); }
+.bg-teal-light   { background-color: var(--color-teal-light); }
+.bg-navy-light   { background-color: var(--color-navy-light); }
+
+/* ── Component: RVAP pill badge ─────────────────────────────────────── */
+.rvap-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.rvap-badge.build     { background: var(--color-navy-light); color: var(--color-ms-blue); }
+.rvap-badge.innovate  { background: #EDE9F7; color: var(--color-purple); }
+.rvap-badge.scale     { background: var(--color-teal-light); color: var(--color-teal); }
+
+/* ── Component: RVAP card ───────────────────────────────────────────── */
+.rvap-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-light-neutral);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-card);
+}
+.rvap-card-accent-build    { border-top: 3px solid var(--color-ms-blue); }
+.rvap-card-accent-innovate { border-top: 3px solid var(--color-purple); }
+.rvap-card-accent-scale    { border-top: 3px solid var(--color-teal); }
+
+/* ── Component: RVAP nav header ─────────────────────────────────────── */
+.rvap-nav {
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-light-neutral);
+  padding: 0 2rem;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.rvap-nav-logo { height: 32px; width: auto; }
+
+/* ── Component: CTA button ──────────────────────────────────────────── */
+.rvap-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s, box-shadow 0.15s;
+  border: none;
+  text-decoration: none;
+}
+.rvap-btn-primary {
+  background: var(--color-rvap-blue);
+  color: #fff;
+}
+.rvap-btn-primary:hover { opacity: 0.88; color: #fff; }
+
+.rvap-btn-outline {
+  background: transparent;
+  color: var(--color-rvap-blue);
+  border: 1.5px solid var(--color-rvap-blue);
+}
+.rvap-btn-outline:hover { background: var(--color-navy-light); }
+
+/* ── Component: hero / banner ───────────────────────────────────────── */
+.rvap-hero {
+  background: linear-gradient(135deg, var(--color-deep-navy) 0%, #0F3A7A 60%, var(--color-rvap-blue) 100%);
+  color: #fff;
+  padding: 5rem 2rem;
+}
+.rvap-hero h1, .rvap-hero h2 { color: #fff; }
+.rvap-hero .eyebrow {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 0.75rem;
+}

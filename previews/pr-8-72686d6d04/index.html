@@ -1,0 +1,2574 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic Modernization</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        /* ─── Reset & Tokens ────────────────────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            /* RVAP Brand — Real Value Acceleration Program */
+            --font-display: "Aptos Display", "Outfit", "Segoe UI", system-ui, sans-serif;
+            --font-body:    "Aptos", "Inter", "Segoe UI", system-ui, sans-serif;
+            --font-mono:    "Cascadia Code", "JetBrains Mono", "Fira Code", monospace;
+
+            --bg: #FFFFFF;
+            --surface: #F5F8FE;
+            --surface-2: #E3E6ED;
+            --border: #E3E6ED;
+            --border-2: #c8d0de;
+
+            /* RVAP Blue replaces cyan as the primary interactive color */
+            --cyan: #1A77E3;
+            --cyan-dim: rgba(26, 119, 227, .12);
+            --cyan-glow: 0 0 24px rgba(26, 119, 227, .25);
+
+            /* Microsoft Blue replaces amber (Build pillar accent) */
+            --amber: #0078D4;
+            --amber-dim: rgba(0, 120, 212, .10);
+
+            /* Pillar-mapped track colors */
+            --java-color: var(--route-refactor-color);
+            --dotnet-color: var(--route-refactor-color);
+            --deploy-color: #14868A;   /* Scale — Teal */
+            --stretch-color: #f43f5e;
+            --ai-color: #1A77E3;
+            --assess-color: #0078D4;
+            --prereq-color: #6B7280;
+
+            --text: #111827;
+            --text-2: #47494E;
+            --text-3: #6B7280;
+
+            --radius: 6px;
+            --radius-lg: 12px;
+
+            --page-gutter: 24px;
+            --section-space: clamp(3rem, 6vw, 5rem);
+            --text-hero: clamp(2.5rem, 5vw, 4.5rem);
+            --text-section: clamp(2rem, 3.5vw, 3rem);
+            --text-heading: clamp(1.25rem, 2vw, 1.5rem);
+            --text-body: 1rem;
+            --text-small: .875rem;
+            --text-meta: .75rem;
+        }
+
+        @media (min-width: 768px) {
+            :root {
+                --page-gutter: 40px;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* ─── Typography ────────────────────────────────────────────────── */
+        .display {
+            font-family: var(--font-display);
+            line-height: 1.06;
+            letter-spacing: -0.01em;
+            text-wrap: balance;
+        }
+
+        .mono {
+            font-family: var(--font-mono);
+        }
+
+
+        /* ─── Section Scaffolding ───────────────────────────────────────── */
+        main > section {
+            padding-block: var(--section-space);
+            padding-inline: max(var(--page-gutter), calc((100% - var(--maxw)) / 2 + var(--page-gutter)));
+            scroll-margin-top: 74px;
+        }
+
+        .track-label {
+            font-family: var(--font-display);
+            font-size: var(--text-body);
+            font-weight: 600;
+            max-width: 100%;
+            overflow-wrap: anywhere;
+            letter-spacing: -0.01em;
+            color: var(--text-2);
+            margin: 2.5rem 0 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+        }
+
+        .track-label::before {
+            content: '';
+            flex: none;
+            width: 24px;
+            height: 2px;
+            background: var(--cyan);
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: var(--text-section);
+            font-weight: 700;
+            letter-spacing: -.01em;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+            color: #032254;
+            overflow-wrap: anywhere;
+        }
+
+        .section-desc {
+            font-size: var(--text-body);
+            line-height: 1.75;
+            color: var(--text-2);
+            max-width: 68ch;
+        }
+
+        .challenges-header .section-desc a {
+            color: var(--route-ink, var(--text));
+            text-decoration: underline;
+            text-underline-offset: .15em;
+        }
+
+        /* ─── Getting started ───────────────────────────────────────────── */
+        .route-options {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .route-option {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+            padding-top: 1.75rem;
+            border-top: 1px solid var(--border-2);
+        }
+
+        .route-option h3 {
+            font-family: var(--font-display);
+            font-size: var(--text-heading);
+            line-height: 1.2;
+            color: var(--route-color);
+            overflow-wrap: anywhere;
+        }
+
+        .route-option p {
+            font-size: var(--text-body);
+            line-height: 1.7;
+            color: var(--text-2);
+        }
+
+        .route-option .route-tool {
+            font-size: var(--text-small);
+            color: var(--route-ink);
+        }
+
+        .route-actions {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: auto;
+            padding-top: .5rem;
+        }
+
+        .route-actions .btn {
+            min-height: 44px;
+        }
+
+        .route-more {
+            display: inline-flex;
+            align-items: center;
+            min-height: 44px;
+            color: var(--route-ink);
+            font-size: var(--text-small);
+            text-decoration: underline;
+            text-underline-offset: .2em;
+        }
+
+        @media (max-width: 900px) {
+            .route-actions {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: .5rem;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .route-options {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 2.5rem;
+            }
+        }
+
+        /* ─── Challenges ────────────────────────────────────────────────── */
+        #challenges {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .challenges-header {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 2.5rem;
+            gap: 1rem;
+        }
+
+        .challenges-header .section-title {
+            margin-bottom: 0;
+        }
+
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        /* Full-width card for challenge 00 */
+        .challenge-card.full {
+            grid-column: span 3;
+        }
+
+        /* 2-col card for 04 and 05 */
+        .challenge-card.half {
+            grid-column: span 1;
+        }
+
+        .challenge-card {
+            position: relative;
+            min-width: 0;
+            --c-color: var(--cyan);
+            background: #ffffff;
+            border: 1px solid var(--border);
+            padding: clamp(1.25rem, 3vw, 2rem);
+            overflow: hidden;
+            cursor: pointer;
+            transition: background .25s, border-color .25s, box-shadow .25s;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .challenge-card:hover {
+            background: var(--surface);
+            border-color: var(--cyan);
+            box-shadow: 0 4px 16px rgba(26, 119, 227, .12);
+        }
+
+        .challenge-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity .25s;
+            pointer-events: none;
+        }
+
+        .challenge-card:hover::after {
+            opacity: 1;
+        }
+
+        /* Unified top border color for all cards */
+        .challenge-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--c-color);
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .challenge-card[data-phase="00"],
+        .challenge-card[data-phase="01"],
+        .challenge-card[data-phase="02"],
+        .challenge-card[data-phase="03"],
+        .challenge-card[data-phase="04"],
+        .challenge-card[data-phase="05"],
+        .challenge-card[data-phase="06"] {
+            --c-color: var(--cyan);
+        }
+
+        .card-bg-number {
+            position: absolute;
+            right: -.1em;
+            top: -.15em;
+            font-family: var(--font-display);
+            font-size: clamp(5rem, 10vw, 8rem);
+            font-weight: 700;
+            color: rgba(3, 34, 84, .04);
+            line-height: 1;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: .75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .card-phase-badge {
+            font-family: var(--font-body);
+            font-size: var(--text-meta);
+            font-weight: 600;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            padding: .25rem .65rem;
+            border-radius: 3px;
+            border: 1px solid;
+            color: var(--c-color);
+            border-color: var(--c-color);
+            background: var(--cyan-dim);
+        }
+
+        .card-num {
+            font-family: var(--font-mono);
+            font-size: var(--text-meta);
+            color: var(--text-3);
+            letter-spacing: .1em;
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: var(--text-heading);
+            font-weight: 700;
+            color: #032254;
+            line-height: 1.2;
+            margin-bottom: .75rem;
+            overflow-wrap: anywhere;
+        }
+
+        .card-desc {
+            font-size: var(--text-body);
+            line-height: 1.7;
+            color: var(--text-2);
+            flex: 1;
+            overflow-wrap: anywhere;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .4rem;
+        }
+
+        .card-tag {
+            font-family: var(--font-mono);
+            font-size: var(--text-meta);
+            color: var(--text-3);
+            letter-spacing: .08em;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: .2rem .55rem;
+            border-radius: 3px;
+        }
+
+        .card-arrow {
+            display: flex;
+            align-items: center;
+            gap: .35rem;
+            font-family: var(--font-mono);
+            font-size: var(--text-small);
+            color: var(--c-color);
+            opacity: 0;
+            transition: opacity .25s, transform .25s;
+            transform: translateX(-8px);
+        }
+
+        .challenge-card:hover .card-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Full-width card layout override */
+        .challenge-card.full .card-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        /* ─── Demos ────────────────────────────────────────────── */
+        #demos {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .demos-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .demo-card {
+            border-radius: var(--radius-lg);
+        }
+
+        .demo-card[data-track="java"] {
+            --c-color: var(--java-color);
+        }
+
+        .demo-card[data-track="dotnet"] {
+            --c-color: var(--dotnet-color);
+        }
+
+        .demo-card .card-arrow {
+            opacity: 1;
+            transform: none;
+        }
+
+        .demo-card:focus-visible {
+            outline: 3px solid var(--c-color);
+            outline-offset: 4px;
+        }
+
+        /* ─── Prerequisites ─────────────────────────────────────────────── */
+        #prerequisites {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .prereq-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+            gap: 3rem;
+            align-items: start;
+            margin-top: 3rem;
+        }
+
+        .prereq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .prereq-layout > * {
+            min-width: 0;
+        }
+
+        .prereq-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .prereq-item:last-child {
+            border-bottom: none;
+        }
+
+        .prereq-icon {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            border-radius: var(--radius);
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            display: grid;
+            place-items: center;
+            margin-top: .15rem;
+        }
+
+        .prereq-icon svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .prereq-name {
+            font-weight: 600;
+            font-size: var(--text-body);
+            color: var(--text);
+            margin-bottom: .2rem;
+        }
+
+        .prereq-note {
+            font-size: var(--text-small);
+            color: var(--text-2);
+            font-weight: 400;
+            line-height: 1.7;
+        }
+
+        .code-block {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .code-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: .6rem 1.25rem;
+            background: var(--surface-2);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .code-block-title {
+            font-family: var(--font-mono);
+            font-size: var(--text-meta);
+            letter-spacing: .1em;
+            color: var(--text-3);
+        }
+
+        .code-block-lang {
+            font-family: var(--font-mono);
+            font-size: var(--text-meta);
+            color: var(--cyan);
+            letter-spacing: .1em;
+        }
+
+        .code-block-body {
+            padding: 1.25rem 1.5rem;
+            font-family: var(--font-mono);
+            font-size: var(--text-small);
+            line-height: 1.9;
+            color: var(--text-2);
+            overflow-x: auto;
+        }
+
+        .code-block-body .comment {
+            color: var(--text-3);
+        }
+
+        .code-block-body > div {
+            white-space: nowrap;
+        }
+
+        .code-block-body .cmd {
+            color: var(--text);
+        }
+
+        .code-block-body .str {
+            color: var(--deploy-color);
+        }
+
+        .code-block-body .flag {
+            color: var(--amber);
+        }
+
+        .code-block-body .ok {
+            color: var(--deploy-color);
+        }
+
+        /* ─── Reveal animation ──────────────────────────────────────────── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity .6s ease, transform .6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ─── Drawer ───────────────────────────────────────────────────── */
+        #drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 34, 84, .5);
+            backdrop-filter: blur(4px);
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s ease;
+        }
+
+        #drawer-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        #drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: min(760px, 100vw);
+            background: var(--bg);
+            border-left: 1px solid var(--border);
+            z-index: 201;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform .35s cubic-bezier(.4, 0, .2, 1);
+            overflow: hidden;
+        }
+
+        #drawer.open {
+            transform: translateX(0);
+        }
+
+        .drawer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+            gap: 1rem;
+            flex-shrink: 0;
+        }
+
+        .drawer-nav {
+            display: flex;
+            gap: .5rem;
+        }
+
+        .drawer-nav-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-2);
+            font-family: var(--font-body);
+            font-size: .7rem;
+            font-weight: 500;
+            padding: .35rem .75rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: background .2s, color .2s, border-color .2s;
+        }
+
+        .drawer-nav-btn:hover {
+            background: var(--cyan-dim);
+            color: var(--cyan);
+            border-color: var(--cyan);
+        }
+
+        .drawer-nav-btn:disabled {
+            opacity: .3;
+            cursor: not-allowed;
+        }
+
+        .drawer-close {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-2);
+            font-size: 1.2rem;
+            line-height: 1;
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            transition: background .2s, color .2s, border-color .2s;
+            flex-shrink: 0;
+        }
+
+        .drawer-close:hover {
+            background: rgba(244, 63, 94, .12);
+            color: #f43f5e;
+            border-color: #f43f5e;
+        }
+
+        .drawer-breadcrumb {
+            font-family: var(--font-body);
+            font-size: .65rem;
+            font-weight: 500;
+            color: var(--text-3);
+            letter-spacing: .1em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .drawer-breadcrumb span {
+            color: var(--cyan);
+        }
+
+        .drawer-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem 2.5rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+
+        .drawer-body::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .drawer-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .drawer-body::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 2px;
+        }
+
+        /* Rendered markdown styles */
+        .md-content h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            color: #032254;
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .md-content h2 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--cyan);
+            margin-top: 2.5rem;
+            margin-bottom: .75rem;
+            letter-spacing: .02em;
+        }
+
+        .md-content h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #032254;
+            margin-top: 1.5rem;
+            margin-bottom: .5rem;
+        }
+
+        .md-content p {
+            font-size: .9rem;
+            line-height: 1.8;
+            color: var(--text-2);
+            margin-bottom: 1rem;
+        }
+
+        .md-content ul,
+        .md-content ol {
+            padding-left: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .md-content li {
+            font-size: .9rem;
+            line-height: 1.8;
+            color: var(--text-2);
+            margin-bottom: .25rem;
+        }
+
+        .md-content li::marker {
+            color: var(--cyan);
+        }
+
+        .md-content details {
+            margin: .75rem 0;
+            padding: 0 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg);
+            color: var(--text-2);
+            font-size: .9rem;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+        }
+
+        .md-content details > summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            min-height: 48px;
+            margin: 0 -1rem;
+            padding: .75rem 1rem;
+            border-radius: inherit;
+            color: var(--route-ink, var(--color-deep-navy));
+            font-weight: 600;
+            line-height: 1.5;
+            list-style: none;
+            cursor: pointer;
+        }
+
+        .md-content details > summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .md-content details > summary::after {
+            content: '';
+            flex: none;
+            width: .5rem;
+            height: .5rem;
+            margin-right: .25rem;
+            border-right: 2px solid currentColor;
+            border-bottom: 2px solid currentColor;
+            transform: rotate(-45deg);
+        }
+
+        .md-content details > summary:hover {
+            background: var(--surface);
+        }
+
+        .md-content details > summary:focus-visible {
+            outline: 2px solid var(--route-color, var(--color-ms-blue));
+            outline-offset: -3px;
+        }
+
+        .md-content details[open] {
+            padding-bottom: 1rem;
+        }
+
+        .md-content details[open] > summary {
+            margin-bottom: .75rem;
+            border-bottom: 1px solid var(--border);
+            border-radius: var(--radius) var(--radius) 0 0;
+            background: var(--route-tint, var(--surface));
+        }
+
+        .md-content details[open] > summary::after {
+            transform: rotate(45deg);
+        }
+
+        .md-content details > p:last-child,
+        .md-content details > ul:last-child,
+        .md-content details > ol:last-child {
+            margin-bottom: 0;
+        }
+
+        .md-content code {
+            font-family: var(--font-mono);
+            font-size: .78em;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: .1em .4em;
+            border-radius: 3px;
+            color: #032254;
+        }
+
+        .md-content pre {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem 1.5rem;
+            overflow-x: auto;
+            margin-bottom: 1.25rem;
+        }
+
+        .md-content pre code {
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: .78rem;
+            color: var(--text-2);
+            line-height: 1.8;
+        }
+
+        .code-box {
+            position: relative;
+            margin-bottom: 1.25rem;
+        }
+
+        .md-content .code-box pre {
+            margin-bottom: 0;
+            padding-top: 3rem;
+        }
+
+        .code-copy {
+            position: absolute;
+            top: .5rem;
+            right: .5rem;
+            min-height: 32px;
+            padding: .25rem .6rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface);
+            color: var(--text-2);
+            font: inherit;
+            font-size: .75rem;
+            cursor: pointer;
+        }
+
+        .code-copy:hover {
+            color: var(--text);
+            border-color: currentColor;
+        }
+
+        .code-copy:focus-visible {
+            outline: 2px solid var(--amber);
+            outline-offset: 2px;
+        }
+
+        .code-copy:disabled {
+            cursor: wait;
+        }
+
+        .md-content blockquote {
+            border: 1px solid rgba(0, 120, 212, .24);
+            box-shadow: inset 0 3px 0 var(--amber);
+            padding: .75rem 1rem;
+            margin: 1rem 0;
+            background: var(--amber-dim);
+            border-radius: var(--radius);
+        }
+
+        .md-content blockquote p {
+            color: var(--text);
+            margin-bottom: 0;
+            font-size: .85rem;
+        }
+
+        .md-content a {
+            color: var(--cyan);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(26, 119, 227, .3);
+            transition: border-color .2s;
+        }
+
+        .md-content a:hover {
+            border-color: var(--cyan);
+        }
+
+        .md-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.25rem;
+            font-size: .85rem;
+        }
+
+        .md-content th {
+            text-align: left;
+            padding: .6rem .75rem;
+            border-bottom: 2px solid var(--border-2);
+            color: #032254;
+            font-weight: 600;
+            font-family: var(--font-body);
+            font-size: .72rem;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .md-content td {
+            padding: .6rem .75rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-2);
+            vertical-align: top;
+            line-height: 1.6;
+        }
+
+        .md-content hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 2rem 0;
+        }
+
+        /* The drawer header already provides challenge navigation. */
+        .md-content > p:first-child:has(+ h1):has(a[href$=".md"]) {
+            display: none;
+        }
+
+        .drawer-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            gap: 1rem;
+            color: var(--text-3);
+            font-family: var(--font-body);
+            font-size: .75rem;
+            letter-spacing: .1em;
+        }
+
+        .drawer-loading::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-top-color: var(--cyan);
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ─── Responsive ────────────────────────────────────────────────── */
+        @media (max-width: 900px) {
+
+            .challenges-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .challenge-card.full {
+                grid-column: span 2;
+            }
+
+            .challenge-card.full .card-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .prereq-layout {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .demos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .challenges-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .challenge-card.full {
+                grid-column: span 1;
+            }
+
+        }
+
+        #rebuild-challenges > .section-desc {
+            margin-bottom: 1.5rem;
+        }
+
+        #rebuild-challenges .hero-actions {
+            margin-bottom: 1.5rem;
+        }
+
+        .scope-warning {
+            margin-block: 1.5rem;
+            padding: 1rem 1.25rem;
+            border: 1px solid #8a6700;
+            border-radius: var(--radius);
+            background: #fff4ce;
+            color: #4a3700;
+            font-size: var(--text-body);
+            line-height: 1.7;
+        }
+
+        .scope-warning strong {
+            display: block;
+            margin-bottom: .25rem;
+        }
+
+        .scope-warning p {
+            max-width: 75ch;
+        }
+
+        #rebuild-challenges code {
+            overflow-wrap: anywhere;
+        }
+
+    </style>
+    <link rel="stylesheet" href="assets/css/brand.css" />
+    <link rel="stylesheet" href="assets/css/shell.css" />
+    <link rel="stylesheet" href="assets/css/routes.css" />
+    <style>
+        #hero {
+            padding: var(--section-space) 0;
+        }
+
+        #hero .hero-content {
+            max-width: var(--maxw);
+        }
+
+        #hero h1 {
+            margin-top: 0;
+            font-size: var(--text-hero);
+            overflow-wrap: anywhere;
+        }
+
+        #hero h1 span {
+            display: block;
+        }
+
+        #hero .lede {
+            max-width: 68ch;
+            margin: 1.5rem 0 2rem;
+            font-size: 1.125rem;
+        }
+
+        main .btn {
+            min-height: 44px;
+            font-size: var(--text-small);
+        }
+
+        #hero a:focus-visible {
+            outline: 3px solid var(--color-white);
+            outline-offset: 4px;
+        }
+
+        #about {
+            scroll-margin-top: 74px;
+        }
+
+        .nav-links > a,
+        .path-nav > a,
+        .sample-nav > summary {
+            white-space: nowrap;
+        }
+
+        .path-nav {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .sample-nav {
+            position: static;
+        }
+
+        .sample-nav > summary {
+            display: flex;
+            align-items: center;
+            gap: .4rem;
+            justify-content: center;
+            min-width: 32px;
+            min-height: 32px;
+            padding: 6px 8px;
+            border-radius: var(--r-sm);
+            color: var(--c-dim);
+            font-size: .875rem;
+            font-weight: 500;
+            cursor: pointer;
+            list-style: none;
+        }
+
+        .sample-nav > summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .sample-nav > summary:hover,
+        .sample-nav[open] > summary,
+        .path-nav:has(.sample-nav a.active) > a,
+        .sample-nav:has(a.active) > summary {
+            color: var(--c-fg);
+            background: var(--c-600);
+        }
+
+        .sample-nav > summary:focus-visible,
+        .nav-links a:focus-visible {
+            outline: 2px solid var(--c-accent);
+            outline-offset: 2px;
+        }
+
+        .sample-nav[open] > summary svg {
+            transform: rotate(180deg);
+        }
+
+        .sample-nav-panel {
+            position: absolute;
+            top: calc(100% + .5rem);
+            left: 0;
+            width: 17rem;
+            padding: .4rem;
+            background: var(--c-800);
+            border: 1px solid var(--c-line);
+            border-radius: var(--r);
+            box-shadow: var(--shadow);
+            z-index: var(--z-dropdown);
+        }
+
+        .sample-nav-panel a {
+            display: block;
+        }
+
+        .sample-nav-panel small {
+            display: block;
+            color: var(--c-faint);
+            font-size: .75rem;
+        }
+
+        .sample-nav-label {
+            padding: .5rem 11px .15rem;
+            color: var(--c-faint);
+            font-size: .65rem;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 1099.98px) {
+            .nav-links:not(.open) {
+                display: none;
+            }
+
+            .nav-toggle {
+                display: grid;
+            }
+
+            .nav-actions {
+                margin-left: auto;
+            }
+
+            .nav-links.open {
+                align-items: stretch;
+                max-height: calc(100dvh - 58px);
+                overflow-y: auto;
+            }
+
+            .path-nav {
+                display: block;
+            }
+
+            .path-nav > a {
+                display: block;
+                width: calc(100% - 40px);
+            }
+
+            .nav-links > a,
+            .path-nav > a {
+                white-space: normal;
+            }
+
+            .sample-nav > summary {
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 36px;
+            }
+
+            .sample-nav-panel {
+                position: static;
+                width: auto;
+                margin: .25rem 0 .25rem .75rem;
+                border: 0;
+                border-left: 2px solid var(--c-line);
+                border-radius: 0;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="nav" role="banner">
+        <div class="nav-inner">
+            <a class="brand" href="index.html" aria-label="RVAS — Agentic Modernization">
+                <img src="assets/img/logo-full.png" alt="RVAP" class="rvap-nav-logo" height="32">
+            </a>
+            <nav class="nav-links" id="navLinks" aria-label="Primary">
+                <div class="path-nav" data-route="refactor">
+                    <a href="#challenges">Replatform / refactor</a>
+                    <details class="sample-nav" id="sampleNav">
+                        <summary aria-label="Explore replatform / refactor tracks"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+                        <div class="sample-nav-panel">
+                            <a href="#customer-challenges">Bring your application<small>Modernization CLI</small></a>
+                            <div class="sample-nav-label">Or learn with a sample</div>
+                            <a href="#java-challenges">Java<small>PhotoAlbum</small></a>
+                            <a href="#dotnet-challenges">.NET Framework<small>ContosoUniversity</small></a>
+                            <a href="#net8-challenges">.NET 8<small>eShopOnWeb</small></a>
+                        </div>
+                    </details>
+                </div>
+                <a href="#rebuild-challenges" data-route="rebuild">Rearchitect / rebuild</a>
+                <a href="#demos">Demos</a>
+                <a class="gh" href="https://github.com/microsoft/frontier-agentic-modernization-rvas" target="_blank" rel="noopener">GitHub ↗</a>
+            </nav>
+            <div class="nav-actions">
+                <button class="icon-btn nav-toggle" type="button" aria-label="Open navigation menu"
+                    aria-expanded="false" aria-controls="navLinks">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero -->
+        <section class="hero" id="hero" aria-labelledby="heroHeading">
+            <div class="wrap hero-content">
+                <h1 id="heroHeading">Modernize your application.<span class="accent">Validate the result.</span></h1>
+                <p class="lede">
+                    Use GitHub Copilot and Azure to modernize an existing application or reshape its architecture.
+                    Deliver a running upgrade or a complete rebuilt application.
+                </p>
+                <div class="hero-actions">
+                    <a class="btn btn-primary" href="#routes">Get started <span aria-hidden="true">&darr;</span></a>
+                    <a class="btn btn-ghost" href="README.md" aria-haspopup="dialog" aria-controls="drawer">Read the briefing</a>
+                </div>
+            </div>
+        </section>
+
+    <section id="routes" aria-labelledby="routes-heading">
+        <div id="about" aria-hidden="true"></div>
+        <h2 id="routes-heading" class="section-title display">Start with the change you need</h2>
+        <p class="section-desc">
+            A Java or .NET app can take either route. Discovery may recommend a smaller refactor.
+        </p>
+        <div class="route-options">
+            <article class="route-option" data-route="refactor" aria-labelledby="refactor-heading">
+                <h3 id="refactor-heading">Replatform / refactor</h3>
+                <p>Upgrade runtimes and dependencies or move to managed Azure services while preserving core behavior.</p>
+                <p>Deliver a running modernized application and show that required behavior still works.</p>
+                <p class="route-tool">GitHub Copilot Modernization CLI</p>
+                <div class="route-actions">
+                    <a class="btn btn-primary" href="labs/05-customer/challenges/00-upgrade-a-customer-app.md" aria-haspopup="dialog" aria-controls="drawer">Start an upgrade</a>
+                    <a class="route-more" href="#challenges">Explore sample tracks</a>
+                </div>
+            </article>
+            <article class="route-option" data-route="rebuild" aria-labelledby="rebuild-route-heading">
+                <h3 id="rebuild-route-heading">Rearchitect / rebuild</h3>
+                <p>Change business workflows or architecture when a runtime upgrade alone is not enough.</p>
+                <p>Deliver a reviewed architecture and a complete rebuilt app on Azure. Choose an app small enough for the event.</p>
+                <p class="route-tool">Agentic Modernization plugin</p>
+                <div class="route-actions">
+                    <a class="btn btn-primary" href="labs/04-rebuild/challenges/00-prepare-your-application.md" aria-haspopup="dialog" aria-controls="drawer">Start a rebuild</a>
+                    <a class="route-more" href="#rebuild-challenges">View rebuild milestones</a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Prerequisites -->
+    <section id="prerequisites">
+        <h2 class="section-title display reveal">Prerequisites</h2>
+        <p class="section-desc">These tools support the upgrade tracks. For a rebuild, follow the
+            <a href="labs/04-rebuild/setup.md">plugin setup guide</a>; you do not need the Modernization CLI.</p>
+        <div class="prereq-layout">
+            <div class="prereq-list reveal">
+                <div class="prereq-item">
+                    <div class="prereq-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="16 18 22 12 16 6" />
+                            <polyline points="8 6 2 12 8 18" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="prereq-name">VS Code</div>
+                        <div class="prereq-note">Required for the GitHub Copilot Modernization extension workflow</div>
+                    </div>
+                </div>
+                <div class="prereq-item">
+                    <div class="prereq-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" />
+                            <path d="M3 9h18M9 21V9" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="prereq-name">Docker Desktop</div>
+                        <div class="prereq-note">Required for Dev Containers, local image builds, or running Oracle locally.
+                            Use Azure Container Registry for cloud image builds instead.</div>
+                    </div>
+                </div>
+                <div class="prereq-item">
+                    <div class="prereq-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="4" />
+                            <path
+                                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="prereq-name">GitHub Copilot Modernization</div>
+                        <div class="prereq-note">Install the VS Code extension from the Marketplace, or use the
+                            <code class="mono" style="color:var(--cyan);font-size:.85em">modernize</code> CLI below</div>
+                    </div>
+                </div>
+                <div class="prereq-item">
+                    <div class="prereq-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="prereq-name">GitHub CLI (gh) v2.45.0+</div>
+                        <div class="prereq-note">Required by the modernization CLI — authenticate with <code
+                                class="mono" style="color:var(--cyan);font-size:.85em">gh auth login</code></div>
+                    </div>
+                </div>
+                <div class="prereq-item">
+                    <div class="prereq-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="prereq-name">Azure CLI + Terraform</div>
+                        <div class="prereq-note">Active Azure subscription with permissions for Container Apps, SQL,
+                            Service Bus, and Blob Storage</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reveal" style="display:flex;flex-direction:column;gap:1rem;">
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-title mono">Install Modernization CLI</span>
+                        <span class="code-block-lang mono">bash</span>
+                    </div>
+                    <div class="code-block-body">
+                        <div><span class="comment"># Linux / macOS</span></div>
+                        <div><span class="cmd">curl -fsSL https://raw.githubusercontent.com/microsoft/modernize-cli/main/scripts/install.sh | sh</span></div>
+                        <div><span class="cmd">source ~/.bashrc</span></div>
+                        <div>&nbsp;</div>
+                        <div><span class="comment"># Windows</span></div>
+                        <div><span class="cmd">winget install <span
+                                    class="str">GitHub.Copilot.modernization.agent</span></span></div>
+                        <div>&nbsp;</div>
+                        <div><span class="comment"># Authenticate and launch</span></div>
+                        <div><span class="cmd">gh auth login</span></div>
+                        <div><span class="cmd">modernize</span></div>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-title mono">Clone with Submodules</span>
+                        <span class="code-block-lang mono">bash</span>
+                    </div>
+                    <div class="code-block-body">
+                        <div><span class="cmd">git clone --recurse-submodules \</span></div>
+                        <div><span class="cmd"> https://github.com/&lt;org&gt;/&lt;repo&gt;.git</span></div>
+                        <div>&nbsp;</div>
+                        <div><span class="comment"># Verify submodules are populated</span></div>
+                        <div><span class="cmd">git submodule status</span></div>
+                        <div><span class="ok">✓ a3f8c... labs/01-java/resources/PhotoAlbum-Java</span></div>
+                        <div><span class="ok">✓ 9d2e1... labs/02-dotnet/resources/dotnet-migration...</span></div>
+                        <div>&nbsp;</div>
+                        <div><span class="comment"># Verify CLI is ready</span></div>
+                        <div><span class="cmd">modernize --version</span></div>
+                        <div><span class="ok">modernize v1.x.x</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demos -->
+    <section id="demos" aria-labelledby="demos-heading" data-route="refactor">
+        <h2 class="section-title display reveal" id="demos-heading">See modernization in action.</h2>
+        <p class="section-desc reveal">Two demos follow legacy applications through modernization and deployment to Azure.
+            Open a speaker guide alongside the site for setup, live commands, talking points, and troubleshooting.
+            Each demo runs for 55 minutes; complete provisioning before presenting.</p>
+
+        <div class="demos-grid">
+            <a class="challenge-card demo-card" data-track="java" href="demo/java/guide.md"
+                aria-haspopup="dialog" aria-controls="drawer">
+                <div class="card-top">
+                    <span class="card-phase-badge">Java demo</span>
+                    <span class="card-num">55 MIN</span>
+                </div>
+                <h3 class="card-title">PhotoAlbum</h3>
+                <p class="card-desc">Upgrade Spring Boot 2.7 and Java 8 to Spring Boot 3.x and Java 25,
+                    migrate Oracle data to Azure PostgreSQL, and deploy to Container Apps. Start with an assessment.</p>
+                <div class="card-footer">
+                    <div class="card-tags">
+                        <span class="card-tag">Bash</span>
+                        <span class="card-tag">Oracle → PostgreSQL</span>
+                    </div>
+                    <span class="card-arrow">Open guide →</span>
+                </div>
+            </a>
+            <a class="challenge-card demo-card" data-track="dotnet" href="demo/dotnet/guide.md"
+                aria-haspopup="dialog" aria-controls="drawer">
+                <div class="card-top">
+                    <span class="card-phase-badge">.NET demo</span>
+                    <span class="card-num">55 MIN</span>
+                </div>
+                <h3 class="card-title">ContosoUniversity</h3>
+                <p class="card-desc">Modernize ASP.NET MVC 5 and .NET Framework 4.8 to .NET 10 on Container Apps,
+                    migrate SQL Express to Azure SQL, and add AI image enrichment. Run the demo tools on Windows.</p>
+                <div class="card-footer">
+                    <div class="card-tags">
+                        <span class="card-tag">Windows · PowerShell 7</span>
+                        <span class="card-tag">SQL Express → Azure SQL</span>
+                    </div>
+                    <span class="card-arrow">Open guide →</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Challenges -->
+    <section id="challenges" data-route="refactor">
+        <div class="challenges-header">
+            <div>
+                <h2 class="section-title display reveal">Replatform / refactor</h2>
+            </div>
+            <p class="section-desc reveal">
+                <strong>Bring a real customer-owned application.</strong>
+                Assess, modernize, and deploy your workload to Azure with the Modernization CLI.
+                <a href="labs/05-customer/challenges/00-upgrade-a-customer-app.md" aria-haspopup="dialog" aria-controls="drawer">Start your application upgrade.</a>
+                The three sample tracks below are optional practice, not substitutes for customer delivery.
+                For deeper architecture changes, <a href="#rebuild-challenges">choose rearchitect / rebuild</a>.
+            </p>
+        </div>
+
+        <!-- Java Track -->
+        <div id="java-challenges" style="margin-bottom:2rem;">
+            <div class="track-label">☕ Java Track</div>
+            <div class="challenges-grid">
+
+                <!-- Java CH-00 -->
+                <a class="challenge-card full" data-phase="00" href="labs/01-java/challenges/00-prerequisites-and-setup.md">
+                    <div class="card-bg-number display">00</div>
+                    <div class="card-inner">
+                        <div>
+                            <div class="card-top">
+                                <span class="card-phase-badge">Setup</span>
+                                <span class="card-num mono">CH — 00</span>
+                            </div>
+                            <h3 class="card-title display">Prerequisites<br>(Java)</h3>
+                        </div>
+                        <div style="display:flex;flex-direction:column;justify-content:space-between;">
+                            <p class="card-desc">
+                                Set up GitHub Copilot Modernization CLI, Docker, Azure CLI, Terraform, and GitHub CLI.
+                                Initialise the PhotoAlbum submodule. You can also deploy the legacy app to an Azure VM.
+                            </p>
+                            <div class="card-footer">
+                                <div class="card-tags">
+                                    <span class="card-tag">modernize CLI</span>
+                                    <span class="card-tag">Docker</span>
+                                    <span class="card-tag">Azure CLI</span>
+                                    <span class="card-tag">Terraform</span>
+                                </div>
+                                <div class="card-arrow mono">Open challenge <span>→</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Java CH-01 -->
+                <a class="challenge-card" data-phase="01" href="labs/01-java/challenges/01-assess-the-legacy-app.md">
+                    <div class="card-bg-number display">01</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Assess</span>
+                        <span class="card-num mono">CH — 01</span>
+                    </div>
+                    <h3 class="card-title display">Assess the Java App</h3>
+                    <p class="card-desc">
+                        Run <code class="mono" style="font-size:.85em">modernize assess</code> on PhotoAlbum.
+                        Identify Spring Boot 2→3 blockers, Oracle JDBC issues, and cloud-readiness gaps.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">modernize assess</span>
+                            <span class="card-tag">Spring Boot</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- Java CH-02 -->
+                <a class="challenge-card" data-phase="02" href="labs/01-java/challenges/02-modernize-the-app.md">
+                    <div class="card-bg-number display">02</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Modernize</span>
+                        <span class="card-num mono">CH — 02</span>
+                    </div>
+                    <h3 class="card-title display">Modernize the Java App</h3>
+                    <p class="card-desc">
+                        Upgrade PhotoAlbum from Spring Boot 2.7 and Java 8 to Spring Boot 3.x and Java 25.
+                        Replace Oracle with PostgreSQL and Azure Blob Storage. Migrate javax to jakarta and update the SQL dialect.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">Java 25</span>
+                            <span class="card-tag">Spring Boot 3</span>
+                            <span class="card-tag">PostgreSQL</span>
+                            <span class="card-tag">Blob Storage</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- Java CH-03 -->
+                <a class="challenge-card half" data-phase="03" href="labs/01-java/challenges/03-containerize-and-deploy.md">
+                    <div class="card-bg-number display">03</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Deploy</span>
+                        <span class="card-num mono">CH — 03</span>
+                    </div>
+                    <h3 class="card-title display">Containerize &amp; Deploy (Java)</h3>
+                    <p class="card-desc">
+                        Build a PhotoAlbum container image, push it to Azure Container Registry, and deploy it to Azure
+                        Container Apps with Terraform. Provision PostgreSQL Flexible Server and Blob Storage.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">Docker</span>
+                            <span class="card-tag">ACA</span>
+                            <span class="card-tag">Terraform</span>
+                            <span class="card-tag">ACR</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- Java CH-04 -->
+                <a class="challenge-card half" data-phase="04" href="labs/01-java/challenges/04-migrate-the-database.md">
+                    <div class="card-bg-number display">04</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Data Migration</span>
+                        <span class="card-num mono">CH — 04</span>
+                    </div>
+                    <h3 class="card-title display">Migrate the Database to PostgreSQL</h3>
+                    <p class="card-desc">
+                        Move PhotoAlbum data from Oracle to Azure Database for PostgreSQL Flexible Server
+                        and check that the rows match and the app works after cutover.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">DMS / Ora2Pg</span>
+                            <span class="card-tag">PostgreSQL</span>
+                            <span class="card-tag">Offline Migration</span>
+                            <span class="card-tag">Validation</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- Java CH-05 -->
+                <a class="challenge-card half" data-phase="05" href="labs/01-java/challenges/05-observe-and-secure.md">
+                    <div class="card-bg-number display">05</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Observe &amp; Secure</span>
+                        <span class="card-num mono">CH — 05</span>
+                    </div>
+                    <h3 class="card-title display">Observe &amp; Secure</h3>
+                    <p class="card-desc">
+                        Add monitoring with the Application Insights Java agent.
+                        Manage secrets with Azure Key Vault and Managed Identity.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">App Insights</span>
+                            <span class="card-tag">Key Vault</span>
+                            <span class="card-tag">Managed Identity</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- Java CH-06 -->
+                <a class="challenge-card half" data-phase="06" href="labs/01-java/challenges/06-infuse-ai.md">
+                    <div class="card-bg-number display">06</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Stretch · AI</span>
+                        <span class="card-num mono">CH — 06</span>
+                    </div>
+                    <h3 class="card-title display">Add AI to PhotoAlbum</h3>
+                    <p class="card-desc">
+                        Generate captions, alt text, and tags for each uploaded photo with Azure OpenAI
+                        <code class="mono" style="font-size:.85em">gpt-4.1-mini</code> (vision).
+                        Use Managed Identity to authenticate.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">Azure OpenAI</span>
+                            <span class="card-tag">Vision</span>
+                            <span class="card-tag">Managed Identity</span>
+                            <span class="card-tag">Terraform</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+        <!-- .NET Track -->
+        <div id="dotnet-challenges">
+            <div class="track-label">🔷 .NET Track</div>
+            <div class="challenges-grid">
+
+                <!-- .NET CH-00 -->
+                <a class="challenge-card full" data-phase="00" href="labs/02-dotnet/challenges/00-prerequisites.md">
+                    <div class="card-bg-number display">00</div>
+                    <div class="card-inner">
+                        <div>
+                            <div class="card-top">
+                                <span class="card-phase-badge">Setup</span>
+                                <span class="card-num mono">CH — 00</span>
+                            </div>
+                            <h3 class="card-title display">Prerequisites<br>(.NET)</h3>
+                        </div>
+                        <div style="display:flex;flex-direction:column;justify-content:space-between;">
+                            <p class="card-desc">
+                                Set up GitHub Copilot Modernization CLI, Docker, Azure CLI, Terraform, and GitHub CLI.
+                                Initialise the ContosoUniversity submodule. You can also deploy the legacy app to a Windows VM.
+                            </p>
+                            <div class="card-footer">
+                                <div class="card-tags">
+                                    <span class="card-tag">modernize CLI</span>
+                                    <span class="card-tag">Docker</span>
+                                    <span class="card-tag">Azure CLI</span>
+                                    <span class="card-tag">Terraform</span>
+                                </div>
+                                <div class="card-arrow mono">Open challenge <span>→</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- .NET CH-01 -->
+                <a class="challenge-card" data-phase="01" href="labs/02-dotnet/challenges/01-assess-the-legacy-app.md">
+                    <div class="card-bg-number display">01</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Assess</span>
+                        <span class="card-num mono">CH — 01</span>
+                    </div>
+                    <h3 class="card-title display">Assess the .NET App</h3>
+                    <p class="card-desc">
+                        Run <code class="mono" style="font-size:.85em">modernize assess</code> on ContosoUniversity.
+                        Identify MSMQ, System.Web, and cloud-readiness blockers before changing code.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">modernize assess</span>
+                            <span class="card-tag">dotnet-appcat</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- .NET CH-02 -->
+                <a class="challenge-card" data-phase="02" href="labs/02-dotnet/challenges/02-modernize-the-app.md">
+                    <div class="card-bg-number display">02</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Modernize</span>
+                        <span class="card-num mono">CH — 02</span>
+                    </div>
+                    <h3 class="card-title display">Modernize the .NET App</h3>
+                    <p class="card-desc">
+                        Upgrade ContosoUniversity from .NET Framework 4.8 and ASP.NET MVC 5 to .NET 10 and ASP.NET Core.
+                        Replace MSMQ with Azure Service Bus and add Blob Storage. Remove System.Web and convert to SDK-style csproj.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">.NET 10</span>
+                            <span class="card-tag">ASP.NET Core</span>
+                            <span class="card-tag">Service Bus</span>
+                            <span class="card-tag">Blob Storage</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- .NET CH-03 -->
+                <a class="challenge-card half" data-phase="03" href="labs/02-dotnet/challenges/03-containerize-and-deploy.md">
+                    <div class="card-bg-number display">03</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Deploy</span>
+                        <span class="card-num mono">CH — 03</span>
+                    </div>
+                    <h3 class="card-title display">Containerize &amp; Deploy (.NET)</h3>
+                    <p class="card-desc">
+                        Build a ContosoUniversity container image, push it to Azure Container Registry, and deploy it
+                        to Azure Container Apps with Terraform. Provision Azure SQL, Service Bus, and Blob Storage.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">Docker</span>
+                            <span class="card-tag">ACA</span>
+                            <span class="card-tag">Terraform</span>
+                            <span class="card-tag">ACR</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- .NET CH-04 -->
+                <a class="challenge-card half" data-phase="04" href="labs/02-dotnet/challenges/04-migrate-the-database.md">
+                    <div class="card-bg-number display">04</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Data Migration</span>
+                        <span class="card-num mono">CH — 04</span>
+                    </div>
+                    <h3 class="card-title display">Migrate the Database to Azure SQL</h3>
+                    <p class="card-desc">
+                        Move ContosoUniversity data from LocalDB or SQL Express to Azure SQL Database,
+                        then verify the deployed app reads the migrated rows.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">DMS</span>
+                            <span class="card-tag">Azure SQL</span>
+                            <span class="card-tag">Offline Migration</span>
+                            <span class="card-tag">Validation</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- .NET CH-05 -->
+                <a class="challenge-card half" data-phase="05" href="labs/02-dotnet/challenges/05-observe-and-secure.md">
+                    <div class="card-bg-number display">05</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Observe &amp; Secure</span>
+                        <span class="card-num mono">CH — 05</span>
+                    </div>
+                    <h3 class="card-title display">Observe &amp; Secure</h3>
+                    <p class="card-desc">
+                        Add monitoring with the Application Insights SDK.
+                        Manage secrets with Azure Key Vault and Managed Identity.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">App Insights</span>
+                            <span class="card-tag">Key Vault</span>
+                            <span class="card-tag">Managed Identity</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- .NET CH-06 -->
+                <a class="challenge-card half" data-phase="06" href="labs/02-dotnet/challenges/06-infuse-ai.md">
+                    <div class="card-bg-number display">06</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge">Stretch · AI</span>
+                        <span class="card-num mono">CH — 06</span>
+                    </div>
+                    <h3 class="card-title display">Add AI to ContosoUniversity</h3>
+                    <p class="card-desc">
+                        Suggest course descriptions, learning objectives, and accessible alt text in the Course Create/Edit flow
+                        with Azure OpenAI <code class="mono" style="font-size:.85em">gpt-4.1-mini</code> (vision).
+                        Use Managed Identity to authenticate.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">Azure OpenAI</span>
+                            <span class="card-tag">Vision</span>
+                            <span class="card-tag">Managed Identity</span>
+                            <span class="card-tag">Terraform</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+        <!-- .NET 8 → .NET 10 Track -->
+        <div id="net8-challenges" style="margin-top:2rem;">
+            <div class="track-label">🔷 .NET 8 Track (eShopOnWeb)</div>
+            <div class="challenges-grid">
+
+                <!-- net8 CH-00 -->
+                <a class="challenge-card full" data-phase="00" href="labs/03-net8/challenges/00-prerequisites.md">
+                    <div class="card-bg-number display">00</div>
+                    <div class="card-inner">
+                        <div>
+                            <div class="card-top">
+                                <span class="card-phase-badge"
+                                   >Setup</span>
+                                <span class="card-num mono">CH — 00</span>
+                            </div>
+                            <h3 class="card-title display">Prerequisites<br>(.NET 8)</h3>
+                        </div>
+                        <div style="display:flex;flex-direction:column;justify-content:space-between;">
+                            <p class="card-desc">
+                                Install the .NET 10 SDK and check that GitHub Copilot Modernization CLI, Docker,
+                                Azure CLI, and Terraform work. Initialise the eShopOnWeb submodule.
+                            </p>
+                            <div class="card-footer">
+                                <div class="card-tags">
+                                    <span class="card-tag">.NET 10 SDK</span>
+                                    <span class="card-tag">modernize CLI</span>
+                                    <span class="card-tag">Docker</span>
+                                    <span class="card-tag">Terraform</span>
+                                </div>
+                                <div class="card-arrow mono">Open challenge <span>→</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- net8 CH-01 -->
+                <a class="challenge-card" data-phase="01" href="labs/03-net8/challenges/01-assess-the-legacy-app.md">
+                    <div class="card-bg-number display">01</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge"
+                           >Assess</span>
+                        <span class="card-num mono">CH — 01</span>
+                    </div>
+                    <h3 class="card-title display">Assess eShopOnWeb</h3>
+                    <p class="card-desc">
+                        Run <code class="mono" style="font-size:.85em">modernize assess</code> on eShopOnWeb.
+                        Check all 5 projects for Swashbuckle removal, target framework (TFM) blockers, and EF Core 10 changes.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">modernize assess</span>
+                            <span class="card-tag">Swashbuckle</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- net8 CH-02 -->
+                <a class="challenge-card" data-phase="02" href="labs/03-net8/challenges/02-modernize-to-net10.md">
+                    <div class="card-bg-number display">02</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge"
+                           >Modernize</span>
+                        <span class="card-num mono">CH — 02</span>
+                    </div>
+                    <h3 class="card-title display">Modernize to .NET 10</h3>
+                    <p class="card-desc">
+                        Upgrade all 5 projects to <code class="mono" style="font-size:.85em">net10.0</code> via
+                        <code class="mono" style="font-size:.85em">Directory.Packages.props</code>. Replace Swashbuckle
+                        with <code class="mono" style="font-size:.85em">Microsoft.AspNetCore.OpenApi</code> and Scalar.
+                        Fix EF Core 10 and Blazor WASM breaking changes.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">.NET 10</span>
+                            <span class="card-tag">OpenAPI</span>
+                            <span class="card-tag">Blazor WASM</span>
+                            <span class="card-tag">EF Core 10</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- net8 CH-03 -->
+                <a class="challenge-card half" data-phase="03" href="labs/03-net8/challenges/03-containerize-and-deploy.md">
+                    <div class="card-bg-number display">03</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge"
+                           >Deploy</span>
+                        <span class="card-num mono">CH — 03</span>
+                    </div>
+                    <h3 class="card-title display">Containerize &amp; Deploy (eShopOnWeb)</h3>
+                    <p class="card-desc">
+                        Use Azure Service Bus for order events and Azure Blob Storage for product images.
+                        Update Dockerfiles to .NET 10 base images. Deploy Web and PublicApi to Azure Container Apps with
+                        Terraform.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">Docker</span>
+                            <span class="card-tag">ACA</span>
+                            <span class="card-tag">Service Bus</span>
+                            <span class="card-tag">Blob Storage</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- net8 CH-04 -->
+                <a class="challenge-card half" data-phase="04" href="labs/03-net8/challenges/04-migrate-the-database.md">
+                    <div class="card-bg-number display">04</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge"
+                           >Data
+                            Migration</span>
+                        <span class="card-num mono">CH — 04</span>
+                    </div>
+                    <h3 class="card-title display">Migrate the Database to Azure SQL</h3>
+                    <p class="card-desc">
+                        Apply EF Core migrations for both <code class="mono"
+                            style="font-size:.85em">CatalogContext</code>
+                        and <code class="mono" style="font-size:.85em">AppIdentityDbContext</code> against Azure SQL.
+                        Check the seed data and test the end-to-end order flow.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">EF Core</span>
+                            <span class="card-tag">Azure SQL</span>
+                            <span class="card-tag">Seeding</span>
+                            <span class="card-tag">Validation</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- net8 CH-05 -->
+                <a class="challenge-card half" data-phase="05" href="labs/03-net8/challenges/05-observe-and-secure.md">
+                    <div class="card-bg-number display">05</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge"
+                           >Observe &amp;
+                            Secure</span>
+                        <span class="card-num mono">CH — 05</span>
+                    </div>
+                    <h3 class="card-title display">Observe &amp; Secure</h3>
+                    <p class="card-desc">
+                        Trace requests across Web and PublicApi with Application Insights.
+                        Use Azure Key Vault and Managed Identity to avoid plaintext secrets.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">App Insights</span>
+                            <span class="card-tag">Key Vault</span>
+                            <span class="card-tag">Managed Identity</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+                <!-- net8 CH-06 -->
+                <a class="challenge-card half" data-phase="06" href="labs/03-net8/challenges/06-infuse-ai.md">
+                    <div class="card-bg-number display">06</div>
+                    <div class="card-top">
+                        <span class="card-phase-badge"
+                           >Stretch ·
+                            AI</span>
+                        <span class="card-num mono">CH — 06</span>
+                    </div>
+                    <h3 class="card-title display">Add AI to eShopOnWeb</h3>
+                    <p class="card-desc">
+                        Generate product descriptions, tags, and accessible alt text in the catalog admin with Azure OpenAI
+                        <code class="mono" style="font-size:.85em">gpt-4.1-mini</code> (vision).
+                        Use Managed Identity to authenticate.
+                    </p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag">Azure OpenAI</span>
+                            <span class="card-tag">Vision</span>
+                            <span class="card-tag">Managed Identity</span>
+                        </div>
+                        <div class="card-arrow mono">Open <span>→</span></div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+        <!-- Customer Track -->
+        <div id="customer-challenges" style="margin-top:2rem;">
+            <div class="track-label">Upgrade Your Application &mdash; CLI Customer Track</div>
+            <div class="challenges-grid">
+
+                <!-- Customer CH-00 -->
+                <a class="challenge-card full" data-phase="00" href="labs/05-customer/challenges/00-upgrade-a-customer-app.md">
+                    <div class="card-bg-number display">00</div>
+                    <div class="card-inner">
+                        <div>
+                            <div class="card-top">
+                                <span class="card-phase-badge">Your
+                                    App</span>
+                                <span class="card-num mono">CH — 00</span>
+                            </div>
+                            <h3 class="card-title display">Upgrade <br>Your Application</h3>
+                        </div>
+                        <div style="display:flex;flex-direction:column;justify-content:space-between;">
+                            <p class="card-desc">
+                                Choose a real customer-owned application that represents your legacy systems.
+                                Aim for medium complexity; avoid the most critical or complex app.
+                                Assess, modernize, containerize, and deploy it to Azure using the .NET and Java track workflow.
+                            </p>
+                            <div class="card-footer">
+                                <div class="card-tags">
+                                    <span class="card-tag">real codebase</span>
+                                    <span class="card-tag">modernize assess</span>
+                                    <span class="card-tag">containerize</span>
+                                    <span class="card-tag">deploy</span>
+                                </div>
+                                <div class="card-arrow mono">Open challenge <span>→</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="rebuild-challenges" aria-labelledby="rebuild-heading" data-route="rebuild">
+        <h2 id="rebuild-heading" class="section-title display reveal">Rearchitect / rebuild</h2>
+        <p class="section-desc reveal">
+            Follow the prompts from discovery to Azure deployment. Review the package, choose direct,
+            Matt Pocock, or Spec Kit delivery, then rebuild, review, and secure the complete app.
+            Allow two days and choose an app small enough to finish and validate.
+            Discovery may favor a smaller refactor.
+        </p>
+        <aside class="scope-warning" aria-label="Scope limitation">
+            <strong>Not for mainframe modernization</strong>
+            <p>Use this route only for non-mainframe applications.</p>
+        </aside>
+        <div class="hero-actions">
+            <a class="btn btn-primary" href="labs/04-rebuild/setup.md">Install &amp; use the plugin</a>
+            <a class="btn btn-ghost" href="labs/04-rebuild/supporting-skills.md">Supporting skill profiles</a>
+        </div>
+        <div class="challenges-grid">
+            <a class="challenge-card full" data-phase="00" href="labs/04-rebuild/challenges/00-prepare-your-application.md">
+                <div class="card-bg-number display">00</div>
+                <div class="card-inner">
+                    <div>
+                        <div class="card-top"><span class="card-phase-badge">Prepare</span><span class="card-num mono">REBUILD &middot; 00</span></div>
+                        <h3 class="card-title display">Define the goal and scope</h3>
+                    </div>
+                    <div>
+                        <p class="card-desc">Choose an app small enough to rebuild completely. Define required functionality, desired changes, and decision owners. Gather evidence before selecting the target stack.</p>
+                        <div class="card-footer"><span class="card-tag">30 min &middot; setup</span><div class="card-arrow mono">Start here <span aria-hidden="true">&rarr;</span></div></div>
+                    </div>
+                </div>
+            </a>
+            <a class="challenge-card half" data-phase="01" href="labs/04-rebuild/challenges/01-discovery-and-planning.md">
+                <div class="card-top"><span class="card-phase-badge">Plan</span><span class="card-num mono">REBUILD &middot; 01</span></div>
+                <h3 class="card-title display">Assess the app and plan the changes</h3>
+                <p class="card-desc">Recover functional specs, choose an Azure architecture, plan infrastructure, and estimate costs. One planning workflow produces all nine artifacts.</p>
+                <div class="card-footer"><span class="card-tag">150 min &middot; planning</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
+            </a>
+            <a class="challenge-card half" data-phase="02" href="labs/04-rebuild/challenges/02-review-the-package.md">
+                <div class="card-top"><span class="card-phase-badge">Review</span><span class="card-num mono">REBUILD &middot; 02</span></div>
+                <h3 class="card-title display">Review the architecture and costs</h3>
+                <p class="card-desc">Check the documented behavior, alternatives, architecture, costs, diagrams, and migration assumptions. Request specific corrections and save the reviewed version.</p>
+                <div class="card-footer"><span class="card-tag">45 min &middot; package review</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
+            </a>
+            <a class="challenge-card half" data-phase="03" href="labs/04-rebuild/challenges/03-choose-the-workflow.md">
+                <div class="card-top"><span class="card-phase-badge">Choose</span><span class="card-num mono">REBUILD &middot; 03</span></div>
+                <h3 class="card-title display">Choose the implementation workflow</h3>
+                <p class="card-desc">Switch to Opus 5.5. Choose direct implementation, Matt Pocock skills, or Spec Kit. Check the build/test baseline and prepare only your workflow's required spec, tickets, or tasks.</p>
+                <div class="card-footer"><span class="card-tag">45 min &middot; workflow</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
+            </a>
+            <a class="challenge-card half" data-phase="04" href="labs/04-rebuild/challenges/04-rebuild-the-app.md">
+                <div class="card-top"><span class="card-phase-badge">Rebuild</span><span class="card-num mono">REBUILD &middot; 04</span></div>
+                <h3 class="card-title display">Rebuild the application</h3>
+                <p class="card-desc">Implement all required workflows on Opus 5.5 and test the complete app. Matt's implementation path uses up to two concurrent subagents.</p>
+                <div class="card-footer"><span class="card-tag">150 min &middot; delivery</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
+            </a>
+            <a class="challenge-card half" data-phase="05" href="labs/04-rebuild/challenges/05-review-and-fix-the-app.md">
+                <div class="card-top"><span class="card-phase-badge">Review</span><span class="card-num mono">REBUILD &middot; 05</span></div>
+                <h3 class="card-title display">Review the app and fill the gaps</h3>
+                <p class="card-desc">Run /review and exercise every required workflow. Implement missing behavior, add regression checks, and review the fixes.</p>
+                <div class="card-footer"><span class="card-tag">60 min &middot; review</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
+            </a>
+            <a class="challenge-card half" data-phase="06" href="labs/04-rebuild/challenges/06-refine-the-frontend.md">
+                <div class="card-top"><span class="card-phase-badge">Frontend</span><span class="card-num mono">REBUILD &middot; 06</span></div>
+                <h3 class="card-title display">Refine the frontend with Impeccable</h3>
+                <p class="card-desc">Implement approved frontend improvements and verify layout, color, and realistic states. Preserve working behavior; avoid changes without a demonstrated need. Skip only when the app has no UI.</p>
+                <div class="card-footer"><span class="card-tag">60 min &middot; frontend</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
+            </a>
+            <a class="challenge-card half" data-phase="07" href="labs/04-rebuild/challenges/07-security-review-and-fixes.md">
+                <div class="card-top"><span class="card-phase-badge">Secure</span><span class="card-num mono">REBUILD &middot; 07</span></div>
+                <h3 class="card-title display">Review security and fix findings</h3>
+                <p class="card-desc">Run /security-review over the complete rebuilt app, including frontend changes. Fix confirmed findings, rerun regression checks, and re-review before deployment.</p>
+                <div class="card-footer"><span class="card-tag">45 min &middot; security</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
+            </a>
+            <a class="challenge-card half" data-phase="08" href="labs/04-rebuild/challenges/08-run-and-deploy.md">
+                <div class="card-top"><span class="card-phase-badge">Deploy</span><span class="card-num mono">REBUILD &middot; 08</span></div>
+                <h3 class="card-title display">Run and deploy to Azure</h3>
+                <p class="card-desc">Run locally, deploy with the provided target-specific infrastructure, and validate the Azure endpoint, integrations, and telemetry. Hand off recovery and cleanup responsibilities.</p>
+                <div class="card-footer"><span class="card-tag">60 min &middot; deployment</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Rebuild lab guides -->
+    <section id="rebuild-guides">
+        <div class="challenges-header">
+            <div>
+                <h2 class="section-title display">Rebuild lab guides</h2>
+            </div>
+            <p class="section-desc">
+                Plan your pace, get unstuck, and check the evidence you produce.
+            </p>
+        </div>
+
+        <div style="margin-bottom:2rem;" data-route="rebuild">
+            <div class="challenges-grid">
+                <a class="challenge-card half" href="labs/04-rebuild/pacing-and-troubleshooting.md">
+                    <h3 class="card-title display">Pacing and troubleshooting</h3>
+                    <p class="card-desc">Plan the two days, make the required decisions, and keep planning separate from delivery. Fixes for common stuck points.</p>
+                    <div class="card-arrow mono">Open guide <span aria-hidden="true">&rarr;</span></div>
+                </a>
+                <a class="challenge-card half" href="labs/04-rebuild/self-check.md">
+                    <h3 class="card-title display">Self-check your evidence</h3>
+                    <p class="card-desc">Check the evidence for each milestone. Tell a reviewed plan, a complete working app, and an Azure deployment apart from partial results.</p>
+                    <div class="card-arrow mono">Open self-check <span aria-hidden="true">&rarr;</span></div>
+                </a>
+            </div>
+        </div>
+
+    </section>
+    </main>
+    <footer class="footer" role="contentinfo">
+        <div class="footer-inner">
+            <a class="brand" href="index.html" aria-label="RVAS -- Agentic Modernization">
+                <img src="assets/img/logo-full.png" alt="RVAP" class="rvap-nav-logo" height="28">
+            </a>
+            <p>Agentic Modernization · 2026</p>
+        </div>
+    </footer>
+
+    <!-- Drawer overlay -->
+    <div id="drawer-overlay"></div>
+    <div id="drawer" role="dialog" aria-modal="true" aria-label="Challenge content">
+        <div class="drawer-header">
+            <div class="drawer-breadcrumb"><span id="drawer-kind">CHALLENGE</span> / <span id="drawer-title">–</span></div>
+            <div style="display:flex;align-items:center;gap:.75rem;">
+                <div class="drawer-nav">
+                    <button class="drawer-nav-btn" id="drawer-prev" title="Previous challenge">← prev</button>
+                    <button class="drawer-nav-btn" id="drawer-next" title="Next challenge">next →</button>
+                </div>
+                <button class="drawer-close" id="drawer-close" aria-label="Close">✕</button>
+            </div>
+        </div>
+        <div class="drawer-body">
+            <div id="drawer-content" class="md-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // ── Scroll reveal ─────────────────────────────────────────────────
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // ── Challenge card staggered entrance ────────────────────────────
+        const cardObserver = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    const cards = document.querySelectorAll('.challenge-card');
+                    cards.forEach((card, i) => {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        card.style.transition = `opacity .5s ease ${i * 0.07}s, transform .5s ease ${i * 0.07}s`;
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 50);
+                    });
+                    cardObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.05 });
+
+        const grid = document.querySelector('.challenges-grid');
+        if (grid) cardObserver.observe(grid);
+
+        // ── Sample navigation ─────────────────────────────────────────────
+        const sampleNav = document.getElementById('sampleNav');
+        const primaryNav = document.getElementById('navLinks');
+        const navToggle = document.querySelector('.nav-toggle');
+
+        function closeNavigation() {
+            sampleNav.open = false;
+            primaryNav.classList.remove('open');
+            navToggle.setAttribute('aria-expanded', 'false');
+        }
+
+        primaryNav.addEventListener('click', event => {
+            if (event.target.closest('a')) closeNavigation();
+        });
+        document.addEventListener('click', event => {
+            if (!sampleNav.contains(event.target)) sampleNav.open = false;
+        });
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && sampleNav.open) {
+                sampleNav.open = false;
+                sampleNav.querySelector('summary').focus();
+                event.stopImmediatePropagation();
+            }
+        });
+        window.matchMedia('(min-width: 1100px)').addEventListener('change', closeNavigation);
+
+        // ── Active nav highlight ──────────────────────────────────────────
+        const sections = document.querySelectorAll('section[id], div[id]');
+        const navLinks = document.querySelectorAll('.nav-links a:not(.cta):not(.gh)');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(s => {
+                if (window.scrollY >= s.offsetTop - 100) current = s.id;
+            });
+            navLinks.forEach(a => {
+                a.classList.toggle('active', a.getAttribute('href') === `#${current}`);
+            });
+        }, { passive: true });
+
+        // ── Drawer: markdown rendering ────────────────────────────────────
+        const drawer = document.getElementById('drawer');
+        const drawerOverlay = document.getElementById('drawer-overlay');
+        const drawerContent = document.getElementById('drawer-content');
+        const drawerTitle = document.getElementById('drawer-title');
+        const drawerKind = document.getElementById('drawer-kind');
+        const drawerPrev = document.getElementById('drawer-prev');
+        const drawerNext = document.getElementById('drawer-next');
+        const drawerClose = document.getElementById('drawer-close');
+
+        function addCodeCopyButtons(container) {
+            container.querySelectorAll('pre').forEach(pre => {
+                if (pre.parentElement.classList.contains('code-box')) return;
+                const box = document.createElement('div');
+                box.className = 'code-box';
+                pre.before(box);
+                box.append(pre);
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'code-copy';
+                button.textContent = 'Copy';
+                button.setAttribute('aria-label', 'Copy code');
+                button.setAttribute('aria-live', 'polite');
+                box.append(button);
+                let resetTimer;
+                button.addEventListener('click', async () => {
+                    clearTimeout(resetTimer);
+                    button.disabled = true;
+                    const text = (pre.querySelector('code') || pre).textContent;
+                    try {
+                        try {
+                            await navigator.clipboard.writeText(text);
+                        } catch {
+                            // Keep copying available in previews without Clipboard API access.
+                            const input = document.createElement('textarea');
+                            input.value = text;
+                            input.setAttribute('readonly', '');
+                            input.style.cssText = 'position:fixed;opacity:0;pointer-events:none;';
+                            const focused = document.activeElement;
+                            box.append(input);
+                            try {
+                                input.select();
+                                if (!document.execCommand('copy')) throw new Error('Copy failed');
+                            } finally {
+                                input.remove();
+                                focused?.focus({ preventScroll: true });
+                            }
+                        }
+                        button.textContent = 'Copied!';
+                        button.setAttribute('aria-label', 'Code copied');
+                    } catch {
+                        button.textContent = 'Copy failed';
+                        button.setAttribute('aria-label', 'Copy failed. Select the code to copy manually, or try again.');
+                    } finally {
+                        button.disabled = false;
+                        resetTimer = setTimeout(() => {
+                            button.textContent = 'Copy';
+                            button.setAttribute('aria-label', 'Copy code');
+                        }, 2500);
+                    }
+                });
+            });
+        }
+
+        const LAB_FILES = [
+            { label: 'README', file: 'README.md', title: 'README' },
+            { label: 'JAVA-00', file: 'labs/01-java/challenges/00-prerequisites-and-setup.md', title: 'Java – Prerequisites' },
+            { label: 'JAVA-00-INFRA', file: 'labs/01-java/resources/infra/README.md', title: 'Java – Deploy PhotoAlbum to Azure VM' },
+            { label: 'JAVA-01', file: 'labs/01-java/challenges/01-assess-the-legacy-app.md', title: 'Java – Assess' },
+            { label: 'JAVA-02', file: 'labs/01-java/challenges/02-modernize-the-app.md', title: 'Java – Modernize' },
+            { label: 'JAVA-03', file: 'labs/01-java/challenges/03-containerize-and-deploy.md', title: 'Java – Deploy' },
+            { label: 'JAVA-04', file: 'labs/01-java/challenges/04-migrate-the-database.md', title: 'Java – Migrate Data' },
+            { label: 'JAVA-05', file: 'labs/01-java/challenges/05-observe-and-secure.md', title: 'Java – Observe & Secure' },
+            { label: 'JAVA-06', file: 'labs/01-java/challenges/06-infuse-ai.md', title: 'Java – AI Assist' },
+            { label: 'NET-00', file: 'labs/02-dotnet/challenges/00-prerequisites.md', title: '.NET – Prerequisites' },
+            { label: 'NET-00-INFRA', file: 'labs/02-dotnet/resources/infra/README.md', title: '.NET – Deploy ContosoUniversity to Azure VM' },
+            { label: 'NET-01', file: 'labs/02-dotnet/challenges/01-assess-the-legacy-app.md', title: '.NET – Assess' },
+            { label: 'NET-02', file: 'labs/02-dotnet/challenges/02-modernize-the-app.md', title: '.NET – Modernize' },
+            { label: 'NET-03', file: 'labs/02-dotnet/challenges/03-containerize-and-deploy.md', title: '.NET – Deploy' },
+            { label: 'NET-04', file: 'labs/02-dotnet/challenges/04-migrate-the-database.md', title: '.NET – Migrate Data' },
+            { label: 'NET-05', file: 'labs/02-dotnet/challenges/05-observe-and-secure.md', title: '.NET – Observe & Secure' },
+            { label: 'NET-06', file: 'labs/02-dotnet/challenges/06-infuse-ai.md', title: '.NET – AI Assist' },
+            { label: 'NET8-00', file: 'labs/03-net8/challenges/00-prerequisites.md', title: '.NET 8 – Prerequisites' },
+            { label: 'NET8-01', file: 'labs/03-net8/challenges/01-assess-the-legacy-app.md', title: '.NET 8 – Assess' },
+            { label: 'NET8-02', file: 'labs/03-net8/challenges/02-modernize-to-net10.md', title: '.NET 8 – Modernize' },
+            { label: 'NET8-03', file: 'labs/03-net8/challenges/03-containerize-and-deploy.md', title: '.NET 8 – Deploy' },
+            { label: 'NET8-04', file: 'labs/03-net8/challenges/04-migrate-the-database.md', title: '.NET 8 – Migrate Data' },
+            { label: 'NET8-05', file: 'labs/03-net8/challenges/05-observe-and-secure.md', title: '.NET 8 – Observe & Secure' },
+            { label: 'NET8-06', file: 'labs/03-net8/challenges/06-infuse-ai.md', title: '.NET 8 – AI Assist' },
+            { label: 'CUSTOMER-00', file: 'labs/05-customer/challenges/00-upgrade-a-customer-app.md', title: 'Customer – Upgrade Your App' },
+        ];
+
+        const REBUILD_FILES = [
+            { file: 'labs/04-rebuild/challenges/00-prepare-your-application.md', title: 'Rebuild - Prepare' },
+            { file: 'labs/04-rebuild/challenges/01-discovery-and-planning.md', title: 'Rebuild - Run Discovery and Modernization Planning' },
+            { file: 'labs/04-rebuild/challenges/02-review-the-package.md', title: 'Rebuild - Review and Challenge the Modernization Package' },
+            { file: 'labs/04-rebuild/challenges/03-choose-the-workflow.md', title: 'Rebuild - Choose the Implementation Workflow' },
+            { file: 'labs/04-rebuild/challenges/04-rebuild-the-app.md', title: 'Rebuild - Rebuild the Application' },
+            { file: 'labs/04-rebuild/challenges/05-review-and-fix-the-app.md', title: 'Rebuild - Review the App and Implement Missing Behavior' },
+            { file: 'labs/04-rebuild/challenges/06-refine-the-frontend.md', title: 'Rebuild - Refine the Frontend with Impeccable' },
+            { file: 'labs/04-rebuild/challenges/07-security-review-and-fixes.md', title: 'Rebuild - Review Security and Fix Findings' },
+            { file: 'labs/04-rebuild/challenges/08-run-and-deploy.md', title: 'Rebuild - Run and Deploy the App to Azure' },
+        ];
+
+        const GUIDE_FILES = [
+            { file: 'labs/04-rebuild/setup.md', title: 'Rebuild - Plugin Setup and Usage' },
+            { file: 'labs/04-rebuild/supporting-skills.md', title: 'Rebuild - Supporting Skill Profiles' },
+        ];
+
+        const TROUBLESHOOTING_FILES = [
+            { file: 'labs/04-rebuild/pacing-and-troubleshooting.md', title: 'Rebuild - Pacing and Troubleshooting' },
+            { file: 'labs/04-rebuild/self-check.md', title: 'Rebuild - Self-Check' },
+            { label: 'TROUBLESHOOTING', file: 'labs/TROUBLESHOOTING.md', title: 'Troubleshooting Guide' },
+        ];
+
+        const DEMO_FILES = [
+            { label: 'DEMO-JAVA', file: 'demo/java/guide.md', title: 'Java Demo - PhotoAlbum' },
+            { label: 'DEMO-DOTNET', file: 'demo/dotnet/guide.md', title: '.NET Demo - ContosoUniversity' },
+        ];
+
+        let currentIdx = -1;
+        let activeFiles = LAB_FILES;
+        let renderRequest = 0;
+
+        function openDrawer(mdFile, fragment = '') {
+            const groups = [LAB_FILES, REBUILD_FILES, GUIDE_FILES, TROUBLESHOOTING_FILES, DEMO_FILES];
+            activeFiles = groups.find(files => files.some(entry => entry.file === mdFile))
+                || [{ file: mdFile, title: mdFile.split('/').pop() }];
+            currentIdx = activeFiles.findIndex(entry => entry.file === mdFile);
+            const kind = activeFiles === DEMO_FILES ? 'demo'
+                : activeFiles === GUIDE_FILES ? 'guide' : 'challenge';
+            drawerKind.textContent = kind.toUpperCase();
+            drawer.setAttribute('aria-label', `${kind === 'challenge' ? 'Challenge content' : `${kind} guide`}`);
+            drawerPrev.title = `Previous ${kind}`;
+            drawerNext.title = `Next ${kind}`;
+            loadAndRender(currentIdx, fragment);
+            drawer.classList.add('open');
+            drawerOverlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDrawer() {
+            drawer.classList.remove('open');
+            drawerOverlay.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        async function loadAndRender(idx, fragment = '') {
+            const request = ++renderRequest;
+            const entry = activeFiles[idx];
+            const route = /^labs\/04-rebuild\//.test(entry.file) ? 'rebuild'
+                : /^(labs\/(01-java|02-dotnet|03-net8|05-customer)|demo)\//.test(entry.file)
+                    ? 'refactor' : '';
+            if (route) drawer.setAttribute('data-route', route);
+            else drawer.removeAttribute('data-route');
+            drawerTitle.textContent = entry.title;
+            drawerPrev.disabled = idx <= 0;
+            drawerNext.disabled = idx >= activeFiles.length - 1;
+            drawerContent.innerHTML = '<div class="drawer-loading">LOADING</div>';
+            drawer.querySelector('.drawer-body').scrollTop = 0;
+
+            try {
+                const res = await fetch(entry.file);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const text = await res.text();
+                if (request !== renderRequest) return;
+                drawerContent.innerHTML = marked.parse(text.replace(/^\uFEFF?---\r?\n[\s\S]*?\r?\n---\r?\n/, ''));
+                addCodeCopyButtons(drawerContent);
+                const sourceURL = new URL(entry.file, document.baseURI);
+                const siteRoot = new URL('.', document.baseURI);
+                drawerContent.querySelectorAll('h1, h2, h3, h4').forEach(heading => {
+                    heading.id = heading.textContent.toLowerCase().replace(/[^\w\s-]/g, '').trim().replace(/\s+/g, '-');
+                });
+                drawerContent.querySelectorAll('img[src]').forEach(img => {
+                    const src = img.getAttribute('src');
+                    if (src && !/^([a-z]+:)?\/\//i.test(src) && !src.startsWith('data:')) {
+                        img.setAttribute('src', new URL(src, sourceURL).href);
+                    }
+                });
+                drawerContent.querySelectorAll('a[href]').forEach(a => {
+                    const href = a.getAttribute('href');
+                    if (!href) return;
+                    if (href.startsWith('#')) {
+                        a.addEventListener('click', e => {
+                            e.preventDefault();
+                            drawerContent.querySelector(`#${CSS.escape(decodeURIComponent(href.slice(1)))}`)?.scrollIntoView();
+                        });
+                        return;
+                    }
+                    const url = new URL(href, sourceURL);
+                    a.setAttribute('href', url.href);
+                    if (url.origin === siteRoot.origin && url.pathname.startsWith(siteRoot.pathname)
+                        && url.pathname.endsWith('.md')) {
+                        const resolved = decodeURIComponent(url.pathname.slice(siteRoot.pathname.length));
+                        a.addEventListener('click', e => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            openDrawer(resolved, url.hash);
+                        });
+                    } else if (url.protocol === 'http:' || url.protocol === 'https:') {
+                        a.setAttribute('target', '_blank');
+                        a.setAttribute('rel', 'noopener noreferrer');
+                    }
+                });
+                if (fragment) {
+                    drawerContent.querySelector(`#${CSS.escape(decodeURIComponent(fragment.slice(1)))}`)?.scrollIntoView();
+                }
+            } catch (err) {
+                if (request !== renderRequest) return;
+                drawerContent.innerHTML = `<p style="color:var(--stretch-color);font-family:var(--font-body);font-size:.8rem;">Failed to load ${entry.file}: ${err.message}</p>`;
+            }
+        }
+
+        drawerClose.addEventListener('click', closeDrawer);
+        drawerOverlay.addEventListener('click', closeDrawer);
+        drawerPrev.addEventListener('click', () => { if (currentIdx > 0) { currentIdx--; loadAndRender(currentIdx); } });
+        drawerNext.addEventListener('click', () => { if (currentIdx < activeFiles.length - 1) { currentIdx++; loadAndRender(currentIdx); } });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeDrawer();
+            if (!drawer.classList.contains('open')) return;
+            if (e.key === 'ArrowLeft' && currentIdx > 0) { currentIdx--; loadAndRender(currentIdx); }
+            if (e.key === 'ArrowRight' && currentIdx < activeFiles.length - 1) { currentIdx++; loadAndRender(currentIdx); }
+        });
+
+        // Intercept ALL .md links on the page
+        document.addEventListener('click', e => {
+            const link = e.target.closest('a[href]');
+            if (!link) return;
+            const href = link.getAttribute('href');
+            if (!href) return;
+            const url = new URL(href, document.baseURI);
+            const siteRoot = new URL('.', document.baseURI);
+            if (url.origin !== siteRoot.origin || !url.pathname.startsWith(siteRoot.pathname)
+                || !url.pathname.endsWith('.md')) return;
+            e.preventDefault();
+            openDrawer(decodeURIComponent(url.pathname.slice(siteRoot.pathname.length)), url.hash);
+        });
+    </script>
+    <script src="assets/js/shell.js"></script>
+</body>
+
+</html>
