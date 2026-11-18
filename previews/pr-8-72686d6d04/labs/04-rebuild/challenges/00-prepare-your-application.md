@@ -26,7 +26,7 @@ Prepare an application you own for a complete rebuild and write the rebuild brie
 
 Choose an application small enough to rebuild and validate within the lab. Rebuild all required functionality. If the app is too large, choose a smaller one rather than dropping required workflows.
 
-Keep application work in its own repository. Authorized ownership matters, not whether the repository is public or private.
+Keep application work in its own repository. Public or private does not matter; authorized ownership does.
 
 For a runtime-only change, use the [upgrade route](../../05-customer/challenges/00-upgrade-a-customer-app.md) instead.
 
@@ -59,7 +59,7 @@ Answer the questions it raises. Confirm the complete-app boundary, repository ac
 
 Before moving on, confirm:
 
-- [ ] You own the application and can access its source and explain its behavior.
+- [ ] The application is yours, its source is accessible and its behavior is explained.
 - [ ] The brief defines the complete app to rebuild, required functionality, desired changes, constraints, and decision-makers.
 - [ ] The app is small enough for the lab; any stack preferences are inputs to planning, not assumed decisions.
 - [ ] The host finds `azure-app-modernization`, `azure-app-rebuild`, `cloud-architecture-diagram`, and the selected supporting skills.

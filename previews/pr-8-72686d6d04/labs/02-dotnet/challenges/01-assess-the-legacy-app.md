@@ -63,7 +63,7 @@ Then sort the work:
 2. **Manual:** MSMQ to Service Bus logic, Razor view migration, `Global.asax` to `Program.cs`.
 3. **Priority:** blockers first (MSMQ, `System.Web`), then quality improvements.
 
-This is a framework migration, not a version bump. The plan must also preserve the SQL schema and existing records. The sample already uses EF Core 3.1, not EF6. Open the report, then inspect the code for patterns it misses.
+The migration plan must also preserve the SQL schema and existing records. The sample already uses EF Core 3.1, not EF6. Open the report, then inspect the code for patterns it misses.
 
 > **Note:** The report format can differ between the CLI and the VS Code extension. Either is fine, and any reasonable ranking of top blockers counts.
 
@@ -72,8 +72,8 @@ This is a framework migration, not a version bump. The plan must also preserve t
 Before moving on, confirm:
 
 - [ ] `modernize assess --source .` (or the extension) produced a report for the ContosoUniversity application
-- [ ] You can name the top mandatory blockers (dependencies, APIs or patterns that need manual attention)
-- [ ] You can say which modernization steps the tool automates and which need manual work
+- [ ] The top mandatory blockers (dependencies, APIs or patterns that need manual attention) are named
+- [ ] The steps the tool automates and the steps that need manual work are listed
 
 ## Reflect
 

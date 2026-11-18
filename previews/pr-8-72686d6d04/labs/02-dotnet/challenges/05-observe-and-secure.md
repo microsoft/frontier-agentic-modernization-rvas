@@ -117,6 +117,5 @@ Before moving on, confirm:
 | Managed Identity not assigned after `terraform apply` | Add an `azurerm_user_assigned_identity` resource and `identity { type = "UserAssigned"; identity_ids = [...] }` in the Container App Terraform resource. |
 | Key Vault soft delete blocks `terraform destroy` + re-apply | Set `soft_delete_retention_days = 7` and `purge_protection_enabled = false` for dev environments. |
 | `DefaultAzureCredential` fails locally but works in Azure | Locally it falls back to `az login` credentials. Run `az login` before testing. |
-| Docker build context excludes the `publish/` folder | Make sure `COPY ./publish .` aligns with the Dockerfile `WORKDIR`. |
 
 **Next:** [Module 06: Infuse AI into ContosoUniversity](06-infuse-ai.md)

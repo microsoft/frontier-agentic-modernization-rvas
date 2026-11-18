@@ -32,11 +32,11 @@ Select `azure-app-modernization` in slash completion using its displayed name, t
 application and plan its modernization to Azure.
 ```
 
-Run the skill once through discovery, stakeholder questions, baseline confirmation, target selection, and the nine-file package. It consults the diagram and cost skills itself. Do not restart it for each document.
+Run the skill once through discovery, stakeholder questions, baseline confirmation, target selection, and the nine-file package. It consults the diagram and cost skills itself, so do not restart it for each document.
 
 ## Step 2: Answer the decision rounds
 
-Stay in this conversation through discovery, questions, baseline confirmation, and target selection.
+Stay in this conversation until the target is selected.
 
 - Confirm what must stay, change, or retire, including UI behavior.
 - Resolve differences between the code and stakeholder expectations.

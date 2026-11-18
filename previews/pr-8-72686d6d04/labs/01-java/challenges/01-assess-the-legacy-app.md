@@ -32,7 +32,7 @@ modernize assess --source .
 
 Alternatively, use **Recommended Assessment** in the VS Code extension.
 
-> **Note:** The terminal and the VS Code extension panel produce the same report. Pick the one that suits your workflow.
+> **Note:** The terminal and the VS Code extension panel produce the same report.
 
 ## Step 2: Review the report
 
@@ -68,8 +68,8 @@ The report format differs between the CLI and the VS Code extension. Either is f
 Before moving on, confirm:
 
 - [ ] An assessment report exists for the PhotoAlbum (Java) application
-- [ ] You can name the top 3 mandatory blockers
-- [ ] You can list which modernization steps the tool automates and which need manual work
+- [ ] The top 3 mandatory blockers are named
+- [ ] The modernization steps the tool automates and the ones that need manual work are listed
 
 ## Reflect
 

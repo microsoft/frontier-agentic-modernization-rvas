@@ -100,8 +100,7 @@ See the [Troubleshooting Guide](./TROUBLESHOOTING.md) for detailed fixes.
 
 ## Resources & Fallback Guidance
 
-The sample applications arrive via Git submodules. If initialisation
-fails or takes too long, use these recovery and verification commands:
+The sample applications arrive as Git submodules. If initialization fails or takes too long, recover and verify them:
 
 ```bash
 # Recover a broken or missing submodule
@@ -113,8 +112,7 @@ ls labs/01-java/resources/PhotoAlbum-Java/
 ls labs/03-net8/resources/eShopOnWeb/
 ```
 
-If the Dev Container is not working, you can install tools directly on their host
-machine following the Prerequisites section of the [main README](../README.md).
+If the Dev Container is not working, install the tools directly on your machine following the Prerequisites section of the [main README](../README.md).
 
 For the optional VM deployment in Module 00, the Terraform scripts are in:
 - `.NET:` `labs/02-dotnet/resources/infra/`

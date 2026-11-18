@@ -28,8 +28,7 @@ preview feature, which the Terraform config's `azurerm_public_ip` resource requi
 **Fix:**
 
 ### Step 1 — Request feature registration
-Run this if you're authorized to change subscription features (Owner/Contributor on the subscription,
-or ask your Azure admin to run it):
+Run this with Owner or Contributor on the subscription, or ask your Azure admin to run it:
 ```bash
 az feature register --subscription <id> --namespace Microsoft.Network --name AllowBringYourOwnPublicIpAddress
 ```
@@ -83,8 +82,8 @@ block progress. The core modernization track does not require it. Retry after re
    modernize assess --source "<path-to-repo>"
    ```
 
-**Note:** confirm which shell reproduces the issue before troubleshooting further —
-this is a device/network policy difference, not a bug in `modernize` or AppCat itself.
+**Note:** Confirm which shell reproduces the issue before troubleshooting further.
+The cause is a device/network policy difference, not a bug in `modernize` or AppCat.
 
 ---
 

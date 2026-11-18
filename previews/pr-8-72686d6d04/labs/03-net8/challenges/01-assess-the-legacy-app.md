@@ -62,9 +62,9 @@ For each of the five projects (`Web`, `PublicApi`, `Infrastructure`, `Applicatio
 Before moving on, confirm:
 
 - [ ] An assessment report exists for the eShopOnWeb application
-- [ ] You can list the top issues across the five projects, split into mandatory blockers, potential and optional items
-- [ ] You can state that **Swashbuckle** must be replaced and why
-- [ ] You know which of the five projects require changes, and of what kind
+- [ ] The top issues across the five projects are listed, split into mandatory blockers, potential and optional items
+- [ ] **Swashbuckle** must be replaced, and the reason is clear
+- [ ] The projects that need changes, and the kind of change, are identified
 
 ## Reflect
 

@@ -201,4 +201,4 @@ Before finishing, confirm:
 | `401 Unauthorized` from Azure OpenAI | Role assignment propagation. Wait 2–5 minutes, then retry |
 | Model returns markdown-wrapped JSON | Make the system prompt ask for raw JSON with no markdown. Add "No markdown fences." |
 | Upload fails when AI is called | The AI call sits in a `try/catch` that returns `null`. Check that the upload path tests for `null` before using the suggestion |
-| `gpt-4.1-mini` deployment not available | Check Azure OpenAI quota. You may need to request capacity in the subscription |
+| `gpt-4.1-mini` deployment not available | Check Azure OpenAI quota. Request capacity in the subscription if needed |

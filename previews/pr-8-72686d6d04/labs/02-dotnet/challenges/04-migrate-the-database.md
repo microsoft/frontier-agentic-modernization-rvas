@@ -54,7 +54,7 @@ Note the row counts. Step 6 compares them with the target.
 
 ## Step 2: Stop source writes
 
-This is a maintenance-window migration, not zero-downtime replication. Finish legacy edits, then stop the site so the source stops changing. On the legacy host, run in Windows PowerShell as Administrator (over RDP if the host is a VM):
+Expect downtime: this is a maintenance-window migration. Finish legacy edits, then stop the site so the source stops changing. On the legacy host, run in Windows PowerShell as Administrator (over RDP if the host is a VM):
 
 ```powershell
 Import-Module WebAdministration
@@ -231,7 +231,7 @@ sqlpackage /Action:Import \
   /SourceFile:contoso.bacpac
 ```
 
-The BACPAC approach migrates schema and data in one step. It requires SQL admin credentials (not Managed Identity) and recreates the full schema, which may conflict with the existing EF migrations table. If you see a `dbo.__EFMigrationsHistory` conflict, drop and recreate the database before importing.
+The BACPAC approach migrates schema and data in one step. It needs SQL admin credentials (Managed Identity does not work) and recreates the full schema, which may conflict with the existing EF migrations table. If you see a `dbo.__EFMigrationsHistory` conflict, drop and recreate the database before importing.
 
 ## Checkpoint
 

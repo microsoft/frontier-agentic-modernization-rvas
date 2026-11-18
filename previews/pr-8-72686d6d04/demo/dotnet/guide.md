@@ -129,7 +129,7 @@ It prompts for the password; do not put it on the command line. `-C` trusts the 
 
 ## A3 - Deploy the Modern App
 
-**This is a second, required deployment.** The modern stack provisions Container Apps, Azure Container Registry, Azure SQL, Service Bus, private Blob Storage, Key Vault, Log Analytics, Azure OpenAI, and the pre-built modern app. legacy-stack VM/DMS outputs do not mean the modern app is deployed. Reuse original state/variables if it already exists.
+**This is a second, required deployment.** The modern stack provisions Container Apps, Azure Container Registry, Azure SQL, Service Bus, private Blob Storage, Key Vault, Log Analytics, Azure OpenAI, and the pre-built modern app. Legacy-stack VM/DMS outputs do not mean the modern app is deployed. Reuse original state/variables if it already exists.
 
 On the **presenter machine**, install **go-sqlcmd** before applying this stack:
 
@@ -225,7 +225,7 @@ Dot-source the read-only helper in the **same Windows PowerShell 7 terminal** us
 . "$env:REPO_ROOT\demo\dotnet\prepare-env.ps1"
 ```
 
-**Continue only after `Ready:`.** The helper checks named Terraform outputs as JSON, clears stale derived variables, and checks the deployed app, its attached identity, and storage. It uses actual deployment outputs, not assumed prefixes or the first storage account in a resource group. It needs no jq and does not deploy or alter state.
+**Continue only after `Ready:`.** The helper checks named Terraform outputs as JSON, clears stale derived variables, and checks the deployed app, its attached identity, and storage. It uses actual deployment outputs, never assumed prefixes or the first storage account in a resource group. It needs no jq and does not deploy or alter state.
 
 The helper reads the deployed ACR outputs and sets `ACR_NAME`, `ACR_LOGIN_SERVER`, and a unique `DEMO_IMAGE` tag automatically. Do not use the Bash helper or `pwsh -File`: the exported `$env:` values must remain in your live terminal.
 
@@ -305,7 +305,7 @@ if (-not (Test-Path $helper)) { throw 'Start in the hackathon repository root.' 
 . $helper
 ```
 
-**Continue only after `Ready:`.** `REPO_ROOT` is the repository path; the helper reads both deployments and sets `MIGRATION_SQL_HOST`, `ACA_RG`, `ACA_APP`, `APP_IDENTITY_NAME`, `APP_CLIENT_ID`, `BLOB_ACCOUNT`, `ACR_NAME`, `ACR_LOGIN_SERVER`, and a unique `DEMO_IMAGE` tag. These values come from the deployed resources and are not values to guess.
+**Continue only after `Ready:`.** `REPO_ROOT` is the repository path; the helper reads both deployments and sets `MIGRATION_SQL_HOST`, `ACA_RG`, `ACA_APP`, `APP_IDENTITY_NAME`, `APP_CLIENT_ID`, `BLOB_ACCOUNT`, `ACR_NAME`, `ACR_LOGIN_SERVER`, and a unique `DEMO_IMAGE` tag. Do not guess these values; they come from the deployed resources.
 
 If Terraform state lives elsewhere, set `LEGACY_INFRA` and `ACA_INFRA` to those deployment directories before running the helper. Keep this terminal open: all live commands use its environment unless marked **VM PowerShell** or **SQL**. In a new terminal, rerun this preflight.
 
@@ -392,7 +392,7 @@ Stop-Website -Name ContosoUniversity
 - **Target:** the **legacy-stack** `target_sql_server_for_wizard`, its empty `ContosoUniversity` database, and the private target SQL login. **Do not select the seeded modern-stack database.**
 - Include schema migration if tables are absent, select all application tables, and start. Wait for completion before continuing.
 
-Terraform prepared DMS and the empty target; this is the step that copies the database schema and rows.
+Terraform prepared DMS and the empty target. This step copies the schema and rows.
 
 **3. Verify the migrated data.** Run this query twice: in **VM SSMS against the source**, then in **Azure Portal > legacy-stack target SQL database > Query editor**, signed in as the configured Entra administrator. Compare counts and find the prepared student in `dbo.Person`:
 
@@ -495,4 +495,4 @@ az containerapp update -g "$env:ACA_RG" -n "$env:ACA_APP" --image "$env:DEMO_IMA
 | New revision is unhealthy or SQL access fails | Check logs, the last healthy revision, and identity access to the legacy-stack target. Do not claim a completed cutover. |
 | AI fails or a queue is empty | Saving must still work without AI. Check logs; the notification UI may already have consumed the message. |
 
-**Transition to questions:** Use the migration summary in the expandable setup above to recap the changed dependencies and discuss the audience's own applications.
+**Transition to questions:** Recap the changed dependencies with the migration summary in the expandable setup above, then discuss the audience's own applications.

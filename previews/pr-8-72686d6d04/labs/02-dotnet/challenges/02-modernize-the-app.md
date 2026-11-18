@@ -34,7 +34,7 @@ ContosoUniversity is a university management system built on **ASP.NET MVC 5** t
 
 ## Step 1: Create the migration plan
 
-This is a framework migration, not a version bump. Generate the plan from the `ContosoUniversity` folder, or use **Create Plan** in the assessment report with the same goal:
+Generate the plan from the `ContosoUniversity` folder, or use **Create Plan** in the assessment report with the same goal:
 
 ```powershell
 modernize plan create "Create the full Azure modernization plan to Azure Container Apps: migrate ContosoUniversity from ASP.NET MVC 5 / System.Web on .NET Framework 4.8 to ASP.NET Core MVC on .NET 10. Include the test project and upgrade incompatible dependencies. Preserve existing behavior and the Azure Service Bus, Entra ID, Blob Storage, and passwordless Azure SQL integrations. Finish with successful Release builds and tests. Do not provision infrastructure or deploy containers" --source .

@@ -14,7 +14,7 @@ highlight: true
 
 ## Objective
 
-Build and test the complete application from the reviewed package, using the workflow you chose in Module 03.
+Build and test the complete application from the reviewed package, using the workflow chosen in Module 03.
 
 ## Prerequisites
 

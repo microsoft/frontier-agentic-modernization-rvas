@@ -7,11 +7,11 @@
 <details>
 <summary><strong>Pre-demo setup and reference (complete before presenting)</strong></summary>
 
-Allow **at least 2 hours**. Oracle initialization alone can take 3-5 minutes; cloud provisioning and tool installation take longer. After setup, continue to **Before Starting the Clock** below.
+Allow **at least 2 hours**. Oracle initialization takes 3-5 minutes; cloud provisioning and tool installation take longer. After setup, continue to **Before Starting the Clock**.
 
 ## A0 - Presenter Machine and Terraform State
 
-Use a Bash terminal with Git, the modernization CLI/extension, Java 25, Maven, Terraform, Azure CLI, and Docker. The **VM** needs Ora2Pg, Oracle Instant Client/`DBD::Oracle`, and `psql`; cloud-init attempts to install them, but check them during rehearsal rather than assuming success.
+Use a Bash terminal with Git, the modernization CLI/extension, Java 25, Maven, Terraform, Azure CLI, and Docker. The **VM** needs Ora2Pg, Oracle Instant Client/`DBD::Oracle`, and `psql`; cloud-init attempts to install them; verify during rehearsal.
 
 ```bash
 git clone https://github.com/microsoft/frontier-agentic-modernization-rvas.git
@@ -72,7 +72,7 @@ psql --version
 
 Copy `solutions/01-java/ora2pg.conf` from the presenter clone to a working directory on the VM using your SSH/SCP client. Check its connection details against the running Oracle container: host `localhost`, port `1521`, service **`FREEPDB1`**, schema/user `PHOTOALBUM`/`photoalbum`. Keep credentials private. Ora2Pg directives use whitespace, not `=`.
 
-Rehearse an export and inspect the generated schema, owner, sequences, indexes, and photo binary representation. Keep saved exports and source row counts as checkpoints. Do not discover missing Oracle client libraries during the audience session.
+Rehearse an export and inspect the generated schema, owner, sequences, indexes, and photo binary representation. Keep saved exports and source row counts as checkpoints. Find missing Oracle client libraries before the session.
 
 ## A3 - Deploy the Modern App and Choose the Target
 
@@ -105,11 +105,11 @@ Open the modern-stack `app_url` and test an upload, image display, and AI enrich
 
 **Two PostgreSQL servers:** This guide imports into the **modern-stack** `postgresql_fqdn`, the server configured for the Container App. The legacy `target_postgresql_fqdn` is a different server. Importing there does not automatically reconnect the app.
 
-Before the live run, prepare an **empty modern-stack migration database** and keep the modern app stopped until import/schema preparation is complete. Do this during setup, not by improvising a destructive reset live. The reference defaults to `spring.jpa.hibernate.ddl-auto=create`: configure the migrated app with **`SPRING_JPA_HIBERNATE_DDL_AUTO=validate`** before it starts against migrated data.
+Before the live run, prepare an **empty modern-stack migration database** and keep the modern app stopped until import/schema preparation is complete. Do this during setup; never improvise a destructive reset live. The reference defaults to `spring.jpa.hibernate.ddl-auto=create`: configure the migrated app with **`SPRING_JPA_HIBERNATE_DDL_AUTO=validate`** before it starts against migrated data.
 
 Rehearse the owner/schema mapping and any additive AI schema changes. Ora2Pg output must match the schema and binary mapping the migrated app actually uses.
 
-**Reference limits:** Photo bytes remain in the database; the checked-in Java reference does not implement Blob Storage. Its system-assigned identity accesses Key Vault and OpenAI; PostgreSQL still uses a password, supplied through secret configuration. The Dockerfile does not attach an Application Insights Java agent. Do not promise those additional migrations unless you implemented and tested them.
+**Reference limits:** Photo bytes remain in the database; the checked-in Java reference does not implement Blob Storage. Its system-assigned identity accesses Key Vault and OpenAI; PostgreSQL still uses a password, supplied through secret configuration. The Dockerfile does not attach an Application Insights Java agent. Promise those additional migrations only if implemented and tested.
 
 ## A4 - Stage Screens and Checkpoints
 
@@ -305,7 +305,7 @@ If export/import is unfinished at minute 40, show saved migration results. If th
 1. Compare the already-loaded **Tab 1** with **Tab 3**; do not refresh the stopped legacy app.
 2. After successful import and deployment, find the same photos and open/download them. Otherwise, explain which checkpoint you are showing.
 3. Upload a new photo. Show saved caption, alt text, and tags; the image should still save if AI is unavailable.
-4. Show the actual connection, managed identity, Key Vault, and application logs. Do not claim PostgreSQL passwordless authentication, Blob Storage, or Java-agent telemetry unless those changes were implemented.
+4. Show the actual connection, managed identity, Key Vault, and application logs. Claim PostgreSQL passwordless authentication, Blob Storage, or Java-agent telemetry only if implemented.
 
 **Say:**
 > We changed the runtime and database, checked the original photos, and added optional AI enrichment. The developer reviewed the changes and validated the result.

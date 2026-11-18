@@ -35,7 +35,7 @@ Choose **one** workflow. All three use the reviewed package, and direct delivery
 | Matt Pocock skills | A spec and dependency-linked tickets with bounded parallel delivery | `/setup-matt-pocock-skills`, `/to-spec`, `/to-tickets` | `/implement-spec`, with up to two concurrent subagents |
 | Spec Kit | Constitution, feature specification, plan, and task artifacts | Constitution, specify, clarify as needed, plan, tasks; optional analyze | `/speckit-implement`, then `/speckit-converge` until `Converged` |
 
-Install your choice using the [setup guide](../setup.md) and [supporting profiles](../supporting-skills.md). Use Matt or Spec Kit directly, not inside `azure-app-rebuild`.
+Install the chosen workflow using the [setup guide](../setup.md) and [supporting profiles](../supporting-skills.md). Use Matt or Spec Kit directly, not inside `azure-app-rebuild`.
 
 ## Step 2: Check implementation readiness
 
@@ -55,7 +55,7 @@ Do not create another planning summary, change app code, or run cloud operations
 
 Check baseline output, fixtures, access, existing failures, and blockers without editing application code or provisioning resources. Resolve blocking prerequisites before coding.
 
-Keep the commands, results, and chosen workflow available for the new session in Module 04. Pass the package revision, baseline commands and results, and any framework artifact paths into that session. No additional summary document is needed.
+Keep the commands, results, and chosen workflow available for the new session in Module 04. Pass the package revision, baseline commands and results, and any framework artifact paths into that session. Write no extra summary document.
 
 ## Step 3: Prepare the chosen workflow
 

@@ -19,11 +19,11 @@ Optional stretch module. Extend PhotoAlbum so every photo upload triggers an Azu
 
 The modernized PhotoAlbum runs on Spring Boot 3.5 / Java 25 with PostgreSQL Flexible Server and Azure Key Vault. Each photo gets:
 
-- A short **caption**.
+- A short caption.
 - A list of **tags** (5-10).
-- An accessible **`alt` text**, rendered on every gallery card and the detail view.
+- An accessible `alt` text, rendered on every gallery card and the detail view.
 
-The app calls **Azure OpenAI `gpt-4.1-mini` (vision)** with Managed Identity. No API keys or hard-coded endpoints appear in code or `application.properties`; the endpoint and deployment name come from Container App settings.
+The app calls Azure OpenAI `gpt-4.1-mini` (vision) with Managed Identity. No API keys or hard-coded endpoints appear in code or `application.properties`; the endpoint and deployment name come from Container App settings.
 
 A working reference implementation lives in `solutions/01-java/PhotoAlbum-Java/` and `solutions/01-java/infra/`. Use it to diff against your work.
 
@@ -53,7 +53,7 @@ Hard requirements:
 5. Build and test successful and failed enrichment.
 ```
 
-Inspect the migrated model and schema first, so the plan matches what the app actually uses. Review the plan against the feature requirements and constraints, and correct omissions. Check how it handles AI call failures. Review the Azure OpenAI resource, role assignment, Container App configuration, service layer, entity fields and UI changes. Then ask Copilot to execute the reviewed plan.
+Inspect the migrated model and schema first, so the plan matches what the app actually uses. Review the plan against the feature requirements and constraints, and correct omissions. Check how it handles AI call failures. Review the Azure OpenAI resource, role assignment, Container App configuration, service layer, entity fields and UI changes, then ask Copilot to execute the reviewed plan.
 
 > **Note:** AI enrichment runs at upload time. Consider how to re-analyze photos uploaded before the feature existed. A reanalyze endpoint is an optional refinement; prioritize Managed Identity, a working vision call and graceful degradation.
 
@@ -214,7 +214,7 @@ Adjust the schema, table and column names to the migrated model. The Thymeleaf g
 
 ## Step 6: Deploy and verify
 
-Build and test the tested migrated image with successful and failed enrichment, push it to ACR, then deploy it. Do not deploy only the pre-built reference image. Before the revision starts against migrated data, check the image tag, the database connection, the schema mapping and `SPRING_JPA_HIBERNATE_DDL_AUTO=validate`. Wait for a healthy revision and test the gallery. Budget about 15 minutes for this step.
+Build the migrated image, test successful and failed enrichment, push it to ACR, then deploy it. Do not deploy only the pre-built reference image. Before the revision starts against migrated data, check the image tag, the database connection, the schema mapping and `SPRING_JPA_HIBERNATE_DDL_AUTO=validate`. Wait for a healthy revision and test the gallery. Budget about 15 minutes for this step.
 
 1. Upload a photo and confirm a caption, alt-text and at least 3 tags are stored (query the database or inspect the response).
 2. Inspect the `<img alt>` attribute on the detail page.

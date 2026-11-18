@@ -17,7 +17,7 @@ highlight: true
 
 Choose a representative customer-owned application, then apply the modernization workflow from the .NET and Java labs to it end to end. This is the replatform and refactor route using the Modernization CLI. If the application needs substantial architecture or business-workflow changes, use the [rearchitect and rebuild route](../../04-rebuild/challenges/00-prepare-your-application.md) instead. Do not install the rebuild plugin just to follow this module.
 
-Do not choose the portfolio's most complex or most critical application. Its risk and scope can consume the whole day. Choose a medium-complexity app you can build, assess, and containerize in one working day.
+Do not choose the portfolio's most complex or most critical application; its risk and scope can consume the whole day. Choose a medium-complexity app you can build, assess, and containerize in one working day.
 
 ## Prerequisites
 
@@ -48,7 +48,7 @@ Check readiness before assessment. If the application does not build locally, yo
 
 - [ ] The chosen application and upgrade scenario are supported by the installed Modernization tooling.
 - [ ] The source code is available and the repository is accessible to everyone who needs it. Everyone can clone it without someone else's credentials.
-- [ ] The application builds locally. Warnings are fine; a complete build failure is not.
+- [ ] The application builds locally. Warnings are fine; a build failure is not.
 - [ ] Docker and container tooling are available: `docker info` returns without error.
 - [ ] Someone you work with understands what the application does.
 

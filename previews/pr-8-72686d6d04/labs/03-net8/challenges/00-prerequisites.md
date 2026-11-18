@@ -79,7 +79,7 @@ dotnet run --project src/Web/Web.csproj
 
 The store home page loads at `https://localhost:5001/`. Press `Ctrl+C` to stop the process.
 
-The net8 submodule points to `NimblePros/eShopOnWeb` at commit `a34eda5b3b741ab168d57c736964f0758ff81300` (ASP.NET Core 8.0, `Directory.Packages.props` with `<TargetFramework>net8.0</TargetFramework>`). At a different commit you may see packages already on .NET 9 or 10. Fix it with `git submodule update --init --recursive`.
+The net8 submodule points to `NimblePros/eShopOnWeb` at commit `a34eda5b3b741ab168d57c736964f0758ff81300` (ASP.NET Core 8.0, `Directory.Packages.props` with `<TargetFramework>net8.0</TargetFramework>`). At a different commit, packages may already be on .NET 9 or 10. Fix this with `git submodule update --init --recursive`.
 
 ## Step 4: Run the pre-flight checklist
 
@@ -147,7 +147,7 @@ Before moving on, confirm:
 - Install and authenticate the Modernization CLI, GitHub CLI and Azure CLI
 - Initialise the eShopOnWeb submodule and confirm the right commit
 - Build and run the .NET 8 baseline with an in-memory database
-- Check your environment with a pre-flight script
+- Check the environment with a pre-flight script
 
 ## Key Takeaway
 
@@ -167,7 +167,7 @@ Before moving on, confirm:
 |---|---|
 | `git submodule status` shows a `-` prefix, or the submodule is empty after clone | Run `git submodule update --init --recursive` |
 | `dotnet --version` shows 8.x or 9.x | Install the .NET 10 SDK. Multiple versions coexist; `global.json` controls which is active per folder |
-| `global.json` pins 8.x in the submodule folder | Expected. You fix it in Module 02 |
+| `global.json` pins 8.x in the submodule folder | Expected. Module 02 fixes it |
 | `modernize` not found | Re-run the install script, then add `~/.local/bin` to PATH: `export PATH="$HOME/.local/bin:$PATH"` |
 | `dotnet-ef` not found | Run `dotnet tool install --global dotnet-ef` and restart your terminal |
 | `dotnet build` fails on the .NET 8 baseline | The submodule may be at the wrong commit. Run `git submodule update --init --recursive` |
