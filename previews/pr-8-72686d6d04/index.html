@@ -884,10 +884,10 @@
         }
 
         .md-content pre {
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: #0c0c0c;
+            border: 1px solid #2d2d2d;
             border-radius: var(--radius-lg);
-            padding: 1.25rem 1.5rem;
+            padding: 1.1rem 1.5rem;
             overflow-x: auto;
             margin-bottom: 1.25rem;
         }
@@ -896,39 +896,105 @@
             background: none;
             border: none;
             padding: 0;
-            font-size: .78rem;
-            color: var(--text-2);
-            line-height: 1.8;
+            font-size: .8rem;
+            color: #d4d4d4;
+            line-height: 1.7;
         }
 
         .code-box {
             position: relative;
             margin-bottom: 1.25rem;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .18);
+        }
+
+        /* Terminal title bar with window dots */
+        .code-box::before {
+            content: "";
+            display: block;
+            height: 1.6rem;
+            background:
+                radial-gradient(circle at .9rem 50%, #ff5f57 .27rem, transparent .31rem),
+                radial-gradient(circle at 1.8rem 50%, #febc2e .27rem, transparent .31rem),
+                radial-gradient(circle at 2.7rem 50%, #28c840 .27rem, transparent .31rem),
+                #2b2b2b;
+            border: 1px solid #2d2d2d;
+            border-bottom: 0;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
         }
 
         .md-content .code-box pre {
             margin-bottom: 0;
-            padding-top: 3rem;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
         }
 
         .code-copy {
             position: absolute;
-            top: .5rem;
+            top: .2rem;
             right: .5rem;
-            min-height: 32px;
-            padding: .25rem .6rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            background: var(--surface);
-            color: var(--text-2);
-            font: inherit;
-            font-size: .75rem;
+            width: 22px;
+            height: 22px;
+            padding: 0;
+            border: 0;
+            border-radius: 4px;
+            background: transparent;
+            color: #b5b5b5;
+            font-size: 0;
             cursor: pointer;
         }
 
-        .code-copy:hover {
-            color: var(--text);
-            border-color: currentColor;
+        .code-copy::before {
+            content: "";
+            position: absolute;
+            inset: 3px;
+            background: currentColor;
+            -webkit-mask: var(--icon) center / contain no-repeat;
+            mask: var(--icon) center / contain no-repeat;
+            --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5'%3E%3Crect x='5.5' y='5.5' width='8' height='8' rx='1.5'/%3E%3Cpath d='M10.5 3.5v-.5A1.5 1.5 0 0 0 9 1.5H3A1.5 1.5 0 0 0 1.5 3v6A1.5 1.5 0 0 0 3 10.5h.5'/%3E%3C/svg%3E");
+        }
+
+        .code-copy[data-tip="Copied!"] {
+            color: #28c840;
+        }
+
+        .code-copy[data-tip="Copied!"]::before {
+            --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='2'%3E%3Cpath d='M3 8.5l3.500 3.500L13 4.5'/%3E%3C/svg%3E");
+        }
+
+        .code-copy[data-tip="Copy failed"] {
+            color: #ff5f57;
+        }
+
+        .code-copy::after {
+            content: attr(data-tip);
+            position: absolute;
+            top: calc(100% + 4px);
+            right: 0;
+            padding: .2rem .5rem;
+            background: #111;
+            border: 1px solid #4a4a4a;
+            border-radius: 4px;
+            color: #e6e6e6;
+            font-family: var(--font-body);
+            font-size: .7rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .12s;
+            z-index: 2;
+        }
+
+        .code-copy:hover,
+        .code-copy:focus-visible {
+            color: #fff;
+        }
+
+        .code-copy:hover::after,
+        .code-copy:focus-visible::after,
+        .code-copy[data-tip="Copied!"]::after,
+        .code-copy[data-tip="Copy failed"]::after {
+            opacity: 1;
         }
 
         .code-copy:focus-visible {
@@ -2342,12 +2408,16 @@
                 if (pre.parentElement.classList.contains('code-box')) return;
                 const box = document.createElement('div');
                 box.className = 'code-box';
-                pre.before(box);
+                                pre.before(box);
                 box.append(pre);
                 const button = document.createElement('button');
                 button.type = 'button';
                 button.className = 'code-copy';
-                button.textContent = 'Copy';
+                const setLabel = label => {
+                    button.textContent = label;
+                    button.setAttribute('data-tip', label);
+                };
+                setLabel('Copy');
                 button.setAttribute('aria-label', 'Copy code');
                 button.setAttribute('aria-live', 'polite');
                 box.append(button);
@@ -2375,15 +2445,15 @@
                                 focused?.focus({ preventScroll: true });
                             }
                         }
-                        button.textContent = 'Copied!';
+                        setLabel('Copied!');
                         button.setAttribute('aria-label', 'Code copied');
                     } catch {
-                        button.textContent = 'Copy failed';
+                        setLabel('Copy failed');
                         button.setAttribute('aria-label', 'Copy failed. Select the code to copy manually, or try again.');
                     } finally {
                         button.disabled = false;
                         resetTimer = setTimeout(() => {
-                            button.textContent = 'Copy';
+                            setLabel('Copy');
                             button.setAttribute('aria-label', 'Copy code');
                         }, 2500);
                     }
