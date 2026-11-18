@@ -3,12 +3,12 @@ name: PhotoAlbum Bootstrap Tests
 on:
   pull_request:
     paths:
-      - 'Student/Resources/java/infra/scripts/**'
+      - 'labs/01-java/resources/infra/scripts/**'
       - '.github/workflows/photoalbum-bootstrap.yml'
   push:
     branches: [main]
     paths:
-      - 'Student/Resources/java/infra/scripts/**'
+      - 'labs/01-java/resources/infra/scripts/**'
       - '.github/workflows/photoalbum-bootstrap.yml'
   workflow_dispatch:
 
@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Build bootstrap test image
-        working-directory: Student/Resources/java/infra
+        working-directory: labs/01-java/resources/infra
         run: docker build --tag photoalbum-bootstrap-test --file scripts/tests/Dockerfile scripts
 
       - name: Run isolated regression tests

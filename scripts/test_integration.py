@@ -101,16 +101,16 @@ class IntegrationTests(unittest.TestCase):
                 self.assertIn(target, destinations)
 
     def test_rebuild_milestones_and_navigation(self):
-        files = sorted((ROOT / "Student/rebuild").glob("Challenge-*.md"))
-        self.assertEqual([path.stem for path in files], [f"Challenge-{i:02}" for i in range(9)])
+        files = sorted((ROOT / "labs/04-rebuild/challenges").glob("*.md"))
+        self.assertEqual([path.name[:2] for path in files], [f"{i:02}" for i in range(9)])
         html = (ROOT / "web/index.html").read_text()
         total_minutes = 0
         for path in files:
             text = path.read_text()
             with self.subTest(file=path.name):
                 for heading in [
-                    "Introduction", "Prerequisites", "Description",
-                    "Success Criteria", "Learning Resources",
+                    "Objective", "Prerequisites", "Checkpoint",
+                    "Learn more", "Troubleshooting",
                 ]:
                     self.assertIn(f"## {heading}", text)
                 self.assertGreaterEqual(text.count("- [ ]"), 4)
@@ -118,36 +118,29 @@ class IntegrationTests(unittest.TestCase):
                 self.assertIn("```text\n", text)
                 self.assertIn(f'href="{path.relative_to(ROOT)}"', html)
                 self.assertIn(f"file: '{path.relative_to(ROOT)}'", html)
-                minutes = int(re.search(r"\*\*Estimated Time:\*\* (\d+) minutes", text)[1])
+                minutes = int(re.search(r"> \*\*Duration:\*\* ~(\d+) minutes", text)[1])
                 total_minutes += minutes
                 card = re.search(
                     rf'<a\b[^>]*class="[^"]*\bchallenge-card\b[^"]*"[^>]*href="{re.escape(str(path.relative_to(ROOT)))}"[^>]*>(.*?)</a>',
                     html, re.S,
                 )[1]
                 self.assertIn(f"{minutes} min &middot;", card)
-                index = int(path.stem.split("-")[1])
-                if index:
-                    self.assertIn(f"[Previous](Challenge-{index - 1:02}.md)", text)
-                if index < len(files) - 1:
-                    self.assertIn(f"[Next](Challenge-{index + 1:02}.md)", text)
-        coach = (ROOT / "Coach/rebuild/facilitation-guide.md").read_text()
-        self.assertIn(f"{total_minutes} minutes", coach)
+        guide = (ROOT / "labs/04-rebuild/pacing-and-troubleshooting.md").read_text()
+        self.assertIn(f"{total_minutes} minutes", guide)
         links = Links(html)
         self.assertEqual(len(links.ids), len(set(links.ids)))
         for href in links.hrefs:
             if href.startswith("#"):
                 self.assertIn(href[1:], links.ids)
-            elif href == "Student/sample-architecture.md" or href.startswith(("Student/rebuild/", "Coach/rebuild/")):
+            elif href.startswith("labs/04-rebuild/"):
                 self.assertTrue((ROOT / href).is_file())
 
     def test_new_guide_and_skill_relative_links_resolve(self):
         docs = [
             ROOT / "README.md", ROOT / "CONTRIBUTING.md",
-            ROOT / "Student/sample-architecture.md",
-            ROOT / "Student/customer/Challenge-00.md",
-            ROOT / "Coach/customer/Solution-00.md",
-            *(ROOT / "Student/rebuild").glob("*.md"),
-            *(ROOT / "Coach/rebuild").glob("*.md"),
+            ROOT / "labs/05-customer/challenges/00-upgrade-a-customer-app.md",
+            ROOT / "labs/05-customer/challenges/00-upgrade-a-customer-app.md",
+            *(ROOT / "labs/04-rebuild").glob("**/*.md"),
             *PLUGIN.glob("**/*.md"),
         ]
         for path in docs:

@@ -1,0 +1,6 @@
+id: 00-example
+title: Example
+summary: One sentence that says what a participant builds in this lab.
+accent: "#1A77E3"
+order: 99
+prefix: CH

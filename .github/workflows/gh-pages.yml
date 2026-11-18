@@ -7,8 +7,8 @@ on:
       - 'web/**'
       - 'Makefile'
       - 'README.md'
-      - 'Student/**'
-      - 'Coach/**'
+      - 'labs/**'
+      - 'demo/**'
       - 'plugins/**'
       - 'scripts/**'
       - 'CONTRIBUTING.md'
@@ -39,6 +39,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Validate labs
+        run: labs/_framework/labs.py validate
 
       - name: Assemble site
         run: |

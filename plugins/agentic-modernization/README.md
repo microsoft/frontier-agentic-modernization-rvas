@@ -1,7 +1,7 @@
 # Agentic Modernization plugin
 
 Use this plugin for changes to existing applications that go beyond a runtime upgrade.
-Follow the [participant setup guide](../../Student/rebuild/setup.md) in the
+Follow the [setup guide](../../labs/04-rebuild/setup.md) in the
 **application repository**, not this tooling repository.
 
 | Skill | Scope | End state |
@@ -20,22 +20,22 @@ Confirm the baseline and choose a target before proceeding. Final package
 acceptance is required only when the user or their governance process requests it.
 Completing or accepting the plan, or saying "continue", does not start implementation.
 Start delivery separately with a defined scope: `azure-app-rebuild` for direct
-implementation, or the participant guide's Matt Pocock or Spec Kit alternative.
+implementation, or the setup guide's Matt Pocock or Spec Kit alternative.
 
-Challenge 01 covers the full planning workflow and package handoff.
-Challenge 02 reviews and corrects that output; Challenge 03 prepares the
+Module 01 covers the full planning workflow and package handoff.
+Module 02 reviews and corrects that output; Module 03 prepares the
 implementation readiness and chosen framework's artifacts. Do not run planning
-three times to generate separate parts of the package. The student route chooses
+three times to generate separate parts of the package. The rebuild route chooses
 a small app to rebuild completely; the direct path explicitly requests complete-app
 scope and implements it in increments, validating every required workflow.
-Challenge 04 implements that app; 05 reviews it and fixes missing behavior; 06 refines an applicable
+Module 04 implements that app; 05 reviews it and fixes missing behavior; 06 refines an applicable
 frontend with Impeccable; 07 reviews/fixes security; 08 deploys with the provided
-target-specific Azure infrastructure. The student guides contain explicit prompts.
+target-specific Azure infrastructure. The lab guides contain explicit prompts.
 
 The bundled Microsoft Learn MCP server retrieves public documentation; it grants
 no Azure access. Supporting skills are installed separately from their public
 upstream repositories. See the [profile inventory](../../scripts/supporting-skills.json)
-and [generated commands](../../Student/rebuild/supporting-skills.md).
+and [generated commands](../../labs/04-rebuild/supporting-skills.md).
 Report missing tools, pricing evidence, rendering, or independent review.
 Installation alone does not show that these operations succeeded.
 
@@ -44,7 +44,7 @@ The diagram skill is bundled for distribution with its scripts, assets, tests,
 and [source/asset terms](skills/cloud-architecture-diagram/references/REFERENCE.md).
 The repository MIT license does not replace those asset terms. Other upstream
 supporting skills are not bundled. Evaluation fixtures are synthetic test inputs
-for coaches and maintainers, not substitutes for the customer application.
+for maintainers, not substitutes for the customer application.
 
 Maintainers: see [Contributing](../../CONTRIBUTING.md). Do not copy the
 accelerator's installed third-party skills or ignored evaluation workspaces here.

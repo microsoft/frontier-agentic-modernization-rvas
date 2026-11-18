@@ -8,14 +8,14 @@ web
 
 ## Users
 
-Microsoft field technical teams, customer developers, and coaches using a
-hands-on hackathon to assess and modernize an application. Participants choose
-a delivery route and follow its challenges; coaches facilitate and review
+Microsoft field technical teams and customer developers using a
+hands-on lab to assess and modernize an application. Choose
+a delivery route and follow its modules; you review
 observable evidence.
 
 ## Product Purpose
 
-Help teams choose a modernization route, complete the work, and validate the result:
+Help you choose a modernization route, complete the work, and validate the result:
 
 - **Replatform & refactor:** modernize existing code and move to managed Azure
   platforms while preserving core behavior. Success is a running modernized
@@ -23,25 +23,25 @@ Help teams choose a modernization route, complete the work, and validate the res
 - **Rearchitect & rebuild:** address business workflows, architecture, coupling,
   or technology changes beyond a runtime upgrade. Success is a complete rebuilt
   application validated and deployed to non-production Azure. Choose an app
-  small enough for the event rather than dropping required functionality.
+  small enough for the lab rather than dropping required functionality.
 
 ## Positioning
 
-Provide sample tracks, customer application workflows, presenter demos, and
-coach guidance in one hackathon resource. Route by the intended
+Provide sample tracks, customer application workflows, demos, and
+self-check guidance in one lab resource. Route by the intended
 change, not by programming language. Discovery can recommend a smaller refactor
 instead of a rebuild; strategies may differ by component or delivery wave.
 
 ## Operating Context
 
-Participants select a route, check prerequisites, and work through Markdown
-challenges displayed in the site's shared drawer. Coach solutions and
-facilitation guidance support review; presenter demos use the same drawer.
+Select a route, check prerequisites, and work through Markdown
+modules displayed in the site's shared drawer. Solutions and
+self-check guidance supports review; demos use the same drawer.
 
 The upgrade route uses GitHub Copilot Modernization tooling. The rebuild route
 uses the Agentic Modernization plugin for discovery and planning, followed by a
 separate, scoped delivery workflow chosen from direct implementation, Matt Pocock
-skills, or Spec Kit. Student material supplies explicit prompts for discovery,
+skills, or Spec Kit. Lab material supplies explicit prompts for discovery,
 package analysis, implementation, app review, applicable frontend refinement,
 security fixes, and deployment with provided target-specific Azure infrastructure.
 
@@ -52,14 +52,14 @@ rebuild path is scoped for two days; planning alone is not a completed rebuild.
 ## Capabilities and Constraints
 
 - Preserve both delivery routes, the Java, .NET Framework, and .NET 8 sample
-  tracks, the customer upgrade track, presenter demos, and coach guidance.
+  tracks, the customer upgrade track, demos, and self-check guidance.
 - Preserve the distinction between CLI-led upgrades and plugin-led rebuilds.
 - Keep the existing static GitHub Pages architecture: `web/index.html`, CSS and
-  JavaScript in `web/assets/`, and Markdown content under `Student/` and `Coach/`.
+  JavaScript in `web/assets/`, and Markdown content under `labs/`, `solutions/`, and `demo/`.
   `make build` assembles `_site/`; `_site/` is generated output, not the source
   of product or visual truth.
-- Preserve challenge navigation, the shared content drawer, and access to
-  prerequisite, architecture, setup, solution, and facilitation material.
+- Preserve module navigation, the shared content drawer, and access to
+  prerequisite, architecture, setup, solution, and self-check material.
 - Sample Azure architectures are references, not required architectures for
   customer-owned applications.
 - Runtime targets, tool commands, prerequisites, and delivery timings must stay
@@ -80,7 +80,7 @@ a replacement visual system.
 
 Delivery-route wayfinding uses Microsoft Blue for **Replatform & refactor** and
 RVAP Purple for **Rearchitect & rebuild**, consistently across navigation,
-previews, challenges, demos, coach material, and the reading drawer. Language
+previews, modules, demos, self-check material, and the reading drawer. Language
 and phase labels do not introduce competing route colors. Route names and text
 labels remain available independently of color. Site-specific route tokens and
 overrides live in `web/assets/css/routes.css`; do not modify the shared shell
@@ -108,14 +108,14 @@ silently during initialization.
 
 - `README.md`: route selection, learning objectives, sample applications,
   customer selection criteria, and rebuild outcomes.
-- `Student/dotnet/`, `Student/java/`, and `Student/net8/`: sample upgrade
-  challenges for ContosoUniversity, PhotoAlbum, and eShopOnWeb.
-- `Student/customer/Challenge-00.md`: customer-owned application upgrade path.
-- `Student/rebuild/`: rebuild milestones, setup, and supporting-skill guidance.
-- `Student/sample-architecture.md`: sample architecture and service references.
-- `Coach/`: solutions, facilitation material, and review guidance.
-- `Coach/demo/java/guide.md` and `Coach/demo/dotnet/guide.md`: presenter-led
-  walkthroughs; the .NET presenter workflow requires Windows with PowerShell 7.
+- `labs/01-java/`, `labs/02-dotnet/` and `labs/03-net8/` (framework labs): sample upgrade
+  modules for ContosoUniversity, PhotoAlbum, and eShopOnWeb.
+- `labs/05-customer/challenges/00-upgrade-a-customer-app.md`: customer-owned application upgrade path.
+- `labs/04-rebuild/`: rebuild milestones, setup, and supporting-skill guidance.
+- `labs/README.md` and `labs/_framework/`: labs guide and the lab framework.
+- `solutions/02-dotnet/`, `solutions/01-java/`, and `solutions/03-net8/`: reference implementations.
+- `demo/java/guide.md` and `demo/dotnet/guide.md`: demo
+  walkthroughs; the .NET demo workflow requires Windows with PowerShell 7.
 - `plugins/agentic-modernization/`: the rebuild route's plugin implementation
   and supporting documentation.
 - `Makefile` and `.github/workflows/gh-pages.yml`: static assembly, validation
@@ -131,15 +131,15 @@ are not evidence of customer outcomes or guaranteed modernization results.
 2. Preserve observed behavior where required, and validate intentional changes
    with explicit acceptance evidence.
 3. Keep scope achievable: choose a complete app small enough to rebuild and
-   validate within the event; a partial journey is not a completed rebuild.
-4. Keep participant, presenter, and coach material connected while preserving
+   validate within the lab; a partial journey is not a completed rebuild.
+4. Keep lab, demo, and self-check material connected while preserving
    their distinct jobs.
 5. Favor technically credible, reusable delivery guidance over unsupported
    claims.
 
 The homepage compares the two routes once, with equal weight for their purpose,
 tooling, and distinct outcomes. Each route links directly to its first customer
-challenge, with sample tracks and rebuild milestones available as secondary
+module, with sample tracks and rebuild milestones available as secondary
 links. Navigation provides shortcuts to the routes and demos rather than
 repeating the introduction. Keep sample-specific runtime and service details in
 their tracks rather than presenting them as requirements for both routes.

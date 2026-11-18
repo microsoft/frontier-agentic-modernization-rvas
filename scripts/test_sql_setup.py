@@ -7,7 +7,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / "Coach/Solutions/dotnet/infra/setup-sql-user.ps1"
+SCRIPT = ROOT / "solutions/02-dotnet/infra/setup-sql-user.ps1"
 
 
 @unittest.skipUnless(shutil.which("pwsh"), "PowerShell 7 is not installed")

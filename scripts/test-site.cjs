@@ -6,7 +6,7 @@ const vm = require('node:vm');
 
 const root = path.resolve(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'web/index.html'), 'utf8');
-const drawerScript = html.slice(html.indexOf("const drawer ="), html.indexOf('// ── Coach toast'));
+const drawerScript = html.slice(html.indexOf("const drawer ="), html.indexOf("document.addEventListener('keydown', e =>"));
 const clickStart = html.indexOf('// Intercept ALL .md links');
 const clickScript = html.slice(clickStart, html.indexOf('</script>', clickStart));
 
@@ -179,7 +179,7 @@ function copyWorkspace({ clipboard = true, reject = false, fallback = true } = {
         clearTimeout() {},
     });
     const start = html.indexOf('function addCodeCopyButtons(');
-    vm.runInContext(html.slice(start, html.indexOf('const STUDENT_FILES', start)), context);
+    vm.runInContext(html.slice(start, html.indexOf('const LAB_FILES', start)), context);
     const container = { querySelectorAll: () => [pre] };
     context.container = container;
     vm.runInContext('addCodeCopyButtons(container)', context);
@@ -258,60 +258,47 @@ test('sample navigation dismisses outside, restores focus on Escape, and resets 
     assert.equal(nav.primary.classList.contains('open'), false);
 });
 
-test('homepage route actions open the first customer challenge directly', async () => {
+test('homepage route actions open the first customer module directly', async () => {
     const routes = html.match(/<section id="routes"[^>]*>([\s\S]*?)<\/section>/)[1];
     const starts = [...routes.matchAll(/<a class="btn btn-primary" href="([^"]+)"/g)]
         .map(match => match[1]);
-    assert.deepEqual(starts, ['Student/customer/Challenge-00.md', 'Student/rebuild/Challenge-00.md']);
+    assert.deepEqual(starts, ['labs/05-customer/challenges/00-upgrade-a-customer-app.md', 'labs/04-rebuild/challenges/00-prepare-your-application.md']);
     const site = workspace();
     for (const file of starts) {
         assert.equal(site.clickDocument(file), true);
         await site.settle();
         assert.equal(site.current(), file);
-        assert.match(site.content.innerHTML, /# Challenge 00/);
+        assert.match(site.content.innerHTML, /# Module 00/);
         assert.doesNotMatch(site.content.innerHTML, /Failed to load/);
     }
 });
 
 test('all nine rebuild milestones navigate without crossing into the CLI route', async () => {
     const site = workspace();
-    await site.open('Student/rebuild/Challenge-00.md');
+    await site.open('labs/04-rebuild/challenges/00-prepare-your-application.md');
     assert.equal(site.elements.get('drawer-prev').disabled, true);
     for (let index = 1; index <= 8; index++) {
         site.elements.get('drawer-next').listeners.click();
         await site.settle();
-        assert.equal(site.current(), `Student/rebuild/Challenge-0${index}.md`);
+        assert.equal(site.current(), `labs/04-rebuild/challenges/0${index}-${['','discovery-and-planning','review-the-package','choose-the-workflow','rebuild-the-app','review-and-fix-the-app','refine-the-frontend','security-review-and-fixes','run-and-deploy'][index]}.md`);
         assert.doesNotMatch(site.content.innerHTML, /Failed to load/);
-        const heading = site.content.innerHTML.match(/^# Challenge \d+: (.+)$/m)[1];
+        const heading = site.content.innerHTML.match(/^# Module \d+: (.+)$/m)[1];
         assert.equal(site.elements.get('drawer-title').textContent, `Rebuild - ${heading}`);
     }
     assert.equal(site.elements.get('drawer-next').disabled, true);
 });
 
-test('setup, supporting profiles, and challenge links switch groups correctly in previews', async () => {
+test('setup, supporting profiles, and module links switch groups correctly in previews', async () => {
     const site = workspace('https://example.test/workshop/previews/pr-42-abcd/');
-    await site.open('Student/rebuild/Challenge-00.md');
-    await site.follow('/Student/rebuild/setup.md');
-    assert.equal(site.current(), 'Student/rebuild/setup.md');
+    await site.open('labs/04-rebuild/challenges/00-prepare-your-application.md');
+    await site.follow('/labs/04-rebuild/setup.md');
+    assert.equal(site.current(), 'labs/04-rebuild/setup.md');
     assert.equal(site.elements.get('drawer-kind').textContent, 'GUIDE');
-    await site.follow('/Student/rebuild/supporting-skills.md');
-    assert.equal(site.current(), 'Student/rebuild/supporting-skills.md');
-    await site.follow('/Student/rebuild/Challenge-00.md');
-    assert.equal(site.current(), 'Student/rebuild/Challenge-00.md');
+    await site.follow('/labs/04-rebuild/supporting-skills.md');
+    assert.equal(site.current(), 'labs/04-rebuild/supporting-skills.md');
+    await site.follow('/labs/04-rebuild/challenges/00-prepare-your-application.md');
+    assert.equal(site.current(), 'labs/04-rebuild/challenges/00-prepare-your-application.md');
     assert.ok(site.requests.every(file => !file.includes('previews/')));
-});
-
-test('sample architecture guide opens from preview navigation and links to the selected sample track', async () => {
-    const site = workspace('https://example.test/workshop/previews/pr-42-abcd/');
-    assert.equal(site.clickDocument('Student/sample-architecture.md'), true);
-    await site.settle();
-    assert.equal(site.current(), 'Student/sample-architecture.md');
-    assert.equal(site.elements.get('drawer-kind').textContent, 'GUIDE');
-    assert.equal(site.elements.get('drawer-title').textContent, 'Sample Architecture & Services');
-    assert.match(site.content.innerHTML, /# Sample architecture & services/);
-    await site.follow('/Student/net8/Challenge-03.md');
-    assert.equal(site.current(), 'Student/net8/Challenge-03.md');
-    assert.match(site.content.innerHTML, /# Challenge 03/);
 });
 
 test('relative source links with fragments open the actual local document', async () => {
@@ -339,36 +326,34 @@ test('page interception preserves external markdown and handles local preview UR
     const site = workspace('https://example.test/workshop/previews/pr-42-abcd/');
     assert.equal(site.clickDocument('https://github.com/org/repo/blob/main/README.md'), false);
     assert.equal(site.clickDocument('#routes'), false);
-    assert.equal(site.clickDocument('Student/rebuild/Challenge-03.md'), true);
+    assert.equal(site.clickDocument('labs/04-rebuild/challenges/03-choose-the-workflow.md'), true);
     await site.settle();
-    assert.equal(site.current(), 'Student/rebuild/Challenge-03.md');
+    assert.equal(site.current(), 'labs/04-rebuild/challenges/03-choose-the-workflow.md');
 });
 
 test('a slow earlier fetch cannot overwrite the next selected milestone', async () => {
     const site = workspace();
-    const release = site.delay('Student/rebuild/Challenge-00.md');
-    await site.open('Student/rebuild/Challenge-00.md');
-    await site.open('Student/rebuild/Challenge-01.md');
-    assert.match(site.content.innerHTML, /# Challenge 01:/);
+    const release = site.delay('labs/04-rebuild/challenges/00-prepare-your-application.md');
+    await site.open('labs/04-rebuild/challenges/00-prepare-your-application.md');
+    await site.open('labs/04-rebuild/challenges/01-discovery-and-planning.md');
+    assert.match(site.content.innerHTML, /# Module 01:/);
     release();
     await site.settle();
-    assert.equal(site.current(), 'Student/rebuild/Challenge-01.md');
-    assert.match(site.content.innerHTML, /# Challenge 01:/);
+    assert.equal(site.current(), 'labs/04-rebuild/challenges/01-discovery-and-planning.md');
+    assert.match(site.content.innerHTML, /# Module 01:/);
 });
 
-test('drawer route colors follow student, coach, demo, and setup documents', async () => {
+test('drawer route colors follow lab, demo, and setup documents', async () => {
     const site = workspace();
     for (const [file, route] of [
-        ['Student/java/Challenge-00.md', 'refactor'],
-        ['Student/dotnet/Challenge-00.md', 'refactor'],
-        ['Student/net8/Challenge-00.md', 'refactor'],
-        ['Student/customer/Challenge-00.md', 'refactor'],
-        ['Student/rebuild/Challenge-00.md', 'rebuild'],
-        ['Student/rebuild/setup.md', 'rebuild'],
-        ['Coach/rebuild/facilitation-guide.md', 'rebuild'],
-        ['Coach/dotnet/Solution-00.md', 'refactor'],
-        ['Coach/demo/java/guide.md', 'refactor'],
-        ['Student/sample-architecture.md', 'refactor'],
+        ['labs/01-java/challenges/00-prerequisites-and-setup.md', 'refactor'],
+        ['labs/02-dotnet/challenges/00-prerequisites.md', 'refactor'],
+        ['labs/03-net8/challenges/00-prerequisites.md', 'refactor'],
+        ['labs/05-customer/challenges/00-upgrade-a-customer-app.md', 'refactor'],
+        ['labs/04-rebuild/challenges/00-prepare-your-application.md', 'rebuild'],
+        ['labs/04-rebuild/setup.md', 'rebuild'],
+        ['labs/04-rebuild/pacing-and-troubleshooting.md', 'rebuild'],
+        ['demo/java/guide.md', 'refactor'],
         ['README.md', undefined],
     ]) {
         await site.open(file);
@@ -378,16 +363,14 @@ test('drawer route colors follow student, coach, demo, and setup documents', asy
 
 test('previous and next navigation update the drawer route and reset shared guides', async () => {
     const site = workspace();
-    await site.open('Student/rebuild/setup.md');
+    await site.open('labs/04-rebuild/setup.md');
     assert.equal(site.elements.get('drawer').attrs['data-route'], 'rebuild');
-    site.elements.get('drawer-prev').listeners.click();
-    await site.settle();
-    assert.equal(site.current(), 'Student/sample-architecture.md');
-    assert.equal(site.elements.get('drawer').attrs['data-route'], 'refactor');
+    assert.equal(site.elements.get('drawer-prev').disabled, true);
     site.elements.get('drawer-next').listeners.click();
     await site.settle();
+    assert.equal(site.current(), 'labs/04-rebuild/supporting-skills.md');
     assert.equal(site.elements.get('drawer').attrs['data-route'], 'rebuild');
-    await site.open('Student/java/Challenge-00.md');
+    await site.open('labs/01-java/challenges/00-prerequisites-and-setup.md');
     site.elements.get('drawer-prev').listeners.click();
     await site.settle();
     assert.equal(site.current(), 'README.md');

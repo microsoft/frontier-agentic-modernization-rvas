@@ -1,0 +1,6 @@
+id: 04-rebuild
+title: Rearchitect and rebuild
+summary: Rebuild an application end to end with the architecture-first plugin, from discovery and planning to a deployed app.
+accent: "#E11D48"
+order: 4
+prefix: REB
