@@ -98,7 +98,7 @@ extra prerequisites.
 
 ### Upgrade Your Application (CLI Customer Track)
 
-- Challenge 00: **Upgrade a Customer Application** — [Customer](labs/05-customer/challenges/00-upgrade-a-customer-app.md)
+- **Upgrade a Customer Application** — [Customer](labs/05-customer/challenges/00-upgrade-a-customer-app.md)
   - Apply the CLI modernization workflow to a **real customer-owned codebase**. Customer ownership and authorized access matter; a public sample is not a substitute.
 
 #### Application Selection Criteria

@@ -9,7 +9,7 @@ tags:
 highlight: true
 ---
 
-# Challenge 00 — Upgrade a Customer Application
+# Upgrade a Customer Application
 
 **Path: Replatform & refactor, using the Modernization CLI.** If your challenge
 requires substantial architecture or business-workflow changes, use the separate
