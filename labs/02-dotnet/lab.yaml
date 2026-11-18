@@ -1,0 +1,6 @@
+id: 02-dotnet
+title: .NET – ContosoUniversity
+summary: Upgrade ContosoUniversity from .NET Framework 4.8 and SQL Server LocalDB to .NET 10, Azure SQL and Azure Container Apps.
+accent: "#7C3AED"
+order: 2
+prefix: NET

@@ -1,0 +1,6 @@
+id: 03-net8
+title: .NET 8 – eShopOnWeb
+summary: Upgrade eShopOnWeb from .NET 8 to .NET 10, add Azure services and deploy to Azure Container Apps.
+accent: "#0EA5A4"
+order: 3
+prefix: NET8

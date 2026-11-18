@@ -23,17 +23,17 @@ jobs:
       matrix:
         include:
           - name: photo-album
-            context: Coach/Solutions/java/PhotoAlbum-Java
-            dockerfile: Coach/Solutions/java/PhotoAlbum-Java/Dockerfile
+            context: solutions/01-java/PhotoAlbum-Java
+            dockerfile: solutions/01-java/PhotoAlbum-Java/Dockerfile
           - name: contoso-university
-            context: Coach/Solutions/dotnet/dotnet-migration-copilot-samples/ContosoUniversity
-            dockerfile: Coach/Solutions/dotnet/dotnet-migration-copilot-samples/ContosoUniversity/Dockerfile
+            context: solutions/02-dotnet/dotnet-migration-copilot-samples/ContosoUniversity
+            dockerfile: solutions/02-dotnet/dotnet-migration-copilot-samples/ContosoUniversity/Dockerfile
           - name: eshoponweb
-            context: Coach/Solutions/net10/eShopOnWeb
-            dockerfile: Coach/Solutions/net10/eShopOnWeb/src/Web/Dockerfile
+            context: solutions/03-net8/eShopOnWeb
+            dockerfile: solutions/03-net8/eShopOnWeb/src/Web/Dockerfile
           - name: eshoponweb-api
-            context: Coach/Solutions/net10/eShopOnWeb
-            dockerfile: Coach/Solutions/net10/eShopOnWeb/src/PublicApi/Dockerfile
+            context: solutions/03-net8/eShopOnWeb
+            dockerfile: solutions/03-net8/eShopOnWeb/src/PublicApi/Dockerfile
           
     steps:
       - name: Lower case REPO

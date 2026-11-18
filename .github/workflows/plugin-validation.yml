@@ -8,8 +8,8 @@ on:
       - '.github/workflows/plugin-validation.yml'
       - 'plugins/**'
       - 'scripts/**'
-      - 'Student/**'
-      - 'Coach/**'
+      - 'labs/**'
+      - 'demo/**'
       - 'web/**'
       - 'Makefile'
       - 'README.md'
@@ -32,8 +32,8 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: '24'
-      - name: Install optional diagram test dependency
-        run: python -m pip install -r plugins/agentic-modernization/skills/cloud-architecture-diagram/requirements.txt
+      - name: Install test dependencies
+        run: python -m pip install pyyaml -r plugins/agentic-modernization/skills/cloud-architecture-diagram/requirements.txt
       - name: Validate plugin, route, drawer, and bundled diagram assets
         run: make test
       - name: Assemble site
