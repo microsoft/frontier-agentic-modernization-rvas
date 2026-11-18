@@ -22,13 +22,13 @@ Completing or accepting the plan, or saying "continue", does not start implement
 Start delivery separately with a defined scope: `azure-app-rebuild` for direct
 implementation, or the setup guide's Matt Pocock or Spec Kit alternative.
 
-Challenge 01 covers the full planning workflow and package handoff.
-Challenge 02 reviews and corrects that output; Challenge 03 prepares the
+Module 01 covers the full planning workflow and package handoff.
+Module 02 reviews and corrects that output; Module 03 prepares the
 implementation readiness and chosen framework's artifacts. Do not run planning
 three times to generate separate parts of the package. The rebuild route chooses
 a small app to rebuild completely; the direct path explicitly requests complete-app
 scope and implements it in increments, validating every required workflow.
-Challenge 04 implements that app; 05 reviews it and fixes missing behavior; 06 refines an applicable
+Module 04 implements that app; 05 reviews it and fixes missing behavior; 06 refines an applicable
 frontend with Impeccable; 07 reviews/fixes security; 08 deploys with the provided
 target-specific Azure infrastructure. The lab guides contain explicit prompts.
 

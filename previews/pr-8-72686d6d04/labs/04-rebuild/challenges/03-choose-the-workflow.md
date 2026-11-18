@@ -9,44 +9,37 @@ tags:
 highlight: false
 ---
 
-# Challenge 03: Choose the Implementation Workflow
+# Module 03: Choose the Implementation Workflow
 
-**Estimated Time:** 45 minutes
+> **Duration:** ~45 minutes | **Phase:** Plan
 
-## Introduction
+## Objective
 
-Choose how to implement and validate the complete application from the reviewed
-package.
+Choose how to implement and validate the complete application from the reviewed package, check that implementation can start, and prepare the chosen workflow. The 45 minutes assume the tools are installed.
 
 ## Prerequisites
 
-- Challenge 02 completed with a reviewed package revision.
+- Module 02 completed with a reviewed package revision.
 - Someone can resolve scope, access, and test-data questions.
 - Implementation supporting skills and **Claude Opus 5.5** are available.
 
-## Description
+## Step 1: Select the model and one workflow
 
-### Select the model and one workflow
+Use `/model` in the CLI or the VS Code model picker to select **Claude Opus 5.5** for Modules 03-04, including tickets and tasks. If it is unavailable, ask the infrastructure owner to resolve access.
 
-Use `/model` in CLI or the VS Code model picker to select **Claude Opus 5.5**
-for Challenges 03-04, including tickets/tasks. If unavailable, ask the infrastructure owner
-to resolve access.
+Choose **one** workflow. All three use the reviewed package, and direct delivery is a valid choice.
 
-Choose **one** workflow. All three use the reviewed package:
-
-| Workflow | Choose it when | Prepare now | Implement in Challenge 04 |
+| Workflow | Choose it when | Prepare now | Implement in Module 04 |
 | --- | --- | --- | --- |
 | Direct from the documents | The small app needs little extra coordination | Reviewed package and working baseline | Explicit prompt with `azure-app-rebuild` |
 | Matt Pocock skills | A spec and dependency-linked tickets with bounded parallel delivery | `/setup-matt-pocock-skills`, `/to-spec`, `/to-tickets` | `/implement-spec`, with up to two concurrent subagents |
 | Spec Kit | Constitution, feature specification, plan, and task artifacts | Constitution, specify, clarify as needed, plan, tasks; optional analyze | `/speckit-implement`, then `/speckit-converge` until `Converged` |
 
-Install your choice using the [setup guide](../setup.md) and
-[supporting profiles](../supporting-skills.md). Use Matt or Spec Kit directly,
-not inside `azure-app-rebuild`.
+Install your choice using the [setup guide](../setup.md) and [supporting profiles](../supporting-skills.md). Use Matt or Spec Kit directly, not inside `azure-app-rebuild`.
 
-### Check implementation readiness
+## Step 2: Check implementation readiness
 
-Use the reviewed package directly. Check that implementation can start:
+Use the reviewed package as the authority for scope, acceptance, architecture, and data and recovery decisions. Check that implementation can start:
 
 ```text
 Read the reviewed docs/modernization/ package at [revision] and current source.
@@ -60,15 +53,15 @@ inputs/outputs, or report what is missing.
 Do not create another planning summary, change app code, or run cloud operations.
 ```
 
-Resolve blocking prerequisites before coding. Keep the commands/results and
-chosen workflow available for the new session in Challenge 04.
+Check baseline output, fixtures, access, existing failures, and blockers without editing application code or provisioning resources. Resolve blocking prerequisites before coding.
 
-### Prepare your chosen workflow
+Keep the commands, results, and chosen workflow available for the new session in Module 04. Pass the package revision, baseline commands and results, and any framework artifact paths into that session. No additional summary document is needed.
 
-**Direct:** proceed to Challenge 04.
+## Step 3: Prepare the chosen workflow
 
-**Matt Pocock:** run setup once with **local Markdown** tracking. Review any
-repository-instruction changes, then run each skill separately:
+**Direct:** proceed to Module 04.
+
+**Matt Pocock:** run setup once with **local Markdown** tracking. Review any repository-instruction changes, then run each skill separately:
 
 ```text
 /setup-matt-pocock-skills
@@ -99,10 +92,7 @@ writing the local tickets. Do not publish remote issues, start implementation,
 or add features outside the agreed app.
 ```
 
-**Spec Kit:** initialize it using the setup guide, then run these commands
-separately. Use the installed equivalent if your host shows dotted names such
-as `/speckit.specify`. Clarify only unresolved questions; analyze is optional.
-Finish with implement and converge in [Challenge 04](04-rebuild-the-app.md).
+**Spec Kit:** initialize it using the setup guide, then run these commands separately. Use the installed equivalent if your host shows dotted names such as `/speckit.specify`. Clarify only unresolved questions; analyze is optional. Finish with implement and converge in [Module 04](04-rebuild-the-app.md).
 
 ```text
 /speckit-constitution
@@ -146,7 +136,7 @@ Link decisions and validation back to the original acceptance IDs.
 Generate dependency-ordered implementation and test tasks for the complete
 application defined by this rebuild feature.
 Map tasks to original acceptance IDs and include end-to-end integration checks.
-Leave deployment execution to Challenge 08.
+Leave deployment execution to Module 08.
 ```
 
 Optional consistency check:
@@ -158,48 +148,43 @@ docs/modernization/ package. Report scope drift, missing
 acceptance coverage, contradictions, and unsafe dependency ordering.
 ```
 
-Correct inconsistencies. Provide the generated spec/ticket paths or active
-Spec Kit feature directory when starting Challenge 04.
+Correct inconsistencies. Provide the generated spec and ticket paths, or the active Spec Kit feature directory, when starting Module 04.
 
-## Success Criteria
+## Checkpoint
+
+Before moving on, confirm:
 
 - [ ] Claude Opus 5.5 and one workflow are selected.
 - [ ] Implementation uses the reviewed package revision and its complete-app scope, acceptance criteria, dependencies, and preservation decisions.
 - [ ] Baseline results, safe fixtures, existing failures, and blockers are recorded; implementation has not started.
-- [ ] Generated specs/tickets/tasks use the reviewed package and retain acceptance-ID links.
+- [ ] Generated specs, tickets, or tasks use the reviewed package and retain acceptance-ID links.
 
-## Learning Resources
+## Reflect
+
+- Could someone else identify the app's scope, acceptance checks, and implementation starting point from the reviewed package and your chosen workflow? Resolve any ambiguity they would find.
+
+## What You Learned
+
+- Choose between direct, Matt Pocock and Spec Kit delivery.
+- Check a baseline before implementation starts.
+- Turn a reviewed package into specs, tickets or tasks that keep acceptance-ID links.
+
+## Key Takeaway
+
+> Pick one workflow and let the reviewed package stay the authority for scope.
+
+## Learn more
 
 - [Workflow setup and commands](../setup.md#sessions-and-implementation-choices)
 - [Implementation skill profiles](../supporting-skills.md#implementation-support)
 
-## Advanced Challenge (Optional)
+## Troubleshooting
 
-Have someone else identify the app's scope, acceptance checks, and
-implementation starting point from the reviewed package and chosen workflow.
-Resolve any ambiguity they find.
+| Symptom | Fix |
+|---|---|
+| Discovery restarts for the delivery framework | Module 01 generated the package and Module 02 reviewed it. Prepare the agreed complete-app implementation from it. |
+| Opus 5.5 is not available | Ask the infrastructure owner to resolve model access. |
+| Baseline commands fail | Record pre-existing failures and blockers with owners. Resolve blockers before coding. |
+| A spec or plan contradicts the package | Return the contradiction to the package as a targeted correction. |
 
-## Hints and notes
-
-<details>
-<summary><strong>Notes: pacing</strong></summary>
-
-Use **Claude Opus 5.5** via `/model` or the VS Code picker. Choose one path;
-all use the reviewed package, and direct delivery is a valid choice.
-
-| Path | Check before implementation |
-| --- | --- |
-| Direct | Reviewed package, explicit complete-app prompt, and working baseline |
-| Matt Pocock | Local Markdown setup, `to-spec`, `to-tickets`, acceptance-ID links, and real dependencies |
-| Spec Kit | Constitution, spec, plan, tasks; clarify as needed and optionally analyze. Implement/converge in 04 until `Converged` |
-
-Check baseline output, fixtures, access, existing failures, and blockers without
-editing application code or provisioning resources. The 45 minutes assumes
-tools are installed.
-
-Use the reviewed package as the authority for scope, acceptance, architecture,
-and data/recovery decisions. Pass its revision, baseline commands/results, and any
-framework artifact paths into the implementation session; no additional summary
-document is needed.
-
-</details>
+**Next:** [Module 04: Rebuild the application](04-rebuild-the-app.md)

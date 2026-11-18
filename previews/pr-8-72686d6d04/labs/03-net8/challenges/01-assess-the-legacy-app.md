@@ -9,66 +9,40 @@ tags:
 highlight: false
 ---
 
-# Challenge 01 — Assess the eShopOnWeb Application
+# Module 01: Assess the eShopOnWeb application
 
-## Purpose
+> **Duration:** ~30 minutes | **Phase:** Assess
 
-Assess eShopOnWeb before upgrading its runtime. Focus on this track's
-Swashbuckle → OpenAPI transition.
+## Objective
 
-## Introduction
+Run the GitHub Copilot Modernization assessment on eShopOnWeb and identify what blocks the upgrade from ASP.NET Core 8.0 to .NET 10, especially the Swashbuckle to OpenAPI transition.
 
-Assess **eShopOnWeb** before upgrading from ASP.NET Core 8.0 to .NET 10.
-Its five projects use Central Package Management and include a Blazor WebAssembly
-admin area. Check API breaking changes, package compatibility, and the OpenAPI
-tooling used by PublicApi consumers.
+eShopOnWeb has five projects, uses Central Package Management and includes a Blazor WebAssembly admin area. The assessment checks API breaking changes, package compatibility and the OpenAPI tooling used by PublicApi consumers. Later modules use the report.
 
-Run the GitHub Copilot Modernization assessment from the CLI or VS Code panel.
-Review the report; you will use it in later challenges.
+## Prerequisites
 
-## Description
+- [Module 00](00-prerequisites.md) complete: Modernization CLI installed, legacy app building
 
-Run the GitHub Copilot Modernization assessment on the eShopOnWeb application located under `labs/03-net8/resources/eShopOnWeb`. Use the tool's documentation or the VS Code extension to discover how to trigger an assessment.
+## Step 1: Run the assessment
 
-Review the generated assessment report and reflect on:
+Run the assessment on the app under `labs/03-net8/resources/eShopOnWeb`, from the CLI or the VS Code extension panel. Both produce the same report. Use the tool's documentation or the extension to find the assessment command.
 
-- Which NuGet packages are flagged as requiring a version bump or as incompatible with .NET 10?
-- Is **Swashbuckle** identified as a concern? Why is it a problem in .NET 9+?
+## Step 2: Review the report
+
+Read the report and answer:
+
+- Which NuGet packages need a version bump or are incompatible with .NET 10?
+- Is **Swashbuckle** flagged? Why is it a problem in .NET 9+?
 - What does the report say about the **Blazor WebAssembly** project (`BlazorAdmin`)?
-- Are there any **EF Core** breaking changes flagged?
-- What is the recommended migration target runtime and framework version?
-- Which issues can the `modernize` tool fix automatically vs. which require manual intervention?
+- Are any **EF Core** breaking changes flagged?
+- What is the recommended target runtime and framework version?
+- Which issues can the `modernize` tool fix automatically, and which need manual work?
 
-## Success Criteria
+Focus on the **mandatory blockers**. They block a successful build after the Target Framework Moniker bump.
 
-To complete this challenge, demonstrate:
+`Directory.Packages.props` is the single source of truth for package versions in this repo. Changing `<TargetFramework>` there affects all five projects at once.
 
-1. An assessment report exists for the eShopOnWeb application
-2. Explain the **top issues identified** across the five projects, separating mandatory blockers from potential and optional items
-3. Identify that **Swashbuckle** must be replaced and explain why
-4. Confirm which of the five projects (`Web`, `PublicApi`, `Infrastructure`, `ApplicationCore`, `BlazorAdmin`) require changes and of what kind
-5. **Reflect** — what is `Directory.Packages.props` and why does centralising package versions make the .NET 10 upgrade both easier and potentially more dangerous than upgrading each project individually?
-
-## Learning Resources
-
-- [Modernization assessment overview](https://learn.microsoft.com/en-us/azure/developer/github-copilot-app-modernization/modernization-agent/overview)
-- [Breaking changes in .NET 9](https://learn.microsoft.com/dotnet/core/compatibility/9.0)
-- [Breaking changes in .NET 10](https://learn.microsoft.com/dotnet/core/compatibility/10.0)
-- [OpenAPI in ASP.NET Core (.NET 9+)](https://learn.microsoft.com/aspnet/core/fundamentals/openapi/aspnetcore-openapi)
-
-## Hints and notes
-
-<details>
-<summary><strong>Tips</strong></summary>
-
-- Try the terminal and VS Code extension panel. They produce the same report but may suit different workflows.
-- Pay special attention to **mandatory blockers** — these will block a successful build after the Target Framework Moniker bump.
-- The `Directory.Packages.props` file is the single source of truth for all package versions in this repo — changing `<TargetFramework>` there affects all five projects simultaneously.
-
-</details>
-
-<details>
-<summary><strong>Expected Top Assessment Findings</strong></summary>
+Expected top findings:
 
 | Finding | Severity | Auto-fixable? |
 |---------|----------|---------------|
@@ -79,13 +53,46 @@ To complete this challenge, demonstrate:
 | EF Core `8.0.x` packages across Infrastructure | Potential | Yes |
 | `Ardalis.Specification` at `8.0.0` (pre-.NET 10 tested) | Potential | Partial |
 
-</details>
+## Step 3: Map findings to projects
 
-<details>
-<summary><strong>Discussion Point</strong></summary>
+For each of the five projects (`Web`, `PublicApi`, `Infrastructure`, `ApplicationCore`, `BlazorAdmin`), note whether it needs changes and what kind. Separate mandatory blockers from potential and optional items.
 
-> "What is `Directory.Packages.props` and why does centralising package versions make the .NET 10 upgrade both easier and more dangerous?"
+## Checkpoint
 
-Expected answer: Easier — one file to change instead of five `.csproj` files. More dangerous — one wrong version can break all projects simultaneously with a non-obvious error (e.g., a transitive package incompatibility that only manifests at runtime, not compile time).
+Before moving on, confirm:
 
-</details>
+- [ ] An assessment report exists for the eShopOnWeb application
+- [ ] You can list the top issues across the five projects, split into mandatory blockers, potential and optional items
+- [ ] You can state that **Swashbuckle** must be replaced and why
+- [ ] You know which of the five projects require changes, and of what kind
+
+## Reflect
+
+- What is `Directory.Packages.props`, and why does centralising package versions make the .NET 10 upgrade both easier and potentially more dangerous than upgrading each project individually? (Easier: one file to change instead of five `.csproj` files. Riskier: one wrong version can break all projects at once, with a non-obvious error such as a transitive incompatibility that only shows at runtime.)
+
+## What You Learned
+
+- Run a Copilot Modernization assessment from the CLI or VS Code
+- Separate mandatory blockers from potential and optional findings
+- Tell which fixes `modernize` automates and which need manual work
+- Explain why Swashbuckle blocks the move to .NET 9+
+
+## Key Takeaway
+
+> Read the assessment before upgrading: the mandatory blockers define the work, and centralised package versions raise the stakes of every change.
+
+## Learn more
+
+- [Modernization assessment overview](https://learn.microsoft.com/en-us/azure/developer/github-copilot-app-modernization/modernization-agent/overview)
+- [Breaking changes in .NET 9](https://learn.microsoft.com/dotnet/core/compatibility/9.0)
+- [Breaking changes in .NET 10](https://learn.microsoft.com/dotnet/core/compatibility/10.0)
+- [OpenAPI in ASP.NET Core (.NET 9+)](https://learn.microsoft.com/aspnet/core/fundamentals/openapi/aspnetcore-openapi)
+
+## Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| The CLI and the VS Code panel seem to differ | They produce the same report. Use whichever fits your workflow |
+| Unsure which findings matter first | Start with the mandatory blockers; they stop the build after the Target Framework Moniker bump |
+
+**Next:** [Module 02: Modernize eShopOnWeb to .NET 10](02-modernize-to-net10.md)

@@ -9,28 +9,23 @@ tags:
 highlight: false
 ---
 
-# Challenge 06: Refine the Frontend with Impeccable
+# Module 06: Refine the Frontend with Impeccable
 
-**Estimated Time:** 60 minutes
+> **Duration:** ~60 minutes | **Phase:** Build
 
-## Introduction
+## Objective
 
-Improve the frontend without changing its business behavior. If the app has
-no UI, record **not applicable: no UI** and continue to Challenge 07.
+Improve the frontend without changing its business behavior. If the app has no UI, record **not applicable: no UI** and continue to Module 07. Use `/impeccable extract` afterward to consolidate repeated tokens and components; that step is optional.
 
 ## Prerequisites
 
-- Challenge 05 completed with a working, reviewed application.
+- Module 05 completed with a working, reviewed application.
 - The Existing UI supporting profile is installed and `/impeccable` is discoverable.
-- A running local app with sanitized content, relevant routes/files,
-  `PRODUCT.md`, `DESIGN.md`, and agreed UI changes.
+- A running local app with sanitized content, relevant routes and files, `PRODUCT.md`, `DESIGN.md`, and agreed UI changes.
 
-## Description
+## Step 1: Shape the scoped improvement
 
-### Shape the scoped improvement
-
-Open a new frontend session with the reviewed package, design context, and
-target route. Run these commands in agent chat, using the installed names.
+Open a new frontend session with the reviewed package, design context, and target route. Run these commands in agent chat, using the installed names.
 
 ```text
 /impeccable shape
@@ -47,8 +42,11 @@ Cover loading, empty, error, success, permission-denied, and long-content states
 Return a design brief for confirmation; do not write application code yet.
 ```
 
-Answer the design questions and confirm the brief. **Shape does not write UI
-code.** Request implementation separately:
+Answer the design questions and confirm the brief. **Shape does not write UI code.**
+
+## Step 2: Implement the brief
+
+Request implementation separately:
 
 ```text
 Implement the confirmed Impeccable brief for [route/surface ID].
@@ -58,11 +56,9 @@ the rendered result at narrow and wide viewports and relevant UI states.
 Run the affected tests/build and report actual checks and remaining gaps.
 ```
 
-### Check layout, then color
+## Step 3: Check layout, then color
 
-Use these passes for layout or color issues identified in the brief. Run them
-separately and inspect the result before moving on. If a pass finds no issue,
-record that result; do not make cosmetic changes just to complete a command.
+Use these passes for layout or color issues identified in the brief. Run them separately and inspect the result before moving on. If a pass finds no issue, record that result with rendered evidence. Do not make cosmetic changes just to complete a command.
 
 ```text
 /impeccable layout
@@ -83,8 +79,7 @@ Check contrast and provide non-color cues for important states. Implement
 the improvements and verify the rendered states; do not replace the brand.
 ```
 
-Favor clear tasks over decoration; colorize need not add more color.
-Use other commands for specific problems:
+Favor clear tasks over decoration; colorize need not add more color. Use other commands for specific problems:
 
 | Problem or goal | Command | Guidance |
 | --- | --- | --- |
@@ -96,39 +91,47 @@ Use other commands for specific problems:
 | Small-screen problems | `/impeccable adapt` | Test the task at target sizes |
 | Final inconsistencies | `/impeccable polish` | Finish after layout and color are settled |
 
-Finish with `/impeccable audit`; use `/impeccable polish` for remaining
-inconsistencies. Fix findings and rerun functional checks. Save before/after
-views and inspected states/sizes, including evidence for any no-change decision.
-Run `/review` on frontend changes before the security session.
+## Step 4: Audit and review
 
-## Success Criteria
+Finish with `/impeccable audit`; use `/impeccable polish` for remaining inconsistencies. Fix findings and rerun functional checks. Save before and after views and the inspected states and sizes, including evidence for any no-change decision.
 
-- [ ] The brief defines the surface, task, design context, and changes, or you record that no UI applies.
-- [ ] Confirmed improvements are implemented; layout/color findings are resolved or a no-change decision is supported by rendered evidence.
-- [ ] Narrow/wide layouts, relevant states, keyboard use, and contrast are checked; gaps are noted.
+Run `/review` on the frontend changes before the security session.
+
+## Checkpoint
+
+Before moving on, confirm:
+
+- [ ] The brief defines the surface, task, design context, and changes, or you recorded that no UI applies.
+- [ ] Confirmed improvements are implemented; layout and color findings are resolved or a no-change decision is supported by rendered evidence.
+- [ ] Narrow and wide layouts, relevant states, keyboard use, and contrast are checked; gaps are noted.
 - [ ] Functional tests still pass and frontend changes are reviewed.
 
-## Learning Resources
+## Reflect
+
+- Optional: use `/impeccable extract` to consolidate repeated tokens and components after the refinement, without changing unrelated surfaces.
+
+## What You Learned
+
+- Shape a frontend brief before writing UI code.
+- Run layout and color passes and verify the rendered result.
+- Preserve business rules, permissions and brand while improving the UI.
+
+## Key Takeaway
+
+> Confirm a scoped brief first, then change only the screens it approves.
+
+## Learn more
 
 - [Impeccable commands and skill](https://github.com/pbakaus/impeccable)
 - [Impeccable shape reference](https://github.com/pbakaus/impeccable/blob/5cb95eea9c96479f57afe0732a45470d30183326/.github/skills/impeccable/reference/shape.md)
 
-## Advanced Challenge (Optional)
+## Troubleshooting
 
-Use `/impeccable extract` to consolidate repeated tokens/components after the
-refinement, without changing unrelated surfaces.
+| Symptom | Fix |
+|---|---|
+| Impeccable shape stops without code | Confirm the brief, then send the separate implementation request. |
+| Existing UI is replaced with generic screens | Return to the product and design owner and the approved surface dispositions. |
+| A pass finds no issue | Record a no-change decision with rendered evidence instead of making cosmetic edits. |
+| The app is headless | Record **not applicable: no UI** and continue to Module 07. |
 
-## Hints and notes
-
-<details>
-<summary><strong>Notes: pacing</strong></summary>
-
-Skip as N/A for headless apps. Otherwise start a frontend session with the
-running route, surface IDs, and product/design context. Use `/impeccable shape`,
-confirm the brief, and request implementation; shape writes no UI code.
-Use `/impeccable layout` and `/impeccable colorize` for identified issues, then
-inspect rendered states. Accept a justified no-change result rather than cosmetic churn.
-Preserve business rules, permissions, brand, and unchanged surfaces.
-Use audit/polish as needed and review the UI diff.
-
-</details>
+**Next:** [Module 07: Review security and fix findings](07-security-review-and-fixes.md)

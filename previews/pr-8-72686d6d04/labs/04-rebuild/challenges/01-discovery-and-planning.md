@@ -9,85 +9,87 @@ tags:
 highlight: true
 ---
 
-# Challenge 01: Run Discovery and Modernization Planning
+# Module 01: Run Discovery and Modernization Planning
 
-**Estimated Time:** 150 minutes
+> **Duration:** ~150 minutes | **Phase:** Plan
 
-## Introduction
+## Objective
 
-Use the provided skill to recover what the application does, choose an Azure
-target, estimate costs, and plan the migration. Supply evidence and answer the
-business questions the code cannot resolve.
+Use the provided skill to recover what the application does, choose an Azure target, estimate costs, and plan the migration. Supply evidence and answer the business questions the code cannot resolve. The result is the nine-file modernization package.
 
 ## Prerequisites
 
-- Challenge 00 completed and discovery you available.
+- Module 00 completed, with a stakeholder available for questions.
 - Planning essentials and, for UI applications, the existing-UI supporting profile.
-- Bundled diagram tooling and cost-estimation prerequisites are available, or
-  their concrete blockers are identified.
+- Bundled diagram tooling and cost-estimation prerequisites are available, or their concrete blockers are identified.
 
-## Description
+## Step 1: Start the provided skill
 
-### Start the provided skill
-
-Select `azure-app-modernization` in slash completion using its displayed name,
-then send:
+Select `azure-app-modernization` in slash completion using its displayed name, then send:
 
 ```text
 /azure-app-modernization Recover the functional specification of this complete
 application and plan its modernization to Azure.
 ```
 
-### Answer the decision rounds
+Run the skill once through discovery, stakeholder questions, baseline confirmation, target selection, and the nine-file package. It consults the diagram and cost skills itself. Do not restart it for each document.
 
-Stay in this conversation through discovery, questions, baseline confirmation,
-and target selection. Confirm what must stay, change, or retire, including UI
-behavior. Resolve differences between the code and stakeholder expectations.
-Compare a lower-change option before choosing a rebuild.
+## Step 2: Answer the decision rounds
 
-The skill then produces the nine files listed in the [setup guide](../setup.md)
-under `docs/modernization/`, consulting diagram and cost-estimation skills as
-needed. Do not restart it for each document.
+Stay in this conversation through discovery, questions, baseline confirmation, and target selection.
 
-Keep this session planning-only: no application edits or execution of scripts
-you have not reviewed.
-Note missing evidence, pricing failures, and checks that could not run.
-Static inspection does not prove performance or migration duration. If time
-runs out, save the current phase and open decisions.
+- Confirm what must stay, change, or retire, including UI behavior.
+- Resolve differences between the code and stakeholder expectations.
+- Compare a lower-change option before choosing a rebuild.
+- Confirm the baseline before choosing or delegating the target.
 
-## Success Criteria
+Check permissions, failures, side effects, and existing UI behavior. Missing evidence is a gap, not proof of no dependency.
+
+## Step 3: Collect the package
+
+The skill produces the nine files listed in the [setup guide](../setup.md) under `docs/modernization/`. Require a pricing attempt, a diagram review status, and migration waves that follow dependencies.
+
+Keep this session planning-only: no application edits and no execution of scripts you have not reviewed. Note missing evidence, pricing failures, and checks that could not run. Static inspection does not prove performance or migration duration.
+
+If time runs out, save the current phase and open decisions. Change scope only with the stakeholder.
+
+> **Note:** Completion is `Ready for review`. The skill stops before implementation, and no extra approval gate is needed unless your organization requires one.
+
+## Checkpoint
+
+Before moving on, confirm:
 
 - [ ] Stakeholders confirmed the baseline and chose a target or explicitly delegated the choice.
 - [ ] All nine files cover the agreed scope, with evidence and gaps identified.
 - [ ] Costs show pricing sources and assumptions, or the specific blocker to obtaining prices; diagrams identify completed reviews; migration waves follow dependencies.
 - [ ] The package is **Ready for review** and states "architecture and migration planning only; implementation not started".
 
-## Learning Resources
+## Reflect
+
+- Which stakeholder answer most changed the recommended strategy? Trace that decision through the resulting package.
+
+## What You Learned
+
+- Run one discovery and planning workflow from evidence to a nine-file package.
+- Separate confirmed baseline facts from evidence gaps.
+- Keep planning separate from implementation.
+
+## Key Takeaway
+
+> One planning conversation, anchored in stakeholder decisions, produces a package the rest of the rebuild can trust.
+
+## Learn more
 
 - [Azure architecture design principles](https://learn.microsoft.com/azure/architecture/guide/design-principles/)
 - [Azure Well-Architected Framework](https://learn.microsoft.com/azure/well-architected/)
 
-## Advanced Challenge (Optional)
+## Troubleshooting
 
-Explain which stakeholder answer most changed the recommended strategy and trace
-that decision through the resulting package.
+| Symptom | Fix |
+|---|---|
+| Planning starts editing source | Stop it and restate the planning-only boundary. Implementation uses a separate skill in Module 04. |
+| The skill restarts discovery for each file | Stay in one conversation. The skill consults diagram and cost skills itself. |
+| Cost totals have no source | Require pricing evidence or the attempted source and the tool blocker. |
+| Time runs out | Save the current phase and open decisions. |
 
-## Hints and notes
-
-<details>
-<summary><strong>Notes: pacing</strong></summary>
-
-Run `azure-app-modernization` once through discovery, stakeholder questions,
-baseline confirmation, target selection, and the nine-file package. It consults
-diagram and cost skills itself; do not restart it for each file.
-
-Check permissions, failures, side effects, and existing UI behavior. Missing
-evidence is a gap, not proof of no dependency. Confirm the baseline before
-choosing or delegating the target.
-
-Require a pricing attempt, diagram review status, and migration waves.
-Completion is `Ready for review`; no extra approval gate unless required.
-The skill stops before implementation. If time runs out, save the phase and
-open decisions; change scope only with the stakeholder.
-
-</details>
+**Next:** [Module 02: Review the modernization package](02-review-the-package.md)

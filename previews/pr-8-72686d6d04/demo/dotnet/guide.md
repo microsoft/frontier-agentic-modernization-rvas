@@ -25,7 +25,7 @@ Keep the original Terraform state, backend, workspace, and `terraform.tfvars` fo
 
 ## A1 - Deploy the Legacy VM and DMS Target
 
-The Student stack provisions the Windows VM with IIS, SQL Express, MSMQ, and legacy ContosoUniversity, plus DMS and an Azure SQL migration target.
+The legacy stack provisions the Windows VM with IIS, SQL Express, MSMQ, and legacy ContosoUniversity, plus DMS and an Azure SQL migration target.
 
 ```powershell
 Set-Location "$env:REPO_ROOT\labs\02-dotnet\resources\infra"
@@ -89,7 +89,7 @@ Inside the VM over RDP:
 
    Expect `Running`.
 
-2. Check that the **`setup-ssms` VM Run Command** completed. The Student stack installs SSMS 22 after app/DMS setup. Open it from Start or `C:\Program Files\Microsoft SQL Server Management Studio 22\Release\Common7\IDE\Ssms.exe`. Complete any requested reboot and recheck SQL Express. For older VMs, apply the updated stack with its original state, or use the [official Microsoft installer page](https://learn.microsoft.com/en-us/ssms/install/install).
+2. Check that the **`setup-ssms` VM Run Command** completed. The legacy stack installs SSMS 22 after app/DMS setup. Open it from Start or `C:\Program Files\Microsoft SQL Server Management Studio 22\Release\Common7\IDE\Ssms.exe`. Complete any requested reboot and recheck SQL Express. For older VMs, apply the updated stack with its original state, or use the [official Microsoft installer page](https://learn.microsoft.com/en-us/ssms/install/install).
 
 3. Connect in SSMS:
 
@@ -129,7 +129,7 @@ It prompts for the password; do not put it on the command line. `-C` trusts the 
 
 ## A3 - Deploy the Modern App
 
-**This is a second, required deployment.** The Coach stack provisions Container Apps, Azure Container Registry, Azure SQL, Service Bus, private Blob Storage, Key Vault, Log Analytics, Azure OpenAI, and the pre-built modern app. Student VM/DMS outputs do not mean the Coach app is deployed. Reuse original state/variables if it already exists.
+**This is a second, required deployment.** The modern stack provisions Container Apps, Azure Container Registry, Azure SQL, Service Bus, private Blob Storage, Key Vault, Log Analytics, Azure OpenAI, and the pre-built modern app. legacy-stack VM/DMS outputs do not mean the modern app is deployed. Reuse original state/variables if it already exists.
 
 On the **presenter machine**, install **go-sqlcmd** before applying this stack:
 
@@ -164,32 +164,32 @@ terraform apply
 terraform output
 ```
 
-If the Coach stack was deployed before ACR was added, run `terraform plan` and
+If the modern stack was deployed before ACR was added, run `terraform plan` and
 apply the reviewed in-place update using the original state. The plan should add
 ACR and its role assignments without replacing the existing Container App.
 
-Open `app_url` and test a course-image upload with AI enrichment. Check that this returns the **Coach** resource group, not `No outputs found`:
+Open `app_url` and test a course-image upload with AI enrichment. Check that this returns the **modern-stack** resource group, not `No outputs found`:
 
 ```powershell
 $acaInfra = if ($env:ACA_INFRA) { $env:ACA_INFRA } else { "$env:REPO_ROOT\solutions\02-dotnet\infra" }
 terraform "-chdir=$acaInfra" output -raw resource_group_name
 ```
 
-If outputs are missing, check `terraform workspace show` and `terraform state list` against the original directory/backend. Do not substitute the Student resource group or blindly refresh/redeploy from empty state.
+If outputs are missing, check `terraform workspace show` and `terraform state list` against the original directory/backend. Do not substitute the legacy resource group or blindly refresh/redeploy from empty state.
 
 If an earlier apply failed with `exec: "/bin/bash": executable file not found`,
-use the updated Coach infrastructure files, including `setup-sql-user.ps1`,
+use the updated modern infrastructure files, including `setup-sql-user.ps1`,
 in the **original deployment directory**. Install go-sqlcmd as above, then run
 `terraform plan` and `terraform apply` with the same state and variables. Review
 the plan before applying; do not destroy the resources already created.
 
-**Two databases:** Student/DMS and Coach/app create separate Azure SQL databases. The live migration targets the **Student** database; cutover points the Container App at it.
+**Two databases:** legacy/DMS and modern/app create separate Azure SQL databases. The live migration targets the **legacy-stack** database; cutover points the Container App at it.
 
 **Reference limitations:** Azure services use a user-assigned managed identity. Key Vault and Log Analytics exist, but Key Vault secret loading and Application Insights instrumentation are not wired into the reference.
 
 ## A4 - Prepare the Live Terminal
 
-Prepare DMS against the source and empty Student target, including an integration runtime if the portal flow requires one. The Coach stack creates ACR and grants the deploying identity permission to push images.
+Prepare DMS against the source and empty legacy-stack target, including an integration runtime if the portal flow requires one. The modern stack creates ACR and grants the deploying identity permission to push images.
 
 Use **PowerShell 7** (`pwsh`), not Windows PowerShell 5.1. Check the version
 and execution policies in the terminal you will use live:
@@ -234,8 +234,8 @@ The helper reads the deployed ACR outputs and sets `ACR_NAME`, `ACR_LOGIN_SERVER
 | Screen | Ready to show |
 |---|---|
 | Tab 1 | Legacy app, recognizable student, course image |
-| Tab 2 | Azure Portal: DMS, Student target SQL, Service Bus, Blob Storage |
-| Tab 3 | Coach Container App; keep hidden until the reveal |
+| Tab 2 | Azure Portal: DMS, legacy-stack target SQL, Service Bus, Blob Storage |
+| Tab 3 | modern Container App; keep hidden until the reveal |
 | RDP | SSMS Object Explorer and A2 query results; no password dialogs |
 | VS Code | Legacy `labs/02-dotnet/resources/dotnet-migration-copilot-samples/ContosoUniversity` folder |
 
@@ -245,11 +245,11 @@ Have `ContosoUniversity.csproj`, `Services/NotificationService.cs`, `Controllers
 
 Rehearse the full flow before presenting. Keep a saved assessment report, reviewed migration plan, and a separate tested migrated working copy with its image tag. Include AI enrichment and the non-destructive schema changes in that rehearsal. Do not depend on the agent finishing both migrations within the live slot.
 
-Leave the **live Student DMS target empty** for the audience run. If rehearsal used it, reset it through a reviewed preparation process before the session; do not improvise a database reset live.
+Leave the **live legacy DMS target empty** for the audience run. If rehearsal used it, reset it through a reviewed preparation process before the session; do not improvise a database reset live.
 
 At minute 33, switch to the tested migrated working copy if the live migration is unfinished. Stop the live agent first, and change the terminal directory to that copy. Say which code you are using.
 
-If DMS is still running at minute 40, or tested code/image is unavailable at minute 43, skip cutover and use the pre-built Coach app for the reveal. Keep its original database connection. Explain that it is the reference implementation; do not claim its rows came from the live migration. Only perform cutover after migration, schema changes, identity access, and image build/push have succeeded.
+If DMS is still running at minute 40, or tested code/image is unavailable at minute 43, skip cutover and use the pre-built modern app for the reveal. Keep its original database connection. Explain that it is the reference implementation; do not claim its rows came from the live migration. Only perform cutover after migration, schema changes, identity access, and image build/push have succeeded.
 
 ## Quick Reference
 
@@ -317,7 +317,7 @@ If Terraform state lives elsewhere, set `LEGACY_INFRA` and `ACA_INFRA` to those 
 | 4 - Data and AI | 33:00-48:00 | Offline migration, files, optional enrichment, cutover |
 | 5 - Reveal | 48:00-55:00 | Migrated student/image and AI-assisted course creation |
 
-**Time gates:** At 33 minutes, use the rehearsed migrated copy if the agent is unfinished. At 40, if DMS is still running, skip cutover. At 43, if code/image is not ready, use the pre-built Coach app. Disclose every checkpoint/reference switch; never present it as live-generated code or live-migrated data.
+**Time gates:** At 33 minutes, use the rehearsed migrated copy if the agent is unfinished. At 40, if DMS is still running, skip cutover. At 43, if code/image is not ready, use the pre-built modern app. Disclose every checkpoint/reference switch; never present it as live-generated code or live-migrated data.
 
 ## Demo 1: From IIS to Azure Container Apps
 
@@ -377,7 +377,7 @@ dotnet build ContosoUniversity.csproj -c Release --no-restore
 ### 4 - Move Data, Add AI, and Cut Over (33:00-48:00)
 
 **Say:**
-> We are moving SQL Express to Azure SQL during a maintenance window, not doing zero-downtime replication. The Student DMS target and Coach app database are separate.
+> We are moving SQL Express to Azure SQL during a maintenance window, not doing zero-downtime replication. The legacy DMS target and modern app database are separate.
 
 **1. Stop source writes.** Finish legacy edits, then run in **Windows PowerShell as Administrator inside the legacy VM (over RDP)**:
 
@@ -389,12 +389,12 @@ Stop-Website -Name ContosoUniversity
 **2. Migrate the database.** In **Azure Portal, Tab 2 > DMS > the prepared migration project**, run the offline migration:
 
 - **Source:** `source_sql_private_ip`, port **1433**, SQL login `dms_migration`, database `ContosoUniversity`.
-- **Target:** the **Student** `target_sql_server_for_wizard`, its empty `ContosoUniversity` database, and the private target SQL login. **Do not select the seeded Coach database.**
+- **Target:** the **legacy-stack** `target_sql_server_for_wizard`, its empty `ContosoUniversity` database, and the private target SQL login. **Do not select the seeded modern-stack database.**
 - Include schema migration if tables are absent, select all application tables, and start. Wait for completion before continuing.
 
 Terraform prepared DMS and the empty target; this is the step that copies the database schema and rows.
 
-**3. Verify the migrated data.** Run this query twice: in **VM SSMS against the source**, then in **Azure Portal > Student target SQL database > Query editor**, signed in as the configured Entra administrator. Compare counts and find the prepared student in `dbo.Person`:
+**3. Verify the migrated data.** Run this query twice: in **VM SSMS against the source**, then in **Azure Portal > legacy-stack target SQL database > Query editor**, signed in as the configured Entra administrator. Compare counts and find the prepared student in `dbo.Person`:
 
 ```sql
 SELECT 'Person' AS [Table], COUNT(*) AS [Rows] FROM dbo.Person
@@ -411,7 +411,7 @@ az storage blob upload-batch --account-name "$env:BLOB_ACCOUNT" `
   --auth-mode login
 ```
 
-After upload succeeds, run this in the **same Student target database's Query editor** used for verification. It changes stored image paths to blob names; leave the source and Coach databases unchanged:
+After upload succeeds, run this in the **same legacy-stack target database's Query editor** used for verification. It changes stored image paths to blob names; leave the source and modern-stack databases unchanged:
 
 ```sql
 UPDATE dbo.Course
@@ -444,12 +444,12 @@ Bound the AI request duration, log failures, and allow saving the course/image
 when AI is unavailable. Build and test successful and failed enrichment.
 ```
 
-Review/execute the plan and apply reviewed schema changes in the **Student target database's Query editor before deploying**. The reference needs nullable `dbo.Course` columns: `Description` and `LearningObjectives` (`nvarchar(2000)`), `AltText` (`nvarchar(500)`). Never drop/recreate the populated database.
+Review/execute the plan and apply reviewed schema changes in the **legacy-stack target database's Query editor before deploying**. The reference needs nullable `dbo.Course` columns: `Description` and `LearningObjectives` (`nvarchar(2000)`), `AltText` (`nvarchar(500)`). Never drop/recreate the populated database.
 
 **Say:**
 > AI adds descriptions, learning objectives, and alt text, but it must not prevent saving a course when the model fails.
 
-**6. Cut over the modern app.** Only after migration/schema checks succeed, grant the app identity access in the **Student target database's Query editor**. Replace `demo-contoso-id` with `$env:APP_IDENTITY_NAME` if different; create the user only if absent:
+**6. Cut over the modern app.** Only after migration/schema checks succeed, grant the app identity access in the **legacy-stack target database's Query editor**. Replace `demo-contoso-id` with `$env:APP_IDENTITY_NAME` if different; create the user only if absent:
 
 ```sql
 CREATE USER [demo-contoso-id] FROM EXTERNAL PROVIDER;
@@ -470,9 +470,9 @@ az containerapp update -g "$env:ACA_RG" -n "$env:ACA_APP" --image "$env:DEMO_IMA
   --query properties.latestRevisionName -o tsv
 ```
 
-**Check:** Healthy revision and `/Students`; identity access must be to the migrated database. Do not reapply unchanged Coach Terraform after cutover: it restores the reference image/connection.
+**Check:** Healthy revision and `/Students`; identity access must be to the migrated database. Do not reapply unchanged modern Terraform after cutover: it restores the reference image/connection.
 
-**Time gate:** If DMS is unfinished at 40 minutes, skip cutover. If tested code/image is unavailable at 43, keep the pre-built Coach app and its original connection. Its AI feature is pre-built, not generated live.
+**Time gate:** If DMS is unfinished at 40 minutes, skip cutover. If tested code/image is unavailable at 43, keep the pre-built modern app and its original connection. Its AI feature is pre-built, not generated live.
 
 ### 5 - Reveal (48:00-55:00)
 
@@ -492,7 +492,7 @@ az containerapp update -g "$env:ACA_RG" -n "$env:ACA_APP" --image "$env:DEMO_IMA
 | Environment helper fails or variables are stale | Stop; expand setup above and check A3/A4. Never guess resource names or recreate existing deployments from empty state. |
 | Assessment or code migration overruns | Show the saved report/plan or tested migrated copy; disclose the switch. |
 | DMS is slow or row counts differ | Do not cut over. Show the pre-built reference and explain what remains unvalidated. |
-| New revision is unhealthy or SQL access fails | Check logs, the last healthy revision, and identity access to the Student target. Do not claim a completed cutover. |
+| New revision is unhealthy or SQL access fails | Check logs, the last healthy revision, and identity access to the legacy-stack target. Do not claim a completed cutover. |
 | AI fails or a queue is empty | Saving must still work without AI. Check logs; the notification UI may already have consumed the message. |
 
 **Transition to questions:** Use the migration summary in the expandable setup above to recap the changed dependencies and discuss the audience's own applications.

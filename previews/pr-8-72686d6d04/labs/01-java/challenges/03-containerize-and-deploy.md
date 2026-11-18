@@ -10,70 +10,25 @@ tags:
 highlight: false
 ---
 
-# Challenge 03 — Containerize and Deploy to Azure Container Apps
+# Module 03: Containerize and Deploy to Azure Container Apps
 
-## Purpose
+> **Duration:** ~60 minutes | **Phase:** Deploy
 
-Deploy the modernized Java app from a local environment to Azure Container Apps using Docker and Terraform. Coordinate the app with PostgreSQL as a managed service and handle cloud-specific configuration.
+## Objective
 
-## Introduction
+Package the modernized PhotoAlbum app as a container image and deploy it to Azure Container Apps with Terraform. The deployed app uses Azure Database for PostgreSQL and Azure Blob Storage, with cloud-specific configuration injected at runtime.
 
-Package the modernized Java application as a container image and deploy it to
-**Azure Container Apps**. Complete the skeleton Terraform configuration in
-`labs/01-java/resources/` under `infra/` to provision its Azure resources.
+## Prerequisites
 
-## Description
+- [Module 02](02-modernize-the-app.md) complete: the app builds on Spring Boot 3 / Java 25
 
-Containerize and deploy the modernized Java PhotoAlbum application to Azure:
+## Step 1: Update the Dockerfile
 
-- Verify or update the `Dockerfile` in `../resources/PhotoAlbum-Java/` to build on a Java 25 base image
-- Complete the Terraform configuration in `../resources/infra/` to provision:
-  - Azure Container Apps environment and app
-  - Azure Database for PostgreSQL (Flexible Server)
-  - Azure Blob Storage account and container
+Verify or update the `Dockerfile` in `../resources/PhotoAlbum-Java/` so it builds on a Java 25 base image. Set `server.port=8080` in `application.properties`; the Container App targets port 8080.
 
-**Deployment steps:**
-- Build and push the container image to a container registry (Azure Container Registry or GitHub Container Registry)
-- Apply the Terraform configuration to provision the infrastructure
-- Verify that the deployed application is reachable via its Azure Container Apps URL
-- Confirm that photos can be uploaded and retrieved against all Azure services
+## Step 2: Complete the Terraform configuration
 
-## Success Criteria
-
-To complete this challenge, demonstrate:
-
-1. The container image builds successfully and is pushed to a container registry
-2. The Terraform configuration applies without errors and all resources are provisioned
-3. The Java PhotoAlbum app is accessible at its Azure Container Apps URL and photos can be uploaded and viewed
-4. The deployed application can successfully read and write to both Azure Database for PostgreSQL and Azure Blob Storage
-5. No Oracle dependencies remain anywhere in the infrastructure
-6. Photos are served from Azure Blob Storage, not an in-container temp store
-7. PostgreSQL data persists across restarts
-8. **Reflect** — why must connection strings and credentials never be baked into the container image? How does your Terraform configuration handle secret injection at runtime?
-
-## Learning Resources
-
-- [Azure Container Apps overview](https://learn.microsoft.com/azure/container-apps/overview)
-- [Deploy to Azure Container Apps with Terraform](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_app)
-- [Azure Container Registry — push and pull images](https://learn.microsoft.com/azure/container-registry/container-registry-get-started-docker-cli)
-- [Azure Database for PostgreSQL Flexible Server — Terraform](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/postgresql_flexible_server)
-- [Dockerfile best practices](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
-
-## Hints and notes
-
-<details>
-<summary><strong>Tips</strong></summary>
-
-- Configure your Container App with registry credentials or Managed Identity for ACR access so it can pull the image.
-- After applying your Terraform configuration, check the outputs to retrieve the Container App URL.
-- Connection strings for Azure services should be passed to the Container App as **environment variables** or **secrets** — do not hard-code them in the container image.
-
-</details>
-
-<details>
-<summary><strong>Terraform Resource Checklist – Java</strong></summary>
-
-The Java deployment must provision at least these resources:
+Complete the skeleton in `../resources/infra/` to provision at least these resources:
 
 | Resource | Terraform resource type |
 |---|---|
@@ -86,27 +41,9 @@ The Java deployment must provision at least these resources:
 | Container Apps Environment | `azurerm_container_app_environment` |
 | Container App | `azurerm_container_app` |
 
-</details>
+Use consistent names to avoid Azure conflicts:
 
-<details>
-<summary><strong>Common Pitfalls</strong></summary>
-
-| Issue | Hint to give |
-|---|---|
-| `docker build` succeeds locally but push to ACR fails | Check `az acr login` and that the tag prefix matches the registry login server |
-| PostgreSQL connection refused from Container App | Check the Container App environment variable `SPRING_DATASOURCE_URL` — the host must be the Azure PG server FQDN, not `localhost` |
-| `SPRING_DATASOURCE_URL` format for Azure PG | `jdbc:postgresql://<server>.postgres.database.azure.com:5432/<db>?sslmode=require` |
-| Blob Storage connection string in environment variable | The variable name is `AZURE_STORAGE_CONNECTION_STRING` (or whatever the app reads) |
-| Port mismatch: Container App expects port 80, app listens on 8080 | Set `server.port=8080` in `application.properties` and configure `targetPort: 8080` in Terraform |
-| Terraform plan errors on `sku_name` for PG Flexible Server | Valid values include `B_Standard_B1ms`, `GP_Standard_D2s_v3` — check the provider docs |
-
-</details>
-
-<details>
-<summary><strong>Resource Naming Tips</strong></summary>
-
-Suggest consistent naming to avoid Azure conflicts:
-```
+```text
 rg-photoalbum-<suffix>
 pg-photoalbum-<suffix>
 st<suffix>photoalbum       # storage accounts: lowercase, no hyphens, max 24 chars
@@ -115,5 +52,85 @@ cae-photoalbum-<suffix>
 ca-photoalbum-<suffix>
 ```
 
-</details>
+Configure `targetPort: 8080` on the Container App, and give it registry credentials or Managed Identity so it can pull the image. Pass connection strings to the Container App as environment variables or secrets. Never hard-code them in the image.
 
+> **Note:** `SPRING_DATASOURCE_URL` must use the Azure PostgreSQL server FQDN, not `localhost`: `jdbc:postgresql://<server>.postgres.database.azure.com:5432/<db>?sslmode=require`. The Blob Storage variable is `AZURE_STORAGE_CONNECTION_STRING` (or whatever name the app reads).
+
+## Step 3: Build and push the image
+
+Use the tested migrated image from [Module 02](02-modernize-the-app.md), not a pre-built reference image. Log in to your container registry (Azure Container Registry or GitHub Container Registry), then build and push it. The tag prefix must match the registry login server.
+
+```bash
+az acr login --name <registry-name>
+```
+
+## Step 4: Apply Terraform
+
+Apply the configuration and read the outputs to get the Container App URL.
+
+```bash
+terraform apply
+terraform output
+```
+
+If `terraform plan` fails on `sku_name` for PostgreSQL Flexible Server, check the provider docs. Valid values include `B_Standard_B1ms` and `GP_Standard_D2s_v3`.
+
+## Step 5: Verify the deployment
+
+Before the app starts against migrated data, check the Container App configuration:
+
+- The image tag is the tested migrated image you pushed.
+- The database connection points at the intended PostgreSQL server and database.
+- The schema mapping matches the migrated tables.
+- `SPRING_JPA_HIBERNATE_DDL_AUTO=validate` is set.
+
+Wait for a healthy revision, then open the Container App URL. Upload a photo and view it, which exercises PostgreSQL and Blob Storage. Restart the app and confirm the data persists.
+
+## Checkpoint
+
+Before moving on, confirm:
+
+- [ ] The deployed image tag is the tested migrated image, and `SPRING_JPA_HIBERNATE_DDL_AUTO=validate` is set
+- [ ] The container image builds and is pushed to a container registry
+- [ ] `terraform apply` finishes without errors and all resources exist
+- [ ] The revision is healthy, and the app responds at its Azure Container Apps URL and photos upload and display
+- [ ] The app reads and writes both Azure Database for PostgreSQL and Azure Blob Storage
+- [ ] No Oracle dependencies remain in the infrastructure
+- [ ] Photos are served from Azure Blob Storage, not an in-container temp store
+- [ ] PostgreSQL data persists across restarts
+
+## Reflect
+
+- Why must connection strings and credentials never be baked into the container image?
+- How does your Terraform configuration inject secrets at runtime?
+
+## What You Learned
+
+- Containerize a Spring Boot app for Azure Container Apps
+- Provision PostgreSQL, Blob Storage, a registry and Container Apps with Terraform
+- Inject cloud configuration at runtime instead of baking it into an image
+
+## Key Takeaway
+
+> Keep the image generic and inject every environment-specific value at deploy time.
+
+## Learn more
+
+- [Azure Container Apps overview](https://learn.microsoft.com/azure/container-apps/overview)
+- [Deploy to Azure Container Apps with Terraform](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_app)
+- [Azure Container Registry — push and pull images](https://learn.microsoft.com/azure/container-registry/container-registry-get-started-docker-cli)
+- [Azure Database for PostgreSQL Flexible Server — Terraform](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/postgresql_flexible_server)
+- [Dockerfile best practices](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
+
+## Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| `docker build` succeeds locally but push to ACR fails | Run `az acr login` and check that the tag prefix matches the registry login server. |
+| PostgreSQL connection refused from the Container App | Check `SPRING_DATASOURCE_URL`. The host must be the Azure PostgreSQL FQDN, not `localhost`. |
+| Blob Storage connection fails | Check the environment variable name matches what the app reads (`AZURE_STORAGE_CONNECTION_STRING`). |
+| Revision is unhealthy or crashes at startup | Check the revision logs for schema validation errors. Confirm the image tag, the database connection and schema mapping. Never switch to `create` to fix missing columns. |
+| Container App expects port 80 but the app listens on 8080 | Set `server.port=8080` in `application.properties` and `targetPort: 8080` in Terraform. |
+| Terraform plan errors on `sku_name` for PostgreSQL Flexible Server | Use a valid value such as `B_Standard_B1ms` or `GP_Standard_D2s_v3`. |
+
+**Next:** [Module 04: Migrate the database to Azure PostgreSQL](04-migrate-the-database.md)

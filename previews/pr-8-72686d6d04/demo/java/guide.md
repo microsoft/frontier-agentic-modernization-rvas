@@ -25,7 +25,7 @@ Keep the original Terraform state, backend, workspace, and `terraform.tfvars` fo
 
 ## A1 - Deploy the Legacy VM
 
-The Student stack provisions Ubuntu, Docker, Oracle, and the legacy PhotoAlbum containers. It also creates a separate PostgreSQL migration target.
+The legacy stack provisions Ubuntu, Docker, Oracle, and the legacy PhotoAlbum containers. It also creates a separate PostgreSQL migration target.
 
 ```bash
 cd "$REPO_ROOT/labs/01-java/resources/infra"
@@ -41,7 +41,7 @@ admin_username      = "azureuser"
 resource_group_name = "demo-photoalbum-vm-rg"
 ```
 
-Set `admin_password` and the Student `db_admin_password` privately. Use strong, unique values that meet the variable constraints; replace example defaults. Do not commit credentials or Terraform state.
+Set `admin_password` and the legacy `db_admin_password` privately. Use strong, unique values that meet the variable constraints; replace example defaults. Do not commit credentials or Terraform state.
 
 ```bash
 terraform init
@@ -60,7 +60,7 @@ sudo docker compose -f /opt/photoalbum/docker-compose.yml ps
 sudo docker compose -f /opt/photoalbum/docker-compose.yml logs -f oracle-db
 ```
 
-Expect `photoalbum-oracle` healthy and `photoalbum-java-app` running. Wait for `DATABASE IS READY TO USE!`, then press Ctrl+C. Open the Student `app_url` and upload **3-5 recognizable photos**.
+Expect `photoalbum-oracle` healthy and `photoalbum-java-app` running. Wait for `DATABASE IS READY TO USE!`, then press Ctrl+C. Open the legacy `app_url` and upload **3-5 recognizable photos**.
 
 Check the export tools:
 
@@ -93,7 +93,7 @@ db_admin_username   = "photoalbumadmin"
 resource_group_name = "demo-photoalbum-aca-rg"
 ```
 
-Set the Coach `db_admin_password` privately. It does not need to match the VM password.
+Set the modern-stack `db_admin_password` privately. It does not need to match the VM password.
 
 ```bash
 terraform init
@@ -101,11 +101,11 @@ terraform apply
 terraform output
 ```
 
-Open the Coach `app_url` and test an upload, image display, and AI enrichment.
+Open the modern-stack `app_url` and test an upload, image display, and AI enrichment.
 
-**Two PostgreSQL servers:** This guide imports into the **Coach** `postgresql_fqdn`, the server configured for the Container App. The Student `target_postgresql_fqdn` is a different server. Importing there does not automatically reconnect the app.
+**Two PostgreSQL servers:** This guide imports into the **modern-stack** `postgresql_fqdn`, the server configured for the Container App. The legacy `target_postgresql_fqdn` is a different server. Importing there does not automatically reconnect the app.
 
-Before the live run, prepare an **empty Coach migration database** and keep the modern app stopped until import/schema preparation is complete. Do this during setup, not by improvising a destructive reset live. The reference defaults to `spring.jpa.hibernate.ddl-auto=create`: configure the migrated app with **`SPRING_JPA_HIBERNATE_DDL_AUTO=validate`** before it starts against migrated data.
+Before the live run, prepare an **empty modern-stack migration database** and keep the modern app stopped until import/schema preparation is complete. Do this during setup, not by improvising a destructive reset live. The reference defaults to `spring.jpa.hibernate.ddl-auto=create`: configure the migrated app with **`SPRING_JPA_HIBERNATE_DDL_AUTO=validate`** before it starts against migrated data.
 
 Rehearse the owner/schema mapping and any additive AI schema changes. Ora2Pg output must match the schema and binary mapping the migrated app actually uses.
 
@@ -115,9 +115,9 @@ Rehearse the owner/schema mapping and any additive AI schema changes. Ora2Pg out
 
 | Screen | Ready to show |
 |---|---|
-| Tab 1 | Student legacy `app_url`, gallery with recognizable photos |
-| Tab 2 | Azure Portal: Coach PostgreSQL, Key Vault, Container App, and logs |
-| Tab 3 | Coach `app_url`; keep hidden until the reveal |
+| Tab 1 | legacy `app_url`, gallery with recognizable photos |
+| Tab 2 | Azure Portal: modern-stack PostgreSQL, Key Vault, Container App, and logs |
+| Tab 3 | modern-stack `app_url`; keep hidden until the reveal |
 | VS Code | `labs/01-java/resources/PhotoAlbum-Java`, `pom.xml`, assessment terminal |
 | VM SSH | Working directory containing the adjusted `ora2pg.conf` |
 
@@ -129,13 +129,13 @@ At minute 33, stop an unfinished agent run and switch to the tested migrated cop
 
 Record these Terraform outputs privately; keep passwords separately.
 
-| Student outputs | Coach outputs |
+| Legacy outputs | Modern outputs |
 |---|---|
 | `public_ip`, `app_url`, `ssh_command` | `app_url`, `postgresql_fqdn`, `postgresql_server_name` |
 | VM username from `terraform.tfvars` | `resource_group_name`, `key_vault_uri` |
-| Student target is not used in this flow | `openai_endpoint`, `openai_deployment_name` |
+| legacy-stack target is not used in this flow | `openai_endpoint`, `openai_deployment_name` |
 
-Keep the Coach `db_admin_username` beside the outputs. The examples use `photoalbumadmin`; do not substitute the Student default `psqladmin`.
+Keep the modern-stack `db_admin_username` beside the outputs. The examples use `photoalbumadmin`; do not substitute the legacy default `psqladmin`.
 
 </details>
 
@@ -242,12 +242,12 @@ ora2pg -c ora2pg.conf -t COPY -o data.sql -u system -w photoalbum
 
 Use the actual configured Oracle credentials; the template command assumes the sample's `system` password. Inspect generated files before import.
 
-2. Still in **VM Bash**, enter the **Coach** target values from the quick reference:
+2. Still in **VM Bash**, enter the **modern-stack** target values from the quick reference:
 
 ```bash
-read -r -p "Coach postgresql_fqdn: " PGHOST
-read -r -p "Coach db_admin_username: " PGUSER
-read -r -s -p "Coach database password: " PGPASSWORD
+read -r -p "modern-stack postgresql_fqdn: " PGHOST
+read -r -p "modern-stack db_admin_username: " PGUSER
+read -r -s -p "modern-stack database password: " PGPASSWORD
 printf '\n'
 export PGHOST PGUSER PGPASSWORD
 export PGDATABASE=photoalbum PGSSLMODE=require
@@ -296,9 +296,9 @@ Hard requirements:
 
 Review/execute the plan and apply its additive schema changes. The reference stores `caption`, `alt_text`, and `tags`; inspect the migrated model before applying changes.
 
-4. Deploy the tested migrated image, not merely the pre-built reference. Check the deployed image tag, Coach database connection, schema mapping, and **`SPRING_JPA_HIBERNATE_DDL_AUTO=validate`** before starting it against migrated data. Wait for a healthy revision and test the gallery.
+4. Deploy the tested migrated image, not merely the pre-built reference. Check the deployed image tag, modern-stack database connection, schema mapping, and **`SPRING_JPA_HIBERNATE_DDL_AUTO=validate`** before starting it against migrated data. Wait for a healthy revision and test the gallery.
 
-If export/import is unfinished at minute 40, show saved migration results. If the tested image/schema is not ready at 43, skip live cutover. Label screenshots, rehearsal checkpoints, and the pre-built Coach image honestly; none proves a live migration.
+If export/import is unfinished at minute 40, show saved migration results. If the tested image/schema is not ready at 43, skip live cutover. Label screenshots, rehearsal checkpoints, and the pre-built modern-stack image honestly; none proves a live migration.
 
 ### 5 - Reveal (48:00-55:00)
 
@@ -350,7 +350,7 @@ For startup/schema errors, check the exported schema, binary mapping, AI columns
 
 ### `psql` Connection Refused to Azure PostgreSQL
 
-Check hostname, port 5432, SSL, and credentials first. In the **presenter terminal**, use the preflight's Coach resource/server variables to allow the **machine running psql**:
+Check hostname, port 5432, SSL, and credentials first. In the **presenter terminal**, use the preflight's modern-stack resource/server variables to allow the **machine running psql**:
 
 ```bash
 read -r -p "Public outbound IPv4 of the machine running psql: " CLIENT_IP

@@ -9,29 +9,32 @@ tags:
 highlight: false
 ---
 
-# Challenge 06 — Infuse AI into eShopOnWeb (Stretch)
+# Module 06: Infuse AI into eShopOnWeb (stretch)
 
-## Purpose
+> **Duration:** ~60 minutes | **Phase:** Stretch
 
-This stretch challenge uses Managed Identity to access Azure OpenAI. It extends the RBAC approach from Challenge 05 to `Cognitive Services OpenAI User`. Focus on graceful degradation: the AI call must never block the core business operation.
+## Objective
 
-## Introduction
+Optional stretch module. Add Azure OpenAI to suggest product content from uploaded images, authenticating with Managed Identity. If you lack Azure OpenAI quota, read the module and think through the architecture instead.
 
-The modernized eShopOnWeb runs on .NET 10 on Azure Container Apps with Azure SQL, Service Bus, Blob Storage, Key Vault, and Application Insights. Add **Azure OpenAI** to suggest product content from uploaded images.
+This extends the RBAC approach from [Module 05](05-observe-and-secure.md) to the `Cognitive Services OpenAI User` role. The focus is graceful degradation: the AI call must never block the core business operation.
 
-When an admin uploads a **product image** on the Catalog management page, the application will call **Azure OpenAI (`gpt-4.1-mini`, vision)** and receive structured AI suggestions:
+When an admin uploads a **product image** on the Catalog management page, the application calls **Azure OpenAI (`gpt-4.1-mini`, vision)** and receives structured suggestions:
 
 - A short **product description** suitable for the store listing
-- A list of **suggested tags** (e.g. `.NET clothing`, `developer gear`)
+- A list of **suggested tags** (for example `.NET clothing`, `developer gear`)
 - An accessible **`alt` text** rendered on the product detail page
 
-Authentication to Azure OpenAI uses **Managed Identity** — no API keys anywhere in code, configuration, or environment variables.
+Authentication uses **Managed Identity**. No API keys appear in code, configuration or environment variables.
 
-## Description
+## Prerequisites
 
-Ask **GitHub Copilot** to plan and implement AI-assisted product content in the eShopOnWeb Catalog management flow.
+- [Module 05](05-observe-and-secure.md) complete: eShopOnWeb on .NET 10 running on Azure Container Apps with Azure SQL, Service Bus, Blob Storage, Key Vault and Application Insights
+- Azure OpenAI quota in your subscription
 
-Start with a prompt such as:
+## Step 1: Plan the feature with Copilot
+
+Ask **GitHub Copilot** to plan and implement AI-assisted product content in the Catalog management flow. Start with this prompt:
 
 ```text
 Infuse Azure OpenAI vision into the eShopOnWeb ASP.NET Core app. Inspect the
@@ -51,46 +54,13 @@ Hard requirements:
 3. The AI call must not be critical: a failure must never block saving the product.
 ```
 
-Review the Azure OpenAI resource, role assignment, Container App environment
-variables, service layer, model, and UI changes with a colleague. Then ask Copilot
-to execute the reviewed plan.
+## Step 2: Review the plan
 
-> **Stretch:** Consider migrating the `BlazorAdmin` standalone WebAssembly project to the **Blazor Web App** interactive model introduced in .NET 8 and refined in .NET 10 for server-side pre-rendering and faster initial load.
+Review the Azure OpenAI resource, role assignment, Container App environment variables, service layer, model and UI changes. Check that the plan covers the feature requirements and constraints, and correct any omissions. Check how the plan handles AI call failures: they must not block saving a product.
 
-## Success Criteria
+## Step 3: Provision Azure OpenAI
 
-To complete this challenge, demonstrate:
-
-1. An Azure OpenAI resource and a `gpt-4.1-mini` deployment are provisioned, and the Web Container App's managed identity has the appropriate role to use it
-2. The Web Container App is configured with the OpenAI endpoint and deployment name — and contains **no** API key anywhere (verify in the Azure Portal)
-3. Uploading a product image triggers a successful vision completion call (visible in Azure OpenAI metrics or App Insights dependency tracking)
-4. The "Review AI suggestions" panel renders a description, tags, and alt text. The admin can accept (data is persisted) or regenerate
-5. The product detail page renders the saved `AltText` in the `<img alt>` attribute
-6. If the Azure OpenAI endpoint is unreachable, the upload still succeeds and the item is saved without AI fields (graceful degradation)
-7. **Reflect** — why must the AI service call never throw and never block the product save? What UX principle does this reflect?
-
-## Learning Resources
-
-- [Azure OpenAI Service overview](https://learn.microsoft.com/azure/ai-services/openai/overview)
-- [`Azure.AI.OpenAI` for .NET](https://www.nuget.org/packages/Azure.AI.OpenAI)
-- [Vision-enabled chat completions](https://learn.microsoft.com/azure/ai-services/openai/how-to/gpt-with-vision)
-- [Structured outputs with JSON response format](https://learn.microsoft.com/azure/ai-services/openai/how-to/structured-outputs)
-- [`Cognitive Services OpenAI User` role](https://learn.microsoft.com/azure/ai-services/openai/how-to/role-based-access-control)
-- [Blazor Web App — new unified model (.NET 8+)](https://learn.microsoft.com/aspnet/core/blazor/components/render-modes)
-
-## Hints and notes
-
-<details>
-<summary><strong>Tips</strong></summary>
-
-- Check that the plan covers the feature requirements and constraints; correct any omissions before execution.
-- Check how the plan handles AI call failures. They must not block saving a product.
-- Role assignment propagation can take several minutes — if you get `401` immediately after deployment, wait before debugging the code.
-
-</details>
-
-<details>
-<summary><strong>Terraform — Azure OpenAI Resources</strong></summary>
+Add the resource, model deployment and role assignment in Terraform:
 
 ```hcl
 resource "azurerm_cognitive_account" "openai" {
@@ -122,10 +92,11 @@ resource "azurerm_role_assignment" "web_openai" {
 }
 ```
 
-</details>
+Role assignment propagation can take several minutes. A `401` right after deployment means wait before debugging the code.
 
-<details>
-<summary><strong>Application Code — Key Implementation</strong></summary>
+## Step 4: Implement the AI service
+
+Ask Copilot to execute the reviewed plan. The core service looks like this:
 
 ```csharp
 // ICatalogItemAiService.cs
@@ -169,38 +140,65 @@ public class CatalogItemAiService : ICatalogItemAiService
 }
 ```
 
-</details>
+The `try/catch` returns `null`, so the upload path must check for `null` before using the suggestion. If the model returns markdown-wrapped JSON, add "No markdown fences." to the system prompt.
 
-<details>
-<summary><strong>Common Pitfalls</strong></summary>
+## Step 5: Verify
 
-| Issue | Hint |
-|-------|------|
-| `401 Unauthorized` from Azure OpenAI | "Role assignment propagation — wait 2–5 minutes then retry" |
-| Model returns markdown-wrapped JSON | "Is the system prompt instructing the model to return raw JSON with no markdown? Add 'No markdown fences.' to the prompt" |
-| Upload fails when AI is called | "The AI call is inside a `try/catch` that returns `null`. Is the upload path checking for `null` before using the suggestion?" |
-| `gpt-4.1-mini` deployment not available | Check Azure OpenAI quota — may need to request capacity in the subscription |
+- Configure the Web Container App with the OpenAI endpoint and deployment name only. Confirm no API key exists anywhere (Azure Portal).
+- Upload a product image. A successful vision completion call appears in Azure OpenAI metrics or App Insights dependency tracking.
+- In the "Review AI suggestions" panel, confirm a description, tags and alt text render. Accept (data is persisted) or regenerate.
+- Open the product detail page and confirm the saved `AltText` is in the `<img alt>` attribute.
+- Make the Azure OpenAI endpoint unreachable and upload again. The item still saves, without AI fields.
 
-</details>
+## Step 6: Optional extra
 
-<details>
-<summary><strong>Discussion Point</strong></summary>
+If you finish early, migrate the standalone `BlazorAdmin` WebAssembly project to the **Blazor Web App** interactive model (introduced in .NET 8, refined in .NET 10) for server-side pre-rendering and faster initial load. Allow 30–60 minutes, and attempt it only after completing this module.
 
-**"Why is the AI call wrapped in `try/catch` and must never throw?"**
+- Create a new Blazor Web App project with `InteractiveWebAssembly` render mode.
+- Move existing components from `BlazorAdmin` into the new project.
+- Remove the standalone `BlazorAdmin` project and its `Microsoft.AspNetCore.Components.WebAssembly.Server` host integration from `Web`.
+- Benefit: server-side pre-rendering, faster TTFB, single hosting model.
 
-Expected answer: Saving a catalog item must work without AI. If the AI call throws, the user's work is lost. Use **progressive enhancement** or **graceful degradation**: log the AI failure as a warning and skip the enhancement without showing the user an error.
+## Checkpoint
 
-</details>
+Before finishing, confirm:
 
-<details>
-<summary><strong>Stretch Note — BlazorAdmin Migration</strong></summary>
+- [ ] An Azure OpenAI resource and a `gpt-4.1-mini` deployment exist, and the Web Container App's managed identity has the role to use it
+- [ ] The Web Container App has the OpenAI endpoint and deployment name and **no** API key (check in the Azure Portal)
+- [ ] Uploading a product image triggers a successful vision completion call (Azure OpenAI metrics or App Insights dependency tracking)
+- [ ] The "Review AI suggestions" panel shows a description, tags and alt text, and you can accept or regenerate
+- [ ] The product detail page renders the saved `AltText` in the `<img alt>` attribute
+- [ ] With the Azure OpenAI endpoint unreachable, the upload still succeeds and the item saves without AI fields
 
-If you finish early, try migrating `BlazorAdmin` to the new Blazor Web App model:
-- Create a new Blazor Web App project with `InteractiveWebAssembly` render mode
-- Move existing components from `BlazorAdmin` into the new project
-- Remove the standalone `BlazorAdmin` project and its `Microsoft.AspNetCore.Components.WebAssembly.Server` host integration from `Web`
-- Benefit: server-side pre-rendering, faster TTFB, single hosting model
+## Reflect
 
-Allow 30–60 min, and attempt this only after completing Challenge 06.
+- Why must the AI service call never throw and never block the product save, and what UX principle does this reflect? (Saving a catalog item must work without AI; if the call throws, the user's work is lost. Progressive enhancement or graceful degradation: log the failure as a warning and skip the enhancement without showing an error.)
 
-</details>
+## What You Learned
+
+- Call Azure OpenAI vision from .NET with Managed Identity and no API keys
+- Grant the `Cognitive Services OpenAI User` role with Terraform
+- Design an AI feature that degrades gracefully
+- Review a Copilot-generated plan against hard requirements before executing it
+
+## Key Takeaway
+
+> Treat AI as an enhancement: log failures and carry on so the core workflow never depends on it.
+
+## Learn more
+
+- [Azure OpenAI Service overview](https://learn.microsoft.com/azure/ai-services/openai/overview)
+- [`Azure.AI.OpenAI` for .NET](https://www.nuget.org/packages/Azure.AI.OpenAI)
+- [Vision-enabled chat completions](https://learn.microsoft.com/azure/ai-services/openai/how-to/gpt-with-vision)
+- [Structured outputs with JSON response format](https://learn.microsoft.com/azure/ai-services/openai/how-to/structured-outputs)
+- [`Cognitive Services OpenAI User` role](https://learn.microsoft.com/azure/ai-services/openai/how-to/role-based-access-control)
+- [Blazor Web App — new unified model (.NET 8+)](https://learn.microsoft.com/aspnet/core/blazor/components/render-modes)
+
+## Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| `401 Unauthorized` from Azure OpenAI | Role assignment propagation. Wait 2–5 minutes, then retry |
+| Model returns markdown-wrapped JSON | Make the system prompt ask for raw JSON with no markdown. Add "No markdown fences." |
+| Upload fails when AI is called | The AI call sits in a `try/catch` that returns `null`. Check that the upload path tests for `null` before using the suggestion |
+| `gpt-4.1-mini` deployment not available | Check Azure OpenAI quota. You may need to request capacity in the subscription |

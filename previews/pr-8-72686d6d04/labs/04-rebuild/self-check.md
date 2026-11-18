@@ -8,11 +8,11 @@ Score yourself on each milestone **Done (2)**, **Partially Done (1)**, or **Not 
 Done requires evidence for all applicable criteria; recording a blocker is not a pass.
 Each check should take under two minutes with the evidence open.
 
-| Challenge | Verification | Expected evidence |
+| Module | Verification | Expected evidence |
 | --- | --- | --- |
 | 00 | Read the brief and inspect host skills | Complete app small enough for the lab, decision owners, route rationale, three bundled skills and chosen supporting profiles |
 | 01 | List `docs/modernization/` and inspect the conversation/handoff | Complete nine-artifact package from one planning workflow, stakeholder decisions, pricing/review statuses, explicit planning stop |
-| 02 | Inspect workflow coverage, trace a critical journey, and read review findings | Evidence/requirement/wave links, challenged strategy/cost/recovery assumptions, targeted corrections, reviewed revision |
+| 02 | Inspect workflow coverage, trace a critical journey, and read review findings | Evidence/requirement/wave links, questioned strategy/cost/recovery assumptions, targeted corrections, reviewed revision |
 | 03 | Identify the chosen workflow and implementation starting point | Opus 5.5, reviewed package revision, complete-app scope, baseline, acceptance IDs, framework artifacts derived from the package, infrastructure contract/gaps |
 | 04 | Run documented checks and inspect evidence for all required workflows | Chosen path, complete application, current-source reconciliation, passing checks; Matt's path stays within two concurrent subagents |
 | 05 | Inspect `/review`, completeness findings, and fix output | Full rebuild diff, acceptance ledger, missing behavior implemented, regression checks and re-review |
@@ -36,7 +36,7 @@ Check content, not just filenames. Planning changes stay within the skill's
 document scope; implementation changes stay within the agreed app boundary.
 
 Use the application's documented test commands and actual output. Do not run
-unknown scripts or production migrations to check a challenge.
+unknown scripts or production migrations to check a module.
 For a headless app, mark 06 **not applicable** and exclude it from the denominator.
 
 ## Overall score
@@ -50,7 +50,7 @@ Including delivery preparation in 03 raises that maximum to 8.
 Neither is a completed rebuild. Discussing deployment in 08 without executing it
 earns at most partial credit.
 
-## Advanced challenges
+## Optional extras
 
 Add up to 2 separate bonus points for demonstrated incumbent/target coexistence
 with unambiguous write ownership or a non-production failure/recovery rehearsal.

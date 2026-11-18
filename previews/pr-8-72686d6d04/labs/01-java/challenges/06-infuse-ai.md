@@ -9,89 +9,55 @@ tags:
 highlight: false
 ---
 
-# Challenge 06 — Infuse AI into PhotoAlbum
+# Module 06: Infuse AI into PhotoAlbum
 
-## Purpose
+> **Duration:** ~75 minutes | **Phase:** Stretch
 
-Attempt this optional challenge only after completing Challenge 05 with time to spare. Extend PhotoAlbum so every photo upload triggers an Azure OpenAI vision call and receives automatic tags. The work covers Terraform (Azure OpenAI account, model deployment, and RBAC), Java service code (`azure-ai-openai`, `DefaultAzureCredentialBuilder`, structured JSON), Thymeleaf updates, and verification in Azure.
+## Objective
 
-A working reference implementation lives under `solutions/01-java/PhotoAlbum-Java/` and `solutions/01-java/infra/`. Use it to diff against your work, not as a hand-out.
+Optional stretch module. Extend PhotoAlbum so every photo upload triggers an Azure OpenAI vision call and receives automatic metadata. The work covers Terraform (Azure OpenAI account, model deployment, RBAC), Java service code (`azure-ai-openai`, `DefaultAzureCredentialBuilder`, structured JSON), Thymeleaf updates and verification in Azure.
 
-## Introduction
-
-The modernized PhotoAlbum runs on Spring Boot 3.5 / Java 25 with PostgreSQL Flexible Server and Azure Key Vault. Add **Azure OpenAI** to the upload pipeline so every photo automatically gets:
+The modernized PhotoAlbum runs on Spring Boot 3.5 / Java 25 with PostgreSQL Flexible Server and Azure Key Vault. Each photo gets:
 
 - A short **caption**.
-- A list of **tags** (5–10).
-- An accessible **`alt` text** rendered on every gallery card and the detail view.
+- A list of **tags** (5-10).
+- An accessible **`alt` text**, rendered on every gallery card and the detail view.
 
-The application calls **Azure OpenAI `gpt-4.1-mini` (vision)** using **Managed Identity** — no API keys in `application.properties`, env vars, or Key Vault.
+The app calls **Azure OpenAI `gpt-4.1-mini` (vision)** with Managed Identity. No API keys or hard-coded endpoints appear in code or `application.properties`; the endpoint and deployment name come from Container App settings.
 
-## Description
+A working reference implementation lives in `solutions/01-java/PhotoAlbum-Java/` and `solutions/01-java/infra/`. Use it to diff against your work.
 
-Ask **GitHub Copilot** to plan and implement vision-assisted metadata across PhotoAlbum.
+## Prerequisites
 
-Start with a prompt such as:
+- [Module 05](05-observe-and-secure.md) complete
+
+## Step 1: Plan with Copilot
+
+Ask GitHub Copilot to plan vision-assisted metadata across PhotoAlbum. Start with this prompt:
 
 ```text
-Infuse Azure OpenAI vision into the PhotoAlbum Spring Boot app. Inspect the
+Infuse Azure OpenAI vision into the photoAlbum Spring Boot app. Inspect the
 workspace and produce an implementation plan.
 
-Feature: every uploaded photo is auto-analyzed by Azure OpenAI **gpt-4.1-mini** (vision)
-and enriched with a short caption (under 120 characters), an accessibility
-alt-text, and 5-10 lowercase single-word tags. These render on the gallery cards and
-detail page, and the <img alt> uses the AI alt-text (falling back to the original
-filename). This will require infrastructure changes, database schema updates, and
-application code changes.
+Feature: every uploaded photo is auto-analyzed by Azure OpenAI gpt-4.1-mini (vision)
+and enriched with a short caption (<120 chars), an accessibility alt-text, and 5-10
+lowercase single-word tags. These render on the gallery cards and detail page, and the
+<img alt> uses the AI alt-text (falling back to the original filename). Include the
+database schema updates, service layer, and UI changes.
 
 Hard requirements:
-1. Authenticate with Managed Identity — no API keys anywhere.
-2. No hard-coded values in code, config files, or environment variables.
-3. The AI call must not be critical: a failure must never block a photo upload.
+1. Authenticate with Managed Identity.
+2. No API keys or hardcoded endpoints.
+3. AI failure must not prevent a photo upload.
+4. Apply non-destructive schema changes to the populated database; never recreate it.
+5. Build and test successful and failed enrichment.
 ```
 
-Review the Azure OpenAI resource, role assignment, Container App configuration,
-service layer, entity fields, and UI changes with a colleague. Then ask Copilot to
-execute the reviewed plan.
+Inspect the migrated model and schema first, so the plan matches what the app actually uses. Review the plan against the feature requirements and constraints, and correct omissions. Check how it handles AI call failures. Review the Azure OpenAI resource, role assignment, Container App configuration, service layer, entity fields and UI changes. Then ask Copilot to execute the reviewed plan.
 
-## Success Criteria
+> **Note:** AI enrichment runs at upload time. Consider how to re-analyze photos uploaded before the feature existed. A reanalyze endpoint is an optional refinement; prioritize Managed Identity, a working vision call and graceful degradation.
 
-To complete this challenge, demonstrate:
-
-1. An Azure OpenAI resource and a vision-capable model deployment are provisioned, and the Container App's managed identity has been granted the appropriate role to use it
-2. The Container App is configured with the OpenAI endpoint and deployment name — and contains **no** API key anywhere (verify in the Azure Portal)
-3. Uploading a photo persists a non-null caption, alt-text, and at least 3 tags — confirm by querying the database or inspecting the response
-4. The gallery page renders caption and tag badges on each card
-5. The detail page renders caption, alt-text, and tags in the sidebar; the `<img alt>` attribute reflects the AI-generated alt-text (inspect element to verify)
-6. Disabling the Azure OpenAI account or removing the role assignment still allows a photo to be uploaded — only the AI fields are missing, and the application logs a warning for the failed call
-7. The Azure OpenAI account and `gpt-4.1-mini` deployment are created with Terraform, not the portal
-8. `az role assignment list --assignee <container-app-identity-principalId>` shows `Cognitive Services OpenAI User` on the OpenAI scope
-9. **Reflect** — why must the AI service call never block the photo upload? What user-experience principle does this reflect?
-
-The reanalyze endpoint is an optional refinement. With limited time, prioritize Managed Identity, a working vision call and graceful degradation.
-
-## Learning Resources
-
-- [Azure OpenAI Service overview](https://learn.microsoft.com/azure/ai-services/openai/overview)
-- [`azure-ai-openai` Java SDK](https://learn.microsoft.com/java/api/overview/azure/ai-openai-readme)
-- [Use vision-enabled chat completions](https://learn.microsoft.com/azure/ai-services/openai/how-to/gpt-with-vision)
-- [Structured outputs with JSON response format](https://learn.microsoft.com/azure/ai-services/openai/how-to/structured-outputs)
-- [`Cognitive Services OpenAI User` role](https://learn.microsoft.com/azure/ai-services/openai/how-to/role-based-access-control)
-- [`DefaultAzureCredential` — Java](https://learn.microsoft.com/azure/developer/java/sdk/identity-azure-hosted-auth)
-
-## Hints and notes
-
-<details>
-<summary><strong>Tips</strong></summary>
-
-- Check that the plan covers the feature requirements and constraints; correct any omissions before execution.
-- Check how the plan handles AI call failures. They must not block uploads.
-- AI enrichment runs at upload time. Consider how to re-analyze photos uploaded before the feature was added.
-
-</details>
-
-<details>
-<summary><strong>Pinned SDK & model versions</strong></summary>
+Pinned versions:
 
 | Component | Pinned version |
 |---|---|
@@ -100,12 +66,9 @@ The reanalyze endpoint is an optional refinement. With limited time, prioritize 
 | Azure OpenAI model | `gpt-4.1-mini` |
 | AzureRM Terraform provider | `~> 3.0` (already in use) |
 
-</details>
+## Step 2: Provision Azure OpenAI with Terraform
 
-<details>
-<summary><strong>Reference Terraform additions</strong></summary>
-
-In [`solutions/01-java/infra/main.tf`](../../../solutions/01-java/infra/main.tf):
+Create the account, deployment and role assignment in Terraform, not the portal. The reference is in [`solutions/01-java/infra/main.tf`](../../../solutions/01-java/infra/main.tf):
 
 ```hcl
 resource "azurerm_cognitive_account" "openai" {
@@ -158,18 +121,17 @@ env {
 }
 ```
 
-</details>
+Run `terraform apply`.
 
-<details>
-<summary><strong>Reference Java snippets</strong></summary>
+## Step 3: Add the Java service
 
-`src/main/java/com/photoalbum/dto/PhotoAiSuggestion.java`:
+Add the DTO in `src/main/java/com/photoalbum/dto/PhotoAiSuggestion.java`:
 
 ```java
 public record PhotoAiSuggestion(String caption, String altText, java.util.List<String> tags) {}
 ```
 
-`src/main/java/com/photoalbum/service/PhotoAiService.java`:
+Add the interface in `src/main/java/com/photoalbum/service/PhotoAiService.java`:
 
 ```java
 public interface PhotoAiService {
@@ -177,7 +139,7 @@ public interface PhotoAiService {
 }
 ```
 
-`PhotoAiServiceImpl` essentials:
+The essentials of `PhotoAiServiceImpl`:
 
 ```java
 OpenAIClient client = new OpenAIClientBuilder()
@@ -211,7 +173,16 @@ PhotoAiSuggestion s = new ObjectMapper().readValue(json, PhotoAiSuggestion.class
 return Optional.of(s);
 ```
 
-Integration in `PhotoServiceImpl.uploadPhoto` (after dimensions extraction, before `photoRepository.save`):
+Add to `application.properties`:
+
+```properties
+azure.openai.endpoint=${AZURE_OPENAI_ENDPOINT:}
+azure.openai.deployment=${AZURE_OPENAI_DEPLOYMENT:gpt-4.1-mini}
+```
+
+## Step 4: Integrate with the upload path
+
+In `PhotoServiceImpl.uploadPhoto`, call the service after dimension extraction and before `photoRepository.save`. A failure must be logged and swallowed:
 
 ```java
 try {
@@ -225,43 +196,89 @@ try {
 }
 ```
 
-`application.properties`:
+Add `caption`, `altText` and `tags` as JPA fields on the entity. Inspect the migrated model first, then add the columns with an additive change to the populated database. Keep `spring.jpa.hibernate.ddl-auto=validate`; never use `create` or `update` to add them:
 
-```properties
-azure.openai.endpoint=${AZURE_OPENAI_ENDPOINT:}
-azure.openai.deployment=${AZURE_OPENAI_DEPLOYMENT:gpt-4.1-mini}
+```sql
+ALTER TABLE photoalbum.photos ADD COLUMN IF NOT EXISTS caption varchar(255);
+ALTER TABLE photoalbum.photos ADD COLUMN IF NOT EXISTS alt_text varchar(500);
+ALTER TABLE photoalbum.photos ADD COLUMN IF NOT EXISTS tags varchar(500);
 ```
 
-</details>
+Adjust the schema, table and column names to the migrated model. The Thymeleaf getter must be `getTags()` and the field must be a real column, not `@Transient`.
 
-<details>
-<summary><strong>Common Pitfalls</strong></summary>
+## Step 5: Update the UI
 
-| Issue | Hint to give |
+- Render caption and tag badges on each gallery card.
+- Render caption, alt-text and tags in the detail page sidebar.
+- Set `<img alt>` to the AI alt-text, falling back to the original filename.
+
+## Step 6: Deploy and verify
+
+Build and test the tested migrated image with successful and failed enrichment, push it to ACR, then deploy it. Do not deploy only the pre-built reference image. Before the revision starts against migrated data, check the image tag, the database connection, the schema mapping and `SPRING_JPA_HIBERNATE_DDL_AUTO=validate`. Wait for a healthy revision and test the gallery. Budget about 15 minutes for this step.
+
+1. Upload a photo and confirm a caption, alt-text and at least 3 tags are stored (query the database or inspect the response).
+2. Inspect the `<img alt>` attribute on the detail page.
+3. Confirm the role assignment:
+
+```bash
+az role assignment list --assignee <container-app-identity-principalId>
+```
+
+The output must show `Cognitive Services OpenAI User` on the OpenAI scope.
+
+4. Disable the Azure OpenAI account, or remove the role assignment, and upload a photo. The upload must still succeed with the AI fields empty, and the app must log a warning.
+
+> **Note:** The synchronous AI call adds upload latency. Async or background processing is a future improvement, not part of this module.
+
+## Checkpoint
+
+Before moving on, confirm:
+
+- [ ] The additive schema change ran on the populated database, and `ddl-auto` is still `validate`
+- [ ] The deployed revision is healthy, uses the tested migrated image, and the gallery still shows the migrated photos
+- [ ] An Azure OpenAI resource and a vision-capable deployment exist, and the Container App identity has the role to use it
+- [ ] The Container App has the OpenAI endpoint and deployment name, and no API key (verify in the Azure Portal)
+- [ ] Uploading a photo persists a non-null caption, alt-text and at least 3 tags
+- [ ] The gallery page shows caption and tag badges on each card
+- [ ] The detail page shows caption, alt-text and tags, and `<img alt>` holds the AI alt-text
+- [ ] With the account disabled or the role removed, uploads still work and the app logs a warning
+- [ ] The Azure OpenAI account and `gpt-4.1-mini` deployment come from Terraform
+- [ ] `az role assignment list --assignee <principalId>` shows `Cognitive Services OpenAI User` on the OpenAI scope
+
+## Reflect
+
+- Why must the AI service call never block the photo upload?
+- Which user-experience principle does this reflect?
+
+## What You Learned
+
+- Provision Azure OpenAI and its RBAC with Terraform
+- Call a vision model from Java with Managed Identity and a JSON response format
+- Degrade gracefully when an AI dependency fails
+
+## Key Takeaway
+
+> An AI feature enhances the upload; it must never be able to break it.
+
+## Learn more
+
+- [Azure OpenAI Service overview](https://learn.microsoft.com/azure/ai-services/openai/overview)
+- [`azure-ai-openai` Java SDK](https://learn.microsoft.com/java/api/overview/azure/ai-openai-readme)
+- [Use vision-enabled chat completions](https://learn.microsoft.com/azure/ai-services/openai/how-to/gpt-with-vision)
+- [Structured outputs with JSON response format](https://learn.microsoft.com/azure/ai-services/openai/how-to/structured-outputs)
+- [`Cognitive Services OpenAI User` role](https://learn.microsoft.com/azure/ai-services/openai/how-to/role-based-access-control)
+- [`DefaultAzureCredential` — Java](https://learn.microsoft.com/azure/developer/java/sdk/identity-azure-hosted-auth)
+
+## Troubleshooting
+
+| Symptom | Fix |
 |---|---|
-| `401 Unauthorized` from Azure OpenAI right after `terraform apply` | RBAC propagation takes 1–2 minutes. Retry instead of debugging. |
-| `403 Forbidden` even after waiting | Role was assigned to the wrong principal. Confirm `principal_id = azurerm_container_app.photoalbum.identity[0].principal_id`. |
-| Jackson throws `JsonParseException` because the response has prose around the JSON | Missing `setResponseFormat(new ChatCompletionsJsonResponseFormat())`. Also: the system prompt must mention "JSON". |
-| `BadRequest: 'messages[1].content' value is invalid` | The `ChatRequestUserMessage` constructor for multi-part content expects `List<ChatMessageContentItem>`, not a `String`. Different constructor. |
-| `DefaultAzureCredential` works locally but fails in the Container App | `identity { type = "SystemAssigned" }` missing on the Container App, or the new revision was never deployed after Terraform changes. |
-| `gpt-4.1-mini` quota is 0 in this region | Switch region in `variables.tf` (Sweden Central / East US 2) or request quota in the portal. Use a different subscription if available.|
-| Hibernate doesn't add the new columns | Confirm `spring.jpa.hibernate.ddl-auto=update` (or `create`) in `application.properties` and the app was restarted. |
-| Thymeleaf error `EL1008E` on `${photo.tags}` | The getter must be `getTags()` and the field must be a real JPA column — not `@Transient`. |
-| Upload latency increases after adding AI | The synchronous AI call adds latency. Discuss async/background processing as a future improvement, not required lab work. |
-| `MalformedJsonException` reading `caption` field | Model occasionally returns `null` for fields. Make sure the DTO uses object (`String`) types, not primitives, and that `setCaption(null)` is acceptable. |
-
-</details>
-
-<details>
-<summary><strong>Time budget</strong></summary>
-
-60–90 minutes:
-
-- 15 min: Terraform additions + `terraform apply`.
-- 25 min: `azure-ai-openai` integration (DTO + service + integration in `PhotoServiceImpl`).
-- 15 min: entity + repository (`ddl-auto=update` does the schema work).
-- 20 min: Thymeleaf template updates.
-- 15 min: build new image, push to ACR, deploy new revision, verify end-to-end.
-
-</details>
-
+| `401 Unauthorized` from Azure OpenAI right after `terraform apply` | RBAC propagation takes 1-2 minutes. Retry instead of debugging. |
+| `403 Forbidden` even after waiting | The role went to the wrong principal. Confirm `principal_id = azurerm_container_app.photoalbum.identity[0].principal_id`. |
+| Jackson throws `JsonParseException` because the response has prose around the JSON | `setResponseFormat(new ChatCompletionsJsonResponseFormat())` is missing. The system prompt must also mention "JSON". |
+| `BadRequest: 'messages[1].content' value is invalid` | Multi-part content needs the `ChatRequestUserMessage` constructor that takes a `List<ChatMessageContentItem>`, not a `String`. |
+| `DefaultAzureCredential` works locally but fails in the Container App | `identity { type = "SystemAssigned" }` is missing on the Container App, or the new revision was never deployed after the Terraform changes. |
+| `gpt-4.1-mini` quota is 0 in this region | Switch the region in `variables.tf` (Sweden Central or East US 2), request quota in the portal, or use a different subscription. |
+| Startup fails with a missing-column validation error | Run the additive `ALTER TABLE ... ADD COLUMN IF NOT EXISTS` statements against the right schema. Never switch to `create` on populated data. |
+| Thymeleaf error `EL1008E` on `${photo.tags}` | The getter must be `getTags()` and the field must be a real JPA column, not `@Transient`. |
+| `MalformedJsonException` reading `caption` | The model sometimes returns `null` fields. Use object (`String`) types in the DTO, not primitives, and accept `setCaption(null)`. |

@@ -8,23 +8,20 @@ tags:
 highlight: false
 ---
 
-# Challenge 05: Review the App and Implement Missing Behavior
+# Module 05: Review the App and Implement Missing Behavior
 
-**Estimated Time:** 60 minutes
+> **Duration:** ~60 minutes | **Phase:** Build
 
-## Introduction
+## Objective
 
-Review the code and running application against the specification, then implement
-what is missing.
+Review the code and running application against the specification, then implement what is missing.
 
 ## Prerequisites
 
-- Challenge 04 has an implemented application and recorded test results.
+- Module 04 has an implemented application and recorded test results.
 - The reviewed package, implementation diff, and review tools or human reviewers.
 
-## Description
-
-### Review the implementation
+## Step 1: Review the implementation
 
 In Copilot CLI, run:
 
@@ -36,14 +33,13 @@ plus uncommitted changes, not just the last edit. Identify required workflows
 that are missing entirely, not only defects in changed files.
 ```
 
-If `/review` is unavailable in VS Code, use code review and a separate read-only
-conversation with the same prompt.
+If `/review` is unavailable in VS Code, use code review and a separate read-only conversation with the same prompt. Framework reviews do not replace this review.
 
-Run the app and exercise every required workflow with sanitized fixtures,
-including relevant permission and failure paths. Record pass/fail/blocked
-results against the acceptance IDs and add failures to the review findings.
+## Step 2: Exercise every workflow
 
-### Implement the findings
+Run the app and exercise every required workflow with sanitized fixtures, including relevant permission and failure paths. Record pass, fail or blocked results against the acceptance IDs and add failures to the review findings.
+
+## Step 3: Implement the findings
 
 Check the findings, then send:
 
@@ -56,28 +52,40 @@ evidence and framework tickets/tasks. Report fixed, unresolved, and blocked
 items separately. Do not add new features, deploy, or migrate production data.
 ```
 
-Run `/review` on the fixes and recheck acceptance. Resolve missing in-scope
-behavior before frontend refinement in 06 and security review in 07.
+## Step 4: Review the fixes
 
-## Success Criteria
+Run `/review` on the fixes and recheck acceptance. Resolve missing in-scope behavior before frontend refinement in Module 06 and security review in Module 07.
 
-- [ ] Every in-scope acceptance ID has actual pass/fail/blocked results.
+## Checkpoint
+
+Before moving on, confirm:
+
+- [ ] Every in-scope acceptance ID has actual pass, fail or blocked results.
 - [ ] The review records its scope, reviewer, findings, and outcomes.
 - [ ] Missing behavior is implemented, tested, and reviewed.
 - [ ] Remaining risks or unavailable checks have owners; deployment is still pending.
 
-## Learning Resources
+## What You Learned
+
+- Review a complete rebuild, including workflows missing entirely.
+- Keep an acceptance ledger of pass, fail and blocked results.
+- Fix findings with regression tests that fail without the fix.
+
+## Key Takeaway
+
+> Review the whole rebuilt app against the specification, not just the last edit.
+
+## Learn more
 
 - [Copilot CLI reference](https://docs.github.com/en/copilot/reference/cli-command-reference)
 - [Operational excellence checklist](https://learn.microsoft.com/azure/well-architected/operational-excellence/checklist)
 
-## Hints and notes
+## Troubleshooting
 
-<details>
-<summary><strong>Notes: pacing</strong></summary>
+| Symptom | Fix |
+|---|---|
+| `/review` only covers the last edit | Name the base and current revisions in the prompt and include uncommitted changes. |
+| `/review` is unavailable in VS Code | Use code review and a separate read-only conversation with the same prompt. |
+| A required workflow is missing entirely | Add it to the findings and implement it in Step 3. |
 
-Run `/review` and the completeness prompt against the complete app, including
-committed changes. Exercise every required workflow against the specification, fix
-omissions, rerun checks, and review fixes. Framework reviews do not replace this.
-
-</details>
+**Next:** [Module 06: Refine the frontend with Impeccable](06-refine-the-frontend.md)

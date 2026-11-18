@@ -9,30 +9,24 @@ tags:
 highlight: false
 ---
 
-# Challenge 08: Run and Deploy the App to Azure
+# Module 08: Run and Deploy the App to Azure
 
-**Estimated Time:** 60 minutes
+> **Duration:** ~60 minutes | **Phase:** Deliver
 
-## Introduction
+## Objective
 
-Deploy with the provided Azure infrastructure, then test the application at its
-Azure endpoint.
+Deploy with the provided Azure infrastructure, then test the application at its Azure endpoint.
 
 ## Prerequisites
 
-- Challenge 07 complete with no deployment-blocking findings.
+- Module 07 complete with no deployment-blocking findings.
 - The documented local build/run/test commands and sanitized fixtures.
-- Provided Azure infrastructure and runbook, including parameters,
-  outputs, deployment, recovery, and cleanup instructions.
+- Provided Azure infrastructure and runbook, including parameters, outputs, deployment, recovery, and cleanup instructions.
 - Access to the agreed non-production subscription, resource group, and region.
 
-## Description
+## Step 1: Run locally and check the infrastructure contract
 
-### Run locally and check the infrastructure contract
-
-Use provided infrastructure for the selected target, not the Java/.NET
-sample Terraform by default. There is no universal rebuild module in this repo.
-Missing infrastructure blocks this activity.
+Use provided infrastructure for the selected target, not the Java/.NET sample Terraform by default. There is no universal rebuild module in this repo. Missing infrastructure blocks this module.
 
 Run this readiness check before authorizing deployment:
 
@@ -47,7 +41,7 @@ health probes, identities, and dependency endpoints with the infrastructure.
 Report actual results and blocking mismatches. Do not deploy or provision yet.
 ```
 
-### Deploy to Azure
+## Step 2: Deploy to Azure
 
 Resolve readiness blockers, then review the commands and authorize deployment:
 
@@ -65,42 +59,45 @@ Return the deployed revision, URL, pass/fail/blocked evidence, recovery limits,
 remaining costs/work, and operations/cleanup owners.
 ```
 
-## Success Criteria
+## Step 3: Verify and hand off
+
+Require a working Azure endpoint, persistence and integrations, telemetry, and recovery checks. A discussion alone is not a completed deployment. Check all required workflows, not just one successful demo.
+
+Explain how recovery handles writes accepted only by the new system. Finish with the demo, results, remaining work, and operations and cleanup owners.
+
+## Checkpoint
+
+Before moving on, confirm:
 
 - [ ] The complete app builds, tests, and runs locally.
 - [ ] Infrastructure matches the target, app configuration, and identity needs.
-- [ ] The Azure deployment succeeds; all required workflows, persistence/integrations, and runbook-defined health/telemetry checks pass for the recorded revision.
+- [ ] The Azure deployment succeeds; all required workflows, persistence and integrations, and runbook-defined health and telemetry checks pass for the recorded revision.
 - [ ] The handoff covers recovery limits, remaining work, costs, operations, and cleanup ownership.
 
-## Learning Resources
+## Reflect
+
+- Can you run a safe non-production failure and recovery rehearsal and justify the decision with telemetry, not just the healthy path? This is optional.
+
+## What You Learned
+
+- Check an app against an infrastructure contract before deploying.
+- Deploy to an authorized non-production scope with reviewed commands.
+- Verify the Azure endpoint with acceptance, health and telemetry evidence.
+
+## Key Takeaway
+
+> A deployment is complete when the Azure endpoint passes every required workflow, not when the commands finish.
+
+## Learn more
 
 - [Safe deployment practices](https://learn.microsoft.com/azure/well-architected/operational-excellence/safe-deployments)
 - [Disaster recovery strategy](https://learn.microsoft.com/azure/well-architected/reliability/disaster-recovery)
 
-## Advanced Challenge (Optional)
+## Troubleshooting
 
-Run a safe non-production failure/recovery rehearsal and demonstrate the
-decision using telemetry, not just the healthy path.
+| Symptom | Fix |
+|---|---|
+| Infrastructure does not match the chosen target | Resolve the infrastructure contract. Do not switch platforms or claim deployment. |
+| No telemetry or health signal | Report the missing signal rather than claiming success. |
+| Recovery plan ignores new writes | Explain how writes accepted only by the new system are handled. |
 
-## Hints and notes
-
-<details>
-<summary><strong>Hints</strong></summary>
-
-<details><summary>Hint 1: Check writes during recovery</summary>
-Explain how recovery handles writes accepted only by the new system.
-</details>
-
-</details>
-
-<details>
-<summary><strong>Notes: pacing</strong></summary>
-
-Check local execution and infrastructure compatibility, then use the deployment
-prompt to authorize the agreed non-production scope. Require a working Azure
-endpoint, persistence/integrations, telemetry, and recovery checks.
-A discussion alone is not a completed deployment. Check all required workflows,
-not just one successful demo. Ask how recovery handles writes accepted only by
-the new system. Finish with the demo, results, remaining work, and operations and cleanup owners.
-
-</details>

@@ -1,6 +1,6 @@
 # Rebuild route: setup and usage
 
-[Home](../../README.md) | [Challenge 00](challenges/00-prepare-your-application.md) |
+[Home](../../README.md) | [Module 00](challenges/00-prepare-your-application.md) |
 [Supporting skills](supporting-skills.md)
 
 **Work in your application repository**, not this tooling repo.
@@ -70,7 +70,7 @@ diagram skill. Verify availability with `/skills` and `/mcp` in CLI, or
 ## Start architecture-first planning
 
 Select `azure-app-modernization` using the name shown by your host and send the
-[Challenge 01 prompt](challenges/01-discovery-and-planning.md). Stay in one conversation through questions,
+[Module 01 prompt](challenges/01-discovery-and-planning.md). Stay in one conversation through questions,
 baseline confirmation, target selection, and package completion.
 
 The workflow produces nine artifacts under `docs/modernization/`: `assessment.md`,
@@ -88,7 +88,7 @@ Note missing pricing or diagram reviews and who will complete them.
 
 ## Sessions and implementation choices
 
-| Challenge | Action |
+| Module | Action |
 | --- | --- |
 | [01](challenges/01-discovery-and-planning.md) | Run the provided discovery skill for functional specs, architecture, costs, diagrams, and migration planning |
 | [02](challenges/02-review-the-package.md) | Analyze the package and request targeted corrections |
@@ -107,7 +107,7 @@ Choose one; do not stack their orchestrators.
 
 Ready when `azure-app-rebuild` is discoverable, the reviewed package is available,
 and the build/test baseline works. Use the
-[Challenge 04 prompt](challenges/04-rebuild-the-app.md#a-direct-implementation-from-the-documents)
+[Module 04 prompt](challenges/04-rebuild-the-app.md#step-2-a-direct-implementation-from-the-documents)
 to request complete-app scope with incremental implementation. No ticket
 framework or upstream `implement` skill is needed; this path does not commit
 automatically.
@@ -115,7 +115,7 @@ automatically.
 ### Matt Pocock workflow
 
 Ready when the four skills in the [Matt profile](supporting-skills.md#matt-pocock-workflow)
-are discoverable. Use the Challenge 03 prompts to prepare local specs and tickets,
+are discoverable. Use the Module 03 prompts to prepare local specs and tickets,
 then `/implement-spec` in 04. Local Markdown tracking stores specs
 at `.scratch/<feature>/spec.md` and tickets under `.scratch/<feature>/issues/`.
 
@@ -143,7 +143,7 @@ git diff --stat
 
 Inspect the full diff. Skip initialization if already configured.
 Ready when initialization is reviewed and the Spec Kit commands are discoverable.
-Use Challenge 03 to prepare the complete-app feature; Challenge 04 implements it.
+Use Module 03 to prepare the complete-app feature; Module 04 implements it.
 
 Copilot skills use names such as `/speckit-specify` and `/speckit-plan`.
 If your host shows dotted names such as `/speckit.specify`, use that equivalent.

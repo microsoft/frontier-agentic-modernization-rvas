@@ -9,79 +9,98 @@ tags:
 highlight: false
 ---
 
-# Challenge 01 — Assess the Legacy .NET Application
+# Module 01: Assess the legacy .NET application
 
-## Purpose
+> **Duration:** ~30 minutes | **Phase:** Assess
 
-Run `modernize assess` to identify the .NET application's migration needs before editing code. Use the review to set the direction for Challenge 02.
+## Objective
 
-## Introduction
+Run the GitHub Copilot Modernization assessment on ContosoUniversity and read the report critically. Use its findings to set the direction for [Module 02](02-modernize-the-app.md).
 
-Assess the application before changing code to identify deprecated APIs, incompatible dependencies, and cloud-readiness gaps.
+Assessing before editing code surfaces deprecated APIs, incompatible dependencies and cloud-readiness gaps. The report comes from the CLI or the VS Code panel, and later modules build on it.
 
-The GitHub Copilot Modernization tool produces an assessment report from either the CLI or the VS Code panel. Review its findings critically; you will use the report in every subsequent challenge.
+## Prerequisites
 
-## Description
+- [Module 00](00-prerequisites.md) complete: `modernize` CLI (or the VS Code extension) installed and authenticated
 
-Run the GitHub Copilot Modernization assessment on the .NET sample application located under `labs/02-dotnet/resources/dotnet-migration-copilot-samples/ContosoUniversity`. Use the tool's documentation or the VS Code extension to discover how to trigger an assessment.
+## Step 1: Run the assessment
 
-Review the generated assessment report and reflect on:
+From the sample application folder, run the assessment:
 
-- How many total issues were found, and how are they distributed across the mandatory, potential, and optional categories?
+```powershell
+Set-Location labs\02-dotnet\resources\dotnet-migration-copilot-samples\ContosoUniversity
+modernize assess --source .
+```
+
+Alternatively, use **Recommended Assessment** in the VS Code extension.
+
+> **Note:** The terminal and the VS Code panel produce the same report. Pick whichever suits your workflow.
+
+## Step 2: Review the report
+
+Answer these questions from the generated report:
+
+- How many total issues were found, and how are they distributed across the mandatory, potential and optional categories?
 - Which dependencies or APIs are flagged as unsupported or deprecated?
-- What cloud-readiness issues are identified (e.g., local file system usage, MSMQ)?
-- Based on the upgrade issues found, what should the migration target be (runtime version, framework version)?
-- Are there any breaking changes the tool cannot automatically fix?
+- What cloud-readiness issues are identified (for example local file system usage, MSMQ)?
+- Based on the upgrade issues, what should the migration target be (runtime version, framework version)?
+- Are there breaking changes the tool cannot automatically fix?
 
-## Success Criteria
+## Step 3: Compare with the expected findings
 
-To complete this challenge, demonstrate:
+The assessment should surface these issues:
 
-1. An assessment report exists for the ContosoUniversity (.NET) application
-2. Explain the **top mandatory blockers** for the application (dependencies, APIs, or patterns that require manual attention)
-3. Identify which modernization steps the tool can automate vs. which require manual intervention
-4. **Reflect** — what is the difference between a **mandatory blocker** and a **potential issue** in the assessment report? Which category would block you from proceeding with the migration?
+- **`System.Messaging` (MSMQ):** not supported in .NET Core/5+. Mandatory blocker.
+- **`System.Web`:** the entire ASP.NET legacy stack. All controllers, filters and `HttpContext` must be migrated.
+- **`packages.config` / legacy `.csproj`:** convert to an SDK-style project.
+- **`Global.asax`:** migrate to the `Program.cs` host builder.
+- **Local file system (`Uploads/TeachingMaterials`):** a cloud-readiness concern for containerized deployment.
+- **`Web.config`:** convert to `appsettings.json`.
 
-The report format can differ between the CLI and the VS Code extension; either is fine. The top blockers are subjective, so any reasonable answer counts.
+Then sort the work:
 
-If the assessment does not surface MSMQ or `System.Web`, re-run it from the `ContosoUniversity` root. If they are still missing, or the AppCat pre-assessment fails to install, see [Troubleshooting → .NET assessment issues](../../TROUBLESHOOTING.md#2-appcat-install-blocked-by-nuget-policy). It is often a NuGet network-policy block, not a tool bug.
+1. **Automatable:** project file format, some dependency updates, `Web.config` conversion.
+2. **Manual:** MSMQ to Service Bus logic, Razor view migration, `Global.asax` to `Program.cs`.
+3. **Priority:** blockers first (MSMQ, `System.Web`), then quality improvements.
 
-## Learning Resources
+This is a framework migration, not a version bump. The plan must also preserve the SQL schema and existing records. The sample already uses EF Core 3.1, not EF6. Open the report, then inspect the code for patterns it misses.
+
+> **Note:** The report format can differ between the CLI and the VS Code extension. Either is fine, and any reasonable ranking of top blockers counts.
+
+## Checkpoint
+
+Before moving on, confirm:
+
+- [ ] `modernize assess --source .` (or the extension) produced a report for the ContosoUniversity application
+- [ ] You can name the top mandatory blockers (dependencies, APIs or patterns that need manual attention)
+- [ ] You can say which modernization steps the tool automates and which need manual work
+
+## Reflect
+
+- What is the difference between a mandatory blocker and a potential issue in the report?
+- Which category blocks the migration?
+- What surprised you? The scope of `System.Web` is often underestimated.
+
+## What You Learned
+
+- Run a Copilot Modernization assessment from the CLI or VS Code
+- Separate mandatory blockers from potential and optional issues
+- Split migration work into automatable and manual parts
+
+## Key Takeaway
+
+> Assess first: the report tells you which blockers need manual work before any code changes.
+
+## Learn more
 
 - [Modernization assessment overview](https://learn.microsoft.com/en-us/azure/developer/github-copilot-app-modernization/modernization-agent/overview)
 - [.NET upgrade compatibility — dotnet-appcat](https://learn.microsoft.com/dotnet/core/porting/upgrade-assistant-overview)
 
-## Hints and notes
+## Troubleshooting
 
-<details>
-<summary><strong>Tips</strong></summary>
+| Symptom | Fix |
+|---|---|
+| The assessment does not surface MSMQ or `System.Web` | Re-run `modernize assess --source .` from the `ContosoUniversity` root. |
+| MSMQ or `System.Web` are still missing, or the AppCat pre-assessment fails to install | Often a NuGet network-policy block, not a tool bug. See [Troubleshooting → .NET assessment issues](../../TROUBLESHOOTING.md#2-appcat-install-blocked-by-nuget-policy). |
 
-- Try the terminal and VS Code extension panel. They produce the same report but may suit different workflows.
-
-</details>
-
-<details>
-<summary><strong>Expected Assessment Findings – .NET (ContosoUniversity)</strong></summary>
-
-Key issues the assessment should surface:
-- **`System.Messaging` (MSMQ):** Not supported in .NET Core/5+ — mandatory blocker
-- **`System.Web`:** The entire ASP.NET legacy stack — all controllers, filters, `HttpContext` must be migrated
-- **`packages.config` / legacy `.csproj`:** Must be converted to SDK-style project
-- **`Global.asax`:** Must be migrated to `Program.cs` host builder
-- **Local file system (`Uploads/TeachingMaterials`):** Cloud readiness concern for containerized deployment
-- **`Web.config`:** Must be converted to `appsettings.json`
-
-</details>
-
-<details>
-<summary><strong>Reflection Guide</strong></summary>
-
-After you review the report, take 10 minutes to reflect:
-
-1. **What surprised you?** — You often underestimate the `System.Web` scope
-2. **What can be automated?** — Project file format, some dependency updates, `Web.config` conversion
-3. **What needs manual work?** — MSMQ → Service Bus logic, Razor view migration, `Global.asax` → `Program.cs`
-4. **How would you prioritise?** — Blockers first (MSMQ, `System.Web`), then quality improvements
-
-</details>
-
+**Next:** [Module 02: Modernize the .NET application](02-modernize-the-app.md)

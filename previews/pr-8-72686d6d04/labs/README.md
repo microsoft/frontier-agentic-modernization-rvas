@@ -6,7 +6,7 @@
 
 Work through the labs on your own, at your own pace. Choose **Replatform & refactor** for
 compatibility-first CLI work, or **Rearchitect & rebuild** for application
-architecture and business challenges. Do not route solely by language.
+architecture and business-workflow changes. Do not route solely by language.
 
 The [rebuild pacing and troubleshooting guide](04-rebuild/pacing-and-troubleshooting.md) and
 [self-check](04-rebuild/self-check.md) cover the separate plugin route.
@@ -26,25 +26,10 @@ Demo guides: [Java](../demo/java/guide.md) and [.NET / ContosoUniversity](../dem
 
 ---
 
-## Notes Index
+## Troubleshooting
 
-Each challenge has a **Hints and notes** section with pitfalls and background.
-
-See the [Troubleshooting Guide](./TROUBLESHOOTING.md) for Terraform
-feature-registration errors and NuGet/AppCat network-policy blocks.
-Each `Solution-*.md` below links to it.
-
-### .NET Track
-
-Notes are merged into each challenge of the [.NET lab](./02-dotnet/README.md), inside **Hints and notes**.
-
-### Java Track
-
-Notes are merged into each challenge of the [Java lab](./01-java/README.md), inside **Hints and notes**.
-
-### .NET 8 Track (eShopOnWeb)
-
-Notes are merged into each challenge of the [.NET 8 lab](./03-net8/README.md), inside **Hints and notes**.
+Every module ends with a **Troubleshooting** table. The [Troubleshooting Guide](./TROUBLESHOOTING.md)
+covers Terraform feature-registration errors and NuGet/AppCat network-policy blocks.
 
 ---
 
@@ -58,7 +43,7 @@ Notes are merged into each challenge of the [.NET 8 lab](./03-net8/README.md), i
 | **Azure SQL / PostgreSQL** | Basic or Burstable SKU sufficient for the lab |
 | **Azure Service Bus** | Standard tier (required for topics; Basic does not support them) |
 | **Azure Blob Storage** | Standard LRS |
-| **Azure OpenAI** *(Challenge 06)* | `gpt-4.1-mini` deployment; must be requested in advance if quota is not pre-allocated |
+| **Azure OpenAI** *(Module 06)* | `gpt-4.1-mini` deployment; must be requested in advance if quota is not pre-allocated |
 
 Resource providers to verify are registered before you start:
 
@@ -75,29 +60,29 @@ done
 
 ## Suggested Pacing
 
-| Challenge | Suggested time |
-|---|---|
-| 00 Prerequisites | 30 min |
-| 01 Assessment | 30 min |
-| 02 Modernize | 2–3 hours |
-| 03 Deploy to Azure | 45 min – 1 hour |
-| 04 Migrate the database | 45 min |
-| 05 Observe & secure | 30 min |
-| 06 Infuse AI *(stretch, optional)* | 30 min |
+| Module | Java | .NET | .NET 8 |
+|---|---|---|---|
+| 00 Prerequisites | 30 min | 30 min | 30 min |
+| 01 Assessment | 30 min | 30 min | 30 min |
+| 02 Modernize | 150 min | 150 min | 150 min |
+| 03 Deploy to Azure | 60 min | 50 min | 60 min |
+| 04 Migrate the database | 60 min | 90 min | 30 min |
+| 05 Observe & secure | 40 min | 40 min | 40 min |
+| 06 Infuse AI *(stretch, optional)* | 75 min | 90 min | 60 min |
 
-The AI challenge (06) is optional. If you lack Azure OpenAI quota, read the
-challenge and think through the architecture instead.
+The AI module (06) is optional. If you lack Azure OpenAI quota, read the
+module and think through the architecture instead.
 
 Tips:
 
 - Read the assessment report before editing code, and ask Copilot guiding questions
   rather than asking for the answer.
 - The `modernize` VS Code extension and the CLI produce equivalent results; use either.
-- Timebox each challenge and move on when the success criteria are met.
+- Timebox each module and move on when the success criteria are met.
 
 ---
 
-## Common Issues Across All Challenges
+## Common Issues Across All Modules
 
 | Issue | Resolution |
 |---|---|
@@ -131,7 +116,7 @@ ls labs/03-net8/resources/eShopOnWeb/
 If the Dev Container is not working, you can install tools directly on their host
 machine following the Prerequisites section of the [main README](../README.md).
 
-For the optional VM deployment in Challenge 00, the Terraform scripts are in:
+For the optional VM deployment in Module 00, the Terraform scripts are in:
 - `.NET:` `labs/02-dotnet/resources/infra/`
 - `Java:` `labs/01-java/resources/infra/`
 - `.NET 8:` `labs/03-net8/resources/infra/`
@@ -150,7 +135,7 @@ az group list --query "[?contains(name, 'rg-')].name" -o table
 az group delete --name <YOUR_RESOURCE_GROUP> --no-wait --yes
 ```
 
-For Azure OpenAI deployments (Challenge 06), also delete the Cognitive Services account:
+For Azure OpenAI deployments (Module 06), also delete the Cognitive Services account:
 
 ```bash
 az cognitiveservices account delete \

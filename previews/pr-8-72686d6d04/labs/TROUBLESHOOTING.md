@@ -3,13 +3,13 @@
 # Troubleshooting Guide
 
 Use this page for cross-track issues and detailed fixes. Track-specific pitfalls
-are in each challenge's notes.
+are in each module's notes.
 
 ---
 
 ## 1. Terraform `apply` fails — `SubscriptionNotRegisteredForFeature` (Azure VM deploy)
 
-**Symptom** (Challenge 00, optional VM deployment, any track):
+**Symptom** (Module 00, optional VM deployment, any track):
 
 ```
 Error: updating Public IP Address (Subscription: "<sub-id>" | Resource Group Name: "wth-photoalbum-vm-rg"
@@ -50,14 +50,14 @@ az provider register --namespace Microsoft.Network
 terraform apply
 ```
 
-**Workaround:** Skip the optional VM deployment in Challenge 00 if registration would
+**Workaround:** Skip the optional VM deployment in Module 00 if registration would
 block progress. The core modernization track does not require it. Retry after registration.
 
 ---
 
 ## 2. AppCat install blocked by NuGet policy
 
-**Symptom** (Challenge 01, .NET track):
+**Symptom** (Module 01, .NET track):
 
 - Installing the AppCat (`.NET Upgrade Assistant` / App Modernization) tool fails with:
 
@@ -88,7 +88,7 @@ this is a device/network policy difference, not a bug in `modernize` or AppCat i
 
 ---
 
-## Common Issues Across All Challenges
+## Common Issues Across All Modules
 
 | Issue | Resolution |
 |---|---|

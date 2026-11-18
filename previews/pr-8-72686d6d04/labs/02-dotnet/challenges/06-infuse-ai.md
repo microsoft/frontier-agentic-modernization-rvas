@@ -9,92 +9,85 @@ tags:
 highlight: false
 ---
 
-# Challenge 06 — Infuse AI into ContosoUniversity (Stretch)
+# Module 06: Infuse AI into ContosoUniversity
 
-## Purpose
+> **Duration:** ~90 minutes | **Phase:** Stretch
 
-Attempt this optional challenge only after completing Challenge 05 with time to spare. Add an Azure OpenAI vision call to the modernized course-authoring flow. The work covers Terraform (Azure OpenAI account, model deployment, and RBAC), .NET service code (`Azure.AI.OpenAI`, `DefaultAzureCredential`, structured JSON), Razor updates, and verification in Azure.
+## Objective
 
-A working reference implementation lives under `solutions/02-dotnet/dotnet-migration-copilot-samples/ContosoUniversity/` and `solutions/02-dotnet/infra/`. Use it to diff against your work, not as a hand-out.
+Add an Azure OpenAI vision call to the modernized course-authoring flow. This stretch module is optional: do it after [Module 05](05-observe-and-secure.md) if you have time. Without Azure OpenAI quota, read the module and think through the architecture instead.
 
-## Introduction
+The work covers Terraform (Azure OpenAI account, model deployment, RBAC), .NET service code (`Azure.AI.OpenAI`, `DefaultAzureCredential`, structured JSON), Razor updates and verification in Azure.
 
-The modernized ContosoUniversity runs on .NET 10 with Azure SQL, Service Bus, and Blob Storage. Add **Azure OpenAI** to help admins write course content.
+A reference implementation lives under `solutions/02-dotnet/dotnet-migration-copilot-samples/ContosoUniversity/` and `solutions/02-dotnet/infra/`. Diff against it after your own work; do not copy it.
 
-When an admin uploads a *teaching-material image* on the Course Create/Edit pages, the application will call **Azure OpenAI (gpt-4.1-mini, vision)** and receive structured suggestions:
+## The problem
+
+The modernized ContosoUniversity runs on .NET 10 with Azure SQL, Service Bus and Blob Storage. Add **Azure OpenAI** to help admins write course content.
+
+When an admin uploads a teaching-material image on the Course Create/Edit pages, the app calls **Azure OpenAI (gpt-4.1-mini, vision)** and receives structured suggestions:
 
 - A short **course description** based on the image.
 - A list of **learning objectives**.
-- An accessible **`alt` text** that will be rendered on the Course Details page.
+- An accessible **`alt` text** rendered on the Course Details page.
 
-Authentication to Azure OpenAI uses **Managed Identity** — no API keys anywhere in code, config, or environment variables.
+Authentication to Azure OpenAI uses **Managed Identity**. No API keys appear in code, config or environment variables.
 
-## Description
+## Prerequisites
 
-Ask **GitHub Copilot** to plan and implement AI-assisted course content across ContosoUniversity.
+- [Module 05](05-observe-and-secure.md) complete
+- Azure OpenAI quota for `gpt-4.1-mini`
 
-Start with a prompt such as:
+## Step 1: Ask Copilot for a plan
+
+Ask GitHub Copilot to plan the feature. Start with this prompt:
 
 ```text
-Infuse Azure OpenAI vision into the ContosoUniversity ASP.NET Core app. Inspect the
-workspace and produce an implementation plan.
+Add Azure OpenAI vision enrichment to the modernized ContosoUniversity course
+Create/Edit flow when a teaching-material image is uploaded.
 
-Feature: when an admin uploads a teaching-material image on the Course Create/Edit
-pages, the application calls Azure OpenAI gpt-4.1-mini (vision) and receives:
-- A short course description based on the image.
-- A list of learning objectives.
-- An accessible alt text rendered on the Course Details page.
+Use AzureOpenAI:Endpoint and AzureOpenAI:Deployment with DefaultAzureCredential
+and the existing user-assigned managed identity. No API keys or hardcoded endpoints.
 
-The admin can review, accept, or regenerate the AI suggestions before saving.
+Generate a description under 300 characters, 3-6 learning objectives, and alt text
+under 200 characters. Parse and validate JSON. Fill only blank fields and preserve
+user-authored text. Save Description, LearningObjectives and AltText on Course and
+display them on Details/Edit; use AltText for the image.
 
-Hard requirements:
-1. Authenticate with Managed Identity — no API keys anywhere.
-2. No hard-coded values in code, config files, or environment variables.
-3. The AI call must not be critical: a failure must never block saving the course.
+Include a non-destructive schema update for the already-populated Azure SQL
+database. EnsureCreated does not update existing tables.
+
+Bound the AI request duration, log failures, and allow saving the course/image
+when AI is unavailable. Build and test successful and failed enrichment.
 ```
 
-Review the Azure OpenAI resource, role assignment, Container App configuration,
-service layer, model, and UI changes with a colleague. Then ask Copilot to execute
-the reviewed plan.
+The prompt targets the Container App's existing user-assigned managed identity. Add the review, accept and regenerate panel only if time allows.
 
-## Success Criteria
+## Step 2: Review the plan
 
-To complete this challenge, demonstrate:
+Check the Azure OpenAI resource, role assignment, Container App configuration, service layer, model and UI changes, ideally with a colleague.
 
-1. An Azure OpenAI resource and a vision-capable model deployment are provisioned, and the Container App's managed identity has been granted the appropriate role to use it
-2. The Container App is configured with the OpenAI endpoint and deployment name — and contains **no** API key anywhere (verify in the Azure Portal)
-3. Uploading a teaching-material image on **Create** or **Edit** triggers a successful chat-completion call (visible in Azure OpenAI metrics or App Insights dependency tracking)
-4. The Review AI suggestions panel renders a course description, a learning-objectives list, and an alt text. The admin can accept (data is persisted) or regenerate
-5. The Course Details page renders the persisted alt text in the `<img alt>` attribute
-6. If the Azure OpenAI endpoint is temporarily unreachable, the upload still succeeds and the Course is saved without AI fields (graceful degradation)
-7. The Azure OpenAI account and `gpt-4.1-mini` deployment are created with Terraform, not the portal
-8. `az role assignment list --assignee <container-app-identity-principalId>` shows `Cognitive Services OpenAI User` on the OpenAI scope
-9. **Reflect** — why must the AI service call never block saving the course? What user-experience principle does this reflect?
-
-The Regenerate button is optional. With limited time, prioritize Managed Identity, a working vision call and graceful degradation.
-
-## Learning Resources
-
-- [Azure OpenAI Service overview](https://learn.microsoft.com/azure/ai-services/openai/overview)
-- [`Azure.AI.OpenAI` for .NET on NuGet](https://www.nuget.org/packages/Azure.AI.OpenAI)
-- [Use vision-enabled chat completions](https://learn.microsoft.com/azure/ai-services/openai/how-to/gpt-with-vision)
-- [Structured outputs with JSON response format](https://learn.microsoft.com/azure/ai-services/openai/how-to/structured-outputs)
-- [`Cognitive Services OpenAI User` role](https://learn.microsoft.com/azure/ai-services/openai/how-to/role-based-access-control)
-- [`DefaultAzureCredential` — .NET](https://learn.microsoft.com/dotnet/azure/sdk/authentication/credential-chains)
-
-## Hints and notes
-
-<details>
-<summary><strong>Tips</strong></summary>
-
-- Check that the plan covers the feature requirements and constraints; correct any omissions before execution.
+- Check that the plan covers the feature requirements and constraints. Correct omissions before execution.
 - Check how the plan handles AI call failures. They must not block saving a course.
-- The AI enrichment runs at upload time, but consider how an admin might re-analyze an existing course image after the feature is added.
+- The enrichment runs at upload time. Consider how an admin could re-analyze an existing course image later.
 
-</details>
+## Step 3: Add the schema columns
 
-<details>
-<summary><strong>Pinned SDK & model versions</strong></summary>
+`EnsureCreated` does not alter existing tables, and the migrated database already holds data. Never drop or recreate it. Review the plan's schema update, then apply it as administrator in the target database's Query editor **before deploying**. Add these nullable `dbo.Course` columns:
+
+```sql
+ALTER TABLE dbo.Course ADD Description nvarchar(2000) NULL;
+ALTER TABLE dbo.Course ADD LearningObjectives nvarchar(2000) NULL;
+ALTER TABLE dbo.Course ADD AltText nvarchar(500) NULL;
+```
+
+The runtime identity keeps `db_datareader` and `db_datawriter` only. Never grant it DDL permissions.
+
+## Step 4: Provision Azure OpenAI with Terraform
+
+Ask Copilot to execute the reviewed plan. Create the Azure OpenAI account and `gpt-4.1-mini` deployment with Terraform, not the portal.
+
+Pinned versions:
 
 | Component | Pinned version |
 |---|---|
@@ -103,12 +96,7 @@ The Regenerate button is optional. With limited time, prioritize Managed Identit
 | Azure OpenAI model | `gpt-4.1-mini` |
 | AzureRM Terraform provider | `~> 3.0` (already in use) |
 
-</details>
-
-<details>
-<summary><strong>Reference Terraform additions</strong></summary>
-
-In [`solutions/02-dotnet/infra/main.tf`](../../../solutions/02-dotnet/infra/main.tf):
+Reference additions in [`solutions/02-dotnet/infra/main.tf`](../../../solutions/02-dotnet/infra/main.tf):
 
 ```hcl
 # ── Azure OpenAI account ──────────────────────────────────────────────────────
@@ -164,10 +152,17 @@ env {
 }
 ```
 
-</details>
+Apply the configuration and confirm the role assignment:
 
-<details>
-<summary><strong>Reference C# snippets</strong></summary>
+```bash
+az role assignment list --assignee <container-app-identity-principalId>
+```
+
+The output should show `Cognitive Services OpenAI User` on the OpenAI scope.
+
+> **Note:** RBAC propagation takes 1–2 minutes after `terraform apply`. Retry a `401 Unauthorized` before debugging.
+
+## Step 5: Add the AI service
 
 `Services/ICourseContentAiService.cs`:
 
@@ -192,7 +187,7 @@ var messages = new List<ChatMessage>
         "You assist a university admin authoring a course. Look at the image of teaching material " +
         "and return a JSON object with this exact shape: " +
         "{ \"description\": string, \"learningObjectives\": string[], \"altText\": string }. " +
-        "Keep the description under 300 characters. Provide 3 to 6 learning objectives."),
+        "Keep the description under 300 characters and the alt text under 200 characters. Provide 3 to 6 learning objectives."),
     new UserChatMessage(
         ChatMessageContentPart.CreateTextPart("Generate course content for this teaching material."),
         ChatMessageContentPart.CreateImagePart(new Uri(dataUri)))
@@ -212,7 +207,7 @@ return JsonSerializer.Deserialize<CourseAiSuggestion>(json, new JsonSerializerOp
 });
 ```
 
-Register in `Program.cs`:
+Register it in `Program.cs`:
 
 ```csharp
 builder.Services.AddSingleton<ICourseContentAiService>(sp =>
@@ -222,34 +217,89 @@ builder.Services.AddSingleton<ICourseContentAiService>(sp =>
         sp.GetRequiredService<ILogger<CourseContentAiService>>()));
 ```
 
-</details>
+Parse and validate the JSON before use. Fill only blank fields and preserve user-authored text. Bound the request duration with a timeout on the `CancellationToken`, and log failures.
 
-<details>
-<summary><strong>Common Pitfalls</strong></summary>
+> **Note:** Wrap the AI call in `try/catch`. The service must return `null` on failure and the controller must continue saving the course.
 
-| Issue | Hint to give |
+## Step 6: Update the controller and views
+
+- Call the service when a teaching-material image is uploaded on Course **Create** or **Edit**. Reuse the `IFormFile.ContentType` value as the MIME type; do not infer it from the file extension.
+- Add a Review AI suggestions panel that shows the description, learning objectives and alt text. The admin can accept (data is persisted) or regenerate. Regenerate is optional; with limited time, prioritize Managed Identity, a working vision call and graceful degradation.
+- Render the persisted alt text in the `<img alt>` attribute on the Course Details page.
+
+## Step 7: Deploy and verify
+
+Deploy a new revision of the Container App. Run each command separately and stop on any failure:
+
+```powershell
+dotnet build ContosoUniversity.csproj -c Release
+az acr login --name <acr-name>
+docker build -t <image> .
+docker push <image>
+az containerapp update -g <resource-group> -n <app-name> --image <image> --query properties.latestRevisionName -o tsv
+```
+
+Confirm a healthy revision and that `/Students` loads. Database access stays on the managed identity to the migrated database. Do not re-apply the reference Terraform after cutover: it restores the reference image and connection. Add the OpenAI settings with `az containerapp update --set-env-vars` instead, or merge them into your own Terraform state first.
+
+Then verify end to end:
+
+1. Confirm the Container App contains the OpenAI endpoint and deployment name and **no** API key (Azure Portal).
+2. Upload an image on Create or Edit and confirm a successful chat-completion call (Azure OpenAI metrics or Application Insights dependency tracking).
+3. Accept the suggestions and confirm they persist.
+4. Make the OpenAI endpoint unreachable and confirm the upload still succeeds, with the course saved without AI fields.
+
+## Checkpoint
+
+Before moving on, confirm:
+
+- [ ] `dbo.Course` has nullable `Description`, `LearningObjectives` and `AltText` columns, applied as administrator before deploy
+- [ ] An Azure OpenAI resource and a vision-capable model deployment exist, created with Terraform
+- [ ] The Container App has the OpenAI endpoint and deployment name and no API key
+- [ ] `az role assignment list --assignee <container-app-identity-principalId>` shows `Cognitive Services OpenAI User` on the OpenAI scope
+- [ ] Uploading a teaching-material image on Create or Edit triggers a successful chat-completion call
+- [ ] The Review AI suggestions panel shows a description, learning objectives and alt text, and accepting persists them
+- [ ] The Course Details page renders the persisted alt text in `<img alt>`
+- [ ] The latest revision is healthy and `/Students` loads
+- [ ] Existing user-entered Description, LearningObjectives and AltText values are not overwritten
+- [ ] Tests cover both successful and failed enrichment
+- [ ] With the endpoint unreachable, the upload succeeds and the course saves without AI fields
+
+## Reflect
+
+- Why must the AI call never block saving the course?
+- Which user-experience principle does this reflect?
+
+## What You Learned
+
+- Provision Azure OpenAI and a model deployment with Terraform
+- Call a vision model with Managed Identity and structured JSON output
+- Degrade gracefully when an AI dependency fails
+
+## Key Takeaway
+
+> AI enrichment must enhance the workflow, never block it.
+
+## Learn more
+
+- [Azure OpenAI Service overview](https://learn.microsoft.com/azure/ai-services/openai/overview)
+- [`Azure.AI.OpenAI` for .NET on NuGet](https://www.nuget.org/packages/Azure.AI.OpenAI)
+- [Use vision-enabled chat completions](https://learn.microsoft.com/azure/ai-services/openai/how-to/gpt-with-vision)
+- [Structured outputs with JSON response format](https://learn.microsoft.com/azure/ai-services/openai/how-to/structured-outputs)
+- [`Cognitive Services OpenAI User` role](https://learn.microsoft.com/azure/ai-services/openai/how-to/role-based-access-control)
+- [`DefaultAzureCredential` — .NET](https://learn.microsoft.com/dotnet/azure/sdk/authentication/credential-chains)
+
+## Troubleshooting
+
+| Symptom | Fix |
 |---|---|
-| `401 Unauthorized` from Azure OpenAI right after `terraform apply` | RBAC propagation takes 1–2 minutes. Retry instead of debugging. |
-| `403 Forbidden` even after waiting | The role was assigned to the wrong principal. Confirm `principal_id = azurerm_container_app.contoso.identity[0].principal_id`, **not** the deployer's object id. |
-| Response is text, not JSON, and `JsonSerializer.Deserialize` throws | Missing `ResponseFormat = ChatResponseFormat.CreateJsonObjectFormat()`. Also the system prompt must contain the word "JSON". |
-| `DefaultAzureCredential` works locally but fails in the Container App | Ensure `azurerm_user_assigned_identity` is created, the Container App has `identity { type = "UserAssigned"; identity_ids = [azurerm_user_assigned_identity.app.id] }`, and that `terraform apply` actually re-deployed the app revision. |
-| Vision API rejects the image | The base64 `data:` URI MIME must match the actual image bytes. Reuse the `IFormFile.ContentType` value, do not infer from extension. |
-| Quota / model not found errors | `gpt-4.1-mini` is region-gated. Stick to `swedencentral` or `eastus2` (the default in `variables.tf` is `swedencentral`). If quota is `0`, request 50K TPM in the Azure portal — coach has a fallback subscription. |
-| Upload fails because AI call timed out | The AI call was not wrapped in `try/catch`. The service must return `null` on failure and the controller must continue. |
-| `Azure.AI.OpenAI` v1 syntax in v2 docs | Pin to **v2.x** in `ContosoUniversity.csproj`. The API surface changed (`AzureOpenAIClient` vs `OpenAIClient` constructor). |
-| `JsonResponseFormat` truncates the object | The model needs enough output budget; set `MaxOutputTokenCount = 600` on `ChatCompletionOptions`. |
-
-</details>
-
-<details>
-<summary><strong>Time budget</strong></summary>
-
-60–90 minutes:
-
-- 15 min: Terraform additions + `terraform apply`.
-- 30 min: `Azure.AI.OpenAI` integration (service + Program.cs).
-- 20 min: controller + view changes.
-- 15 min: deploy new revision and verify end-to-end.
-
-</details>
-
+| `401 Unauthorized` right after `terraform apply` | RBAC propagation takes 1–2 minutes. Retry instead of debugging. |
+| `403 Forbidden` after waiting | The role went to the wrong principal. Confirm `principal_id = azurerm_container_app.contoso.identity[0].principal_id`, not the deployer's object ID. |
+| Response is text, not JSON, and `JsonSerializer.Deserialize` throws | Set `ResponseFormat = ChatResponseFormat.CreateJsonObjectFormat()`. The system prompt must also contain the word "JSON". |
+| `DefaultAzureCredential` works locally but fails in the Container App | Create the `azurerm_user_assigned_identity`, give the Container App `identity { type = "UserAssigned"; identity_ids = [azurerm_user_assigned_identity.app.id] }`, and make sure `terraform apply` redeployed the app revision. |
+| Vision API rejects the image | The base64 `data:` URI MIME type must match the image bytes. Use the `IFormFile.ContentType` value, not the extension. |
+| Quota or model not found errors | `gpt-4.1-mini` is region-gated. Use `swedencentral` or `eastus2` (the default in `variables.tf` is `swedencentral`). If quota is `0`, request 50K TPM in the Azure portal. |
+| `Invalid column name 'Description'` at runtime | The schema step was skipped. `EnsureCreated` does not alter existing tables. Apply Step 3 as administrator. |
+| New revision is unhealthy | Check the logs and the last healthy revision. Do not claim a completed deployment. |
+| Upload fails because the AI call timed out | Wrap the AI call in `try/catch`. The service returns `null` on failure and the controller continues. |
+| `Azure.AI.OpenAI` v1 syntax in v2 docs | Pin **v2.x** in `ContosoUniversity.csproj`. The API surface changed (`AzureOpenAIClient` vs the `OpenAIClient` constructor). |
+| `JsonResponseFormat` truncates the object | Give the model enough output budget: set `MaxOutputTokenCount = 600` on `ChatCompletionOptions`. |

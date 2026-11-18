@@ -10,100 +10,108 @@ tags:
 highlight: false
 ---
 
-# Challenge 05 — Observe and Secure
+# Module 05: Observe and Secure
 
-## Purpose
+> **Duration:** ~40 minutes | **Phase:** Operate
 
-Add Application Insights telemetry, manage secrets with Key Vault, and use Managed Identity for passwordless authentication.
+## Objective
 
-## Introduction
+Add Application Insights telemetry to the modernized PhotoAlbum app, store its secrets in Key Vault and use Managed Identity to read them. This is a stretch module.
 
-In this stretch challenge, add **observability** to diagnose issues and **secret management** to keep credentials out of code and environment variables:
+- **Azure Application Insights** gives distributed tracing, live metrics and structured logging.
+- **Azure Key Vault + Managed Identity** supplies secrets (connection strings, credentials) at runtime, with none in code or configuration files.
 
-- **Azure Application Insights** — distributed tracing, live metrics, and structured logging
-- **Azure Key Vault + Managed Identity** — secrets (connection strings, credentials) retrieved at runtime without any secrets in code or configuration files
+## Prerequisites
 
-## Description
+- [Module 03](03-containerize-and-deploy.md) complete: the app runs on Azure Container Apps
 
-Update the modernized Java PhotoAlbum application:
+## Step 1: Add Application Insights
 
-**Observability:**
-- Integrate the Application Insights SDK into the Java application
-- Verify that HTTP requests, dependency calls (PostgreSQL, Blob Storage), and exceptions appear in the Application Insights portal
+The Azure Monitor OpenTelemetry Distro for Java auto-instruments through a JAR agent, so no changes to `pom.xml` or Java source are needed.
 
-**Secret management:**
-- Provision an Azure Key Vault and store all connection strings and credentials as secrets
-- Configure the Container App to use a **User-Assigned Managed Identity** to access Key Vault — no connection strings in `application.properties` or Terraform variable files
-- Demonstrate that removing a secret from Key Vault causes the application to fail, and that restoring it restores the application
+1. Download the agent JAR and include it in the Docker image. The current stable release is `3.7.8` (check [ApplicationInsights-Java releases](https://github.com/microsoft/ApplicationInsights-Java/releases) for the latest):
 
-## Success Criteria
+```dockerfile
+ADD https://github.com/microsoft/ApplicationInsights-Java/releases/download/3.7.8/applicationinsights-agent-3.7.8.jar /app/applicationinsights-agent.jar
+ENV JAVA_TOOL_OPTIONS="-javaagent:/app/applicationinsights-agent.jar"
+```
 
-To complete this challenge, demonstrate:
+2. Set the connection string as an environment variable in the Container App:
 
-1. Application Insights shows live telemetry (requests, dependencies, exceptions) from the Java application
-2. No connection strings or credentials appear in any application config file, environment variable, or Terraform state
-3. All connection strings are stored as secrets in Key Vault (verify via the Azure Portal or the Azure CLI)
-4. The Container App uses Managed Identity (confirm in Azure Portal → Container App → Identity)
-5. At least one request appears in Application Insights Live Metrics after you access the app
-6. **Reflect** — what does Managed Identity eliminate compared to storing a connection string in `application.properties`? What attack vector does it close?
+```text
+APPLICATIONINSIGHTS_CONNECTION_STRING=InstrumentationKey=...;IngestionEndpoint=...
+```
 
-## Learning Resources
+Set `JAVA_TOOL_OPTIONS` in the Container App environment, not only in the Dockerfile, so it reaches the JVM.
+
+## Step 2: Verify telemetry
+
+Access the app, then open Application Insights Live Metrics in the Azure Portal. HTTP requests, dependency calls and exceptions should appear.
+
+## Step 3: Store secrets in Key Vault
+
+1. Provision an Azure Key Vault and store all connection strings and credentials as secrets (PostgreSQL connection string, Storage account key and so on).
+2. Give the Container App a Managed Identity and assign it the **Key Vault Secrets User** role. A system-assigned identity needs `identity { type = "SystemAssigned" }` on the Container App Terraform resource.
+3. Reference the secrets in one of two ways:
+   - In `application.properties`, through the Azure Spring integration:
+     ```properties
+     spring.cloud.azure.keyvault.secret.endpoint=https://<vault>.vault.azure.net/
+     ```
+   - As Key Vault references in Container Apps, which need no SDK changes in the app.
+
+Remove connection strings from `application.properties` and the Terraform variable files.
+
+> **Note:** The Azure SDK for Java supports `DefaultAzureCredential`, which uses Managed Identity in Azure and developer credentials locally.
+
+> **Note:** For dev environments, set `soft_delete_retention_days = 7` and `purge_protection_enabled = false` so `terraform destroy` followed by a reapply is not blocked by soft delete.
+
+> **Note:** Check what the app actually does before you describe it. PostgreSQL authentication stays password-based unless you implement and test Microsoft Entra authentication; the password comes from secret configuration. Photo bytes stay in the database unless you implement Blob Storage. Telemetry comes from the Java agent only if you added it in Step 1. Do not claim PostgreSQL passwordless authentication, Blob Storage or Java-agent telemetry unless it is implemented and tested.
+
+## Step 4: Prove the app depends on Key Vault
+
+Remove a secret from Key Vault and confirm the app fails. Restore the secret and confirm the app recovers.
+
+## Checkpoint
+
+Before moving on, confirm:
+
+- [ ] Application Insights shows live telemetry (requests, dependencies, exceptions) from the app
+- [ ] At least one request appears in Live Metrics after you access the app
+- [ ] No connection strings or credentials appear in any app config file, environment variable or Terraform state
+- [ ] All connection strings are secrets in Key Vault (verify in the Azure Portal or Azure CLI)
+- [ ] The Container App uses Managed Identity (Azure Portal > Container App > Identity)
+- [ ] Your notes claim only what is implemented: no PostgreSQL passwordless authentication, Blob Storage or Java-agent telemetry unless you built and tested it
+
+## Reflect
+
+- What does Managed Identity eliminate compared to storing a connection string in `application.properties`?
+- Which attack vector does it close?
+
+## What You Learned
+
+- Add Application Insights to a Java container with the agent JAR
+- Store secrets in Key Vault and read them through Managed Identity
+- Verify that the app has no credentials in config or state
+
+## Key Takeaway
+
+> With Managed Identity there is no credential to leak, because none exists in your code or config.
+
+## Learn more
 
 - [Azure Application Insights for Spring Boot](https://learn.microsoft.com/azure/azure-monitor/app/java-in-process-agent)
 - [Azure Key Vault with Managed Identity (RBAC guide)](https://learn.microsoft.com/azure/key-vault/general/rbac-guide)
 - [Azure Container Apps — use Key Vault secrets](https://learn.microsoft.com/azure/container-apps/manage-secrets)
 - [DefaultAzureCredential — Java](https://learn.microsoft.com/azure/developer/java/sdk/identity-azure-hosted-auth)
 
-## Hints and notes
+## Troubleshooting
 
-<details>
-<summary><strong>Tips</strong></summary>
-
-- The Azure SDK for Java supports `DefaultAzureCredential`, which uses Managed Identity when running in Azure and developer credentials locally.
-- Azure Container Apps natively support Key Vault secret references — you can reference a Key Vault secret directly as a Container App secret without any SDK changes in the application.
-
-</details>
-
-<details>
-<summary><strong>Application Insights – Java</strong></summary>
-
-The Azure Monitor OpenTelemetry Distro for Java uses auto-instrumentation via a JAR agent — no code changes to `pom.xml` or Java source are required:
-
-1. Download the agent JAR and include it in the Docker image. The current stable release is `3.7.8` (check [ApplicationInsights-Java releases](https://github.com/microsoft/ApplicationInsights-Java/releases) for the latest):
-```dockerfile
-ADD https://github.com/microsoft/ApplicationInsights-Java/releases/download/3.7.8/applicationinsights-agent-3.7.8.jar /app/applicationinsights-agent.jar
-ENV JAVA_TOOL_OPTIONS="-javaagent:/app/applicationinsights-agent.jar"
-```
-
-2. Set the connection string via environment variable in the Container App:
-```
-APPLICATIONINSIGHTS_CONNECTION_STRING=InstrumentationKey=...;IngestionEndpoint=...
-```
-
-</details>
-
-<details>
-<summary><strong>Key Vault + Managed Identity – Java</strong></summary>
-
-1. Provision Key Vault and store secrets (PostgreSQL connection string, Storage account key, etc.)
-2. Assign the Container App's system-assigned identity the **Key Vault Secrets User** role
-3. In `application.properties`, reference secrets via the Azure Spring integration:
-   ```properties
-   spring.cloud.azure.keyvault.secret.endpoint=https://<vault>.vault.azure.net/
-   ```
-   Or inject via environment variables using the Azure Key Vault references feature in Container Apps.
-
-</details>
-
-<details>
-<summary><strong>Common Pitfalls</strong></summary>
-
-| Issue | Hint to give |
+| Symptom | Fix |
 |---|---|
-| App Insights agent JAR not downloaded in Docker build (no internet) | Pre-download the JAR and `COPY` it instead of using `ADD` with a URL |
-| Managed Identity not assigned after `terraform apply` | Requires `identity { type = "SystemAssigned" }` in the Container App Terraform resource |
-| Key Vault soft delete prevents `terraform destroy` + reapply | Set `soft_delete_retention_days = 7` and use `purge_protection_enabled = false` for dev environments |
-| `JAVA_TOOL_OPTIONS` not propagating into the JVM | Ensure the env var is set in the Container App environment, not only in Dockerfile |
+| Notes claim passwordless PostgreSQL, Blob Storage or agent telemetry that the app lacks | Remove the claim, or implement and test the change first. |
+| App Insights agent JAR not downloaded in the Docker build (no internet) | Pre-download the JAR and `COPY` it instead of using `ADD` with a URL. |
+| Managed Identity not assigned after `terraform apply` | Add `identity { type = "SystemAssigned" }` to the Container App Terraform resource. |
+| Key Vault soft delete blocks `terraform destroy` plus reapply | Set `soft_delete_retention_days = 7` and `purge_protection_enabled = false` for dev environments. |
+| `JAVA_TOOL_OPTIONS` does not reach the JVM | Set the variable in the Container App environment, not only in the Dockerfile. |
 
-</details>
-
+**Next:** [Module 06: Infuse AI into PhotoAlbum](06-infuse-ai.md)

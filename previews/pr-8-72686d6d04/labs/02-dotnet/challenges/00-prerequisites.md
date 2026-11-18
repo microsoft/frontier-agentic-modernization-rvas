@@ -9,66 +9,65 @@ tags:
 highlight: false
 ---
 
-# Challenge 00 — Prerequisites
+# Module 00: Prerequisites
 
-## Purpose
+> **Duration:** ~30 minutes | **Phase:** Setup
 
-Use this setup challenge to get the same baseline for the .NET track. It should take no more than 30 minutes.
+## Objective
 
-## Introduction
+Install and authenticate the tools for the .NET lab, and confirm the legacy ContosoUniversity source is present. Finish with a pre-flight check where every command passes.
 
-Before starting the **.NET track**, you must install and authenticate the required tools.
+The sample applications are Git submodules. Initialize them to download the legacy source code. For a container-based environment, open the repository in VS Code with the Dev Containers extension. The Dev Container definition (`.devcontainer/`) pre-installs most dependencies inside a Docker container.
 
-The sample applications are **Git submodules**. Initialise them to download the legacy source code.
+## Step 1: Install the required tools
 
-If you prefer a container-based environment, open the repository in VS Code with the Dev Containers extension. The **Dev Container** definition (`.devcontainer/`) pre-installs most dependencies inside a Docker container.
+1. Install and verify every tool listed in the [Prerequisites](../../README.md#azure-requirements) section of the labs README.
+2. Clone the repository **with submodules** so that `labs/02-dotnet/resources/dotnet-migration-copilot-samples/` is populated. If the folder is empty, run:
 
-## Description
+   ```bash
+   git submodule update --init --recursive
+   ```
 
-Set up your environment for the .NET sample application:
+3. Verify your Azure subscription is accessible and that you can create resources.
+4. Install the EF Core global tool (required for [Module 04](04-migrate-the-database.md)):
 
-- Install and verify all required tools listed in the [Prerequisites](../../README.md#azure-requirements) section of the labs README
-- Clone the repository **with submodules** so that `labs/02-dotnet/resources/dotnet-migration-copilot-samples/` is populated
-- Install and authenticate the **GitHub Copilot Modernization CLI** (see below)
-- Verify your Azure subscription is accessible and you have permissions to create resources
-- Install the **EF Core global tool** (required for Challenge 04):
-  ```bash
-  dotnet tool install --global dotnet-ef
-  ```
+   ```bash
+   dotnet tool install --global dotnet-ef
+   ```
 
-### Install the Modernization CLI
+## Step 2: Install the Modernization CLI
 
 **Linux / macOS:**
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/microsoft/modernize-cli/main/scripts/install.sh | sh
 source ~/.bashrc   # or source ~/.zshrc on macOS
 ```
 
 **Windows:**
+
 ```powershell
 winget install GitHub.Copilot.modernization.agent
 ```
 
-After installing, authenticate and verify:
+Authenticate and verify:
+
 ```bash
 gh auth login        # if not already authenticated
 modernize --version  # confirm the CLI is on your PATH
 ```
 
-> **VS Code alternative:** Install the **GitHub Copilot Modernization** extension from the VS Code Marketplace. It provides the same capabilities through the editor UI.
+> **Note:** As an alternative, install the **GitHub Copilot Modernization** extension from the VS Code Marketplace. It provides the same capabilities through the editor UI.
 
-### Optional: Deploy the Legacy .NET Application to an Azure VM
+## Step 3: (Optional) Deploy the legacy app to an Azure VM
 
-The provided Terraform configuration runs the **unmodified application** on a
-dedicated Azure VM. Use this optional step to test its behavior before modernization.
+The provided Terraform configuration runs the **unmodified application** on a dedicated Azure VM. Use it to test the app's behavior before modernization. Start it now so it deploys while you finish setup.
 
-**.NET app (ContosoUniversity — Windows Server + IIS + SQL Express + MSMQ):**
-- Follow the steps in [`../../labs/02-dotnet/resources/infra/README.md`](../resources/infra/README.md)
-- Runs at `http://<vm-ip>` after ~20 minutes
+The .NET app (ContosoUniversity) runs on Windows Server with IIS, SQL Express and MSMQ. Follow the steps in [`resources/infra/README.md`](../resources/infra/README.md). The app runs at `http://<vm-ip>` after about 20 minutes.
 
-## Pre-flight Validation Checklist
+## Step 4: Run the pre-flight checks
 
-Run these commands from the repo root before starting Challenge 01. Every check must pass:
+Run these commands from the repo root. Every check must pass.
 
 ```bash
 # 1. GitHub CLI authenticated
@@ -86,7 +85,7 @@ git submodule status
 # 5. .NET submodule source code is present
 ls labs/02-dotnet/resources/dotnet-migration-copilot-samples/ContosoUniversity/
 
-# 6. EF Core global tool (required for Challenge 04)
+# 6. EF Core global tool (required for Module 04)
 dotnet tool list --global | grep dotnet-ef || echo "⚠ dotnet-ef not installed — run: dotnet tool install --global dotnet-ef"
 
 # 7. Docker daemon is running (required for Dev Container and image builds)
@@ -94,20 +93,34 @@ docker info --format "Docker version: {{.ServerVersion}}" 2>/dev/null \
   || echo "⚠ Docker is not running — start Docker Desktop"
 ```
 
-## Success Criteria
+> **Note:** The .NET build check applies only on Windows. On Linux or macOS, verify that the source is present.
 
-To complete this challenge, demonstrate:
+## Checkpoint
 
-1. `modernize --version` (CLI) or the GitHub Copilot Modernization extension shows as active in VS Code
-2. `gh auth status` returns your authenticated GitHub account
-3. `az account show` returns your Azure subscription
-4. Running `git submodule status` in the repo root shows the .NET submodule at a valid commit hash (no leading `–`)
-5. *(Optional)* The ContosoUniversity legacy app is accessible at its Azure VM URL
-6. **Reflect** — what does the Dev Container provide, and why must both GitHub CLI *and* Azure CLI be authenticated before any `modernize` command can run?
+Before moving on, confirm:
 
-The .NET build check applies only on Windows; on Linux or macOS, verify that the source is present.
+- [ ] `modernize --version` prints a version, or the GitHub Copilot Modernization extension shows as active in VS Code
+- [ ] `gh auth status` returns your authenticated GitHub account
+- [ ] `az account show` returns your Azure subscription
+- [ ] `git submodule status` shows the .NET submodule at a valid commit hash (no leading `-`)
+- [ ] *(Optional)* The ContosoUniversity legacy app is reachable at its Azure VM URL
 
-## Learning Resources
+## Reflect
+
+- What does the Dev Container provide?
+- Why must both GitHub CLI and Azure CLI be authenticated before any `modernize` command can run?
+
+## What You Learned
+
+- Install and authenticate the Modernization CLI
+- Initialize a Git submodule and confirm the legacy source is present
+- Verify GitHub, Azure and EF Core tooling with a pre-flight check
+
+## Key Takeaway
+
+> A clean pre-flight check up front avoids tool and access problems in every later module.
+
+## Learn more
 
 - [GitHub Copilot Modernization – Get Started](https://learn.microsoft.com/en-us/azure/developer/github-copilot-app-modernization/overview)
 - [Modernization CLI reference](https://learn.microsoft.com/azure/developer/github-copilot-app-modernization/modernization-agent/cli-commands)
@@ -115,38 +128,13 @@ The .NET build check applies only on Windows; on Linux or macOS, verify that the
 - [Dev Containers overview](https://code.visualstudio.com/docs/devcontainers/containers)
 - [Terraform getting started](https://developer.hashicorp.com/terraform/tutorials/azure-get-started)
 
-## Hints and notes
+## Troubleshooting
 
-<details>
-<summary><strong>Tips</strong></summary>
+| Symptom | Fix |
+|---|---|
+| `git submodule status` shows a `-` prefix, or the submodule folder is empty | Run `git submodule update --init --recursive`. A clone made with `--recurse-submodules` populates it automatically. |
+| `modernize` not found after install | The install script adds the binary to `~/.local/bin`. Check with `echo $PATH \| grep local`. If missing, run `export PATH="$HOME/.local/bin:$PATH"` and add it to `~/.bashrc` or `~/.zshrc` to persist. |
+| `dotnet-ef` not found | Run `dotnet tool install --global dotnet-ef` and restart your terminal. |
+| .NET Framework 4.8 build fails on Linux or macOS | Expected. ContosoUniversity targets .NET Framework 4.8, which is Windows-only. Confirm the source is present; a successful build is not required. [Module 02](02-modernize-the-app.md) moves the project to .NET 10. |
 
-- Deploy the VM while other setup steps run.
-- **If `git submodule status` shows a `-` prefix**, the submodule has not been initialised. Fix it with: `git submodule update --init --recursive`
-- **If `modernize` is not found**, install it first (see the **Install the Modernization CLI** section above), then ensure `~/.local/bin` is on your PATH: `export PATH="$HOME/.local/bin:$PATH"` (add to `~/.bashrc` or `~/.zshrc` to persist)
-- **If `dotnet-ef` is not found**, run: `dotnet tool install --global dotnet-ef` and restart your terminal
-
-</details>
-
-<details>
-<summary><strong>Common Issues and Hints</strong></summary>
-
-### Submodule folder is empty
-After cloning, run:
-```bash
-git submodule update --init --recursive
-```
-If they cloned with `--recurse-submodules`, the submodule should be populated automatically.
-
-### .NET Framework 4.8 build fails on Linux/macOS
-ContosoUniversity targets .NET Framework 4.8, which is Windows-only. On Linux/macOS, `msbuild` is expected to fail. Verify that the source code is present (submodule initialised); do not require a successful build. Challenge 02 moves the project to .NET 10.
-
-### `modernize` CLI not found after install
-The install script adds the binary to `~/.local/bin`. Ensure this path is in `$PATH`:
-```bash
-echo $PATH | grep local
-# If not present:
-export PATH="$HOME/.local/bin:$PATH"
-```
-
-</details>
-
+**Next:** [Module 01: Assess the legacy .NET application](01-assess-the-legacy-app.md)

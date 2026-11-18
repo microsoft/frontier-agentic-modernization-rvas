@@ -9,130 +9,95 @@ tags:
 highlight: true
 ---
 
-# Upgrade a Customer Application
+# Module 00: Upgrade a Customer Application
 
-**Path: Replatform & refactor, using the Modernization CLI.** If your challenge
-requires substantial architecture or business-workflow changes, use the separate
-[Rearchitect & rebuild route](../../04-rebuild/challenges/00-prepare-your-application.md). Do not install the
-rebuild plugin solely to follow this CLI challenge.
+> **Duration:** ~480 minutes | **Phase:** Customer
 
-## Purpose
+## Objective
 
-Help you choose a representative customer application they can build, then apply the modernization workflow from the .NET / Java tracks.
+Choose a representative customer-owned application, then apply the modernization workflow from the .NET and Java labs to it end to end. This is the replatform and refactor route using the Modernization CLI. If the application needs substantial architecture or business-workflow changes, use the [rearchitect and rebuild route](../../04-rebuild/challenges/00-prepare-your-application.md) instead. Do not install the rebuild plugin just to follow this module.
 
-Do not choose the portfolio's most complex or most critical application. Its risk and scope can consume the session. Choose a medium-complexity app the team can build, assess, and containerize in a day.
+Do not choose the portfolio's most complex or most critical application. Its risk and scope can consume the whole day. Choose a medium-complexity app you can build, assess, and containerize in one working day.
 
-## Introduction
+## Prerequisites
 
-Apply the .NET or Java sample workflow end-to-end to a **customer-owned codebase**.
+- Access to the customer repository and a way to build it locally.
+- The shared [prerequisites](../../../README.md) and the [labs guide](../../README.md) for Azure requirements.
+- The module titles you follow in Step 2: .NET modules 01 Assess the legacy app, 02 Modernize the app, 03 Containerize and deploy ([labs/02-dotnet](../../02-dotnet/challenges/01-assess-the-legacy-app.md)), and the Java equivalents in [labs/01-java](../../01-java/challenges/01-assess-the-legacy-app.md).
 
-## Description
+## Step 1: Select an application
 
-### Step 1 — Select an Application
+Choose **one application** from the customer's portfolio. It must be a **real customer-owned codebase**, not a sample substituted for customer work. Repository visibility does not determine ownership: a public customer repository is valid with authorized access. The application should be:
 
-Choose **one application** from your customer's portfolio to upgrade. The application must be a **real customer-owned codebase**, not a sample substituted for customer work. Repository visibility does not determine ownership. It should be:
+- **Medium complexity**: multi-layer, with an external database and at least one legacy dependency worth replacing (for example an old messaging technology, local file storage, or an end-of-life runtime).
+- **Not the most critical or most complex** application in the portfolio.
 
-- **Medium complexity** — multi-layer with an external database and at least one legacy dependency worth replacing (e.g. an old messaging technology, local file storage, end-of-life runtime)
-- **Not the most critical or most complex** application in the portfolio — choose a representative application you can realistically modernize in a focused session
+Avoid:
 
-Include business and product stakeholders in the selection before delivery starts.
+- A greenfield or already-modern app (no meaningful migration work).
+- A microservices platform with 15+ services (too complex for one session).
+- An app nobody can explain (business decisions will be blocked).
 
-Before committing to your selection, verify:
+Include business and product stakeholders in the selection before delivery starts. If no application is ready, stop and prepare one with the customer. Confirm repository access, build instructions, and Docker tooling before you start.
+
+Write a brief justification: why you chose the application, what makes it a good candidate, and why it is not the most complex or most critical app in the portfolio.
+
+## Step 2: Run the readiness checks
+
+Check readiness before assessment. If the application does not build locally, you cannot proceed.
 
 - [ ] The chosen application and upgrade scenario are supported by the installed Modernization tooling.
-- [ ] The source code is available and the repository is accessible to everyone who needs it
-- [ ] The application builds locally
-- [ ] Docker and container tooling are available on your workstation
-- [ ] Someone you work with understands what the application does
+- [ ] The source code is available and the repository is accessible to everyone who needs it. Everyone can clone it without someone else's credentials.
+- [ ] The application builds locally. Warnings are fine; a complete build failure is not.
+- [ ] Docker and container tooling are available: `docker info` returns without error.
+- [ ] Someone you work with understands what the application does.
 
-### Step 2 — Assess and Modernize
+If a check fails, triage it: a 10-minute fix (install a missing SDK, set an env var) or a multi-hour blocker (database behind an inaccessible VPN, broken monorepo). For a multi-hour blocker, pick a different application. If the application fails to build, resolve that first: the tool needs a buildable project to produce meaningful results.
 
-After the readiness checks pass, use the .NET or Java track workflow:
+## Step 3: Assess and modernize
 
-1. Run `modernize assess` on the application folder and review the report
-2. Use `modernize plan create` to generate a migration plan targeting a modern runtime and a container platform (AKS or ACA)
-3. Use `modernize plan execute` to apply the plan
-4. Resolve remaining issues with GitHub Copilot Chat
-5. Containerize the application, producing the Dockerfiles, Kubernetes/ACA manifests, and other deployment artifacts needed to run it, then deploy to Azure
-6. Introduce a testing and validation approach the customer's team can keep using on future modernization work
-7. Build Bicep / Terraform templates and a GitHub Actions or Azure DevOps pipeline to automate the deployment
+1. Run `modernize assess` on the application folder and review the report. Summarize the top findings.
+2. Run `modernize plan create` to generate a migration plan that targets a modern runtime and a container platform (AKS or ACA).
+3. Run `modernize plan execute` to apply the plan.
+4. Resolve remaining issues with GitHub Copilot Chat.
+5. Containerize the application, producing the Dockerfiles, Kubernetes or ACA manifests, and other deployment artifacts needed to run it. Deploy it to Azure.
+6. Introduce a testing and validation approach the customer's team can keep using on future modernization work.
+7. Build Bicep or Terraform templates and a GitHub Actions or Azure DevOps pipeline to automate the deployment.
 
----
+Before containerizing, replace any hard-coded secrets in config with environment variables or Azure Key Vault references.
 
-## Success Criteria
+## Checkpoint
 
-To complete this challenge, demonstrate:
+- [ ] A written justification for the selected application exists.
+- [ ] An assessment report from `modernize assess` exists, with the top findings summarized.
+- [ ] The application builds and runs on a modern target runtime (for example .NET 10 or Java 25).
+- [ ] The application is containerized and deployed to Azure.
 
-1. A brief written justification for the selected application — why it was chosen, what makes it a good candidate, and why it is **not** the most complex or most critical app in the portfolio
-2. An assessment report generated by `modernize assess` for the selected application, with the top findings summarized
-3. The application builds and runs on a modern target runtime (e.g. .NET 10, Java 25)
-4. The application is containerized and deployed to Azure
-5. **Reflect** — what was the single hardest migration issue in this codebase that the automated tools could not resolve, and how did you solve it?
+## Reflect
 
----
+- What was the single hardest migration issue in this codebase that the automated tools could not resolve, and how did you solve it?
 
-## Learning Resources
+## What You Learned
+
+- Select a customer application that is representative and tractable.
+- Verify readiness (repo access, local build, container tooling) before assessment.
+- Apply the Modernization CLI workflow to a real codebase and deploy it to Azure.
+
+## Key Takeaway
+
+> A medium-complexity application you can build and explain beats the most critical one you cannot finish.
+
+## Learn more
 
 - [GitHub Copilot Modernization assessment overview](https://learn.microsoft.com/en-us/azure/developer/github-copilot-app-modernization/modernization-agent/overview)
 - [Azure Container Apps overview](https://learn.microsoft.com/azure/container-apps/overview)
 - [Azure Kubernetes Service overview](https://learn.microsoft.com/azure/aks/intro-kubernetes)
 
-## Hints and notes
+## Troubleshooting
 
-<details>
-<summary><strong>Tips</strong></summary>
-
-- Avoid applications you consider too risky or complex to change in the available time. Choose one that is representative but tractable.
-- If the application fails to build locally, resolve that blocker before running the assessment. The tool needs a buildable project to produce meaningful results.
-- Use the modernization patterns from the .NET and Java tracks.
-
-</details>
-
-<details>
-<summary><strong>Notes</strong></summary>
-
-### Step 1 — Application Selection
-
-Use a **real customer-owned codebase**, not a sample. A public customer repository
-is valid with authorized access. If no application is ready, **stop and prepare one with the customer**. Confirm repository access, build instructions, and
-Docker tooling before you start.
-
-**Avoid:**
-- A greenfield or already-modern app (no meaningful migration work)
-- A microservices platform with 15+ services (too complex for a single session)
-- An app that nobody can explain (business decisions will be blocked)
-
-### Step 2 — Readiness Checks
-
-Check readiness before assessment. If you cannot build the application locally, you cannot proceed:
-
-- **Repo accessible** — everyone can clone it without needing someone else's credentials
-- **Builds locally** — warnings are fine; a complete build failure is not
-- **Docker/container tooling** — `docker info` returns without error
-
-If a check fails, triage: 10-minute fix (install missing SDK, set an env var) or multi-hour blocker (database behind an inaccessible VPN, broken monorepo). For a multi-hour blocker, redirect to a different application.
-
-### Assessment and Migration
-
-Follow the .NET and Java workflow. Use the corresponding Solution guides:
-
-- Assessment: see [Solution-01 (.NET)](../../02-dotnet/challenges/01-assess-the-legacy-app.md) or the Java equivalent
-- Migration plan and execution: see [Solution-02 (.NET)](../../02-dotnet/challenges/02-modernize-the-app.md) or the Java equivalent
-- Containerization and deployment: see the relevant later solution guides
-
-Resolve manageable blockers rather than immediately switching applications.
-
-</details>
-
-<details>
-<summary><strong>Common Issues</strong></summary>
-
-| Issue | Response |
+| Symptom | Fix |
 |---|---|
-| Build fails before assessment | Triage the build error. If it is a missing dependency or config value, fix it. If it is a multi-hour structural issue, redirect to a different app. |
+| Build fails before assessment | Triage the build error. Fix a missing dependency or config value. For a multi-hour structural issue, pick a different app. |
 | Assessment produces no findings | Likely a build failure or a near-modern app. Check the assessment logs; if the app is already modern, pick a more representative target. |
-| Picking an app nobody understands | Redirect to an app someone you work with understands well enough to make architectural decisions. |
-| Secrets hard-coded in config | Walk through replacing them with environment variables or Azure Key Vault references before containerizing. |
-
-</details>
-
+| Nobody understands the app | Pick an app someone you work with understands well enough to make architectural decisions. |
+| Secrets hard-coded in config | Replace them with environment variables or Azure Key Vault references before containerizing. |

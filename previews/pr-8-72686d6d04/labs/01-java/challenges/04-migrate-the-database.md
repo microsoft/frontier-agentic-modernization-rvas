@@ -10,75 +10,34 @@ tags:
 highlight: true
 ---
 
-# Challenge 04 — Migrate the Database to Azure PostgreSQL
+# Module 04: Migrate the Database to Azure PostgreSQL
 
-## Purpose
+> **Duration:** ~60 minutes | **Phase:** Migrate
 
-Migrate data from Oracle XE in the legacy Docker stack to the Azure Database for PostgreSQL Flexible Server provisioned in Challenge 03.
+## Objective
 
-Choose one migration path:
-- Primary path: Ora2Pg export + psql import.
-- Alternative path: VS Code PostgreSQL extension (`ms-ossdata.vscode-pgsql`) with Schema and Application Conversion (Preview).
+Migrate the production data from the legacy Oracle XE Docker container to the Azure Database for PostgreSQL Flexible Server provisioned in Module 03, preserving all rows. Validate the data and the app before decommissioning Oracle.
 
-The Preview path supports AI-assisted schema and application conversion where
-enabled. Validate the migrated data and app before decommissioning Oracle.
+Choose one of two paths:
 
-The infrastructure reference is in `solutions/01-java/infra/`. Its `azurerm_postgresql_flexible_server` resource is the migration target.
+- **Path 1 (primary): Ora2Pg + psql** for a deterministic offline export and import.
+- **Path 2 (alternative): Oracle to Azure Database for PostgreSQL Schema and Application Conversion (Preview)** in [PostgreSQL for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-pgsql) (`ms-ossdata.vscode-pgsql`), with AI-assisted schema and application conversion where enabled.
 
----
+The modernized PhotoAlbum runs on Spring Boot 3 / Java 25 in Azure Container Apps with Azure Database for PostgreSQL Flexible Server, Azure Key Vault and Azure Blob Storage. The infrastructure reference is in `solutions/01-java/infra/`; its `azurerm_postgresql_flexible_server` resource is the migration target.
 
-## Introduction
+## Prerequisites
 
-Migrate the legacy **production data** from the Oracle XE Docker container to **Azure Database for PostgreSQL Flexible Server** before shutting the container down permanently. Preserve all data.
+[Module 03](03-containerize-and-deploy.md) complete (`terraform apply` succeeded), so the PostgreSQL server and `photoalbum` database exist.
 
-The modernized PhotoAlbum runs on Spring Boot 3 / Java 25 in Azure Container Apps with Azure Database for PostgreSQL Flexible Server, Azure Key Vault, and Azure Blob Storage.
+| Tool | Install / Notes |
+|---|---|
+| Oracle XE container | `docker compose up -d` in `labs/01-java/resources/PhotoAlbum-Java/` |
+| Ora2Pg | `brew install ora2pg` (macOS) or `sudo apt-get install -y perl cpanminus && sudo cpanm DBD::Oracle Ora2Pg` (Linux) |
+| psql CLI | `sudo apt-get install postgresql-client` or the [Windows installer](https://www.postgresql.org/download/windows/) |
+| Azure CLI | Installed in [Module 00](00-prerequisites-and-setup.md) |
+| Optional (Path 2) | VS Code extension [`ms-ossdata.vscode-pgsql`](https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-pgsql) |
 
-Choose one of two migration paths:
-
-- **Path 1 (primary): Ora2Pg + psql** for deterministic offline export/import.
-- **Path 2 (alternative): Oracle to Azure Database for PostgreSQL Schema and Application Conversion (Preview)** in [PostgreSQL for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-pgsql), including AI-assisted schema and application conversion.
-
-## Description
-
-Perform a complete offline database migration from the legacy Oracle XE database to the Azure Database for PostgreSQL Flexible Server provisioned in Challenge 03.
-
-**Prepare the source**
-
-- Start the legacy Oracle stack (from `labs/01-java/resources/PhotoAlbum-Java/`) and ensure the `photoalbum` schema contains data by uploading at least 2–3 photos through the running legacy application.
-- Note the photo row count — you will verify this number matches exactly after migration.
-
-**Path 1 (Primary): Ora2Pg + psql**
-
-Ora2Pg is an open-source Oracle-to-PostgreSQL migration tool. Research how to install it for your OS and verify it is working before proceeding.
-
-Copy the configuration template at [`../resources/ora2pg.conf`](../resources/ora2pg.conf), adjust the Oracle connection details to match your running container, and export the schema and data as a PostgreSQL-compatible SQL script.
-
-Once you have the export, import it into your Azure Database for PostgreSQL Flexible Server using your preferred PostgreSQL client tool. The connection details for the target database are available from the Terraform outputs you produced in Challenge 03.
-
-**Path 2 (Alternative): VS Code PostgreSQL extension (Preview)**
-
-If your environment supports it, the [PostgreSQL for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-pgsql) extension provides an Oracle-to-PostgreSQL migration workflow with AI-assisted schema and application conversion.
-
-Install the extension, connect to both your Oracle source and Azure PostgreSQL target, and follow the Schema Conversion workflow. Review all flagged items before applying changes to the target database.
-
-> **Note:** If the Preview migration features are unavailable in your environment, use Path 1.
-
-**Critical: protect the migrated data**
-
-Before redeploying, check the Hibernate setting that controls the database schema
-on startup. A setting that **drops and recreates tables** will erase migrated
-rows. Choose a value that preserves the data.
-
-**Validate**
-
-After the import, verify that:
-- The row count in the PostgreSQL `photos` table matches the Oracle source
-- Image binary data was correctly converted from Oracle's format to PostgreSQL's equivalent
-- The deployed PhotoAlbum application displays the migrated photos without requiring re-upload
-
-### Solution steps
-
-#### 1 — Start Oracle and seed source data
+## Step 1: Start Oracle and seed source data
 
 ```bash
 cd labs/01-java/resources/PhotoAlbum-Java
@@ -86,14 +45,29 @@ docker compose up -d
 ./mvnw spring-boot:run
 ```
 
-Upload at least 2–3 photos (`http://localhost:8080`). Stop the app, then validate source row count in Oracle.
+Upload at least 2-3 photos at `http://localhost:8080`. Expected: the gallery shows at least 2-3 photos.
 
-Expected: `photos` has at least 2 rows.
+## Step 2: Stop source writes and record the count
 
-#### 2 — Primary path: Ora2Pg export + psql import
+Finish all uploads, then stop only the application container. Keep Oracle running:
 
-1. Copy and adjust the template in `solutions/01-java/ora2pg.conf`.
-2. Export SQL:
+```bash
+sudo docker compose -f docker-compose.yml stop photoalbum-java-app
+```
+
+> **Note:** Drop `sudo` if Docker runs rootless. If you started the app with `./mvnw spring-boot:run`, stop it with Ctrl+C instead.
+
+Query Oracle for the `PHOTOALBUM.PHOTOS` row count and note it. Compare this number after the migration. This is an offline migration: no writes reach the source after this point.
+
+Expected: `PHOTOALBUM.PHOTOS` has at least 2 rows.
+
+## Step 3 (Path 1): Export with Ora2Pg
+
+Ora2Pg is an open-source Oracle-to-PostgreSQL migration tool. Verify it works before continuing.
+
+Copy the configuration template [`../resources/ora2pg.conf`](../resources/ora2pg.conf) (a reference copy is in `solutions/01-java/ora2pg.conf`) and adjust the Oracle connection details to match your running container. Check the Oracle DSN format, the schema name and the separator between directives; mistakes here fail silently. Ora2Pg directives use whitespace, not `=`.
+
+Export the schema and the data:
 
 ```bash
 # 1. schema
@@ -102,57 +76,101 @@ ora2pg -c ora2pg.conf -o photoalbum.sql
 ora2pg -c ora2pg.conf -t COPY -o data.sql -u system -w photoalbum
 ```
 
-3. Import into Azure PostgreSQL:
+The `-u system -w photoalbum` flags use the sample's Oracle `system` password, which this lab's `docker-compose.yml` sets with `ORACLE_PASSWORD=photoalbum`. If you changed the credentials, pass your actual values.
+
+Inspect the generated files before import: confirm they exist and are non-empty, and check the schema name, owner, sequences, indexes and the photo binary column. Ora2Pg converts Oracle `BLOB` to PostgreSQL `BYTEA` automatically, so the JPA entities need no change.
+
+## Step 4 (Path 1): Import into Azure PostgreSQL
+
+Get the target details from the Module 03 Terraform outputs, then enter them without echoing the password:
 
 ```bash
 cd labs/01-java/resources/infra/
 terraform output postgresql_fqdn
+cd -
 
-export PGPASSWORD="<admin-password>"
-
-psql -h <azure-db-fqdn> -U <admin-user> -d photoalbum <<'SQL'
-CREATE ROLE photoalbum LOGIN PASSWORD 'photoalbum';
-GRANT photoalbum TO psqladmin;
-SQL
-
-psql -h <azure-db-fqdn> -U <admin-user> -d photoalbum < TABLE_photoalbum.sql
-psql -h <azure-db-fqdn> -U <admin-user> -d photoalbum < SEQUENCE_photoalbum.sql
-psql -h <azure-db-fqdn> -U <admin-user> -d photoalbum < data.sql
+read -r -p "postgresql_fqdn: " PGHOST
+read -r -p "db_admin_username: " PGUSER
+read -r -s -p "Database password: " PGPASSWORD
+printf '\n'
+export PGHOST PGUSER PGPASSWORD
+export PGDATABASE=photoalbum PGSSLMODE=require
 ```
 
-Expected: import completes without fatal errors.
+The template's `OWNER photoalbum` needs a role of that name. Create it only if absent. It does not need a login or password. Grant it to the admin user:
 
-Prompts:
-- Confirm generated SQL exists and is non-empty.
-- Confirm import log has no terminal error.
+```bash
+psql -v ON_ERROR_STOP=1 -v admin="$PGUSER" <<'SQL'
+SELECT 'CREATE ROLE photoalbum NOLOGIN' WHERE NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'photoalbum')\gexec
+GRANT photoalbum TO :"admin";
+SQL
+```
 
-#### 3 — Prevent Hibernate from wiping migrated data
+Import into the empty target. Run each command separately and stop on the first error:
 
-Before app startup against PostgreSQL, set:
+```bash
+psql -v ON_ERROR_STOP=1 < TABLE_photoalbum.sql
+psql -v ON_ERROR_STOP=1 < SEQUENCE_photoalbum.sql
+psql -v ON_ERROR_STOP=1 < data.sql
+psql -v ON_ERROR_STOP=1 < INDEX_photoalbum.sql
+unset PGPASSWORD
+```
+
+Expected: each import completes with no errors. Load `INDEX_photoalbum.sql` after `data.sql`.
+
+## Step 3-4 (Path 2): VS Code PostgreSQL extension (Preview)
+
+Use this path only if your environment supports it. Install the extension, connect to both the Oracle source and the Azure PostgreSQL target, and follow the Schema Conversion workflow. Review all flagged items before applying changes to the target database.
+
+> **Note:** If the Preview migration features are unavailable in your environment, use Path 1.
+
+## Step 5: Protect the migrated data
+
+Hibernate has a setting that controls whether tables are created, updated or only validated on startup. A value that drops and recreates tables erases the migrated rows. Before the app starts against PostgreSQL, set:
 
 ```properties
 spring.jpa.hibernate.ddl-auto=validate
 ```
 
-Or override with env var in runtime:
+Or override it with an environment variable at runtime:
 
 ```bash
 SPRING_JPA_HIBERNATE_DDL_AUTO=validate
 ```
 
----
+## Step 6: Validate
 
-## Success Criteria
+- Check the schema name and search path. Use the schema-qualified `photos` table from the export (for example `photoalbum.photos`); do not assume `public`.
+- Compare the `photos` row count in PostgreSQL with the Oracle count from Step 2. Query both databases.
+- Compare filenames, and confirm image data is present (non-zero `length` of the binary column) in the rows that had blobs in Oracle.
+- Check sequence behavior: insert a test row or compare `last_value` with the highest `id`, so new uploads do not collide with migrated ids.
+- Open the deployed Container App and confirm the gallery shows the migrated photos with no re-upload.
+- Confirm no database passwords appear in plain text in `application.properties` or the Container App environment variables. Credentials must come from Azure Key Vault.
 
-To complete this challenge, demonstrate:
+## Checkpoint
 
-1. Migration completes successfully using either valid path.
-2. The `photos` table in Azure PostgreSQL has a row count matching the Oracle source — verified by querying both databases.
-3. Image data was correctly converted and is present in the PostgreSQL rows that had blobs in Oracle.
-4. The deployed PhotoAlbum Container App displays the migrated photos in the gallery — no re-upload required.
-5. No database passwords appear in plain text in `application.properties` or Container App environment variables — credentials come from Azure Key Vault.
+Before moving on, confirm:
 
-## Learning Resources
+- [ ] The migration completed using either path
+- [ ] Source writes were stopped and the Oracle `PHOTOALBUM.PHOTOS` count was recorded before export
+- [ ] The generated SQL files were inspected, and each import ran separately with `ON_ERROR_STOP=1`
+- [ ] The owner role was created as `NOLOGIN`, with no plaintext password
+- [ ] The schema-qualified `photos` row count in Azure PostgreSQL matches Oracle, verified by querying both
+- [ ] Filenames and image data match, and the sequence yields ids above the migrated maximum
+- [ ] The deployed Container App displays the migrated photos without re-upload
+- [ ] No database passwords appear in plain text in `application.properties` or Container App environment variables
+
+## What You Learned
+
+- Export an Oracle schema and data with Ora2Pg and import them into Azure PostgreSQL
+- Prevent Hibernate from wiping migrated data with `ddl-auto=validate`
+- Validate a migration by row counts, binary data and the running app
+
+## Key Takeaway
+
+> A migration is done when the counts match and the app shows the old data, not when the import exits.
+
+## Learn more
 
 - [Ora2Pg Documentation](https://github.com/darold/ora2pg)
 - [Ora2Pg Installation Guide](https://ora2pg.darold.net/docs/installation)
@@ -164,49 +182,18 @@ To complete this challenge, demonstrate:
 - [`psql` — PostgreSQL interactive terminal](https://www.postgresql.org/docs/current/app-psql.html)
 - [Hibernate `ddl-auto` reference](https://docs.hibernate.org/orm/6.4/userguide/html_single/Hibernate_User_Guide.html#configurations-hbmddl)
 
-## Hints and notes
+## Troubleshooting
 
-<details>
-<summary><strong>Tips</strong></summary>
-
-- Your Challenge 03 Terraform outputs contain the PostgreSQL Flexible Server hostname and admin credentials you need — check the `infra/` directory outputs.
-- When configuring Ora2Pg, pay close attention to the Oracle DSN format, schema name, and the separator between configuration directives — these are common sources of silent failures.
-- If you encounter SSL errors connecting to Azure PostgreSQL, check the Connection Security settings in the Azure Portal.
-- Ora2Pg handles the Oracle `BLOB` → PostgreSQL `BYTEA` type conversion automatically — you do not need to change your JPA entity definitions.
-- Hibernate has a setting that controls whether tables are created, updated, or only validated on application start. Review what each value means before redeploying the application against your freshly migrated data.
-
-</details>
-
-<details>
-<summary><strong>Pre-requisites</strong></summary>
-
-| Tool | Install / Notes |
+| Symptom | Fix |
 |---|---|
-| Oracle XE container running | `docker compose up -d` in `labs/01-java/resources/PhotoAlbum-Java/` |
-| Ora2Pg | `brew install ora2pg` (macOS) or `sudo apt-get install -y perl cpanminus && sudo cpanm DBD::Oracle Ora2Pg` (Linux) |
-| psql CLI | `sudo apt-get install postgresql-client` or [Windows installer](https://www.postgresql.org/download/windows/) |
-| Optional tooling path | VS Code PostgreSQL extension: [`ms-ossdata.vscode-pgsql`](https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-pgsql) |
-| Azure CLI | already installed from Challenge 00 |
-| Seeded source data | Run legacy app once and upload at least 2–3 photos |
+| Ora2Pg cannot connect | Oracle may not be ready, or the DSN is wrong. Check container status and `ORACLE_DSN`, and retry after Oracle warms up. |
+| Ora2Pg module errors | Perl dependencies are missing. Install `DBD::Oracle` and re-run the export. |
+| `psql` auth or SSL errors | Wrong credentials or SSL mode mismatch. Re-check the secrets, test with explicit SSL mode flags, and check Connection Security in the Azure Portal. |
+| Preview conversion controls not visible | The feature is not enabled in this environment or tenant. Use Path 1. |
+| Preview conversion tasks remain unresolved | Oracle-specific constructs need manual work. Use Review Tasks and Copilot-guided fixes before sign-off. |
+| Import stops on an error | `ON_ERROR_STOP=1` halts at the first failure. Inspect the generated SQL and the owner/schema mapping, then reset the empty target before retrying. |
+| Role `photoalbum` already exists | Skip the `CREATE ROLE`; the guarded statement only creates it when absent. Run the `GRANT`. |
+| `photos` not found after import | The table sits in the exported schema, not `public`. Check the search path or use the schema-qualified name. |
+| App starts with empty or changed data | `ddl-auto=create` reset the schema. Set `ddl-auto=validate` before startup. |
 
-Complete Challenge 03 first (`terraform apply` succeeded) so the PostgreSQL server and `photoalbum` database exist.
-
----
-
-</details>
-
-<details>
-<summary><strong>Common Pitfalls</strong></summary>
-
-| Symptom | Root Cause | Hint |
-|---|---|---|
-| Ora2Pg cannot connect | Oracle not ready or bad DSN | Check container status and `ORACLE_DSN`; retry after Oracle warm-up |
-| Ora2Pg module errors | Missing Perl dependencies | Install `DBD::Oracle` and re-run export |
-| `psql` auth or SSL errors | Wrong credentials / SSL mode mismatch | Re-check secrets and test with explicit SSL mode flags |
-| Preview conversion controls not visible | Feature not enabled in current environment/tenant | Switch to fallback Ora2Pg path without blocking challenge progress |
-| Preview conversion tasks remain unresolved | Oracle-specific constructs need manual intervention | Use Review Tasks + Copilot-guided fixes before final sign-off |
-| App starts with empty/changed data | `ddl-auto=create` reset schema | Enforce `ddl-auto=validate` before app startup |
-
----
-
-</details>
+**Next:** [Module 05: Observe and secure](05-observe-and-secure.md)

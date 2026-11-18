@@ -9,56 +9,59 @@ tags:
 highlight: false
 ---
 
-# Challenge 00 — Prerequisites
+# Module 00: Prerequisites
 
-## Introduction
+> **Duration:** ~30 minutes | **Phase:** Setup
 
-Before starting the **.NET 8 → .NET 10 track**, you must install and authenticate the required tools.
+## Objective
 
-The eShopOnWeb sample application is a **Git submodule**. Initialise it to download the source code.
+Install and authenticate the tools for the .NET 8 to .NET 10 lab, and confirm the original eShopOnWeb app builds and runs on .NET 8.
 
-If you prefer a container-based environment, open the repository in VS Code with the Dev Containers extension. The **Dev Container** definition (`.devcontainer/`) pre-installs most dependencies inside a Docker container.
+The eShopOnWeb sample application is a **Git submodule**. Initialise it to download the source code. For a container-based environment, open the repository in VS Code with the Dev Containers extension. The **Dev Container** definition (`.devcontainer/`) pre-installs most dependencies inside a Docker container.
 
-## Description
+## Step 1: Install and verify the required tools
 
-Set up your environment for the eShopOnWeb sample application:
+Install every tool listed in the [Prerequisites](../../README.md#azure-requirements) section of the labs README. Then:
 
-- Install and verify all required tools listed in the [Prerequisites](../../README.md#azure-requirements) section of the labs README
-- Clone the repository **with submodules** so that `labs/03-net8/resources/eShopOnWeb/` is populated
-- Install and authenticate the **GitHub Copilot Modernization CLI** (see below)
-- Verify your Azure subscription is accessible and you have permissions to create resources
-- Confirm **.NET 10 SDK** is installed (`dotnet --version` must show `10.x.x`)
-- Install the **EF Core global tool** (required for Challenge 04):
-  ```bash
-  dotnet tool install --global dotnet-ef
-  ```
+- Clone the repository **with submodules** so that `labs/03-net8/resources/eShopOnWeb/` is populated.
+- Verify your Azure subscription is accessible and you have permission to create resources.
+- Confirm the **.NET 10 SDK** is installed. `dotnet --version` must show `10.x.x`.
+- Install the **EF Core global tool**, required for [Module 04](04-migrate-the-database.md):
 
-### Install the Modernization CLI
+```bash
+dotnet tool install --global dotnet-ef
+```
+
+## Step 2: Install the Modernization CLI
 
 **Linux / macOS:**
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/microsoft/modernize-cli/main/scripts/install.sh | sh
 source ~/.bashrc   # or source ~/.zshrc on macOS
 ```
 
 **Windows:**
+
 ```powershell
 winget install GitHub.Copilot.modernization.agent
 ```
 
-After installing, authenticate and verify:
+Authenticate and verify:
+
 ```bash
 gh auth login        # if not already authenticated
 modernize --version  # confirm the CLI is on your PATH
 ```
 
-> **VS Code alternative:** Install the **GitHub Copilot Modernization** extension from the VS Code Marketplace. It provides the same capabilities through the editor UI.
+> **Note:** As an alternative, install the **GitHub Copilot Modernization** extension from the VS Code Marketplace. It provides the same capabilities through the editor UI.
 
-### Verify You Can Build and Run the Legacy App
+## Step 3: Build and run the legacy app
 
-Before starting the modernization, confirm the **.NET 8 app builds and runs** in its original state — either locally or inside the Dev Container.
+Confirm the **.NET 8 app builds and runs** in its original state, either locally or inside the Dev Container.
 
-> **⚠ Linux / Dev Container / macOS:** LocalDB is Windows-only. Configure the app to use an in-memory database before running it. Open `src/Web/appsettings.json` and add the following at the top level:
+> **Note:** LocalDB is Windows-only. On Linux, macOS or in the Dev Container, configure the app to use an in-memory database before running it. Open `src/Web/appsettings.json` and add this at the top level:
+>
 > ```json
 > "UseOnlyInMemoryDatabase": true
 > ```
@@ -74,11 +77,13 @@ dotnet build eShopOnWeb.sln
 dotnet run --project src/Web/Web.csproj
 ```
 
-The store home page should load at `https://localhost:5001/`. Stop the process (`Ctrl+C`) once confirmed.
+The store home page loads at `https://localhost:5001/`. Press `Ctrl+C` to stop the process.
 
-## Pre-flight Validation Checklist
+The net8 submodule points to `NimblePros/eShopOnWeb` at commit `a34eda5b3b741ab168d57c736964f0758ff81300` (ASP.NET Core 8.0, `Directory.Packages.props` with `<TargetFramework>net8.0</TargetFramework>`). At a different commit you may see packages already on .NET 9 or 10. Fix it with `git submodule update --init --recursive`.
 
-Run these commands from the repo root before starting Challenge 01. Every check must pass:
+## Step 4: Run the pre-flight checklist
+
+Run these commands from the repo root before starting Module 01. Every check must pass:
 
 ```bash
 # 1. GitHub CLI authenticated
@@ -99,7 +104,7 @@ ls labs/03-net8/resources/eShopOnWeb/src/Web/
 # 6. .NET 10 SDK is installed
 dotnet --version   # must start with 10.
 
-# 7. EF Core global tool (required for Challenge 04)
+# 7. EF Core global tool (required for Module 04)
 dotnet tool list --global | grep dotnet-ef || echo "⚠ dotnet-ef not installed — run: dotnet tool install --global dotnet-ef"
 
 # 8. Docker daemon is running
@@ -107,41 +112,7 @@ docker info --format "Docker version: {{.ServerVersion}}" 2>/dev/null \
   || echo "⚠ Docker is not running — start Docker Desktop"
 ```
 
-## Success Criteria
-
-To complete this challenge, demonstrate:
-
-1. `modernize --version` (CLI) or the GitHub Copilot Modernization extension shows as active in VS Code
-2. `gh auth status` returns your authenticated GitHub account
-3. `az account show` returns your Azure subscription
-4. `git submodule status` shows the net8 submodule at a valid commit hash (no leading `–`)
-5. `dotnet --version` shows **10.x.x**
-6. `dotnet build eShopOnWeb.sln` succeeds with **zero errors** against the original .NET 8 codebase
-7. The store home page loads at `https://localhost:5001/` when running `dotnet run`
-8. **Reflect** — why must both `global.json` and `Directory.Packages.props` be updated during this migration, and what happens if you only update one of them?
-
-## Learning Resources
-
-- [GitHub Copilot Modernization – Get Started](https://learn.microsoft.com/en-us/azure/developer/github-copilot-app-modernization/overview)
-- [Modernization CLI reference](https://learn.microsoft.com/azure/developer/github-copilot-app-modernization/modernization-agent/cli-commands)
-- [Git submodules documentation](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
-- [Dev Containers overview](https://code.visualstudio.com/docs/devcontainers/containers)
-- [.NET 10 download](https://dotnet.microsoft.com/download/dotnet/10.0)
-
-## Hints and notes
-
-<details>
-<summary><strong>Tips</strong></summary>
-
-- **If `git submodule status` shows a `-` prefix**, run: `git submodule update --init --recursive`
-- **If `dotnet --version` shows 8.x or 9.x**, install the .NET 10 SDK — multiple versions coexist; `global.json` controls which is active per folder.
-- **If `modernize` is not found**, install it first (see the **Install the Modernization CLI** section above), then ensure `~/.local/bin` is on your PATH: `export PATH="$HOME/.local/bin:$PATH"`
-- **If `dotnet-ef` is not found**, run: `dotnet tool install --global dotnet-ef` and restart your terminal
-
-</details>
-
-<details>
-<summary><strong>Expected Environment State</strong></summary>
+Expected results:
 
 | Check | Expected result |
 |-------|----------------|
@@ -155,37 +126,52 @@ To complete this challenge, demonstrate:
 | `dotnet build eShopOnWeb.sln` (inside `labs/03-net8/resources/eShopOnWeb`) | Build succeeds with zero errors on .NET 8 |
 | `dotnet run --project src/Web/Web.csproj` | Store home page loads at `https://localhost:5001/` |
 
-</details>
+## Checkpoint
 
-<details>
-<summary><strong>Submodule Note</strong></summary>
+Before moving on, confirm:
 
-The net8 submodule points to `NimblePros/eShopOnWeb` at commit `a34eda5b3b741ab168d57c736964f0758ff81300` (ASP.NET Core 8.0, `Directory.Packages.props` with `<TargetFramework>net8.0</TargetFramework>`). If a team has the wrong commit, they may encounter packages that are already on .NET 9 or 10.
+- [ ] `modernize --version` prints a version, or the GitHub Copilot Modernization extension shows as active in VS Code
+- [ ] `gh auth status` returns your authenticated GitHub account
+- [ ] `az account show` returns your Azure subscription
+- [ ] `git submodule status` shows the net8 submodule at a valid commit hash (no leading `-`)
+- [ ] `dotnet --version` shows **10.x.x**
+- [ ] `dotnet build eShopOnWeb.sln` succeeds with **zero errors** against the original .NET 8 codebase
+- [ ] The store home page loads at `https://localhost:5001/` when running `dotnet run`
 
-Fix: `git submodule update --init --recursive`
+## Reflect
 
-</details>
+- Why must both `global.json` and `Directory.Packages.props` be updated during this migration, and what happens if only one is updated? (`global.json` tells the .NET CLI which SDK to use; if it pins `8.0.x`, `dotnet build` refuses to build a `net10.0` project. `Directory.Packages.props` holds `<TargetFramework>`, which MSBuild writes into each compiled assembly. Updating only one breaks either SDK selection or compilation.)
 
-<details>
-<summary><strong>Common Issues</strong></summary>
+## What You Learned
 
-| Issue | Resolution |
-|-------|-----------|
-| `dotnet --version` shows 8.x | Install .NET 10 SDK; multiple versions coexist |
-| `global.json` pins 8.x in the submodule folder | This is intentional; you will fix it in Challenge 02 |
-| Submodule empty after clone | `git submodule update --init --recursive` |
-| `modernize` not found | Re-run install script; add `~/.local/bin` to PATH |
-| `dotnet build` fails on .NET 8 baseline | Submodule may be at wrong commit — run `git submodule update --init --recursive` |
-| `PlatformNotSupportedException: LocalDB is not supported on this platform` | Linux/macOS/Dev Container — you must add `"UseOnlyInMemoryDatabase": true` to `src/Web/appsettings.json` |
-| `https://localhost:5001/` not reachable | Check launch profile in `src/Web/Properties/launchSettings.json`; try HTTP on port 5000 |
+- Install and authenticate the Modernization CLI, GitHub CLI and Azure CLI
+- Initialise the eShopOnWeb submodule and confirm the right commit
+- Build and run the .NET 8 baseline with an in-memory database
+- Check your environment with a pre-flight script
 
-</details>
+## Key Takeaway
 
-<details>
-<summary><strong>Discussion Point</strong></summary>
+> Confirm the legacy app builds and runs on .NET 8 before changing anything, so every later failure is traceable to the upgrade.
 
-> "Why must both `global.json` and `Directory.Packages.props` be updated?"
+## Learn more
 
-Expected answer: `global.json` tells the .NET CLI which SDK version to use; if it pins `8.0.x`, `dotnet build` will refuse to build a `net10.0` project. `Directory.Packages.props` contains `<TargetFramework>` which is what MSBuild puts in each compiled assembly's metadata. Updating only one causes either the SDK selection or the compilation to fail.
+- [GitHub Copilot Modernization – Get Started](https://learn.microsoft.com/en-us/azure/developer/github-copilot-app-modernization/overview)
+- [Modernization CLI reference](https://learn.microsoft.com/azure/developer/github-copilot-app-modernization/modernization-agent/cli-commands)
+- [Git submodules documentation](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
+- [Dev Containers overview](https://code.visualstudio.com/docs/devcontainers/containers)
+- [.NET 10 download](https://dotnet.microsoft.com/download/dotnet/10.0)
 
-</details>
+## Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| `git submodule status` shows a `-` prefix, or the submodule is empty after clone | Run `git submodule update --init --recursive` |
+| `dotnet --version` shows 8.x or 9.x | Install the .NET 10 SDK. Multiple versions coexist; `global.json` controls which is active per folder |
+| `global.json` pins 8.x in the submodule folder | Expected. You fix it in Module 02 |
+| `modernize` not found | Re-run the install script, then add `~/.local/bin` to PATH: `export PATH="$HOME/.local/bin:$PATH"` |
+| `dotnet-ef` not found | Run `dotnet tool install --global dotnet-ef` and restart your terminal |
+| `dotnet build` fails on the .NET 8 baseline | The submodule may be at the wrong commit. Run `git submodule update --init --recursive` |
+| `PlatformNotSupportedException: LocalDB is not supported on this platform` | Add `"UseOnlyInMemoryDatabase": true` to `src/Web/appsettings.json` |
+| `https://localhost:5001/` not reachable | Check the launch profile in `src/Web/Properties/launchSettings.json`, or try HTTP on port 5000 |
+
+**Next:** [Module 01: Assess the eShopOnWeb application](01-assess-the-legacy-app.md)

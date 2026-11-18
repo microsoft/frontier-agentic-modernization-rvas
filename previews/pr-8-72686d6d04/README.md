@@ -55,45 +55,45 @@ The site's **Demo** menu opens two demo walkthroughs and their guides.
 
 Each demo runs for 55 minutes; complete its pre-demo setup before presenting.
 
-## Challenges
+## Modules
 
 Choose from the **`dotnet/`**, **`java/`**, and **`net8/`** sample tracks.
-The customer CLI challenge and rebuild milestones are alternative paths, not
+The customer CLI module and rebuild milestones are alternative paths, not
 extra prerequisites.
 
-- Challenge 00: **Prerequisites — Ready, Set, GO!** — [.NET](labs/02-dotnet/challenges/00-prerequisites.md) · [Java](labs/01-java/challenges/00-prerequisites-and-setup.md)
+- Module 00: **Prerequisites — Ready, Set, GO!** — [.NET](labs/02-dotnet/challenges/00-prerequisites.md) · [Java](labs/01-java/challenges/00-prerequisites-and-setup.md)
   - Prepare your workstation and verify access to all required tools and services.
-- Challenge 01: **Assess the Legacy Application** — [.NET](labs/02-dotnet/challenges/01-assess-the-legacy-app.md) · [Java](labs/01-java/challenges/01-assess-the-legacy-app.md)
+- Module 01: **Assess the Legacy Application** — [.NET](labs/02-dotnet/challenges/01-assess-the-legacy-app.md) · [Java](labs/01-java/challenges/01-assess-the-legacy-app.md)
   - Run the GitHub Copilot Modernization assessment and interpret the results.
-- Challenge 02: **Modernize the Application** — [.NET](labs/02-dotnet/challenges/02-modernize-the-app.md) · [Java](labs/01-java/challenges/02-modernize-the-app.md)
+- Module 02: **Modernize the Application** — [.NET](labs/02-dotnet/challenges/02-modernize-the-app.md) · [Java](labs/01-java/challenges/02-modernize-the-app.md)
   - .NET: migrate ContosoUniversity from .NET Framework 4.8 to .NET 10 ASP.NET Core with Azure Service Bus and Azure Blob Storage.
   - Java: migrate PhotoAlbum from Spring Boot 2.7 / Java 8 / Oracle to Spring Boot 3.x / Java 25 / PostgreSQL + Azure Blob Storage.
-- Challenge 03: **Containerize & Deploy to Azure Container Apps** — [.NET](labs/02-dotnet/challenges/03-containerize-and-deploy.md) · [Java](labs/01-java/challenges/03-containerize-and-deploy.md)
+- Module 03: **Containerize & Deploy to Azure Container Apps** — [.NET](labs/02-dotnet/challenges/03-containerize-and-deploy.md) · [Java](labs/01-java/challenges/03-containerize-and-deploy.md)
   - Package the modernized app as a container and deploy it to Azure using Terraform.
-- Challenge 04: **Migrate the Database to Azure** — [.NET](labs/02-dotnet/challenges/04-migrate-the-database.md) · [Java](labs/01-java/challenges/04-migrate-the-database.md)
+- Module 04: **Migrate the Database to Azure** — [.NET](labs/02-dotnet/challenges/04-migrate-the-database.md) · [Java](labs/01-java/challenges/04-migrate-the-database.md)
   - Migrate legacy production data to the managed Azure target database and validate row parity + app behavior.
-- Challenge 05: **Observe & Secure** — [.NET](labs/02-dotnet/challenges/05-observe-and-secure.md) · [Java](labs/01-java/challenges/05-observe-and-secure.md)
+- Module 05: **Observe & Secure** — [.NET](labs/02-dotnet/challenges/05-observe-and-secure.md) · [Java](labs/01-java/challenges/05-observe-and-secure.md)
   - Integrate Application Insights, secure secrets with Azure Key Vault and Managed Identity.
-- Challenge 06: **Add AI to the Application (Stretch)** — [.NET](labs/02-dotnet/challenges/06-infuse-ai.md) · [Java](labs/01-java/challenges/06-infuse-ai.md)
+- Module 06: **Add AI to the Application (Stretch)** — [.NET](labs/02-dotnet/challenges/06-infuse-ai.md) · [Java](labs/01-java/challenges/06-infuse-ai.md)
   - Add Azure OpenAI (vision, `gpt-4.1-mini`) with Managed Identity so the app generates course/photo metadata on upload.
 
 ### eShopOnWeb Track (.NET 8 → .NET 10)
 
 **eShopOnWeb** is an ASP.NET Core 8.0 multi-project reference application (Web MVC + PublicApi + BlazorAdmin + Infrastructure + ApplicationCore). The migration targets .NET 10 and involves breaking changes: the Swashbuckle → `Microsoft.AspNetCore.OpenApi` transition, package changes that cascade through Central Package Management, EF Core 10 updates, and Blazor WASM package updates. It also adds Azure Service Bus and Azure Blob Storage.
 
-- Challenge 00: **Prerequisites — Ready, Set, GO!** — [.NET 8](labs/03-net8/challenges/00-prerequisites.md)
+- Module 00: **Prerequisites — Ready, Set, GO!** — [.NET 8](labs/03-net8/challenges/00-prerequisites.md)
   - Prepare your workstation with the .NET 10 SDK and verify access to all required tools and services.
-- Challenge 01: **Assess the eShopOnWeb Application** — [.NET 8](labs/03-net8/challenges/01-assess-the-legacy-app.md)
+- Module 01: **Assess the eShopOnWeb Application** — [.NET 8](labs/03-net8/challenges/01-assess-the-legacy-app.md)
   - Run the GitHub Copilot Modernization assessment and identify the top migration blockers (including Swashbuckle).
-- Challenge 02: **Modernize to .NET 10** — [.NET 8](labs/03-net8/challenges/02-modernize-to-net10.md)
+- Module 02: **Modernize to .NET 10** — [.NET 8](labs/03-net8/challenges/02-modernize-to-net10.md)
   - Update the target framework across all 5 projects, update `Directory.Packages.props`, replace Swashbuckle with `Microsoft.AspNetCore.OpenApi`, and fix all breaking changes.
-- Challenge 03: **Containerize, Cloud-Modernize & Deploy** — [.NET 8](labs/03-net8/challenges/03-containerize-and-deploy.md)
+- Module 03: **Containerize, Cloud-Modernize & Deploy** — [.NET 8](labs/03-net8/challenges/03-containerize-and-deploy.md)
   - Add Azure Service Bus (order events) and Azure Blob Storage (product images), update Dockerfiles to .NET 10, and deploy to Azure Container Apps via Terraform.
-- Challenge 04: **Migrate the Database to Azure SQL** — [.NET 8](labs/03-net8/challenges/04-migrate-the-database.md)
+- Module 04: **Migrate the Database to Azure SQL** — [.NET 8](labs/03-net8/challenges/04-migrate-the-database.md)
   - Apply EF Core migrations for both `CatalogContext` and `AppIdentityDbContext` against Azure SQL and validate end-to-end.
-- Challenge 05: **Observe & Secure** — [.NET 8](labs/03-net8/challenges/05-observe-and-secure.md)
+- Module 05: **Observe & Secure** — [.NET 8](labs/03-net8/challenges/05-observe-and-secure.md)
   - Integrate Application Insights, secure all secrets with Azure Key Vault and Managed Identity.
-- Challenge 06: **Add AI to the Application (Stretch)** — [.NET 8](labs/03-net8/challenges/06-infuse-ai.md)
+- Module 06: **Add AI to the Application (Stretch)** — [.NET 8](labs/03-net8/challenges/06-infuse-ai.md)
   - Add Azure OpenAI (`gpt-4.1-mini`, vision) with Managed Identity to generate product descriptions and alt text on image upload.
 
 ### Upgrade Your Application (CLI Customer Track)
@@ -137,11 +137,11 @@ Before starting, check that:
 Choose this route for business or architecture changes that a runtime upgrade
 alone cannot solve. Use the **Agentic Modernization** plugin, not the `modernize` CLI.
 
-| Challenge | Outcome |
+| Module | Outcome |
 | --- | --- |
 | [00: Prepare](labs/04-rebuild/challenges/00-prepare-your-application.md) | A complete app small enough for the lab, rebuild brief, decision owners, and workspace |
 | [01: Discover & plan](labs/04-rebuild/challenges/01-discovery-and-planning.md) | One interactive skill workflow: analysis, questions, decisions, and the complete nine-artifact package |
-| [02: Review the package](labs/04-rebuild/challenges/02-review-the-package.md) | Evidence checks, challenged assumptions, targeted corrections, and a reviewed revision |
+| [02: Review the package](labs/04-rebuild/challenges/02-review-the-package.md) | Evidence checks, questioned assumptions, targeted corrections, and a reviewed revision |
 | [03: Choose the workflow](labs/04-rebuild/challenges/03-choose-the-workflow.md) | Opus 5.5, implementation readiness, and direct, Matt Pocock, or Spec Kit delivery inputs |
 | [04: Rebuild](labs/04-rebuild/challenges/04-rebuild-the-app.md) | Explicit implementation prompts for the chosen path; Matt's path uses up to two concurrent subagents |
 | [05: Review the app](labs/04-rebuild/challenges/05-review-and-fix-the-app.md) | `/review`, acceptance coverage, and implementation of missing behavior |
@@ -154,8 +154,8 @@ A shorter planning-only session is useful but is not a completed rebuild.
 See the [setup and usage guide](labs/04-rebuild/setup.md) and
 [supporting-skill profiles](labs/04-rebuild/supporting-skills.md).
 
-Challenge 01 handles discovery, stakeholder questions, target selection, and
-the complete planning package. Challenges 02 and 03 review that package and
+Module 01 handles discovery, stakeholder questions, target selection, and
+the complete planning package. Modules 02 and 03 review that package and
 prepare delivery; they do not generate separate parts of it.
 Every activity includes copyable prompts. Matt Pocock and Spec Kit turn
 the reviewed package into delivery inputs rather than starting discovery again.
@@ -266,7 +266,7 @@ modernize   # launch interactive TUI
 │   ├── README.md            ← Labs guide and lab requirements
 │   ├── _framework/          ← Lab validator and index generator
 │   ├── _template/           ← Template for a new lab
-│   ├── 01-java/             ← Java lab: challenges merged with notes, resources
+│   ├── 01-java/             ← Java lab: modules and resources
 │   ├── 02-dotnet/           ← .NET Framework 4.8 lab
 │   ├── 03-net8/             ← .NET 8 → .NET 10 lab
 │   ├── 04-rebuild/          ← Rebuild lab, setup, supporting skills, pacing guide, self-check
