@@ -1,8 +1,0 @@
-# Ignore provider binaries (re-downloaded by terraform init)
-.terraform/
-
-# Ignore secrets
-terraform.tfvars
-
-# Commit the lock file so students get consistent provider versions
-!.terraform.lock.hcl

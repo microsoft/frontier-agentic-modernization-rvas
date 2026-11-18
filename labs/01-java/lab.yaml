@@ -1,0 +1,6 @@
+id: 01-java
+title: Java – PhotoAlbum
+summary: Upgrade PhotoAlbum from Java 8 and Oracle to Java 25, PostgreSQL and Azure Container Apps.
+accent: "#1A77E3"
+order: 1
+prefix: JAVA

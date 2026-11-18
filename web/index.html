@@ -253,7 +253,7 @@
             overflow: hidden;
         }
 
-        /* Full-width card for challenge 00 */
+        /* Full-width card for the single customer module */
         .challenge-card.full {
             grid-column: span 3;
         }
@@ -433,7 +433,7 @@
             gap: 2rem;
         }
 
-        /* ─── Presenter demos ────────────────────────────────────────────── */
+        /* ─── Demos ────────────────────────────────────────────── */
         #demos {
             background: var(--surface);
             border-bottom: 1px solid var(--border);
@@ -884,10 +884,10 @@
         }
 
         .md-content pre {
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: #0c0c0c;
+            border: 1px solid #2d2d2d;
             border-radius: var(--radius-lg);
-            padding: 1.25rem 1.5rem;
+            padding: 1.1rem 1.5rem;
             overflow-x: auto;
             margin-bottom: 1.25rem;
         }
@@ -896,39 +896,105 @@
             background: none;
             border: none;
             padding: 0;
-            font-size: .78rem;
-            color: var(--text-2);
-            line-height: 1.8;
+            font-size: .8rem;
+            color: #d4d4d4;
+            line-height: 1.7;
         }
 
         .code-box {
             position: relative;
             margin-bottom: 1.25rem;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .18);
+        }
+
+        /* Terminal title bar with window dots */
+        .code-box::before {
+            content: "";
+            display: block;
+            height: 1.6rem;
+            background:
+                radial-gradient(circle at .9rem 50%, #ff5f57 .27rem, transparent .31rem),
+                radial-gradient(circle at 1.8rem 50%, #febc2e .27rem, transparent .31rem),
+                radial-gradient(circle at 2.7rem 50%, #28c840 .27rem, transparent .31rem),
+                #2b2b2b;
+            border: 1px solid #2d2d2d;
+            border-bottom: 0;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
         }
 
         .md-content .code-box pre {
             margin-bottom: 0;
-            padding-top: 3rem;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
         }
 
         .code-copy {
             position: absolute;
-            top: .5rem;
+            top: .2rem;
             right: .5rem;
-            min-height: 32px;
-            padding: .25rem .6rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            background: var(--surface);
-            color: var(--text-2);
-            font: inherit;
-            font-size: .75rem;
+            width: 22px;
+            height: 22px;
+            padding: 0;
+            border: 0;
+            border-radius: 4px;
+            background: transparent;
+            color: #b5b5b5;
+            font-size: 0;
             cursor: pointer;
         }
 
-        .code-copy:hover {
-            color: var(--text);
-            border-color: currentColor;
+        .code-copy::before {
+            content: "";
+            position: absolute;
+            inset: 3px;
+            background: currentColor;
+            -webkit-mask: var(--icon) center / contain no-repeat;
+            mask: var(--icon) center / contain no-repeat;
+            --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5'%3E%3Crect x='5.5' y='5.5' width='8' height='8' rx='1.5'/%3E%3Cpath d='M10.5 3.5v-.5A1.5 1.5 0 0 0 9 1.5H3A1.5 1.5 0 0 0 1.5 3v6A1.5 1.5 0 0 0 3 10.5h.5'/%3E%3C/svg%3E");
+        }
+
+        .code-copy[data-tip="Copied!"] {
+            color: #28c840;
+        }
+
+        .code-copy[data-tip="Copied!"]::before {
+            --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='2'%3E%3Cpath d='M3 8.5l3.500 3.500L13 4.5'/%3E%3C/svg%3E");
+        }
+
+        .code-copy[data-tip="Copy failed"] {
+            color: #ff5f57;
+        }
+
+        .code-copy::after {
+            content: attr(data-tip);
+            position: absolute;
+            top: calc(100% + 4px);
+            right: 0;
+            padding: .2rem .5rem;
+            background: #111;
+            border: 1px solid #4a4a4a;
+            border-radius: 4px;
+            color: #e6e6e6;
+            font-family: var(--font-body);
+            font-size: .7rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .12s;
+            z-index: 2;
+        }
+
+        .code-copy:hover,
+        .code-copy:focus-visible {
+            color: #fff;
+        }
+
+        .code-copy:hover::after,
+        .code-copy:focus-visible::after,
+        .code-copy[data-tip="Copied!"]::after,
+        .code-copy[data-tip="Copy failed"]::after {
+            opacity: 1;
         }
 
         .code-copy:focus-visible {
@@ -999,7 +1065,7 @@
             margin: 2rem 0;
         }
 
-        /* The drawer header already provides challenge navigation. */
+        /* The drawer header already provides module navigation. */
         .md-content > p:first-child:has(+ h1):has(a[href$=".md"]) {
             display: none;
         }
@@ -1065,41 +1131,6 @@
                 grid-column: span 1;
             }
 
-        }
-
-        /* ─── Coach Mode ────────────────────────────────────────────────── */
-        .coach-hidden {
-            display: none;
-        }
-
-        #coach {
-            border-top: 2px solid var(--amber);
-            border-bottom: 1px solid var(--border);
-        }
-
-        #coach-toast {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%) translateY(20px);
-            background: var(--surface);
-            border: 1px solid var(--amber);
-            color: var(--amber);
-            font-family: var(--font-body);
-            font-size: .72rem;
-            letter-spacing: .08em;
-            font-weight: 600;
-            padding: .6rem 1.25rem;
-            border-radius: 99px;
-            z-index: 300;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity .3s ease, transform .3s ease;
-        }
-
-        #coach-toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
         }
 
         #rebuild-challenges > .section-desc {
@@ -1380,7 +1411,7 @@
                 <p>Deliver a running modernized application and show that required behavior still works.</p>
                 <p class="route-tool">GitHub Copilot Modernization CLI</p>
                 <div class="route-actions">
-                    <a class="btn btn-primary" href="Student/customer/Challenge-00.md" aria-haspopup="dialog" aria-controls="drawer">Start an upgrade</a>
+                    <a class="btn btn-primary" href="labs/05-customer/challenges/00-upgrade-a-customer-app.md" aria-haspopup="dialog" aria-controls="drawer">Start an upgrade</a>
                     <a class="route-more" href="#challenges">Explore sample tracks</a>
                 </div>
             </article>
@@ -1390,7 +1421,7 @@
                 <p>Deliver a reviewed architecture and a complete rebuilt app on Azure. Choose an app small enough for the event.</p>
                 <p class="route-tool">Agentic Modernization plugin</p>
                 <div class="route-actions">
-                    <a class="btn btn-primary" href="Student/rebuild/Challenge-00.md" aria-haspopup="dialog" aria-controls="drawer">Start a rebuild</a>
+                    <a class="btn btn-primary" href="labs/04-rebuild/challenges/00-prepare-your-application.md" aria-haspopup="dialog" aria-controls="drawer">Start a rebuild</a>
                     <a class="route-more" href="#rebuild-challenges">View rebuild milestones</a>
                 </div>
             </article>
@@ -1401,7 +1432,7 @@
     <section id="prerequisites">
         <h2 class="section-title display reveal">Prerequisites</h2>
         <p class="section-desc">These tools support the upgrade tracks. For a rebuild, follow the
-            <a href="Student/rebuild/setup.md">plugin setup guide</a>; you do not need the Modernization CLI.</p>
+            <a href="labs/04-rebuild/setup.md">plugin setup guide</a>; you do not need the Modernization CLI.</p>
         <div class="prereq-layout">
             <div class="prereq-list reveal">
                 <div class="prereq-item">
@@ -1508,8 +1539,8 @@
                         <div>&nbsp;</div>
                         <div><span class="comment"># Verify submodules are populated</span></div>
                         <div><span class="cmd">git submodule status</span></div>
-                        <div><span class="ok">✓ a3f8c... Student/Resources/java/PhotoAlbum-Java</span></div>
-                        <div><span class="ok">✓ 9d2e1... Student/Resources/dotnet/dotnet-migration...</span></div>
+                        <div><span class="ok">✓ a3f8c... labs/01-java/resources/PhotoAlbum-Java</span></div>
+                        <div><span class="ok">✓ 9d2e1... labs/02-dotnet/resources/dotnet-migration...</span></div>
                         <div>&nbsp;</div>
                         <div><span class="comment"># Verify CLI is ready</span></div>
                         <div><span class="cmd">modernize --version</span></div>
@@ -1520,7 +1551,7 @@
         </div>
     </section>
 
-    <!-- Presenter demos -->
+    <!-- Demos -->
     <section id="demos" aria-labelledby="demos-heading" data-route="refactor">
         <h2 class="section-title display reveal" id="demos-heading">See modernization in action.</h2>
         <p class="section-desc reveal">Two demos follow legacy applications through modernization and deployment to Azure.
@@ -1528,7 +1559,7 @@
             Each demo runs for 55 minutes; complete provisioning before presenting.</p>
 
         <div class="demos-grid">
-            <a class="challenge-card demo-card" data-track="java" href="Coach/demo/java/guide.md"
+            <a class="challenge-card demo-card" data-track="java" href="demo/java/guide.md"
                 aria-haspopup="dialog" aria-controls="drawer">
                 <div class="card-top">
                     <span class="card-phase-badge">Java demo</span>
@@ -1545,7 +1576,7 @@
                     <span class="card-arrow">Open guide →</span>
                 </div>
             </a>
-            <a class="challenge-card demo-card" data-track="dotnet" href="Coach/demo/dotnet/guide.md"
+            <a class="challenge-card demo-card" data-track="dotnet" href="demo/dotnet/guide.md"
                 aria-haspopup="dialog" aria-controls="drawer">
                 <div class="card-top">
                     <span class="card-phase-badge">.NET demo</span>
@@ -1553,7 +1584,7 @@
                 </div>
                 <h3 class="card-title">ContosoUniversity</h3>
                 <p class="card-desc">Modernize ASP.NET MVC 5 and .NET Framework 4.8 to .NET 10 on Container Apps,
-                    migrate SQL Express to Azure SQL, and add AI image enrichment. Run the presenter tools on Windows.</p>
+                    migrate SQL Express to Azure SQL, and add AI image enrichment. Run the demo tools on Windows.</p>
                 <div class="card-footer">
                     <div class="card-tags">
                         <span class="card-tag">Windows · PowerShell 7</span>
@@ -1574,7 +1605,7 @@
             <p class="section-desc reveal">
                 <strong>Bring a real customer-owned application.</strong>
                 Assess, modernize, and deploy your workload to Azure with the Modernization CLI.
-                <a href="Student/customer/Challenge-00.md" aria-haspopup="dialog" aria-controls="drawer">Start your application upgrade.</a>
+                <a href="labs/05-customer/challenges/00-upgrade-a-customer-app.md" aria-haspopup="dialog" aria-controls="drawer">Start your application upgrade.</a>
                 The three sample tracks below are optional practice, not substitutes for customer delivery.
                 For deeper architecture changes, <a href="#rebuild-challenges">choose rearchitect / rebuild</a>.
             </p>
@@ -1586,13 +1617,13 @@
             <div class="challenges-grid">
 
                 <!-- Java CH-00 -->
-                <a class="challenge-card full" data-phase="00" href="Student/java/Challenge-00.md">
+                <a class="challenge-card full" data-phase="00" href="labs/01-java/challenges/00-prerequisites-and-setup.md">
                     <div class="card-bg-number display">00</div>
                     <div class="card-inner">
                         <div>
                             <div class="card-top">
                                 <span class="card-phase-badge">Setup</span>
-                                <span class="card-num mono">CH — 00</span>
+                                <span class="card-num mono">MOD — 00</span>
                             </div>
                             <h3 class="card-title display">Prerequisites<br>(Java)</h3>
                         </div>
@@ -1608,18 +1639,18 @@
                                     <span class="card-tag">Azure CLI</span>
                                     <span class="card-tag">Terraform</span>
                                 </div>
-                                <div class="card-arrow mono">Open challenge <span>→</span></div>
+                                <div class="card-arrow mono">Open module <span>→</span></div>
                             </div>
                         </div>
                     </div>
                 </a>
 
                 <!-- Java CH-01 -->
-                <a class="challenge-card" data-phase="01" href="Student/java/Challenge-01.md">
+                <a class="challenge-card" data-phase="01" href="labs/01-java/challenges/01-assess-the-legacy-app.md">
                     <div class="card-bg-number display">01</div>
                     <div class="card-top">
                         <span class="card-phase-badge">Assess</span>
-                        <span class="card-num mono">CH — 01</span>
+                        <span class="card-num mono">MOD — 01</span>
                     </div>
                     <h3 class="card-title display">Assess the Java App</h3>
                     <p class="card-desc">
@@ -1636,11 +1667,11 @@
                 </a>
 
                 <!-- Java CH-02 -->
-                <a class="challenge-card" data-phase="02" href="Student/java/Challenge-02.md">
+                <a class="challenge-card" data-phase="02" href="labs/01-java/challenges/02-modernize-the-app.md">
                     <div class="card-bg-number display">02</div>
                     <div class="card-top">
                         <span class="card-phase-badge">Modernize</span>
-                        <span class="card-num mono">CH — 02</span>
+                        <span class="card-num mono">MOD — 02</span>
                     </div>
                     <h3 class="card-title display">Modernize the Java App</h3>
                     <p class="card-desc">
@@ -1659,11 +1690,11 @@
                 </a>
 
                 <!-- Java CH-03 -->
-                <a class="challenge-card half" data-phase="03" href="Student/java/Challenge-03.md">
+                <a class="challenge-card half" data-phase="03" href="labs/01-java/challenges/03-containerize-and-deploy.md">
                     <div class="card-bg-number display">03</div>
                     <div class="card-top">
                         <span class="card-phase-badge">Deploy</span>
-                        <span class="card-num mono">CH — 03</span>
+                        <span class="card-num mono">MOD — 03</span>
                     </div>
                     <h3 class="card-title display">Containerize &amp; Deploy (Java)</h3>
                     <p class="card-desc">
@@ -1682,11 +1713,11 @@
                 </a>
 
                 <!-- Java CH-04 -->
-                <a class="challenge-card half" data-phase="04" href="Student/java/Challenge-04.md">
+                <a class="challenge-card half" data-phase="04" href="labs/01-java/challenges/04-migrate-the-database.md">
                     <div class="card-bg-number display">04</div>
                     <div class="card-top">
                         <span class="card-phase-badge">Data Migration</span>
-                        <span class="card-num mono">CH — 04</span>
+                        <span class="card-num mono">MOD — 04</span>
                     </div>
                     <h3 class="card-title display">Migrate the Database to PostgreSQL</h3>
                     <p class="card-desc">
@@ -1705,11 +1736,11 @@
                 </a>
 
                 <!-- Java CH-05 -->
-                <a class="challenge-card half" data-phase="05" href="Student/java/Challenge-05.md">
+                <a class="challenge-card half" data-phase="05" href="labs/01-java/challenges/05-observe-and-secure.md">
                     <div class="card-bg-number display">05</div>
                     <div class="card-top">
                         <span class="card-phase-badge">Observe &amp; Secure</span>
-                        <span class="card-num mono">CH — 05</span>
+                        <span class="card-num mono">MOD — 05</span>
                     </div>
                     <h3 class="card-title display">Observe &amp; Secure</h3>
                     <p class="card-desc">
@@ -1727,11 +1758,11 @@
                 </a>
 
                 <!-- Java CH-06 -->
-                <a class="challenge-card half" data-phase="06" href="Student/java/Challenge-06.md">
+                <a class="challenge-card half" data-phase="06" href="labs/01-java/challenges/06-infuse-ai.md">
                     <div class="card-bg-number display">06</div>
                     <div class="card-top">
                         <span class="card-phase-badge">Stretch · AI</span>
-                        <span class="card-num mono">CH — 06</span>
+                        <span class="card-num mono">MOD — 06</span>
                     </div>
                     <h3 class="card-title display">Add AI to PhotoAlbum</h3>
                     <p class="card-desc">
@@ -1759,13 +1790,13 @@
             <div class="challenges-grid">
 
                 <!-- .NET CH-00 -->
-                <a class="challenge-card full" data-phase="00" href="Student/dotnet/Challenge-00.md">
+                <a class="challenge-card full" data-phase="00" href="labs/02-dotnet/challenges/00-prerequisites.md">
                     <div class="card-bg-number display">00</div>
                     <div class="card-inner">
                         <div>
                             <div class="card-top">
                                 <span class="card-phase-badge">Setup</span>
-                                <span class="card-num mono">CH — 00</span>
+                                <span class="card-num mono">MOD — 00</span>
                             </div>
                             <h3 class="card-title display">Prerequisites<br>(.NET)</h3>
                         </div>
@@ -1781,18 +1812,18 @@
                                     <span class="card-tag">Azure CLI</span>
                                     <span class="card-tag">Terraform</span>
                                 </div>
-                                <div class="card-arrow mono">Open challenge <span>→</span></div>
+                                <div class="card-arrow mono">Open module <span>→</span></div>
                             </div>
                         </div>
                     </div>
                 </a>
 
                 <!-- .NET CH-01 -->
-                <a class="challenge-card" data-phase="01" href="Student/dotnet/Challenge-01.md">
+                <a class="challenge-card" data-phase="01" href="labs/02-dotnet/challenges/01-assess-the-legacy-app.md">
                     <div class="card-bg-number display">01</div>
                     <div class="card-top">
                         <span class="card-phase-badge">Assess</span>
-                        <span class="card-num mono">CH — 01</span>
+                        <span class="card-num mono">MOD — 01</span>
                     </div>
                     <h3 class="card-title display">Assess the .NET App</h3>
                     <p class="card-desc">
@@ -1809,11 +1840,11 @@
                 </a>
 
                 <!-- .NET CH-02 -->
-                <a class="challenge-card" data-phase="02" href="Student/dotnet/Challenge-02.md">
+                <a class="challenge-card" data-phase="02" href="labs/02-dotnet/challenges/02-modernize-the-app.md">
                     <div class="card-bg-number display">02</div>
                     <div class="card-top">
                         <span class="card-phase-badge">Modernize</span>
-                        <span class="card-num mono">CH — 02</span>
+                        <span class="card-num mono">MOD — 02</span>
                     </div>
                     <h3 class="card-title display">Modernize the .NET App</h3>
                     <p class="card-desc">
@@ -1832,11 +1863,11 @@
                 </a>
 
                 <!-- .NET CH-03 -->
-                <a class="challenge-card half" data-phase="03" href="Student/dotnet/Challenge-03.md">
+                <a class="challenge-card half" data-phase="03" href="labs/02-dotnet/challenges/03-containerize-and-deploy.md">
                     <div class="card-bg-number display">03</div>
                     <div class="card-top">
                         <span class="card-phase-badge">Deploy</span>
-                        <span class="card-num mono">CH — 03</span>
+                        <span class="card-num mono">MOD — 03</span>
                     </div>
                     <h3 class="card-title display">Containerize &amp; Deploy (.NET)</h3>
                     <p class="card-desc">
@@ -1855,11 +1886,11 @@
                 </a>
 
                 <!-- .NET CH-04 -->
-                <a class="challenge-card half" data-phase="04" href="Student/dotnet/Challenge-04.md">
+                <a class="challenge-card half" data-phase="04" href="labs/02-dotnet/challenges/04-migrate-the-database.md">
                     <div class="card-bg-number display">04</div>
                     <div class="card-top">
                         <span class="card-phase-badge">Data Migration</span>
-                        <span class="card-num mono">CH — 04</span>
+                        <span class="card-num mono">MOD — 04</span>
                     </div>
                     <h3 class="card-title display">Migrate the Database to Azure SQL</h3>
                     <p class="card-desc">
@@ -1878,11 +1909,11 @@
                 </a>
 
                 <!-- .NET CH-05 -->
-                <a class="challenge-card half" data-phase="05" href="Student/dotnet/Challenge-05.md">
+                <a class="challenge-card half" data-phase="05" href="labs/02-dotnet/challenges/05-observe-and-secure.md">
                     <div class="card-bg-number display">05</div>
                     <div class="card-top">
                         <span class="card-phase-badge">Observe &amp; Secure</span>
-                        <span class="card-num mono">CH — 05</span>
+                        <span class="card-num mono">MOD — 05</span>
                     </div>
                     <h3 class="card-title display">Observe &amp; Secure</h3>
                     <p class="card-desc">
@@ -1900,11 +1931,11 @@
                 </a>
 
                 <!-- .NET CH-06 -->
-                <a class="challenge-card half" data-phase="06" href="Student/dotnet/Challenge-06.md">
+                <a class="challenge-card half" data-phase="06" href="labs/02-dotnet/challenges/06-infuse-ai.md">
                     <div class="card-bg-number display">06</div>
                     <div class="card-top">
                         <span class="card-phase-badge">Stretch · AI</span>
-                        <span class="card-num mono">CH — 06</span>
+                        <span class="card-num mono">MOD — 06</span>
                     </div>
                     <h3 class="card-title display">Add AI to ContosoUniversity</h3>
                     <p class="card-desc">
@@ -1932,14 +1963,14 @@
             <div class="challenges-grid">
 
                 <!-- net8 CH-00 -->
-                <a class="challenge-card full" data-phase="00" href="Student/net8/Challenge-00.md">
+                <a class="challenge-card full" data-phase="00" href="labs/03-net8/challenges/00-prerequisites.md">
                     <div class="card-bg-number display">00</div>
                     <div class="card-inner">
                         <div>
                             <div class="card-top">
                                 <span class="card-phase-badge"
                                    >Setup</span>
-                                <span class="card-num mono">CH — 00</span>
+                                <span class="card-num mono">MOD — 00</span>
                             </div>
                             <h3 class="card-title display">Prerequisites<br>(.NET 8)</h3>
                         </div>
@@ -1955,19 +1986,19 @@
                                     <span class="card-tag">Docker</span>
                                     <span class="card-tag">Terraform</span>
                                 </div>
-                                <div class="card-arrow mono">Open challenge <span>→</span></div>
+                                <div class="card-arrow mono">Open module <span>→</span></div>
                             </div>
                         </div>
                     </div>
                 </a>
 
                 <!-- net8 CH-01 -->
-                <a class="challenge-card" data-phase="01" href="Student/net8/Challenge-01.md">
+                <a class="challenge-card" data-phase="01" href="labs/03-net8/challenges/01-assess-the-legacy-app.md">
                     <div class="card-bg-number display">01</div>
                     <div class="card-top">
                         <span class="card-phase-badge"
                            >Assess</span>
-                        <span class="card-num mono">CH — 01</span>
+                        <span class="card-num mono">MOD — 01</span>
                     </div>
                     <h3 class="card-title display">Assess eShopOnWeb</h3>
                     <p class="card-desc">
@@ -1984,12 +2015,12 @@
                 </a>
 
                 <!-- net8 CH-02 -->
-                <a class="challenge-card" data-phase="02" href="Student/net8/Challenge-02.md">
+                <a class="challenge-card" data-phase="02" href="labs/03-net8/challenges/02-modernize-to-net10.md">
                     <div class="card-bg-number display">02</div>
                     <div class="card-top">
                         <span class="card-phase-badge"
                            >Modernize</span>
-                        <span class="card-num mono">CH — 02</span>
+                        <span class="card-num mono">MOD — 02</span>
                     </div>
                     <h3 class="card-title display">Modernize to .NET 10</h3>
                     <p class="card-desc">
@@ -2010,12 +2041,12 @@
                 </a>
 
                 <!-- net8 CH-03 -->
-                <a class="challenge-card half" data-phase="03" href="Student/net8/Challenge-03.md">
+                <a class="challenge-card half" data-phase="03" href="labs/03-net8/challenges/03-containerize-and-deploy.md">
                     <div class="card-bg-number display">03</div>
                     <div class="card-top">
                         <span class="card-phase-badge"
                            >Deploy</span>
-                        <span class="card-num mono">CH — 03</span>
+                        <span class="card-num mono">MOD — 03</span>
                     </div>
                     <h3 class="card-title display">Containerize &amp; Deploy (eShopOnWeb)</h3>
                     <p class="card-desc">
@@ -2035,13 +2066,13 @@
                 </a>
 
                 <!-- net8 CH-04 -->
-                <a class="challenge-card half" data-phase="04" href="Student/net8/Challenge-04.md">
+                <a class="challenge-card half" data-phase="04" href="labs/03-net8/challenges/04-migrate-the-database.md">
                     <div class="card-bg-number display">04</div>
                     <div class="card-top">
                         <span class="card-phase-badge"
                            >Data
                             Migration</span>
-                        <span class="card-num mono">CH — 04</span>
+                        <span class="card-num mono">MOD — 04</span>
                     </div>
                     <h3 class="card-title display">Migrate the Database to Azure SQL</h3>
                     <p class="card-desc">
@@ -2062,13 +2093,13 @@
                 </a>
 
                 <!-- net8 CH-05 -->
-                <a class="challenge-card half" data-phase="05" href="Student/net8/Challenge-05.md">
+                <a class="challenge-card half" data-phase="05" href="labs/03-net8/challenges/05-observe-and-secure.md">
                     <div class="card-bg-number display">05</div>
                     <div class="card-top">
                         <span class="card-phase-badge"
                            >Observe &amp;
                             Secure</span>
-                        <span class="card-num mono">CH — 05</span>
+                        <span class="card-num mono">MOD — 05</span>
                     </div>
                     <h3 class="card-title display">Observe &amp; Secure</h3>
                     <p class="card-desc">
@@ -2086,13 +2117,13 @@
                 </a>
 
                 <!-- net8 CH-06 -->
-                <a class="challenge-card half" data-phase="06" href="Student/net8/Challenge-06.md">
+                <a class="challenge-card half" data-phase="06" href="labs/03-net8/challenges/06-infuse-ai.md">
                     <div class="card-bg-number display">06</div>
                     <div class="card-top">
                         <span class="card-phase-badge"
                            >Stretch ·
                             AI</span>
-                        <span class="card-num mono">CH — 06</span>
+                        <span class="card-num mono">MOD — 06</span>
                     </div>
                     <h3 class="card-title display">Add AI to eShopOnWeb</h3>
                     <p class="card-desc">
@@ -2118,15 +2149,13 @@
             <div class="track-label">Upgrade Your Application &mdash; CLI Customer Track</div>
             <div class="challenges-grid">
 
-                <!-- Customer CH-00 -->
-                <a class="challenge-card full" data-phase="00" href="Student/customer/Challenge-00.md">
-                    <div class="card-bg-number display">00</div>
+                <!-- Customer upgrade -->
+                <a class="challenge-card full" data-phase="00" href="labs/05-customer/challenges/00-upgrade-a-customer-app.md">
                     <div class="card-inner">
                         <div>
                             <div class="card-top">
                                 <span class="card-phase-badge">Your
                                     App</span>
-                                <span class="card-num mono">CH — 00</span>
                             </div>
                             <h3 class="card-title display">Upgrade <br>Your Application</h3>
                         </div>
@@ -2143,7 +2172,7 @@
                                     <span class="card-tag">containerize</span>
                                     <span class="card-tag">deploy</span>
                                 </div>
-                                <div class="card-arrow mono">Open challenge <span>→</span></div>
+                                <div class="card-arrow mono">Open module <span>→</span></div>
                             </div>
                         </div>
                     </div>
@@ -2166,11 +2195,11 @@
             <p>Use this route only for non-mainframe applications.</p>
         </aside>
         <div class="hero-actions">
-            <a class="btn btn-primary" href="Student/rebuild/setup.md">Install &amp; use the plugin</a>
-            <a class="btn btn-ghost" href="Student/rebuild/supporting-skills.md">Supporting skill profiles</a>
+            <a class="btn btn-primary" href="labs/04-rebuild/setup.md">Install &amp; use the plugin</a>
+            <a class="btn btn-ghost" href="labs/04-rebuild/supporting-skills.md">Supporting skill profiles</a>
         </div>
         <div class="challenges-grid">
-            <a class="challenge-card full" data-phase="00" href="Student/rebuild/Challenge-00.md">
+            <a class="challenge-card full" data-phase="00" href="labs/04-rebuild/challenges/00-prepare-your-application.md">
                 <div class="card-bg-number display">00</div>
                 <div class="card-inner">
                     <div>
@@ -2183,49 +2212,49 @@
                     </div>
                 </div>
             </a>
-            <a class="challenge-card half" data-phase="01" href="Student/rebuild/Challenge-01.md">
+            <a class="challenge-card half" data-phase="01" href="labs/04-rebuild/challenges/01-discovery-and-planning.md">
                 <div class="card-top"><span class="card-phase-badge">Plan</span><span class="card-num mono">REBUILD &middot; 01</span></div>
                 <h3 class="card-title display">Assess the app and plan the changes</h3>
                 <p class="card-desc">Recover functional specs, choose an Azure architecture, plan infrastructure, and estimate costs. One planning workflow produces all nine artifacts.</p>
                 <div class="card-footer"><span class="card-tag">150 min &middot; planning</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
             </a>
-            <a class="challenge-card half" data-phase="02" href="Student/rebuild/Challenge-02.md">
+            <a class="challenge-card half" data-phase="02" href="labs/04-rebuild/challenges/02-review-the-package.md">
                 <div class="card-top"><span class="card-phase-badge">Review</span><span class="card-num mono">REBUILD &middot; 02</span></div>
                 <h3 class="card-title display">Review the architecture and costs</h3>
                 <p class="card-desc">Check the documented behavior, alternatives, architecture, costs, diagrams, and migration assumptions. Request specific corrections and save the reviewed version.</p>
                 <div class="card-footer"><span class="card-tag">45 min &middot; package review</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
             </a>
-            <a class="challenge-card half" data-phase="03" href="Student/rebuild/Challenge-03.md">
+            <a class="challenge-card half" data-phase="03" href="labs/04-rebuild/challenges/03-choose-the-workflow.md">
                 <div class="card-top"><span class="card-phase-badge">Choose</span><span class="card-num mono">REBUILD &middot; 03</span></div>
                 <h3 class="card-title display">Choose the implementation workflow</h3>
                 <p class="card-desc">Switch to Opus 5.5. Choose direct implementation, Matt Pocock skills, or Spec Kit. Check the build/test baseline and prepare only your workflow's required spec, tickets, or tasks.</p>
                 <div class="card-footer"><span class="card-tag">45 min &middot; workflow</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
             </a>
-            <a class="challenge-card half" data-phase="04" href="Student/rebuild/Challenge-04.md">
+            <a class="challenge-card half" data-phase="04" href="labs/04-rebuild/challenges/04-rebuild-the-app.md">
                 <div class="card-top"><span class="card-phase-badge">Rebuild</span><span class="card-num mono">REBUILD &middot; 04</span></div>
                 <h3 class="card-title display">Rebuild the application</h3>
                 <p class="card-desc">Implement all required workflows on Opus 5.5 and test the complete app. Matt's implementation path uses up to two concurrent subagents.</p>
                 <div class="card-footer"><span class="card-tag">150 min &middot; delivery</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
             </a>
-            <a class="challenge-card half" data-phase="05" href="Student/rebuild/Challenge-05.md">
+            <a class="challenge-card half" data-phase="05" href="labs/04-rebuild/challenges/05-review-and-fix-the-app.md">
                 <div class="card-top"><span class="card-phase-badge">Review</span><span class="card-num mono">REBUILD &middot; 05</span></div>
                 <h3 class="card-title display">Review the app and fill the gaps</h3>
                 <p class="card-desc">Run /review and exercise every required workflow. Implement missing behavior, add regression checks, and review the fixes.</p>
                 <div class="card-footer"><span class="card-tag">60 min &middot; review</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
             </a>
-            <a class="challenge-card half" data-phase="06" href="Student/rebuild/Challenge-06.md">
+            <a class="challenge-card half" data-phase="06" href="labs/04-rebuild/challenges/06-refine-the-frontend.md">
                 <div class="card-top"><span class="card-phase-badge">Frontend</span><span class="card-num mono">REBUILD &middot; 06</span></div>
                 <h3 class="card-title display">Refine the frontend with Impeccable</h3>
                 <p class="card-desc">Implement approved frontend improvements and verify layout, color, and realistic states. Preserve working behavior; avoid changes without a demonstrated need. Skip only when the app has no UI.</p>
                 <div class="card-footer"><span class="card-tag">60 min &middot; frontend</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
             </a>
-            <a class="challenge-card half" data-phase="07" href="Student/rebuild/Challenge-07.md">
+            <a class="challenge-card half" data-phase="07" href="labs/04-rebuild/challenges/07-security-review-and-fixes.md">
                 <div class="card-top"><span class="card-phase-badge">Secure</span><span class="card-num mono">REBUILD &middot; 07</span></div>
                 <h3 class="card-title display">Review security and fix findings</h3>
                 <p class="card-desc">Run /security-review over the complete rebuilt app, including frontend changes. Fix confirmed findings, rerun regression checks, and re-review before deployment.</p>
                 <div class="card-footer"><span class="card-tag">45 min &middot; security</span><div class="card-arrow mono">Open <span aria-hidden="true">&rarr;</span></div></div>
             </a>
-            <a class="challenge-card half" data-phase="08" href="Student/rebuild/Challenge-08.md">
+            <a class="challenge-card half" data-phase="08" href="labs/04-rebuild/challenges/08-run-and-deploy.md">
                 <div class="card-top"><span class="card-phase-badge">Deploy</span><span class="card-num mono">REBUILD &middot; 08</span></div>
                 <h3 class="card-title display">Run and deploy to Azure</h3>
                 <p class="card-desc">Run locally, deploy with the provided target-specific infrastructure, and validate the Azure endpoint, integrations, and telemetry. Hand off recovery and cleanup responsibilities.</p>
@@ -2234,567 +2263,29 @@
         </div>
     </section>
 
-    <!-- Coach Section (hidden by default — press Shift+C to toggle) -->
-    <section id="coach" class="coach-hidden">
+    <!-- Rebuild lab guides -->
+    <section id="rebuild-guides">
         <div class="challenges-header">
             <div>
-                <h2 class="section-title display">Coach guide</h2>
+                <h2 class="section-title display">Rebuild lab guides</h2>
             </div>
             <p class="section-desc">
-                Facilitation notes, expected outputs, and common problems for each challenge.
-                Toggle with <kbd
-                    style="font-family:var(--font-mono);font-size:.7em;padding:.15em .5em;border:1px solid var(--border-2);border-radius:3px;background:var(--surface);">Shift+C</kbd>.
+                Plan your pace, get unstuck, and check the evidence you produce.
             </p>
         </div>
 
         <div style="margin-bottom:2rem;" data-route="rebuild">
-            <div class="track-label">Rebuild Route &mdash; Coach Materials</div>
             <div class="challenges-grid">
-                <a class="challenge-card half" href="Coach/rebuild/facilitation-guide.md">
-                    <h3 class="card-title display">Facilitate the rebuild route</h3>
-                    <p class="card-desc">Plan the two days, guide required decisions, and keep planning separate from delivery. Help teams that are blocked or ahead of schedule.</p>
+                <a class="challenge-card half" href="labs/04-rebuild/pacing-and-troubleshooting.md">
+                    <h3 class="card-title display">Pacing and troubleshooting</h3>
+                    <p class="card-desc">Plan the two days, make the required decisions, and keep planning separate from delivery. Fixes for common stuck points.</p>
                     <div class="card-arrow mono">Open guide <span aria-hidden="true">&rarr;</span></div>
                 </a>
-                <a class="challenge-card half" href="Coach/rebuild/scoring-rubric.md">
-                    <h3 class="card-title display">Score observable evidence</h3>
-                    <p class="card-desc">Check the evidence for each milestone. Distinguish a reviewed plan, a complete working app, and an Azure deployment from partial results.</p>
-                    <div class="card-arrow mono">Open rubric <span aria-hidden="true">&rarr;</span></div>
+                <a class="challenge-card half" href="labs/04-rebuild/self-check.md">
+                    <h3 class="card-title display">Self-check your evidence</h3>
+                    <p class="card-desc">Check the evidence for each milestone. Tell a reviewed plan, a complete working app, and an Azure deployment apart from partial results.</p>
+                    <div class="card-arrow mono">Open self-check <span aria-hidden="true">&rarr;</span></div>
                 </a>
-            </div>
-        </div>
-
-        <!-- Coach Java Track -->
-        <div style="margin-bottom:2rem;" data-route="refactor">
-            <div class="track-label">☕ Java Track — Coach Notes</div>
-            <div class="challenges-grid">
-
-                <!-- Coach Java CH-00 -->
-                <a class="challenge-card full" data-phase="00" href="Coach/java/Solution-00.md">
-                    <div class="card-bg-number display">00</div>
-                    <div class="card-inner">
-                        <div>
-                            <div class="card-top">
-                                <span class="card-phase-badge">Setup</span>
-                                <span class="card-num mono">COACH — 00</span>
-                            </div>
-                            <h3 class="card-title display">Prerequisites<br>Coach Notes</h3>
-                        </div>
-                        <div style="display:flex;flex-direction:column;justify-content:space-between;">
-                            <p class="card-desc">
-                                Check the environment, Oracle Docker RAM requirements (4 GB), submodules,
-                                and modernize CLI installation.
-                            </p>
-                            <div class="card-footer">
-                                <div class="card-tags">
-                                    <span class="card-tag">facilitation</span>
-                                    <span class="card-tag">setup tips</span>
-                                </div>
-                                <div class="card-arrow mono">Open guide <span>→</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Coach Java CH-01 -->
-                <a class="challenge-card" data-phase="01" href="Coach/java/Solution-01.md">
-                    <div class="card-bg-number display">01</div>
-                    <div class="card-top">
-                        <span class="card-phase-badge">Assess</span>
-                        <span class="card-num mono">COACH — 01</span>
-                    </div>
-                    <h3 class="card-title display">Assess — Coach Notes</h3>
-                    <p class="card-desc">
-                        Expected assessment findings for Spring Boot 2 to 3 blockers, Oracle JDBC, and BLOB columns,
-                        with debrief questions and talking points.
-                    </p>
-                    <div class="card-footer">
-                        <div class="card-tags">
-                            <span class="card-tag">expected output</span>
-                            <span class="card-tag">debrief</span>
-                        </div>
-                        <div class="card-arrow mono">Open <span>→</span></div>
-                    </div>
-                </a>
-
-                <!-- Coach Java CH-02 -->
-                <a class="challenge-card" data-phase="02" href="Coach/java/Solution-02.md">
-                    <div class="card-bg-number display">02</div>
-                    <div class="card-top">
-                        <span class="card-phase-badge">Modernize</span>
-                        <span class="card-num mono">COACH — 02</span>
-                    </div>
-                    <h3 class="card-title display">Modernize — Coach Notes</h3>
-                    <p class="card-desc">
-                        Guidance on pom.xml changes, javax to jakarta migration, the PostgreSQL dialect, and the Azure Blob SDK.
-                        Includes common student errors and how to address them.
-                    </p>
-                    <div class="card-footer">
-                        <div class="card-tags">
-                            <span class="card-tag">pitfalls</span>
-                            <span class="card-tag">solutions</span>
-                        </div>
-                        <div class="card-arrow mono">Open <span>→</span></div>
-                    </div>
-                </a>
-
-                <!-- Coach Java CH-03 -->
-                <a class="challenge-card half" data-phase="03" href="Coach/java/Solution-03.md">
-                    <div class="card-bg-number display">03</div>
-                    <div class="card-top">
-                        <span class="card-phase-badge">Deploy</span>
-                        <span class="card-num mono">COACH — 03</span>
-                    </div>
-                    <h3 class="card-title display">Deploy — Coach Notes</h3>
-                    <p class="card-desc">
-                        Terraform checklist for PostgreSQL Flexible Server, Blob Storage, and Container Apps.
-                        Naming conventions and common Terraform pitfalls.
-                    </p>
-                    <div class="card-footer">
-                        <div class="card-tags">
-                            <span class="card-tag">terraform</span>
-                            <span class="card-tag">checklist</span>
-                        </div>
-                        <div class="card-arrow mono">Open <span>→</span></div>
-                    </div>
-                </a>
-
-                <!-- Coach Java CH-04 -->
-                <a class="challenge-card half" data-phase="04" href="Coach/java/Solution-04.md">
-                    <div class="card-bg-number display">04</div>
-                    <div class="card-top">
-                        <span class="card-phase-badge">Data Migration</span>
-                        <span class="card-num mono">COACH — 04</span>
-                    </div>
-                    <h3 class="card-title display">Migrate the Database — Coach Notes</h3>
-                    <p class="card-desc">
-                        Oracle and PostgreSQL differences, the Ora2Pg workflow, troubleshooting,
-                        and a reference implementation with an <code class="mono"
-                            style="font-size:.85em">ora2pg.conf</code> template.
-                    </p>
-                    <div class="card-footer">
-                        <div class="card-tags">
-                            <span class="card-tag">Ora2Pg</span>
-                            <span class="card-tag">offline migration</span>
-                            <span class="card-tag">pitfalls</span>
-                        </div>
-                        <div class="card-arrow mono">Open <span>→</span></div>
-                    </div>
-                </a>
-
-                <!-- Coach Java CH-05 -->
-                <a class="challenge-card half" data-phase="05" href="Coach/java/Solution-05.md">
-                    <div class="card-bg-number display">05</div>
-                    <div class="card-top">
-                        <span class="card-phase-badge">Observe &amp; Secure</span>
-                        <span class="card-num mono">COACH — 05</span>
-                    </div>
-                    <h3 class="card-title display">Observe &amp; Secure — Coach Notes</h3>
-                    <p class="card-desc">
-                        A Dockerfile snippet for the Application Insights Java agent and setup steps for Key Vault and Managed Identity.
-                    </p>
-                    <div class="card-footer">
-                        <div class="card-tags">
-                            <span class="card-tag">observability</span>
-                            <span class="card-tag">security</span>
-                        </div>
-                        <div class="card-arrow mono">Open <span>→</span></div>
-                    </div>
-                </a>
-
-                <!-- Coach Java CH-06 -->
-                <a class="challenge-card half" data-phase="06" href="Coach/java/Solution-06.md">
-                    <div class="card-bg-number display">06</div>
-                    <div class="card-top">
-                        <span class="card-phase-badge">Stretch · AI</span>
-                        <span class="card-num mono">COACH — 06</span>
-                    </div>
-                    <h3 class="card-title display">Add AI — Coach Notes</h3>
-                    <p class="card-desc">
-                        Terraform examples for Azure OpenAI and RBAC, <code class="mono"
-                            style="font-size:.85em">azure-ai-openai</code>
-                        snippets, common problems, and a working end-to-end implementation in
-                        <code class="mono" style="font-size:.85em">Coach/Solutions/java/</code>.
-                    </p>
-                    <div class="card-footer">
-                        <div class="card-tags">
-                            <span class="card-tag">reference impl</span>
-                            <span class="card-tag">pitfalls</span>
-                        </div>
-                        <div class="card-arrow mono">Open <span>→</span></div>
-                    </div>
-                </a>
-
-            </div>
-        </div>
-
-        <!-- Coach .NET Track -->
-        <div data-route="refactor">
-            <div class="track-label">🔷 .NET Track — Coach Notes</div>
-            <div class="challenges-grid">
-
-                <!-- Coach .NET CH-00 -->
-                <a class="challenge-card full" data-phase="00" href="Coach/dotnet/Solution-00.md">
-                    <div class="card-bg-number display">00</div>
-                    <div class="card-inner">
-                        <div>
-                            <div class="card-top">
-                                <span class="card-phase-badge">Setup</span>
-                                <span class="card-num mono">COACH — 00</span>
-                            </div>
-                            <h3 class="card-title display">Prerequisites<br>Coach Notes</h3>
-                        </div>
-                        <div style="display:flex;flex-direction:column;justify-content:space-between;">
-                            <p class="card-desc">
-                                Check setup and confirm that the modernize CLI is on PATH.
-                                Understand the expected .NET Framework 4.8 build failure on Linux/macOS.
-                            </p>
-                            <div class="card-footer">
-                                <div class="card-tags">
-                                    <span class="card-tag">facilitation</span>
-                                    <span class="card-tag">setup tips</span>
-                                </div>
-                                <div class="card-arrow mono">Open guide <span>→</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Coach .NET CH-01 -->
-                <a class="challenge-card" data-phase="01" href="Coach/dotnet/Solution-01.md">
-                    <div class="card-bg-number display">01</div>
-                    <div class="card-top">
-                        <span class="card-phase-badge">Assess</span>
-                        <span class="card-num mono">COACH — 01</span>
-                    </div>
-                    <h3 class="card-title display">Assess — Coach Notes</h3>
-                    <p class="card-desc">
-                        Expected findings for MSMQ, System.Web, packages.config, Global.asax, Web.config, and local
-                        file storage, with debrief questions.
-                    </p>
-                    <div class="card-footer">
-                        <div class="card-tags">
-                            <span class="card-tag">expected output</span>
-                            <span class="card-tag">debrief</span>
-                        </div>
-                        <div class="card-arrow mono">Open <span>→</span></div>
-                    </div>
-                </a>
-
-                <!-- Coach .NET CH-02 -->
-                <a class="challenge-card" data-phase="02" href="Coach/dotnet/Solution-02.md">
-                    <div class="card-bg-number display">02</div>
-                    <div class="card-top">
-                        <span class="card-phase-badge">Modernize</span>
-                        <span class="card-num mono">COACH — 02</span>
-                    </div>
-                    <h3 class="card-title display">Modernize — Coach Notes</h3>
-                    <p class="card-desc">
-                        Convert to SDK-style csproj, remove System.Web, move Global.asax startup to Program.cs,
-                        replace MSMQ with Service Bus and local file storage with Blob Storage, and adopt EF Core.
-                        Includes common problems.
-                    </p>
-                    <div class="card-footer">
-                        <div class="card-tags">
-                            <span class="card-tag">pitfalls</span>
-                            <span class="card-tag">solutions</span>
-                        </div>
-                        <div class="card-arrow mono">Open <span>→</span></div>
-                    </div>
-                </a>
-
-                <!-- Coach .NET CH-03 -->
-                <a class="challenge-card half" data-phase="03" href="Coach/dotnet/Solution-03.md">
-                    <div class="card-bg-number display">03</div>
-                    <div class="card-top">
-                        <span class="card-phase-badge">Deploy</span>
-                        <span class="card-num mono">COACH — 03</span>
-                    </div>
-                    <h3 class="card-title display">Deploy — Coach Notes</h3>
-                    <p class="card-desc">
-                        Terraform checklist for Azure SQL, Service Bus, Blob Storage, and Container Apps.
-                        Naming conventions and common Terraform pitfalls.
-                    </p>
-                    <div class="card-footer">
-                        <div class="card-tags">
-                            <span class="card-tag">terraform</span>
-                            <span class="card-tag">checklist</span>
-                        </div>
-                        <div class="card-arrow mono">Open <span>→</span></div>
-                    </div>
-                </a>
-
-                <!-- Coach .NET CH-04 -->
-                <a class="challenge-card half" data-phase="04" href="Coach/dotnet/Solution-04.md">
-                    <div class="card-bg-number display">04</div>
-                    <div class="card-top">
-                        <span class="card-phase-badge">Data Migration</span>
-                        <span class="card-num mono">COACH — 04</span>
-                    </div>
-                    <h3 class="card-title display">Migrate the Database — Coach Notes</h3>
-                    <p class="card-desc">
-                        DMS setup, policy exemptions, SQL authentication caveats for the target database,
-                        and help with common migration problems.
-                    </p>
-                    <div class="card-footer">
-                        <div class="card-tags">
-                            <span class="card-tag">DMS</span>
-                            <span class="card-tag">Azure SQL</span>
-                            <span class="card-tag">policy exemption</span>
-                            <span class="card-tag">troubleshooting</span>
-                        </div>
-                        <div class="card-arrow mono">Open <span>→</span></div>
-                    </div>
-                </a>
-
-                <!-- Coach .NET CH-05 -->
-                <a class="challenge-card half" data-phase="05" href="Coach/dotnet/Solution-05.md">
-                    <div class="card-bg-number display">05</div>
-                    <div class="card-top">
-                        <span class="card-phase-badge">Observe &amp; Secure</span>
-                        <span class="card-num mono">COACH — 05</span>
-                    </div>
-                    <h3 class="card-title display">Observe &amp; Secure — Coach Notes</h3>
-                    <p class="card-desc">
-                        Application Insights SDK setup and guidance on Key Vault and Managed Identity for the .NET track.
-                    </p>
-                    <div class="card-footer">
-                        <div class="card-tags">
-                            <span class="card-tag">observability</span>
-                            <span class="card-tag">security</span>
-                        </div>
-                        <div class="card-arrow mono">Open <span>→</span></div>
-                    </div>
-                </a>
-
-                <!-- Coach .NET CH-06 -->
-                <a class="challenge-card half" data-phase="06" href="Coach/dotnet/Solution-06.md">
-                    <div class="card-bg-number display">06</div>
-                    <div class="card-top">
-                        <span class="card-phase-badge">Stretch · AI</span>
-                        <span class="card-num mono">COACH — 06</span>
-                    </div>
-                    <h3 class="card-title display">Add AI — Coach Notes</h3>
-                    <p class="card-desc">
-                        Terraform examples for Azure OpenAI and RBAC, <code class="mono"
-                            style="font-size:.85em">Azure.AI.OpenAI</code>
-                        snippets, common problems, and a working end-to-end implementation in
-                        <code class="mono" style="font-size:.85em">Coach/Solutions/dotnet/</code>.
-                    </p>
-                    <div class="card-footer">
-                        <div class="card-tags">
-                            <span class="card-tag">reference impl</span>
-                            <span class="card-tag">pitfalls</span>
-                        </div>
-                        <div class="card-arrow mono">Open <span>→</span></div>
-                    </div>
-                </a>
-
-            </div>
-        </div>
-
-        <!-- Coach Customer Track -->
-        <div style="margin-top:2rem;" data-route="refactor">
-            <div class="track-label">CLI Customer Track &mdash; Coach Notes</div>
-            <div class="challenges-grid">
-
-                <!-- Coach Customer CH-00 -->
-                <a class="challenge-card full" data-phase="00" href="Coach/customer/Solution-00.md">
-                    <div class="card-bg-number display">00</div>
-                    <div class="card-inner">
-                        <div>
-                            <div class="card-top">
-                                <span class="card-phase-badge">Your
-                                    App</span>
-                                <span class="card-num mono">COACH — 00</span>
-                            </div>
-                            <h3 class="card-title display">Customer App<br>Coach Notes</h3>
-                        </div>
-                        <div style="display:flex;flex-direction:column;justify-content:space-between;">
-                            <p class="card-desc">
-                                Help teams choose an application, check readiness, and follow the two-step workflow.
-                                Includes guidance for common blockers. Teams must use a real customer-owned codebase, not a public sample.
-                            </p>
-                            <div class="card-footer">
-                                <div class="card-tags">
-                                    <span class="card-tag">facilitation</span>
-                                    <span class="card-tag">selection criteria</span>
-                                    <span class="card-tag">readiness gate</span>
-                                </div>
-                                <div class="card-arrow mono">Open guide <span>→</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-            </div>
-        </div>
-
-        <!-- Coach .NET 8 Track -->
-        <div style="margin-bottom:2rem;" data-route="refactor">
-            <div class="track-label">🔷 .NET 8 Track — Coach Notes</div>
-            <div class="challenges-grid">
-
-                <!-- Coach net8 CH-00 -->
-                <a class="challenge-card full" data-phase="00" href="Coach/net8/Solution-00.md">
-                    <div class="card-bg-number display">00</div>
-                    <div class="card-inner">
-                        <div>
-                            <div class="card-top">
-                                <span class="card-phase-badge">Setup</span>
-                                <span class="card-num mono">COACH — 00</span>
-                            </div>
-                            <h3 class="card-title display">Prerequisites<br>Coach Notes</h3>
-                        </div>
-                        <div style="display:flex;flex-direction:column;justify-content:space-between;">
-                            <p class="card-desc">
-                                Check the environment, .NET 10 SDK, and submodule pin
-                                (<code class="mono" style="font-size:.85em">NimblePros/eShopOnWeb @ a34eda5</code>),
-                                then discuss the difference between <code class="mono" style="font-size:.85em">global.json</code> and
-                                <code class="mono" style="font-size:.85em">Directory.Packages.props</code>.
-                            </p>
-                            <div class="card-footer">
-                                <div class="card-tags">
-                                    <span class="card-tag">facilitation</span>
-                                    <span class="card-tag">setup tips</span>
-                                </div>
-                                <div class="card-arrow mono">Open guide <span>→</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Coach net8 CH-01 -->
-                <a class="challenge-card" data-phase="01" href="Coach/net8/Solution-01.md">
-                    <div class="card-bg-number display">01</div>
-                    <div class="card-top">
-                        <span class="card-phase-badge">Assess</span>
-                        <span class="card-num mono">COACH — 01</span>
-                    </div>
-                    <h3 class="card-title display">Assess — Coach Notes</h3>
-                    <p class="card-desc">
-                        Expected findings for the critical Swashbuckle blocker, target framework (TFM) updates,
-                        and dependent package changes. Includes Central Package Management risks and debrief questions.
-                    </p>
-                    <div class="card-footer">
-                        <div class="card-tags">
-                            <span class="card-tag">expected output</span>
-                            <span class="card-tag">debrief</span>
-                        </div>
-                        <div class="card-arrow mono">Open <span>→</span></div>
-                    </div>
-                </a>
-
-                <!-- Coach net8 CH-02 -->
-                <a class="challenge-card" data-phase="02" href="Coach/net8/Solution-02.md">
-                    <div class="card-bg-number display">02</div>
-                    <div class="card-top">
-                        <span class="card-phase-badge">Modernize</span>
-                        <span class="card-num mono">COACH — 02</span>
-                    </div>
-                    <h3 class="card-title display">Modernize — Coach Notes</h3>
-                    <p class="card-desc">
-                        A suggested modernize plan goal, a version table for <code class="mono"
-                            style="font-size:.85em">Directory.Packages.props</code>,
-                        a snippet for replacing Swashbuckle with OpenAPI and Scalar, and common problems.
-                    </p>
-                    <div class="card-footer">
-                        <div class="card-tags">
-                            <span class="card-tag">pitfalls</span>
-                            <span class="card-tag">solutions</span>
-                        </div>
-                        <div class="card-arrow mono">Open <span>→</span></div>
-                    </div>
-                </a>
-
-                <!-- Coach net8 CH-03 -->
-                <a class="challenge-card half" data-phase="03" href="Coach/net8/Solution-03.md">
-                    <div class="card-bg-number display">03</div>
-                    <div class="card-top">
-                        <span class="card-phase-badge">Deploy</span>
-                        <span class="card-num mono">COACH — 03</span>
-                    </div>
-                    <h3 class="card-title display">Deploy — Coach Notes</h3>
-                    <p class="card-desc">
-                        Guidance on Docker build context, the Service Bus singleton pattern, and Blob SAS URLs.
-                        Includes a Terraform checklist for Container Apps, SQL, Storage, and Service Bus.
-                    </p>
-                    <div class="card-footer">
-                        <div class="card-tags">
-                            <span class="card-tag">terraform</span>
-                            <span class="card-tag">Service Bus</span>
-                            <span class="card-tag">checklist</span>
-                        </div>
-                        <div class="card-arrow mono">Open <span>→</span></div>
-                    </div>
-                </a>
-
-                <!-- Coach net8 CH-04 -->
-                <a class="challenge-card half" data-phase="04" href="Coach/net8/Solution-04.md">
-                    <div class="card-bg-number display">04</div>
-                    <div class="card-top">
-                        <span class="card-phase-badge">Data Migration</span>
-                        <span class="card-num mono">COACH — 04</span>
-                    </div>
-                    <h3 class="card-title display">Migrate the Database — Coach Notes</h3>
-                    <p class="card-desc">
-                        Reference <code class="mono" style="font-size:.85em">dotnet ef database update</code> commands
-                        for both DbContexts, expected seed row counts, and common Azure SQL firewall problems.
-                    </p>
-                    <div class="card-footer">
-                        <div class="card-tags">
-                            <span class="card-tag">EF Core</span>
-                            <span class="card-tag">Azure SQL</span>
-                            <span class="card-tag">pitfalls</span>
-                        </div>
-                        <div class="card-arrow mono">Open <span>→</span></div>
-                    </div>
-                </a>
-
-                <!-- Coach net8 CH-05 -->
-                <a class="challenge-card half" data-phase="05" href="Coach/net8/Solution-05.md">
-                    <div class="card-bg-number display">05</div>
-                    <div class="card-top">
-                        <span class="card-phase-badge">Observe &amp; Secure</span>
-                        <span class="card-num mono">COACH — 05</span>
-                    </div>
-                    <h3 class="card-title display">Observe &amp; Secure — Coach Notes</h3>
-                    <p class="card-desc">
-                        Application Insights setup, Terraform snippets for Key Vault and Managed Identity,
-                        an explanation of the <code class="mono" style="font-size:.85em">DefaultAzureCredential</code> chain,
-                        and role propagation wait times.
-                    </p>
-                    <div class="card-footer">
-                        <div class="card-tags">
-                            <span class="card-tag">observability</span>
-                            <span class="card-tag">security</span>
-                        </div>
-                        <div class="card-arrow mono">Open <span>→</span></div>
-                    </div>
-                </a>
-
-                <!-- Coach net8 CH-06 -->
-                <a class="challenge-card half" data-phase="06" href="Coach/net8/Solution-06.md">
-                    <div class="card-bg-number display">06</div>
-                    <div class="card-top">
-                        <span class="card-phase-badge">Stretch · AI</span>
-                        <span class="card-num mono">COACH — 06</span>
-                    </div>
-                    <h3 class="card-title display">Add AI — Coach Notes</h3>
-                    <p class="card-desc">
-                        Terraform examples for Azure OpenAI and RBAC, a <code class="mono"
-                            style="font-size:.85em">CatalogItemAiService</code>
-                        implementation with graceful degradation, common problems, and an optional Blazor Web App migration.
-                    </p>
-                    <div class="card-footer">
-                        <div class="card-tags">
-                            <span class="card-tag">Azure OpenAI</span>
-                            <span class="card-tag">reference impl</span>
-                            <span class="card-tag">pitfalls</span>
-                        </div>
-                        <div class="card-arrow mono">Open <span>→</span></div>
-                    </div>
-                </a>
-
             </div>
         </div>
 
@@ -2811,13 +2302,13 @@
 
     <!-- Drawer overlay -->
     <div id="drawer-overlay"></div>
-    <div id="drawer" role="dialog" aria-modal="true" aria-label="Challenge content">
+    <div id="drawer" role="dialog" aria-modal="true" aria-label="Module content">
         <div class="drawer-header">
-            <div class="drawer-breadcrumb"><span id="drawer-kind">CHALLENGE</span> / <span id="drawer-title">–</span></div>
+            <div class="drawer-breadcrumb"><span id="drawer-kind">MODULE</span> / <span id="drawer-title">–</span></div>
             <div style="display:flex;align-items:center;gap:.75rem;">
                 <div class="drawer-nav">
-                    <button class="drawer-nav-btn" id="drawer-prev" title="Previous challenge">← prev</button>
-                    <button class="drawer-nav-btn" id="drawer-next" title="Next challenge">next →</button>
+                    <button class="drawer-nav-btn" id="drawer-prev" title="Previous module">← prev</button>
+                    <button class="drawer-nav-btn" id="drawer-next" title="Next module">next →</button>
                 </div>
                 <button class="drawer-close" id="drawer-close" aria-label="Close">✕</button>
             </div>
@@ -2827,7 +2318,6 @@
         </div>
     </div>
 
-    <div id="coach-toast" role="status"></div>
     <script>
         // ── Scroll reveal ─────────────────────────────────────────────────
         const observer = new IntersectionObserver(entries => {
@@ -2841,7 +2331,7 @@
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // ── Challenge card staggered entrance ────────────────────────────
+        // ── Module card staggered entrance ────────────────────────────
         const cardObserver = new IntersectionObserver(entries => {
             entries.forEach(e => {
                 if (e.isIntersecting) {
@@ -2918,12 +2408,16 @@
                 if (pre.parentElement.classList.contains('code-box')) return;
                 const box = document.createElement('div');
                 box.className = 'code-box';
-                pre.before(box);
+                                pre.before(box);
                 box.append(pre);
                 const button = document.createElement('button');
                 button.type = 'button';
                 button.className = 'code-copy';
-                button.textContent = 'Copy';
+                const setLabel = label => {
+                    button.textContent = label;
+                    button.setAttribute('data-tip', label);
+                };
+                setLabel('Copy');
                 button.setAttribute('aria-label', 'Copy code');
                 button.setAttribute('aria-live', 'polite');
                 box.append(button);
@@ -2951,15 +2445,15 @@
                                 focused?.focus({ preventScroll: true });
                             }
                         }
-                        button.textContent = 'Copied!';
+                        setLabel('Copied!');
                         button.setAttribute('aria-label', 'Code copied');
                     } catch {
-                        button.textContent = 'Copy failed';
+                        setLabel('Copy failed');
                         button.setAttribute('aria-label', 'Copy failed. Select the code to copy manually, or try again.');
                     } finally {
                         button.disabled = false;
                         resetTimer = setTimeout(() => {
-                            button.textContent = 'Copy';
+                            setLabel('Copy');
                             button.setAttribute('aria-label', 'Copy code');
                         }, 2500);
                     }
@@ -2967,98 +2461,79 @@
             });
         }
 
-        const STUDENT_FILES = [
+        // Linked from Module 00; opened on demand, outside the module sequence.
+        const RESOURCE_FILES = [
+            { label: 'JAVA-INFRA', file: 'labs/01-java/resources/infra/README.md', title: 'Java – Deploy PhotoAlbum to Azure VM' },
+            { label: 'NET-INFRA', file: 'labs/02-dotnet/resources/infra/README.md', title: '.NET – Deploy ContosoUniversity to Azure VM' },
+        ];
+
+        const LAB_FILES = [
             { label: 'README', file: 'README.md', title: 'README' },
-            { label: 'JAVA-00', file: 'Student/java/Challenge-00.md', title: 'Java – Prerequisites' },
-            { label: 'JAVA-00-INFRA', file: 'Student/Resources/java/infra/README.md', title: 'Java – Deploy PhotoAlbum to Azure VM' },
-            { label: 'JAVA-01', file: 'Student/java/Challenge-01.md', title: 'Java – Assess' },
-            { label: 'JAVA-02', file: 'Student/java/Challenge-02.md', title: 'Java – Modernize' },
-            { label: 'JAVA-03', file: 'Student/java/Challenge-03.md', title: 'Java – Deploy' },
-            { label: 'JAVA-04', file: 'Student/java/Challenge-04.md', title: 'Java – Migrate Data' },
-            { label: 'JAVA-05', file: 'Student/java/Challenge-05.md', title: 'Java – Observe & Secure' },
-            { label: 'JAVA-06', file: 'Student/java/Challenge-06.md', title: 'Java – AI Assist' },
-            { label: 'NET-00', file: 'Student/dotnet/Challenge-00.md', title: '.NET – Prerequisites' },
-            { label: 'NET-00-INFRA', file: 'Student/Resources/dotnet/infra/README.md', title: '.NET – Deploy ContosoUniversity to Azure VM' },
-            { label: 'NET-01', file: 'Student/dotnet/Challenge-01.md', title: '.NET – Assess' },
-            { label: 'NET-02', file: 'Student/dotnet/Challenge-02.md', title: '.NET – Modernize' },
-            { label: 'NET-03', file: 'Student/dotnet/Challenge-03.md', title: '.NET – Deploy' },
-            { label: 'NET-04', file: 'Student/dotnet/Challenge-04.md', title: '.NET – Migrate Data' },
-            { label: 'NET-05', file: 'Student/dotnet/Challenge-05.md', title: '.NET – Observe & Secure' },
-            { label: 'NET-06', file: 'Student/dotnet/Challenge-06.md', title: '.NET – AI Assist' },
-            { label: 'NET8-00', file: 'Student/net8/Challenge-00.md', title: '.NET 8 – Prerequisites' },
-            { label: 'NET8-01', file: 'Student/net8/Challenge-01.md', title: '.NET 8 – Assess' },
-            { label: 'NET8-02', file: 'Student/net8/Challenge-02.md', title: '.NET 8 – Modernize' },
-            { label: 'NET8-03', file: 'Student/net8/Challenge-03.md', title: '.NET 8 – Deploy' },
-            { label: 'NET8-04', file: 'Student/net8/Challenge-04.md', title: '.NET 8 – Migrate Data' },
-            { label: 'NET8-05', file: 'Student/net8/Challenge-05.md', title: '.NET 8 – Observe & Secure' },
-            { label: 'NET8-06', file: 'Student/net8/Challenge-06.md', title: '.NET 8 – AI Assist' },
-            { label: 'CUSTOMER-00', file: 'Student/customer/Challenge-00.md', title: 'Customer – Upgrade Your App' },
+            { label: 'JAVA-00', file: 'labs/01-java/challenges/00-prerequisites-and-setup.md', title: 'Java – Prerequisites' },
+            { label: 'JAVA-01', file: 'labs/01-java/challenges/01-assess-the-legacy-app.md', title: 'Java – Assess' },
+            { label: 'JAVA-02', file: 'labs/01-java/challenges/02-modernize-the-app.md', title: 'Java – Modernize' },
+            { label: 'JAVA-03', file: 'labs/01-java/challenges/03-containerize-and-deploy.md', title: 'Java – Deploy' },
+            { label: 'JAVA-04', file: 'labs/01-java/challenges/04-migrate-the-database.md', title: 'Java – Migrate Data' },
+            { label: 'JAVA-05', file: 'labs/01-java/challenges/05-observe-and-secure.md', title: 'Java – Observe & Secure' },
+            { label: 'JAVA-06', file: 'labs/01-java/challenges/06-infuse-ai.md', title: 'Java – AI Assist' },
+            { label: 'NET-00', file: 'labs/02-dotnet/challenges/00-prerequisites.md', title: '.NET – Prerequisites' },
+            { label: 'NET-01', file: 'labs/02-dotnet/challenges/01-assess-the-legacy-app.md', title: '.NET – Assess' },
+            { label: 'NET-02', file: 'labs/02-dotnet/challenges/02-modernize-the-app.md', title: '.NET – Modernize' },
+            { label: 'NET-03', file: 'labs/02-dotnet/challenges/03-containerize-and-deploy.md', title: '.NET – Deploy' },
+            { label: 'NET-04', file: 'labs/02-dotnet/challenges/04-migrate-the-database.md', title: '.NET – Migrate Data' },
+            { label: 'NET-05', file: 'labs/02-dotnet/challenges/05-observe-and-secure.md', title: '.NET – Observe & Secure' },
+            { label: 'NET-06', file: 'labs/02-dotnet/challenges/06-infuse-ai.md', title: '.NET – AI Assist' },
+            { label: 'NET8-00', file: 'labs/03-net8/challenges/00-prerequisites.md', title: '.NET 8 – Prerequisites' },
+            { label: 'NET8-01', file: 'labs/03-net8/challenges/01-assess-the-legacy-app.md', title: '.NET 8 – Assess' },
+            { label: 'NET8-02', file: 'labs/03-net8/challenges/02-modernize-to-net10.md', title: '.NET 8 – Modernize' },
+            { label: 'NET8-03', file: 'labs/03-net8/challenges/03-containerize-and-deploy.md', title: '.NET 8 – Deploy' },
+            { label: 'NET8-04', file: 'labs/03-net8/challenges/04-migrate-the-database.md', title: '.NET 8 – Migrate Data' },
+            { label: 'NET8-05', file: 'labs/03-net8/challenges/05-observe-and-secure.md', title: '.NET 8 – Observe & Secure' },
+            { label: 'NET8-06', file: 'labs/03-net8/challenges/06-infuse-ai.md', title: '.NET 8 – AI Assist' },
+            { label: 'CUSTOMER-00', file: 'labs/05-customer/challenges/00-upgrade-a-customer-app.md', title: 'Customer – Upgrade Your App' },
         ];
 
         const REBUILD_FILES = [
-            { file: 'Student/rebuild/Challenge-00.md', title: 'Rebuild - Prepare' },
-            { file: 'Student/rebuild/Challenge-01.md', title: 'Rebuild - Run Discovery and Modernization Planning' },
-            { file: 'Student/rebuild/Challenge-02.md', title: 'Rebuild - Review and Challenge the Modernization Package' },
-            { file: 'Student/rebuild/Challenge-03.md', title: 'Rebuild - Choose the Implementation Workflow' },
-            { file: 'Student/rebuild/Challenge-04.md', title: 'Rebuild - Rebuild the Application' },
-            { file: 'Student/rebuild/Challenge-05.md', title: 'Rebuild - Review the App and Implement Missing Behavior' },
-            { file: 'Student/rebuild/Challenge-06.md', title: 'Rebuild - Refine the Frontend with Impeccable' },
-            { file: 'Student/rebuild/Challenge-07.md', title: 'Rebuild - Review Security and Fix Findings' },
-            { file: 'Student/rebuild/Challenge-08.md', title: 'Rebuild - Run and Deploy the App to Azure' },
+            { file: 'labs/04-rebuild/challenges/00-prepare-your-application.md', title: 'Rebuild - Prepare' },
+            { file: 'labs/04-rebuild/challenges/01-discovery-and-planning.md', title: 'Rebuild - Run Discovery and Modernization Planning' },
+            { file: 'labs/04-rebuild/challenges/02-review-the-package.md', title: 'Rebuild - Review the Modernization Package' },
+            { file: 'labs/04-rebuild/challenges/03-choose-the-workflow.md', title: 'Rebuild - Choose the Implementation Workflow' },
+            { file: 'labs/04-rebuild/challenges/04-rebuild-the-app.md', title: 'Rebuild - Rebuild the Application' },
+            { file: 'labs/04-rebuild/challenges/05-review-and-fix-the-app.md', title: 'Rebuild - Review the App and Implement Missing Behavior' },
+            { file: 'labs/04-rebuild/challenges/06-refine-the-frontend.md', title: 'Rebuild - Refine the Frontend with Impeccable' },
+            { file: 'labs/04-rebuild/challenges/07-security-review-and-fixes.md', title: 'Rebuild - Review Security and Fix Findings' },
+            { file: 'labs/04-rebuild/challenges/08-run-and-deploy.md', title: 'Rebuild - Run and Deploy the App to Azure' },
         ];
 
         const GUIDE_FILES = [
-            { file: 'Student/sample-architecture.md', title: 'Sample Architecture & Services' },
-            { file: 'Student/rebuild/setup.md', title: 'Rebuild - Plugin Setup and Usage' },
-            { file: 'Student/rebuild/supporting-skills.md', title: 'Rebuild - Supporting Skill Profiles' },
+            { file: 'labs/04-rebuild/setup.md', title: 'Rebuild - Plugin Setup and Usage' },
+            { file: 'labs/04-rebuild/supporting-skills.md', title: 'Rebuild - Supporting Skill Profiles' },
         ];
 
-        const COACH_FILES = [
-            { file: 'Coach/rebuild/facilitation-guide.md', title: 'Coach - Rebuild Facilitation' },
-            { file: 'Coach/rebuild/scoring-rubric.md', title: 'Coach - Rebuild Scoring' },
-            { label: 'COACH-JAVA-00', file: 'Coach/java/Solution-00.md', title: 'Coach · Java – Prerequisites' },
-            { label: 'COACH-JAVA-01', file: 'Coach/java/Solution-01.md', title: 'Coach · Java – Assess' },
-            { label: 'COACH-JAVA-02', file: 'Coach/java/Solution-02.md', title: 'Coach · Java – Modernize' },
-            { label: 'COACH-JAVA-03', file: 'Coach/java/Solution-03.md', title: 'Coach · Java – Deploy' },
-            { label: 'COACH-JAVA-04', file: 'Coach/java/Solution-04.md', title: 'Coach · Java – Migrate Data' },
-            { label: 'COACH-JAVA-05', file: 'Coach/java/Solution-05.md', title: 'Coach · Java – Observe & Secure' },
-            { label: 'COACH-JAVA-06', file: 'Coach/java/Solution-06.md', title: 'Coach · Java – AI Assist' },
-            { label: 'COACH-NET-00', file: 'Coach/dotnet/Solution-00.md', title: 'Coach · .NET – Prerequisites' },
-            { label: 'COACH-NET-01', file: 'Coach/dotnet/Solution-01.md', title: 'Coach · .NET – Assess' },
-            { label: 'COACH-NET-02', file: 'Coach/dotnet/Solution-02.md', title: 'Coach · .NET – Modernize' },
-            { label: 'COACH-NET-03', file: 'Coach/dotnet/Solution-03.md', title: 'Coach · .NET – Deploy' },
-            { label: 'COACH-NET-04', file: 'Coach/dotnet/Solution-04.md', title: 'Coach · .NET – Migrate Data' },
-            { label: 'COACH-NET-05', file: 'Coach/dotnet/Solution-05.md', title: 'Coach · .NET – Observe & Secure' },
-            { label: 'COACH-NET-06', file: 'Coach/dotnet/Solution-06.md', title: 'Coach · .NET – AI Assist' },
-            { label: 'COACH-NET8-00', file: 'Coach/net8/Solution-00.md', title: 'Coach · .NET 8 – Prerequisites' },
-            { label: 'COACH-NET8-01', file: 'Coach/net8/Solution-01.md', title: 'Coach · .NET 8 – Assess' },
-            { label: 'COACH-NET8-02', file: 'Coach/net8/Solution-02.md', title: 'Coach · .NET 8 – Modernize' },
-            { label: 'COACH-NET8-03', file: 'Coach/net8/Solution-03.md', title: 'Coach · .NET 8 – Deploy' },
-            { label: 'COACH-NET8-04', file: 'Coach/net8/Solution-04.md', title: 'Coach · .NET 8 – Migrate Data' },
-            { label: 'COACH-NET8-05', file: 'Coach/net8/Solution-05.md', title: 'Coach · .NET 8 – Observe & Secure' },
-            { label: 'COACH-NET8-06', file: 'Coach/net8/Solution-06.md', title: 'Coach · .NET 8 – AI Assist' },
-            { label: 'COACH-CUSTOMER-00', file: 'Coach/customer/Solution-00.md', title: 'Coach · Customer – Upgrade Your App' },
-            { label: 'COACH-TROUBLESHOOTING', file: 'Coach/TROUBLESHOOTING.md', title: 'Coach · Troubleshooting Guide' },
+        const TROUBLESHOOTING_FILES = [
+            { file: 'labs/04-rebuild/pacing-and-troubleshooting.md', title: 'Rebuild - Pacing and Troubleshooting' },
+            { file: 'labs/04-rebuild/self-check.md', title: 'Rebuild - Self-Check' },
+            { label: 'TROUBLESHOOTING', file: 'labs/TROUBLESHOOTING.md', title: 'Troubleshooting Guide' },
         ];
 
         const DEMO_FILES = [
-            { label: 'DEMO-JAVA', file: 'Coach/demo/java/guide.md', title: 'Java Demo - PhotoAlbum' },
-            { label: 'DEMO-DOTNET', file: 'Coach/demo/dotnet/guide.md', title: '.NET Demo - ContosoUniversity' },
+            { label: 'DEMO-JAVA', file: 'demo/java/guide.md', title: 'Java Demo - PhotoAlbum' },
+            { label: 'DEMO-DOTNET', file: 'demo/dotnet/guide.md', title: '.NET Demo - ContosoUniversity' },
         ];
 
         let currentIdx = -1;
-        let activeFiles = STUDENT_FILES;
+        let activeFiles = LAB_FILES;
         let renderRequest = 0;
 
         function openDrawer(mdFile, fragment = '') {
-            const groups = [STUDENT_FILES, REBUILD_FILES, GUIDE_FILES, COACH_FILES, DEMO_FILES];
+            const groups = [LAB_FILES, REBUILD_FILES, GUIDE_FILES, TROUBLESHOOTING_FILES, DEMO_FILES, RESOURCE_FILES];
             activeFiles = groups.find(files => files.some(entry => entry.file === mdFile))
                 || [{ file: mdFile, title: mdFile.split('/').pop() }];
             currentIdx = activeFiles.findIndex(entry => entry.file === mdFile);
             const kind = activeFiles === DEMO_FILES ? 'demo'
-                : activeFiles === GUIDE_FILES ? 'guide' : 'challenge';
+                : activeFiles === GUIDE_FILES || activeFiles === RESOURCE_FILES ? 'guide' : 'module';
             drawerKind.textContent = kind.toUpperCase();
-            drawer.setAttribute('aria-label', `${kind === 'challenge' ? 'Challenge content' : `${kind} guide`}`);
+            drawer.setAttribute('aria-label', `${kind === 'module' ? 'Module content' : `${kind} guide`}`);
             drawerPrev.title = `Previous ${kind}`;
             drawerNext.title = `Next ${kind}`;
             loadAndRender(currentIdx, fragment);
@@ -3076,9 +2551,9 @@
         async function loadAndRender(idx, fragment = '') {
             const request = ++renderRequest;
             const entry = activeFiles[idx];
-            const route = /^(Student|Coach)\/rebuild\//.test(entry.file) ? 'rebuild'
-                : /^(Student|Coach)\/(java|dotnet|net8|customer|Resources|demo)\//.test(entry.file)
-                    || entry.file === 'Student/sample-architecture.md' ? 'refactor' : '';
+            const route = /^labs\/04-rebuild\//.test(entry.file) ? 'rebuild'
+                : /^(labs\/(01-java|02-dotnet|03-net8|05-customer)|demo)\//.test(entry.file)
+                    ? 'refactor' : '';
             if (route) drawer.setAttribute('data-route', route);
             else drawer.removeAttribute('data-route');
             drawerTitle.textContent = entry.title;
@@ -3092,7 +2567,7 @@
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 const text = await res.text();
                 if (request !== renderRequest) return;
-                drawerContent.innerHTML = marked.parse(text);
+                drawerContent.innerHTML = marked.parse(text.replace(/^\uFEFF?---\r?\n[\s\S]*?\r?\n---\r?\n/, ''));
                 addCodeCopyButtons(drawerContent);
                 const sourceURL = new URL(entry.file, document.baseURI);
                 const siteRoot = new URL('.', document.baseURI);
@@ -3144,30 +2619,8 @@
         drawerPrev.addEventListener('click', () => { if (currentIdx > 0) { currentIdx--; loadAndRender(currentIdx); } });
         drawerNext.addEventListener('click', () => { if (currentIdx < activeFiles.length - 1) { currentIdx++; loadAndRender(currentIdx); } });
 
-        // ── Coach toast ───────────────────────────────────────────────────
-        const coachToast = document.getElementById('coach-toast');
-        let toastTimer = null;
-        function showCoachToast(msg) {
-            coachToast.textContent = msg;
-            coachToast.classList.add('show');
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => coachToast.classList.remove('show'), 2500);
-        }
-
-        // Restore coach mode from sessionStorage
-        if (sessionStorage.getItem('coachMode') === 'on') {
-            document.getElementById('coach').classList.remove('coach-hidden');
-        }
-
         document.addEventListener('keydown', e => {
             if (e.key === 'Escape') closeDrawer();
-            if (e.key === 'C' && e.shiftKey && !drawer.classList.contains('open')) {
-                const coachEl = document.getElementById('coach');
-                const nowHidden = coachEl.classList.toggle('coach-hidden');
-                sessionStorage.setItem('coachMode', nowHidden ? 'off' : 'on');
-                showCoachToast(nowHidden ? 'Coach mode disabled' : 'Coach mode enabled');
-                return;
-            }
             if (!drawer.classList.contains('open')) return;
             if (e.key === 'ArrowLeft' && currentIdx > 0) { currentIdx--; loadAndRender(currentIdx); }
             if (e.key === 'ArrowRight' && currentIdx < activeFiles.length - 1) { currentIdx++; loadAndRender(currentIdx); }

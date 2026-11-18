@@ -7,7 +7,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / "Coach/demo/dotnet/prepare-env.ps1"
+SCRIPT = ROOT / "demo/dotnet/prepare-env.ps1"
 
 
 @unittest.skipUnless(shutil.which("pwsh"), "PowerShell 7 is not installed")

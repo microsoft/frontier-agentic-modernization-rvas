@@ -7,7 +7,7 @@
     {
       "id": "planning",
       "title": "Planning essentials",
-      "when": "Install before Challenge 01. The planning skill consults these for stakeholder questions, domain decisions, and costs; start with the Challenge 01 prompt rather than running each separately. CLI upgrade tracks do not need this profile.",
+      "when": "Install before Module 01. The planning skill consults these for stakeholder questions, domain decisions, and costs; start with the Module 01 prompt rather than running each separately. CLI upgrade tracks do not need this profile.",
       "sources": [
         {
           "repository": "mattpocock/skills",
@@ -32,7 +32,7 @@
     {
       "id": "ui",
       "title": "Existing UI",
-      "when": "Install when the app has a UI. Planning uses init/document to record the existing product and design; Challenge 06 provides the refinement commands. Hooks and live mode are not required.",
+      "when": "Install when the app has a UI. Planning uses init/document to record the existing product and design; Module 06 provides the refinement commands. Hooks and live mode are not required.",
       "sources": [
         {
           "repository": "pbakaus/impeccable",
@@ -45,7 +45,7 @@
     {
       "id": "implementation",
       "title": "Implementation support",
-      "when": "Install before Challenge 03 for implementation, debugging, and review. These support your chosen workflow; they are not another implementation orchestrator.",
+      "when": "Install before Module 03 for implementation, debugging, and review. These support your chosen workflow; they are not another implementation orchestrator.",
       "sources": [
         {
           "repository": "mattpocock/skills",
@@ -63,7 +63,7 @@
     {
       "id": "matt-workflow",
       "title": "Matt Pocock workflow",
-      "when": "Install only for the Matt Pocock path, alongside Implementation support. Run the commands in Challenges 03-04. This path uses local commits/merges, not remote publication, and at most two concurrent subagents. Do not install the separate upstream implement skill.",
+      "when": "Install only for the Matt Pocock path, alongside Implementation support. Run the commands in Modules 03-04. This path uses local commits/merges, not remote publication, and at most two concurrent subagents. Do not install the separate upstream implement skill.",
       "sources": [
         {
           "repository": "mattpocock/skills",

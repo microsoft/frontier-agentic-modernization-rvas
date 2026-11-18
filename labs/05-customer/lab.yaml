@@ -1,0 +1,6 @@
+id: 05-customer
+title: Customer application
+summary: Upgrade a real customer-owned application with the Modernization CLI.
+accent: "#F59E0B"
+order: 5
+prefix: CUS
