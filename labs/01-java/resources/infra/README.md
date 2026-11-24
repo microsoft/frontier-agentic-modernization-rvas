@@ -7,7 +7,7 @@ Deploy the **PhotoAlbum** Spring Boot 2.7 / Java 8 / Oracle application to an Ub
 | Component | Details |
 |---|---|
 | VM OS | Ubuntu 22.04 LTS (Gen2) |
-| VM Size | `Standard_D4s_v3` (4 vCPU / 16 GB RAM) |
+| VM Size | `Standard_D4s_v5` (4 vCPU / 16 GB RAM) |
 | Runtime | Docker Engine + Docker Compose |
 | Database | Oracle Free (`gvenzl/oracle-free:latest`) — no Oracle registry login required |
 | Application | Spring Boot 2.7.18 / Java 8 |

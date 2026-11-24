@@ -4,7 +4,7 @@
 
 prefix               = "wth"
 location             = "swedencentral"
-vm_size              = "Standard_D4s_v3"
+vm_size              = "Standard_D4s_v5"
 admin_username       = "azureuser"
 admin_password       = "CHANGEMEComplex1!"  # must be 12+ chars, upper+lower+digit+special, no underscores
 resource_group_name  = "wth-photoalbum-vm-rg"

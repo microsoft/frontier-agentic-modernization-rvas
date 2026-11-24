@@ -12,8 +12,8 @@ variable "location" {
 
 variable "vm_size" {
   type        = string
-  description = "Azure VM size. Standard_D4s_v3 (4 vCPU / 16 GB) recommended — Oracle needs ≥2 GB RAM free."
-  default     = "Standard_D4s_v3"
+  description = "Azure VM size. Standard_D4s_v5 (4 vCPU / 16 GB) recommended — Oracle needs ≥2 GB RAM free."
+  default     = "Standard_D4s_v5"
 }
 
 variable "admin_username" {

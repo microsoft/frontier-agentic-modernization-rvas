@@ -56,6 +56,7 @@ resource "azurerm_resource_group" "rg" {
 
   tags = {
     SecurityControl = "Ignore"
+    CostControl     = "Ignore"
   }
 }
 

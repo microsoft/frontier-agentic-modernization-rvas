@@ -40,6 +40,7 @@ resource "azurerm_resource_group" "rg" {
 
   tags = {
     SecurityControl = "Ignore"
+    CostControl     = "Ignore"
   }
 }
 
@@ -122,7 +123,7 @@ resource "azurerm_subnet_network_security_group_association" "subnet_nsg" {
 }
 
 # ── Linux VM ─────────────────────────────────────────────────────────────────
-# Standard_D4s_v3 = 4 vCPU / 16 GB RAM
+# Standard_D4s_v5 = 4 vCPU / 16 GB RAM
 # Oracle XE / Oracle Free needs at least 2 GB RAM — 16 GB gives comfortable headroom.
 resource "azurerm_linux_virtual_machine" "vm" {
   name                            = "${var.prefix}-photoalbum-vm"
